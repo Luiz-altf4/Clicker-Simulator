@@ -162,4 +162,251 @@ function loadGame() {
   const lastSaveTime = localStorage.getItem('lastSaveTime');
   if(lastSaveTime) {
     const now = Date.now();
-    const diffSeconds = Math.floor((now
+    const diffSeconds = Math.floor((now - lastSaveTime) / 1000);
+    if(diffSeconds > 0){
+      const offlineScore = diffSeconds * autoClickers * clickPower * multiplierEffect * (speedBoostActive ? 2 : 1);
+      score += offlineScore;
+      xp += Math.floor(offlineScore / 5);
+    }
+  }
+
+  updateDisplay();
+  renderMissions();
+  renderAchievements();
+}
+
+function updateDisplay() {
+  scoreDisplay.textContent = Math.floor(score);
+  clickPowerDisplay.textContent = Math.floor(clickPower * multiplierEffect * (multiplierBoostActive ? 5 : 1));
+  upgradeClickPowerCostDisplay.textContent = upgradeClickPowerCost;
+  autoClickersDisplay.textContent = autoClickers;
+  autoClickerCostDisplay.textContent = autoClickerCost;
+  multiplierCountDisplay.textContent = multiplierCount;
+  multiplierCostDisplay.textContent = multiplierCost;
+  gemsCountDisplay.textContent = gems;
+  cps = autoClickers * clickPower * multiplierEffect * (speedBoostActive ? 2 : 1) * (multiplierBoostActive ? 5 : 1);
+  cpsDisplay.textContent = `Clicks por segundo: ${Math.floor(cps)}`;
+  updateXpBar();
+  updateButtons();
+}
+
+function updateButtons() {
+  upgradeClickPowerBtn.disabled = score < upgradeClickPowerCost;
+  buyAutoClickerBtn.disabled = score < autoClickerCost;
+  buyMultiplierBtn.disabled = score < multiplierCost;
+  speedBoostBtn.disabled = gems < 20 || speedBoostActive;
+  multiplierBoostBtn.disabled = gems < 50 || multiplierBoostActive;
+}
+
+function updateXpBar() {
+  const xpPercent = Math.min((xp / xpPerLevel) * 100, 100);
+  const xpBar = document.getElementById('xpBar');
+  const levelDisplay = document.getElementById('levelDisplay');
+  xpBar.style.width = `${xpPercent}%`;
+  levelDisplay.textContent = `Nível: ${level}`;
+}
+
+function addXp(amount) {
+  xp += amount;
+  while (xp >= xpPerLevel) {
+    xp -= xpPerLevel;
+    level++;
+  }
+  updateXpBar();
+}
+
+function animateScore() {
+  scoreDisplay.classList.add('pulse');
+  setTimeout(() => scoreDisplay.classList.remove('pulse'), 300);
+}
+
+function playSound(sound) {
+  sound.currentTime = 0;
+  sound.play();
+}
+
+// Eventos dos botões
+clickBtn.addEventListener('click', () => {
+  score += clickPower * multiplierEffect * (multiplierBoostActive ? 5 : 1);
+  addXp(1);
+  updateDisplay();
+  animateScore();
+  playSound(clickSound);
+  updateMissionsOnClick();
+  checkAchievements();
+  saveGame();
+});
+
+upgradeClickPowerBtn.addEventListener('click', () => {
+  if (score >= upgradeClickPowerCost) {
+    score -= upgradeClickPowerCost;
+    clickPower++;
+    upgradeClickPowerCost = Math.floor(upgradeClickPowerCost * 1.7);
+    updateDisplay();
+    playSound(buySound);
+    updateMissionsOnUpgrade();
+    checkAchievements();
+    saveGame();
+  }
+});
+
+buyAutoClickerBtn.addEventListener('click', () => {
+  if (score >= autoClickerCost) {
+    score -= autoClickerCost;
+    autoClickers++;
+    autoClickerCost = Math.floor(autoClickerCost * 2);
+    updateDisplay();
+    playSound(buySound);
+    updateMissionsOnAutoClicker();
+    checkAchievements();
+    saveGame();
+  }
+});
+
+buyMultiplierBtn.addEventListener('click', () => {
+  if (score >= multiplierCost) {
+    score -= multiplierCost;
+    multiplierCount++;
+    multiplierEffect *= 2;
+    multiplierCost = Math.floor(multiplierCost * 3);
+    updateDisplay();
+    playSound(buySound);
+    saveGame();
+  }
+});
+
+// Boosts temporários
+speedBoostBtn.addEventListener('click', () => {
+  if (gems >= 20 && !speedBoostActive) {
+    gems -= 20;
+    speedBoostActive = true;
+    updateDisplay();
+    playSound(boostSound);
+    speedBoostBtn.disabled = true;
+
+    speedBoostTimeout = setTimeout(() => {
+      speedBoostActive = false;
+      updateDisplay();
+      saveGame();
+    }, 30000); // 30 segundos
+  }
+});
+
+multiplierBoostBtn.addEventListener('click', () => {
+  if (gems >= 50 && !multiplierBoostActive) {
+    gems -= 50;
+    multiplierBoostActive = true;
+    updateDisplay();
+    playSound(boostSound);
+    multiplierBoostBtn.disabled = true;
+
+    multiplierBoostTimeout = setTimeout(() => {
+      multiplierBoostActive = false;
+      updateDisplay();
+      saveGame();
+    }, 30000); // 30 segundos
+  }
+});
+
+// Comprar gemas simulado
+buyGemsBtn.addEventListener('click', () => {
+  gems += 100;
+  updateDisplay();
+  playSound(buySound);
+  saveGame();
+});
+
+// Auto clicker automático
+function autoClickerInterval() {
+  if (autoClickers > 0) {
+    score += cps;
+    addXp(Math.floor(cps / 5));
+    updateDisplay();
+    animateScore();
+    saveGame();
+    updateMissionsOnClick();
+    checkAchievements();
+  }
+}
+setInterval(autoClickerInterval, speedBoostActive ? 500 : 1000);
+
+// Missões
+
+function renderMissions() {
+  missionsList.innerHTML = '';
+  missions.forEach(mission => {
+    const li = document.createElement('li');
+    li.textContent = mission.text + ` (${mission.progress}/${mission.target})`;
+    if (mission.done) li.classList.add('done');
+    missionsList.appendChild(li);
+  });
+}
+
+function updateMissionsOnClick() {
+  missions.forEach(mission => {
+    if (mission.done) return;
+    if (mission.id === 1) {
+      mission.progress++;
+      if (mission.progress >= mission.target) mission.done = true;
+    }
+  });
+  renderMissions();
+  saveGame();
+}
+
+function updateMissionsOnUpgrade() {
+  missions.forEach(mission => {
+    if (mission.done) return;
+    if (mission.id === 2) {
+      mission.progress++;
+      if (mission.progress >= mission.target) mission.done = true;
+    }
+  });
+  renderMissions();
+  saveGame();
+}
+
+function updateMissionsOnAutoClicker() {
+  missions.forEach(mission => {
+    if (mission.done) return;
+    if (mission.id === 3) {
+      mission.progress++;
+      if (mission.progress >= mission.target) mission.done = true;
+    }
+  });
+  renderMissions();
+  saveGame();
+}
+
+// Conquistas
+
+function renderAchievements() {
+  achievementsList.innerHTML = '';
+  achievements.forEach(ach => {
+    const li = document.createElement('li');
+    li.textContent = ach.text;
+    if (ach.done) li.classList.add('done');
+    achievementsList.appendChild(li);
+  });
+}
+
+function checkAchievements() {
+  achievements.forEach(ach => {
+    if (!ach.done && ach.condition()) {
+      ach.done = true;
+      renderAchievements();
+      saveGame();
+      alert(`🎉 Conquista desbloqueada: ${ach.text}`);
+    }
+  });
+}
+
+// Tema claro/escuro
+toggleThemeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark-theme');
+  saveGame();
+});
+
+// Inicialização
+loadGame();
+
