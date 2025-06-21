@@ -1,96 +1,76 @@
+<!-- index.html -->
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Clicker Simulator - Dark Gamer</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clicker Simulator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div id="game">
+    <h1>Clicker Simulator</h1>
+    <p>Clicks: <span id="score">0</span></p>
+    <button id="clickBtn">Clique!</button>
+    <p>Poder do Clique: <span id="clickPower">1</span></p>
 
-  <!-- Luzes nos cantos -->
-  <div id="cornerTopRight"></div>
-  <div id="cornerBottomLeft"></div>
+    <h2>Melhorias</h2>
+    <button id="upgradeClickPowerBtn">Melhorar clique (<span id="upgradeClickPowerCost">10</span>)</button>
+    <button id="buyAutoClickerBtn">Comprar AutoClicker (<span id="autoClickerCost">50</span>)</button>
+    <button id="buyMultiplierBtn">Comprar Multiplicador (<span id="multiplierCost">100</span>)</button>
 
-  <h1>Clicker Simulator - Dark Gamer</h1>
+    <p>Multiplicadores: <span id="multiplierCount">0</span></p>
+    <p>AutoClickers: <span id="autoClickers">0</span></p>
+    <p id="cps">Clicks por segundo: 0</p>
 
-  <div class="container">
+    <h2>Nível</h2>
+    <div id="xpBarContainer"><div id="xpBar"></div></div>
+    <p id="levelDisplay">Nível: 1</p>
 
-    <!-- Box 1: Click Principal -->
-    <section class="box" id="clickBox">
-      <h2>Click Principal</h2>
-      <button id="clickBtn">Clique Aqui</button>
-      <div class="stat">Clicks: <span id="score">0</span></div>
-      <div class="stat">Poder de Click: <span id="clickPower">1</span></div>
-      <div class="stat">Multiplicador: <span id="multiplierCount">0</span> (x<span id="multiplierValue">1</span>)</div>
-    </section>
+    <h2>Gemas: <span id="gemsCount">0</span></h2>
+    <button id="speedBoostBtn">Turbo Click (20 gemas)</button>
+    <button id="multiplierBoostBtn">Multiplicador Turbo (50 gemas)</button>
+    <button id="buyGemsBtn">Ganhar 100 Gemas</button>
 
-    <!-- Box 2: Upgrades -->
-    <section class="box" id="upgradesBox">
-      <h2>Upgrades</h2>
+    <h2>Rebirths: <span id="rebirthCount">0</span></h2>
+    <button id="rebirthBtn">Fazer Rebirth</button>
 
-      <div class="stat">
-        <b>Comprar Click Power</b> (Custo: <span id="upgradeClickPowerCost">10</span>)
-        <div class="btnRow">
-          <button id="upgradeClickPowerBtn">Comprar</button>
-          <button class="upgradeAmountBtn active" data-amount="1">1</button>
-          <button class="upgradeAmountBtn" data-amount="10">10</button>
-          <button class="upgradeAmountBtn" data-amount="100">100</button>
-        </div>
+    <button id="resetBtn">Resetar Jogo</button>
+    <button id="toggleThemeBtn">Alternar Tema</button>
+    <button id="toggleShopBtn">🛒 Loja</button>
+
+    <div id="shop" class="hidden">
+      <h2>🛒 Loja Clicker</h2>
+
+      <div class="shop-section">
+        <h3>Boosts</h3>
+        <button onclick="comprarItem('boostCPS')">+2x CPS por 30s (20 gemas)</button>
+        <button onclick="comprarItem('boostMultiplicador')">+5x Mult por 30s (50 gemas)</button>
       </div>
 
-      <div class="stat">
-        <b>Comprar Auto Clickers</b> (Custo: <span id="autoClickerCost">50</span>)
-        <button id="buyAutoClickerBtn">Comprar</button>
-        <div style="margin-top:4px;">Possui: <span id="autoClickers">0</span></div>
+      <div class="shop-section">
+        <h3>Estética</h3>
+        <button onclick="comprarItem('skin1')">Skin: Roxo Neon (100 gemas)</button>
+        <button onclick="comprarItem('skin2')">Skin: Verde Hacker (100 gemas)</button>
       </div>
 
-      <div class="stat">
-        <b>Comprar Multiplicador</b> (Custo: <span id="multiplierCost">100</span>)
-        <button id="buyMultiplierBtn">Comprar</button>
-        <div style="margin-top:4px;">Quantidade: <span id="multiplierCount">0</span></div>
+      <div class="shop-section">
+        <h3>Extras</h3>
+        <button onclick="comprarItem('xpBoost')">+500 XP (30 gemas)</button>
+        <button onclick="comprarItem('rebirthBonus')">+1 Rebirth (200 gemas)</button>
       </div>
-    </section>
 
-    <!-- Box 3: Status -->
-    <section class="box" id="statusBox">
-      <h2>Status e Progresso</h2>
-      <div class="stat" id="cps">Clicks por segundo: 0</div>
-      <div class="stat" id="levelDisplay">Nível: 1</div>
-      <div id="xpBarContainer">
-        <div id="xpBar"></div>
+      <div class="shop-section">
+        <h3>Comprar Gemas</h3>
+        <button onclick="comprarItem('buyGems100')">+100 gemas (grátis)</button>
+        <button onclick="comprarItem('buyGems500')">+500 gemas (pago)</button>
       </div>
-      <div class="stat">Gemas: <span id="gemsCount">0</span></div>
-    </section>
-
-    <!-- Box 4: Boosts -->
-    <section class="box" id="boostsBox">
-      <h2>Boosts</h2>
-      <button id="speedBoostBtn">Boost de Velocidade (20 Gems)</button>
-      <button id="multiplierBoostBtn">Boost de Multiplicador (50 Gems)</button>
-      <button id="buyGemsBtn">Ganhar 100 Gems</button>
-    </section>
-
-    <!-- Box 5: Rebirth e Reset -->
-    <section class="box" id="rebirthBox">
-      <h2>Rebirth & Reset</h2>
-      <button id="rebirthBtn">Rebirth</button>
-      <div>Rebirths: <span id="rebirthCount">0</span></div>
-      <button id="resetBtn" class="resetBtn">Resetar Jogo</button>
-    </section>
-
-    <!-- Box 6: Tema -->
-    <section class="box" id="themeBox">
-      <h2>Tema</h2>
-      <button id="toggleThemeBtn">Alternar Tema Escuro/Claro</button>
-    </section>
-
+    </div>
   </div>
 
-  <!-- Sons -->
-  <audio id="clickSound" src="https://freesound.org/data/previews/256/256113_3263906-lq.mp3" preload="auto"></audio>
-  <audio id="buySound" src="https://freesound.org/data/previews/256/256114_3263906-lq.mp3" preload="auto"></audio>
-  <audio id="boostSound" src="https://freesound.org/data/previews/256/256115_3263906-lq.mp3" preload="auto"></audio>
+  <audio id="clickSound" src="click.mp3"></audio>
+  <audio id="buySound" src="buy.mp3"></audio>
+  <audio id="boostSound" src="boost.mp3"></audio>
 
   <script src="script.js"></script>
 </body>
