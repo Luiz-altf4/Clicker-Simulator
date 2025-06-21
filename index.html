@@ -1,81 +1,68 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator FULL Online</title>
+  <title>Clicker Simulator FULL</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>🚀 Clicker do Luiz - FULL Online</h1>
+      <h1>🚀 Clicker do Luiz - FULL</h1>
       <button id="toggleThemeBtn" title="Trocar tema">🌙</button>
     </header>
 
-    <section id="loginSection">
-      <h2>Login</h2>
-      <input type="email" id="emailInput" placeholder="Email" />
-      <input type="password" id="passwordInput" placeholder="Senha" />
-      <button id="loginBtn">Entrar / Registrar</button>
-      <button id="anonymousBtn">Entrar Anônimo</button>
-      <div id="loginStatus"></div>
-    </section>
-
-    <section id="gameSection" style="display:none;">
-      <div class="stats">
-        <div class="score-section">
-          <div id="score">0</div>
-          <div id="cps">Clicks por segundo: 0</div>
-          <div id="xpBarContainer">
-            <div id="xpBar"></div>
-            <div id="levelDisplay">Nível: 1</div>
-          </div>
+    <div class="stats">
+      <div class="score-section">
+        <div id="score">0</div>
+        <div id="cps">Clicks por segundo: 0</div>
+        <div id="xpBarContainer">
+          <div id="xpBar"></div>
+          <div id="levelDisplay">Nível: 1</div>
         </div>
-        <button id="clickBtn">Clique Aqui!</button>
+      </div>
+      <button id="clickBtn">Clique Aqui!</button>
+    </div>
+
+    <section class="upgrades">
+      <h2>Upgrades</h2>
+
+      <div class="upgrade-box">
+        <p>Clicks por clique: <span id="clickPower">1</span></p>
+        <button id="upgradeClickPowerBtn">Comprar Upgrade (Custa: <span id="upgradeClickPowerCost">10</span>)</button>
       </div>
 
-      <section class="upgrades">
-        <h2>Upgrades</h2>
+      <div class="upgrade-box">
+        <p>Auto Clickers: <span id="autoClickers">0</span></p>
+        <button id="buyAutoClickerBtn">Comprar Auto Clicker (Custa: <span id="autoClickerCost">50</span>)</button>
+      </div>
 
-        <div class="upgrade-box">
-          <p>Clicks por clique: <span id="clickPower">1</span></p>
-          <button id="upgradeClickPowerBtn">Comprar Upgrade (Custa: <span id="upgradeClickPowerCost">10</span>)</button>
-        </div>
+      <div class="upgrade-box">
+        <p>Multiplicador x2: <span id="multiplierCount">0</span></p>
+        <button id="buyMultiplierBtn">Comprar Multiplicador (Custa: <span id="multiplierCost">100</span>)</button>
+      </div>
+    </section>
 
-        <div class="upgrade-box">
-          <p>Auto Clickers: <span id="autoClickers">0</span></p>
-          <button id="buyAutoClickerBtn">Comprar Auto Clicker (Custa: <span id="autoClickerCost">50</span>)</button>
-        </div>
+    <section class="boosts">
+      <h2>Boosts Temporários</h2>
+      <button id="speedBoostBtn">Boost de Velocidade (20 Gemas) - 30s</button>
+      <button id="multiplierBoostBtn">Boost Multiplicador x5 (50 Gemas) - 30s</button>
+    </section>
 
-        <div class="upgrade-box">
-          <p>Multiplicador x2: <span id="multiplierCount">0</span></p>
-          <button id="buyMultiplierBtn">Comprar Multiplicador (Custa: <span id="multiplierCost">100</span>)</button>
-        </div>
-      </section>
+    <section class="shop">
+      <h2>Loja</h2>
+      <div>Gemas: <span id="gemsCount">0</span></div>
+      <button id="buyGemsBtn">Comprar 100 Gemas (Simulado)</button>
+    </section>
 
-      <section class="boosts">
-        <h2>Boosts Temporários</h2>
-        <button id="speedBoostBtn">Boost de Velocidade (20 Gemas) - 30s</button>
-        <button id="multiplierBoostBtn">Boost Multiplicador x5 (50 Gemas) - 30s</button>
-      </section>
-
-      <section class="shop">
-        <h2>Loja</h2>
-        <div>Gemas: <span id="gemsCount">0</span></div>
-        <button id="buyGemsBtn">Comprar 100 Gemas (Simulado)</button>
-      </section>
-
-      <section class="ranking">
-        <h2>Ranking Online</h2>
-        <button id="saveScoreBtn">Salvar Pontuação</button>
-        <ul id="rankingList"></ul>
-      </section>
+    <section class="ranking">
+      <h2>Ranking Online</h2>
+      <button id="saveScoreBtn">Salvar minha pontuação</button>
+      <ul id="rankingList">
+        <!-- Ranking será carregado aqui -->
+      </ul>
     </section>
 
   </div>
@@ -84,6 +71,8 @@
   <audio id="buySound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
   <audio id="boostSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
 
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
