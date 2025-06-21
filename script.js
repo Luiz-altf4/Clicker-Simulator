@@ -63,8 +63,7 @@ function loadGame() {
 
 // Atualiza a interface e desabilita botões quando não pode comprar
 function updateDisplay() {
-  // Mostrar score com 1 casa decimal (remove .0 se for inteiro)
-  scoreDisplay.textContent = score % 1 === 0 ? score.toString() : score.toFixed(1);
+  scoreDisplay.textContent = Math.floor(score);
   clickPowerDisplay.textContent = clickPower * multiplierEffect;
   upgradeClickPowerCostDisplay.textContent = upgradeClickPowerCost;
   autoClickersDisplay.textContent = autoClickers;
@@ -72,7 +71,7 @@ function updateDisplay() {
   multiplierCountDisplay.textContent = multiplierCount;
   multiplierCostDisplay.textContent = multiplierCost;
 
-  cpsDisplay.textContent = `Clicks por segundo: ${(autoClickers * clickPower * multiplierEffect).toFixed(1)}`;
+  cpsDisplay.textContent = `Clicks por segundo: ${Math.floor(autoClickers * clickPower * multiplierEffect)}`;
 
   upgradeClickPowerBtn.disabled = score < upgradeClickPowerCost;
   buyAutoClickerBtn.disabled = score < autoClickerCost;
@@ -129,7 +128,7 @@ buyMultiplierBtn.addEventListener('click', () => {
   }
 });
 
-// Função que gera clicks automáticos a cada 1000ms (1 segundo)
+// Função que gera clicks automáticos a cada 1 segundo
 function autoClickerInterval() {
   if (autoClickers > 0) {
     score += autoClickers * clickPower * multiplierEffect;
