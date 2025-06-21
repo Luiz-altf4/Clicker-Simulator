@@ -1,198 +1,176 @@
-* {
-  margin: 0; padding: 0; box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-
 body {
-  background: #f0f2f5; color: #222;
-  display: flex; justify-content: center;
-  padding: 20px; min-height: 100vh;
-  transition: background 0.3s, color 0.3s;
-}
-
-body.dark {
-  background: #121212; color: #eee;
+  font-family: 'Poppins', sans-serif;
+  background: #f4f4f8;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
 }
 
 .container {
-  max-width: 480px;
-  width: 100%;
+  width: 350px;
   background: #fff;
-  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-  transition: background 0.3s, color 0.3s;
-}
-
-body.dark .container {
-  background: #1e1e1e;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  margin: 20px;
 }
 
 header {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-h1 {
-  font-weight: 700;
-  font-size: 1.8rem;
+header h1 {
+  font-size: 1.3rem;
+  margin: 0;
 }
 
 #toggleThemeBtn {
+  font-size: 1.4rem;
   background: none;
   border: none;
-  font-size: 1.6rem;
   cursor: pointer;
-  color: inherit;
-  transition: color 0.3s;
 }
 
 .stats {
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 #score {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 10px;
-  color: #ff6f61;
+  margin-bottom: 5px;
 }
 
 #cps {
-  font-size: 1rem;
-  color: #555;
+  font-size: 0.9rem;
+  color: #666;
   margin-bottom: 10px;
 }
 
 #xpBarContainer {
   width: 100%;
-  height: 16px;
+  height: 15px;
   background: #ddd;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+  position: relative;
 }
 
 #xpBar {
   height: 100%;
-  background: #ff6f61;
   width: 0;
-  transition: width 0.3s;
+  background: #4caf50;
+  transition: width 0.3s ease;
 }
 
 #levelDisplay {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 10px;
+  font-size: 0.8rem;
+  color: #fff;
+  text-shadow: 0 0 3px rgba(0,0,0,0.5);
 }
 
 #clickBtn {
-  background: #ff6f61;
-  color: #fff;
-  font-weight: 700;
-  font-size: 1.3rem;
-  padding: 15px 0;
   width: 100%;
+  padding: 15px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: #4caf50;
+  color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 5px 15px rgba(255, 111, 97, 0.4);
-  transition: background 0.3s;
-}
-
-#clickBtn:hover {
-  background: #e55b50;
-}
-
-section {
+  transition: background 0.3s ease;
   margin-bottom: 25px;
 }
 
-h2 {
-  font-weight: 700;
-  font-size: 1.3rem;
-  margin-bottom: 15px;
-  border-bottom: 2px solid #ff6f61;
+#clickBtn:hover {
+  background: #43a047;
+}
+
+.upgrades, .boosts, .shop {
+  margin-bottom: 20px;
+}
+
+.upgrades h2, .boosts h2, .shop h2 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #4caf50;
   padding-bottom: 5px;
 }
 
 .upgrade-box {
-  background: #f8f8f8;
-  padding: 12px 15px;
-  border-radius: 10px;
   margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: background 0.3s;
-}
-
-body.dark .upgrade-box {
-  background: #292929;
 }
 
 .upgrade-box p {
-  font-weight: 600;
+  margin: 0 0 5px;
 }
 
-.upgrade-box button {
-  background: #ff6f61;
-  border: none;
-  color: #fff;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.upgrade-box button:hover {
-  background: #e55b50;
-}
-
-.boosts button,
-.shop button,
-.ranking button {
-  background: #ff6f61;
-  color: #fff;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s;
-  margin-bottom: 10px;
+.upgrade-box button, .boosts button, .shop button {
   width: 100%;
-}
-
-.boosts button:hover,
-.shop button:hover,
-.ranking button:hover {
-  background: #e55b50;
-}
-
-.shop div {
-  font-weight: 700;
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
-
-.ranking ul {
-  list-style: none;
-  max-height: 250px;
-  overflow-y: auto;
-  padding-left: 10px;
-}
-
-.ranking li {
+  padding: 10px;
   font-weight: 600;
-  padding: 5px 0;
-  border-bottom: 1px solid #ddd;
-  color: #333;
+  background: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-body.dark .ranking li {
-  border-color: #444;
+.upgrade-box button:hover, .boosts button:hover, .shop button:hover {
+  background: #1976d2;
+}
+
+/* Dark mode */
+body.dark {
+  background: #121212;
   color: #eee;
+}
+
+body.dark .container {
+  background: #1e1e1e;
+  box-shadow: 0 0 20px rgba(255,255,255,0.1);
+}
+
+body.dark #clickBtn {
+  background: #388e3c;
+}
+
+body.dark #clickBtn:hover {
+  background: #2e7d32;
+}
+
+body.dark .upgrade-box button,
+body.dark .boosts button,
+body.dark .shop button {
+  background: #1565c0;
+}
+
+body.dark .upgrade-box button:hover,
+body.dark .boosts button:hover,
+body.dark .shop button:hover {
+  background: #0d47a1;
+}
+
+body.dark #xpBar {
+  background: #81c784;
+}
+
+body.dark #levelDisplay {
+  color: #222;
+  text-shadow: none;
 }
