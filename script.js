@@ -19,17 +19,14 @@ const clickBtn = document.getElementById("clickBtn");
 const clickPowerSpan = document.getElementById("clickPower");
 const upgradeClickPowerBtn = document.getElementById("upgradeClickPowerBtn");
 const upgradeClickPowerCostSpan = document.getElementById("upgradeClickPowerCost");
-const clickPowerQtySelect = document.getElementById("clickPowerQty");
 
 const autoClickersSpan = document.getElementById("autoClickers");
 const autoClickerCostSpan = document.getElementById("autoClickerCost");
 const buyAutoClickerBtn = document.getElementById("buyAutoClickerBtn");
-const autoClickerQtySelect = document.getElementById("autoClickerQty");
 
 const multiplierCostSpan = document.getElementById("multiplierCost");
 const multiplierCountSpan = document.getElementById("multiplierCount");
 const buyMultiplierBtn = document.getElementById("buyMultiplierBtn");
-const multiplierQtySelect = document.getElementById("multiplierQty");
 
 const cpsDisplay = document.getElementById("cps");
 const xpBar = document.getElementById("xpBar");
@@ -40,118 +37,18 @@ const speedBoostBtn = document.getElementById("speedBoostBtn");
 const multiplierBoostBtn = document.getElementById("multiplierBoostBtn");
 const buyGemsBtn = document.getElementById("buyGemsBtn");
 
-// Função para formatar números grandes (sem decimais)
-function formatarNumero(num) {
-  const unidades = [
-    "",
-    "k",
-    "M",
-    "B",
-    "T",
-    "Q",
-    "Qi",
-    "Sx",
-    "Sp",
-    "Oc",
-    "N",
-    "Dc",
-    "Ud",
-    "Dd",
-    "Td",
-    "Qd",
-    "Qn",
-    "Sxd",
-    "Spd",
-    "Ocd",
-    "Nd",
-    "Vg",
-    "UVg",
-    "DVg",
-    "TVg",
-    "QVg",
-    "QnVg",
-    "SVg",
-    "SpVg",
-    "OVg",
-    "NVg",
-    "Tg",
-    "UTg",
-    "DTg",
-    "TTg",
-    "QTg",
-    "QnTg",
-    "STg",
-    "SpTg",
-    "OTg",
-    "NTg",
-    "Qg",
-    "UQg",
-    "DQg",
-    "TQg",
-    "QQg",
-    "QnQg",
-    "SQg",
-    "SpQg",
-    "OQg",
-    "NQg",
-    "Qq",
-    "UQq",
-    "DQq",
-    "TQq",
-    "QQq",
-    "QnQq",
-    "SQq",
-    "SpQq",
-    "OQq",
-    "NQq",
-    "Sg",
-    "USg",
-    "DSg",
-    "TSg",
-    "QSg",
-    "QnSg",
-    "SSg",
-    "SpSg",
-    "OSg",
-    "NSg",
-    "Sgnt",
-    "USgnt",
-    "DSgnt",
-    "TSgnt",
-    "QSgnt",
-    "QnSgnt",
-    "SSgnt",
-    "SpSgnt",
-    "OSgnt",
-    "NSgnt",
-    "Ogt",
-    "UOgt",
-    "DOgt",
-    "TOgt",
-    "QOgt",
-    "QnOgt",
-    "SOgt",
-    "SpOgt",
-    "OOgt",
-    "NOgt",
-    "Ng",
-    "UNg",
-    "DNn",
-    "TNn",
-    "QNn",
-    "QnNn",
-    "SNn",
-    "SpNn",
-    "ONn",
-    "NNn"
-  ];
+const toggleThemeBtn = document.getElementById("toggleThemeBtn");
 
-  let i = 0;
-  while (num >= 1000 && i < unidades.length - 1) {
+// --- Função para formatar números grandes (k, M, B, etc) ---
+function formatNumber(num) {
+  if (num < 1000) return num.toString();
+  const units = ["k", "M", "B", "T", "Q", "Qi", "Sx", "Sp", "Oc", "N", "Dc", "Ud", "Dd", "Td", "Qd", "Qn", "Sxd", "Spd", "Ocd", "Nd", "Vg", "UVg", "DVg", "TVg", "QVg", "QnVg", "SVg", "SpVg", "OVg", "NVg", "Tg", "UTg", "DTg", "TTg", "QTg", "QnTg", "STg", "SpTg", "OTg", "NTg", "Qg", "UQg", "DQg", "TQg", "QQg", "QnQg", "SQg", "SpQg", "OQg", "NQg", "Qq", "UQq"];
+  let unitIndex = -1;
+  while (num >= 1000 && unitIndex < units.length - 1) {
     num /= 1000;
-    i++;
+    unitIndex++;
   }
-  return num.toFixed(2).replace(/\.00$/, "") + unidades[i];
+  return num.toFixed(2).replace(/\.?0+$/, '') + units[unitIndex];
 }
 
 // --- CLICKER ---
@@ -159,63 +56,45 @@ clickBtn.addEventListener("click", () => {
   score += clickPower * multiplier;
   xp += 1;
   clickSound.play();
+  verificarLevelUp();
   atualizar();
+  salvarJogo();
 });
 
 // --- UPGRADE: CLICK POWER ---
 upgradeClickPowerBtn.addEventListener("click", () => {
-  let qty = parseInt(clickPowerQtySelect.value);
-  let totalCost = 0;
-  for (let i = 0; i < qty; i++) {
-    totalCost += Math.floor(10 * Math.pow(1.5, (clickPower - 1) + i));
-  }
-
-  if (score >= totalCost) {
-    score -= totalCost;
-    clickPower += qty;
+  const cost = Math.floor(10 * Math.pow(1.5, clickPower - 1));
+  if (score >= cost) {
+    score -= cost;
+    clickPower++;
     buySound.play();
     atualizar();
-  } else {
-    alert("Você não tem pontos suficientes para comprar essa quantidade!");
+    salvarJogo();
   }
 });
 
 // --- UPGRADE: AUTOCLICKER ---
 buyAutoClickerBtn.addEventListener("click", () => {
-  let qty = parseInt(autoClickerQtySelect.value);
-  let totalCost = 0;
-  for (let i = 0; i < qty; i++) {
-    totalCost += 50 * (autoClickers + 1 + i);
-  }
-
-  if (score >= totalCost) {
-    score -= totalCost;
-    autoClickers += qty;
+  const cost = 50 * (autoClickers + 1);
+  if (score >= cost) {
+    score -= cost;
+    autoClickers++;
     buySound.play();
     atualizar();
-  } else {
-    alert("Você não tem pontos suficientes para comprar essa quantidade!");
+    salvarJogo();
   }
 });
 
 // --- UPGRADE: MULTIPLICADOR ---
 buyMultiplierBtn.addEventListener("click", () => {
-  let qty = parseInt(multiplierQtySelect.value);
-  let totalCost = 0;
-  for (let i = 0; i < qty; i++) {
-    totalCost += 100 * (multiplierCount + 1 + i);
-  }
-
-  if (score >= totalCost) {
-    score -= totalCost;
-    for(let i = 0; i < qty; i++) {
-      multiplier *= 2;
-    }
-    multiplierCount += qty;
+  const cost = 100 * (multiplierCount + 1);
+  if (score >= cost) {
+    score -= cost;
+    multiplier *= 2;
+    multiplierCount++;
     buySound.play();
     atualizar();
-  } else {
-    alert("Você não tem pontos suficientes para comprar essa quantidade!");
+    salvarJogo();
   }
 });
 
@@ -224,9 +103,11 @@ speedBoostBtn.addEventListener("click", () => {
   if (gems >= 20) {
     gems -= 20;
     buySound.play();
-    let boost = setInterval(() => {
+    const boost = setInterval(() => {
       score += clickPower * multiplier;
+      verificarLevelUp();
       atualizar();
+      salvarJogo();
     }, 100);
     setTimeout(() => clearInterval(boost), 30000);
   }
@@ -238,8 +119,12 @@ multiplierBoostBtn.addEventListener("click", () => {
     gems -= 50;
     buySound.play();
     multiplier *= 5;
+    atualizar();
+    salvarJogo();
     setTimeout(() => {
       multiplier /= 5;
+      atualizar();
+      salvarJogo();
     }, 30000);
   }
 });
@@ -249,13 +134,18 @@ buyGemsBtn.addEventListener("click", () => {
   gems += 100;
   buySound.play();
   atualizar();
+  salvarJogo();
 });
 
 // --- AUTOCLICK ---
 setInterval(() => {
-  score += autoClickers * multiplier;
-  cps = autoClickers * multiplier;
-  atualizar();
+  if (autoClickers > 0) {
+    score += autoClickers * multiplier;
+    cps = autoClickers * multiplier;
+    verificarLevelUp();
+    atualizar();
+    salvarJogo();
+  }
 }, 1000);
 
 // --- LEVEL UP ---
@@ -270,31 +160,75 @@ function verificarLevelUp() {
 
 // --- ATUALIZA INTERFACE ---
 function atualizar() {
-  verificarLevelUp();
+  scoreDisplay.textContent = formatNumber(Math.floor(score));
+  clickPowerSpan.textContent = clickPower;
+  upgradeClickPowerCostSpan.textContent = formatNumber(Math.floor(10 * Math.pow(1.5, clickPower - 1)));
 
-  scoreDisplay.textContent = formatarNumero(score);
-  clickPowerSpan.textContent = formatarNumero(clickPower);
-  upgradeClickPowerCostSpan.textContent = formatarNumero(Math.floor(10 * Math.pow(1.5, clickPower - 1)));
+  autoClickersSpan.textContent = autoClickers;
+  autoClickerCostSpan.textContent = formatNumber(50 * (autoClickers + 1));
 
-  autoClickersSpan.textContent = formatarNumero(autoClickers);
-  autoClickerCostSpan.textContent = formatarNumero(50 * (autoClickers + 1));
+  multiplierCountSpan.textContent = multiplierCount;
+  multiplierCostSpan.textContent = formatNumber(100 * (multiplierCount + 1));
 
-  multiplierCountSpan.textContent = formatarNumero(multiplierCount);
-  multiplierCostSpan.textContent = formatarNumero(100 * (multiplierCount + 1));
-
-  cpsDisplay.textContent = `Clicks por segundo: ${formatarNumero(cps)}`;
+  cpsDisplay.textContent = `Clicks por segundo: ${formatNumber(cps)}`;
   levelDisplay.textContent = `Nível: ${level}`;
   xpBar.style.width = `${(xp / (level * 100)) * 100}%`;
 
-  gemsDisplay.textContent = formatarNumero(gems);
+  gemsDisplay.textContent = formatNumber(gems);
 }
 
 // --- TEMA ---
-document.getElementById("toggleThemeBtn").addEventListener("click", () => {
+toggleThemeBtn.addEventListener("click", () => {
   document.body.classList.toggle("dark");
+  localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
 });
 
-// Inicializa tudo
-window.addEventListener("load", () => {
+// --- SALVAR JOGO ---
+function salvarJogo() {
+  const estado = {
+    score,
+    clickPower,
+    autoClickers,
+    multiplier,
+    multiplierCount,
+    cps,
+    level,
+    xp,
+    gems,
+    theme: document.body.classList.contains("dark") ? "dark" : "light"
+  };
+  localStorage.setItem("clickerSave", JSON.stringify(estado));
+}
+
+// --- CARREGAR JOGO ---
+function carregarJogo() {
+  const save = localStorage.getItem("clickerSave");
+  if (save) {
+    try {
+      const estado = JSON.parse(save);
+      score = estado.score || 0;
+      clickPower = estado.clickPower || 1;
+      autoClickers = estado.autoClickers || 0;
+      multiplier = estado.multiplier || 1;
+      multiplierCount = estado.multiplierCount || 0;
+      cps = estado.cps || 0;
+      level = estado.level || 1;
+      xp = estado.xp || 0;
+      gems = estado.gems || 0;
+      if (estado.theme === "dark") {
+        document.body.classList.add("dark");
+      } else {
+        document.body.classList.remove("dark");
+      }
+    } catch {
+      // Se o JSON estiver corrompido, ignora.
+    }
+  }
   atualizar();
+}
+
+// --- INICIALIZAÇÃO ---
+window.addEventListener("load", () => {
+  carregarJogo();
 });
+
