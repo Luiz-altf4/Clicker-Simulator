@@ -101,12 +101,13 @@ header h1 {
   background-color: #0056b3;
 }
 
-.upgrades, .gems-shop {
+.upgrades, .gems-shop, .save-load {
   background: #f9fafb;
   border-radius: 10px;
   padding: 15px 20px;
   margin-bottom: 25px;
   box-shadow: inset 0 0 8px rgba(0,0,0,0.03);
+  text-align: center;
 }
 
 .upgrades h2, .gems-shop h2 {
@@ -126,7 +127,7 @@ header h1 {
   font-weight: 600;
 }
 
-.upgrade-item button, #buyGemsBtn {
+.upgrade-item button, #buyGemsBtn, #saveBtn, #loadBtn, #resetBtn {
   background-color: #28a745;
   border: none;
   color: white;
@@ -136,9 +137,10 @@ header h1 {
   cursor: pointer;
   transition: background-color 0.3s ease;
   user-select: none;
+  margin: 5px;
 }
 
-.upgrade-item button:hover, #buyGemsBtn:hover {
+.upgrade-item button:hover, #buyGemsBtn:hover, #saveBtn:hover, #loadBtn:hover, #resetBtn:hover {
   background-color: #1e7e34;
 }
 
@@ -161,16 +163,16 @@ body.dark .stats {
   color: #ccc;
 }
 
-body.dark .upgrades, body.dark .gems-shop {
+body.dark .upgrades, body.dark .gems-shop, body.dark .save-load {
   background: #2a2a2a;
   box-shadow: inset 0 0 8px rgba(255,255,255,0.1);
 }
 
-body.dark .upgrade-item button, body.dark #buyGemsBtn {
+body.dark .upgrade-item button, body.dark #buyGemsBtn, body.dark #saveBtn, body.dark #loadBtn, body.dark #resetBtn {
   background-color: #2ecc71;
 }
 
-body.dark .upgrade-item button:hover, body.dark #buyGemsBtn:hover {
+body.dark .upgrade-item button:hover, body.dark #buyGemsBtn:hover, body.dark #saveBtn:hover, body.dark #loadBtn:hover, body.dark #resetBtn:hover {
   background-color: #27ae60;
 }
 
