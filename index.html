@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Clicker Simulator - Luiz</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -14,45 +14,36 @@
       <button id="toggleThemeBtn" title="Trocar tema">🌙</button>
     </header>
 
-    <main>
-      <section class="stats">
-        <div class="score" id="score">0</div>
-        <div id="cps">Clicks por segundo: 0</div>
-        <button id="clickBtn" class="click-button">Clique Aqui!</button>
-      </section>
+    <section class="stats">
+      <div id="score">0</div>
+      <div id="cps">Clicks por segundo: 0</div>
+      <button id="clickBtn" class="click-button">Clique Aqui!</button>
+    </section>
 
-      <section class="upgrades">
-        <h2>Upgrades</h2>
-        <div class="upgrade-item">
-          <span>Clicks por clique: <strong id="clickPower">1</strong></span>
-          <button id="upgradeClickPowerBtn">Comprar Upgrade (Custa: <span id="upgradeClickPowerCost">10</span>)</button>
-        </div>
+    <section class="upgrades">
+      <h2>Upgrades</h2>
 
-        <div class="upgrade-item">
-          <span>Auto Clickers: <strong id="autoClickers">0</strong></span>
-          <button id="buyAutoClickerBtn">Comprar Auto Clicker (Custa: <span id="autoClickerCost">50</span>)</button>
-        </div>
+      <div class="upgrade-item">
+        <p>Clicks por clique: <span id="clickPower">1</span></p>
+        <button id="upgradeClickPowerBtn">Comprar Upgrade (Custa: <span id="upgradeClickPowerCost">10</span>)</button>
+      </div>
 
-        <div class="upgrade-item">
-          <span>Multiplicador x2: <strong id="multiplierCount">0</strong></span>
-          <button id="buyMultiplierBtn">Comprar Multiplicador (Custa: <span id="multiplierCost">100</span>)</button>
-        </div>
-      </section>
+      <div class="upgrade-item">
+        <p>Auto Clickers: <span id="autoClickers">0</span></p>
+        <button id="buyAutoClickerBtn">Comprar Auto Clicker (Custa: <span id="autoClickerCost">50</span>)</button>
+      </div>
 
-      <section class="gems-shop">
-        <h2>Gemas</h2>
-        <div>Você tem: <strong id="gemsCount">0</strong> gemas</div>
-        <button id="buyGemsBtn">Comprar 100 Gemas (Simulado)</button>
-      </section>
+      <div class="upgrade-item">
+        <p>Multiplicador x2: <span id="multiplierCount">0</span></p>
+        <button id="buyMultiplierBtn">Comprar Multiplicador (Custa: <span id="multiplierCost">100</span>)</button>
+      </div>
+    </section>
 
-      <section class="ranking">
-        <h2>Ranking Top 10</h2>
-        <ol id="rankingList">
-          <li>Carregando ranking...</li>
-        </ol>
-        <button id="saveScoreBtn">Salvar Pontuação</button>
-      </section>
-    </main>
+    <section class="gems-shop">
+      <h2>Gemas</h2>
+      <p>Você tem: <span id="gemsCount">0</span> gemas</p>
+      <button id="buyGemsBtn">Comprar 100 Gemas (Simulado)</button>
+    </section>
   </div>
 
   <script src="script.js"></script>
