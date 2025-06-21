@@ -1,165 +1,200 @@
 /* Reset básico */
 * {
-  margin: 0; padding: 0; box-sizing: border-box;
+  box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
 body {
-  background: #121212;
+  margin: 0;
+  background: #0a0a0f;
   color: #eee;
-  min-height: 100vh;
-  padding: 20px;
-  position: relative;
-  overflow-x: hidden;
-}
-
-.container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-  gap: 20px;
-}
-
-.panel {
-  background: #1e1e1e;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px #0ff6;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
+  min-height: 100vh;
+  padding: 20px;
+  overflow-x: hidden;
 }
 
-.big-number {
-  font-size: 3rem;
-  margin: 15px 0;
-  font-weight: 700;
-  color: #00fff7;
-  text-shadow: 0 0 8px #00fff7aa;
+/* Luzes piscando nos cantos */
+body::before, body::after, #cornerTopRight, #cornerBottomLeft {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 6px #00ffcc);
+  opacity: 0.3;
+  animation: pulse 2.5s infinite alternate ease-in-out;
+  z-index: 9999;
 }
-
-.main-btn, button {
+body::before {
+  top: 20px; left: 20px;
+  width: 60px; height: 60px;
   background: #00fff7;
-  border: none;
-  color: #121212;
-  font-weight: 700;
-  padding: 12px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin: 8px 0;
-  transition: background 0.3s ease;
-  box-shadow: 0 0 8px #00fff7aa;
+}
+body::after {
+  bottom: 20px; right: 20px;
+  width: 80px; height: 80px;
+  background: #00aabb;
+  animation-delay: 1.2s;
+}
+#cornerTopRight {
+  top: 20px; right: 20px;
+  width: 50px; height: 50px;
+  background: #00ffa8;
+  animation-delay: 0.7s;
+}
+#cornerBottomLeft {
+  bottom: 20px; left: 20px;
+  width: 70px; height: 70px;
+  background: #00cc99;
+  animation-delay: 1.7s;
 }
 
-.main-btn:hover, button:hover {
-  background: #00d7c7;
-  box-shadow: 0 0 16px #00d7c7bb;
+@keyframes pulse {
+  0% {opacity: 0.2; filter: drop-shadow(0 0 4px #00ffcc);}
+  100% {opacity: 0.6; filter: drop-shadow(0 0 16px #00ffcc);}
 }
 
-.upgrade-group {
-  margin: 10px 0;
+/* Containers principais organizados em quadros */
+.container {
+  max-width: 1000px;
   width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.box {
+  background: #12121b;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 12px #00ffcc88;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
 }
 
-.buy-amounts {
-  margin-top: 12px;
+h1 {
+  color:#00fff7;
+  text-shadow: 0 0 10px #00ccaa;
+  user-select:none;
 }
 
-.upgradeAmountBtn {
-  background: #444;
-  color: #eee;
-  border-radius: 6px;
+h2 {
+  margin: 0 0 10px;
+  font-weight: 700;
+  color: #00ffe0;
+  text-shadow: 0 0 8px #00ffbb;
+}
+
+/* Botão principal */
+#clickBtn {
+  background: linear-gradient(135deg, #00fff7, #00ccaa);
   border: none;
-  padding: 6px 12px;
-  margin: 0 5px;
+  padding: 25px 60px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #011;
+  border-radius: 14px;
   cursor: pointer;
+  box-shadow: 0 0 16px #00ffccaa;
   transition: background 0.3s ease;
+  user-select: none;
+}
+#clickBtn:hover {
+  background: linear-gradient(135deg, #00ccaa, #009977);
 }
 
-.upgradeAmountBtn.active {
-  background: #00fff7;
-  color: #121212;
-  box-shadow: 0 0 12px #00fff7bb;
-}
-
-.upgradeAmountBtn:hover:not(.active) {
-  background: #555;
-}
-
-.xp-bar-container {
-  background: #333;
-  width: 100%;
-  height: 14px;
+/* Upgrade Amount Buttons */
+.upgradeAmountBtn {
+  background: #002222;
+  border: 2px solid #00ffcc;
+  color: #00ffcc;
+  font-weight: 700;
+  padding: 8px 18px;
+  margin: 0 6px;
   border-radius: 10px;
-  margin: 8px 0;
-  overflow: hidden;
-  box-shadow: inset 0 0 8px #00fff7aa;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+.upgradeAmountBtn.active,
+.upgradeAmountBtn:hover {
+  background: #00ffcc;
+  color: #012;
+  border-color: #00ccaa;
+}
+.upgradeAmountBtn + .upgradeAmountBtn {
+  margin-left: 12px;
 }
 
+/* Botões de upgrades e compra */
+button {
+  background: #004d4d;
+  border: 2px solid #00ffcc;
+  color: #00ffcc;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-top: 10px;
+  user-select: none;
+  transition: all 0.25s ease;
+}
+button:hover {
+  background: #00ffcc;
+  color: #012;
+  box-shadow: 0 0 14px #00ffccaa;
+}
+
+.resetBtn {
+  background:#ff0044;
+  border-color:#ff2266;
+  color:#fff;
+}
+
+/* Display de stats */
+.stat {
+  margin: 6px 0;
+  font-size: 1.2rem;
+}
+
+/* Barra de XP estilizada */
+#xpBarContainer {
+  background: #003333;
+  border-radius: 10px;
+  width: 100%;
+  height: 22px;
+  margin-top: 12px;
+  overflow: hidden;
+  box-shadow: inset 0 0 8px #00ffcc88;
+}
 #xpBar {
-  background: #00fff7;
+  background: #00ffcc;
   height: 100%;
   width: 0%;
-  border-radius: 10px 0 0 10px;
+  border-radius: 10px;
   transition: width 0.4s ease;
 }
 
-/* Tema claro para toggle (se quiser) */
-body.light {
-  background: #f0f0f0;
-  color: #111;
+/* Contadores especiais */
+#gemsCount, #rebirthCount {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #00ffcc;
+  text-shadow: 0 0 6px #00ccaa;
 }
 
-body.light .panel {
-  background: #fff;
-  box-shadow: 0 0 10px #0ff6;
+/* Flex para botões dentro do box */
+.btnRow {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 
-body.light .main-btn, body.light button {
-  background: #00a3a3;
-  color: white;
-}
-
-body.light .main-btn:hover, body.light button:hover {
-  background: #007878;
-}
-
-/* Luz piscando nos cantos */
-@keyframes pulseLight {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 0.6; }
-}
-
-.light-corner {
-  position: fixed;
-  width: 150px;
-  height: 150px;
-  pointer-events: none;
-  filter: drop-shadow(0 0 10px #00fff7);
-  animation: pulseLight 3s infinite;
-  mix-blend-mode: screen;
-  z-index: 10;
-}
-
-.top-left {
-  top: 0; left: 0;
-  background: radial-gradient(circle, #00fff7 40%, transparent 70%);
-}
-
-.top-right {
-  top: 0; right: 0;
-  background: radial-gradient(circle, #00fff7 40%, transparent 70%);
-}
-
-.bottom-left {
-  bottom: 0; left: 0;
-  background: radial-gradient(circle, #00fff7 40%, transparent 70%);
-}
-
-.bottom-right {
-  bottom: 0; right: 0;
-  background: radial-gradient(circle, #00fff7 40%, transparent 70%);
+/* Layout responsivo */
+@media (max-width: 720px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
 }
