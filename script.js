@@ -1,4 +1,6 @@
-// --- Variáveis do jogo ---
+// --- SCRIPT DO JOGO CLICKER SIMULATOR COMPLETO COM RESET CORRIGIDO ---
+
+// Variáveis do jogo
 let score = 0;
 let clickPower = 1;
 let autoClickers = 0;
@@ -28,7 +30,6 @@ const buyAutoClickerBtn = document.getElementById("buyAutoClickerBtn");
 
 const multiplierCostSpan = document.getElementById("multiplierCost");
 const multiplierCountSpan = document.getElementById("multiplierCount");
-const multiplierValueSpan = document.getElementById("multiplierValue");
 const buyMultiplierBtn = document.getElementById("buyMultiplierBtn");
 
 const cpsDisplay = document.getElementById("cps");
@@ -48,7 +49,6 @@ const resetBtn = document.getElementById("resetBtn");
 const upgradeAmountBtns = document.querySelectorAll(".upgradeAmountBtn");
 let upgradeAmount = 1;
 
-// Rebirth custos em potências, até 100 níveis
 const rebirthCostsPowers = Array.from({ length: 100 }, (_, i) => 3 * (i + 1));
 
 function custoRebirth(rebirthCount) {
@@ -59,17 +59,21 @@ function custoRebirth(rebirthCount) {
   }
 }
 
-// Formatar números grandes
 function formatarNumero(num) {
   if (num < 1000) return num.toFixed(0);
   const unidades = [
-    "", "K", "M", "B", "T", "Q", "Qi", "Sx", "Sp", "Oc",
+    "", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc",
     "N", "Dc", "Ud", "Dd", "Td", "Qd", "Qn", "Sxd", "Spd", "Ocd",
-    "Nd", "Vg", "UVg", "DVg", "TVg", "QVg", "QnVg", "SVg", "SpVg", "OVg",
+    "Nod", "Vg", "UVg", "DVg", "TVg", "QVg", "QnVg", "SVg", "SpVg", "OVg",
     "NVg", "Tg", "UTg", "DTg", "TTg", "QTg", "QnTg", "STg", "SpTg", "OTg",
     "NTg", "Qg", "UQg", "DQg", "TQg", "QQg", "QnQg", "SQg", "SpQg", "OQg",
     "NQg", "Qq", "UQq", "DQq", "TQq", "QQq", "QnQq", "SQq", "SpQq", "OQq",
-    "NQq", "Sg", "USg", "DSg", "TSg", "QSg", "QnSg", "SSg", "SpSg", "OSg"
+    "NQq", "Sg", "USg", "DSg", "TSg", "QSg", "QnSg", "SSg", "SpSg", "OSg",
+    "NSg", "Sgnt", "USgnt", "DSgnt", "TSgnt", "QSgnt", "QnSgnt", "SSgnt", "SpSgnt", "OSgnt",
+    "NSgnt", "Ogt", "UOgt", "DOgt", "TOgt", "QOgt", "QnOgt", "SOgt", "SpOgt", "OOgt",
+    "NOgt", "Ng", "UNg", "DNn", "TNn", "QNn", "QnNn", "SNn", "SpNn", "ONn",
+    "NNn", "OLPWO", "NdOs", "NSposk", "Ldm", "Huoop", "Nowid", "Infernal", "Nallk", "Alsk",
+    "SEoiUd", "A", "B", "C", "D", "E", "AB", "AC", "AD", "AE"
   ];
   let ordem = Math.min(Math.floor(Math.log10(num) / 3), unidades.length - 1);
   let valor = num / Math.pow(1000, ordem);
@@ -102,12 +106,11 @@ function atualizar() {
   verificarLevelUp();
   scoreDisplay.textContent = formatarNumero(score);
   clickPowerSpan.textContent = clickPower;
-  upgradeClickPowerCostSpan.textContent = formatarNumero(Math.floor(10 * Math.pow(1.5, clickPower - 1)) * upgradeAmount);
+  upgradeClickPowerCostSpan.textContent = formatarNumero(Math.floor(10 * Math.pow(1.5, clickPower - 1)));
   autoClickersSpan.textContent = autoClickers;
-  autoClickerCostSpan.textContent = formatarNumero(50 * (autoClickers + upgradeAmount));
+  autoClickerCostSpan.textContent = formatarNumero(50 * (autoClickers + 1));
   multiplierCountSpan.textContent = multiplierCount;
-  multiplierValueSpan.textContent = multiplier.toFixed(2);
-  multiplierCostSpan.textContent = formatarNumero(100 * (multiplierCount + upgradeAmount));
+  multiplierCostSpan.textContent = formatarNumero(Math.floor(100 * Math.pow(2, multiplierCount + 1)));
   cpsDisplay.textContent = `Clicks por segundo: ${formatarNumero(cps)}`;
   levelDisplay.textContent = `Nível: ${level}`;
   xpBar.style.width = `${(xp / (level * 100)) * 100}%`;
@@ -126,9 +129,8 @@ function verificarLevelUp() {
 }
 
 clickBtn.addEventListener("click", () => {
-  score += clickPower * multiplier;
+  score += clickPower * (multiplier + rebirths);
   xp++;
-  clickSound.currentTime = 0;
   clickSound.play();
   atualizar();
 });
@@ -138,138 +140,111 @@ upgradeClickPowerBtn.addEventListener("click", () => {
   if (score >= costTotal) {
     score -= costTotal;
     clickPower += upgradeAmount;
-    buySound.currentTime = 0;
     buySound.play();
     atualizar();
-  } else {
-    alert("Clique não suficiente para comprar Click Power!");
   }
 });
 
 buyAutoClickerBtn.addEventListener("click", () => {
-  const cost = 50 * (autoClickers + 1);
-  if (score >= cost) {
-    score -= cost;
-    autoClickers += 1;
-    buySound.currentTime = 0;
+  const costTotal = 50 * (autoClickers + 1) * upgradeAmount;
+  if (score >= costTotal) {
+    score -= costTotal;
+    autoClickers += upgradeAmount;
     buySound.play();
     atualizar();
-  } else {
-    alert("Clique não suficiente para comprar Auto Clicker!");
   }
 });
 
 buyMultiplierBtn.addEventListener("click", () => {
-  const cost = 100 * (multiplierCount + 1);
-  if (score >= cost) {
-    score -= cost;
-    multiplierCount++;
-    multiplier = 1 + multiplierCount * 0.5;
-    buySound.currentTime = 0;
+  let costTotal = 0;
+  let increase = 0;
+  for (let i = 0; i < upgradeAmount; i++) {
+    costTotal += Math.floor(100 * Math.pow(2, multiplierCount + i + 1));
+    increase++;
+  }
+  if (score >= costTotal) {
+    score -= costTotal;
+    multiplierCount += increase;
     buySound.play();
     atualizar();
-  } else {
-    alert("Clique não suficiente para comprar Multiplicador!");
   }
 });
 
-// Auto Clickers funcionam adicionando clicks por segundo
-setInterval(() => {
-  if (autoClickers > 0) {
-    score += autoClickers * clickPower * multiplier;
-    xp += autoClickers;
-    atualizar();
-  }
-}, 1000);
-
-// Atualizar CPS (clicks por segundo)
-setInterval(() => {
-  cps = autoClickers * clickPower * multiplier;
-  atualizar();
-}, 500);
-
-// Boosts
 speedBoostBtn.addEventListener("click", () => {
   if (gems >= 20) {
     gems -= 20;
-    autoClickers *= 2;
-    boostSound.currentTime = 0;
-    boostSound.play();
-    atualizar();
-  } else alert("Gemas insuficientes para Boost de Velocidade!");
+    buySound.play();
+    let boost = setInterval(() => {
+      score += clickPower * (multiplier + rebirths);
+      atualizar();
+    }, 100);
+    setTimeout(() => clearInterval(boost), 30000);
+  }
 });
+
 multiplierBoostBtn.addEventListener("click", () => {
   if (gems >= 50) {
     gems -= 50;
-    multiplier *= 2;
-    boostSound.currentTime = 0;
-    boostSound.play();
-    atualizar();
-  } else alert("Gemas insuficientes para Boost de Multiplicador!");
+    buySound.play();
+    multiplier += 5;
+    setTimeout(() => {
+      multiplier -= 5;
+      atualizar();
+    }, 30000);
+  }
 });
 
 buyGemsBtn.addEventListener("click", () => {
   gems += 100;
-  buySound.currentTime = 0;
   buySound.play();
   atualizar();
 });
 
-// Rebirth
-rebirthBtn.addEventListener("click", () => {
-  const custo = custoRebirth(rebirths);
-  if (score >= custo) {
-    score = 0;
-    clickPower = 1;
-    autoClickers = 0;
-    multiplier = 1;
-    multiplierCount = 0;
-    cps = 0;
-    level = 1;
-    xp = 0;
-    gems += 100 * (rebirths + 1);
-    rebirths++;
-    buySound.currentTime = 0;
-    buySound.play();
-    atualizar();
-  } else {
-    alert(`Precisa de ${formatarNumero(custo)} clicks para Rebirth!`);
-  }
-});
+setInterval(() => {
+  score += autoClickers * (multiplier + rebirths);
+  cps = autoClickers * (multiplier + rebirths);
+  atualizar();
+}, 1000);
 
-// Resetar
-resetBtn.addEventListener("click", () => {
-  if (confirm("Tem certeza que deseja resetar o jogo?")) {
-    score = 0;
-    clickPower = 1;
-    autoClickers = 0;
-    multiplier = 1;
-    multiplierCount = 0;
-    cps = 0;
-    level = 1;
-    xp = 0;
-    gems = 0;
-    rebirths = 0;
-    atualizar();
-  }
-});
-
-// Selecionar quantidade para upgrades
 upgradeAmountBtns.forEach(btn => {
   btn.addEventListener("click", () => {
+    upgradeAmount = parseInt(btn.dataset.amount);
     upgradeAmountBtns.forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-    upgradeAmount = Number(btn.dataset.amount);
-    atualizar();
   });
 });
 
-// Tema claro/escuro
-const toggleThemeBtn = document.getElementById("toggleThemeBtn");
-toggleThemeBtn.addEventListener("click", () => {
-  document.body.classList.toggle("light-theme");
+rebirthBtn.addEventListener("click", () => {
+  const cost = custoRebirth(rebirths);
+  if (score >= cost) {
+    score = 0;
+    clickPower = 1;
+    autoClickers = 0;
+    multiplier = 1;
+    multiplierCount = 0;
+    cps = 0;
+    level = 1;
+    xp = 0;
+    rebirths++;
+    buySound.play();
+    atualizar();
+  } else {
+    alert(`Rebirth custa ${formatarNumero(cost)} clicks!`);
+  }
 });
-  
-// Estado inicial
-carregarEstado();
-atualizar();
+
+resetBtn.addEventListener("click", () => {
+  if (confirm("Tem certeza que quer resetar o jogo? Isso apagará todo seu progresso!")) {
+    localStorage.clear();
+    location.reload();
+  }
+});
+
+document.getElementById("toggleThemeBtn").addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+});
+
+window.addEventListener("load", () => {
+  carregarEstado();
+  atualizar();
+});
