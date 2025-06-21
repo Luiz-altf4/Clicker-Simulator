@@ -1,7 +1,6 @@
-// === CONFIG FIREBASE ===
-// Cole aqui a sua configuração do Firebase Web SDK do seu projeto
+// CONFIG FIREBASE
 const firebaseConfig = {
-  apiKey: "SEU_API_KEY",
+  apiKey: "COLE_AQUI_SEU_API_KEY",
   authDomain: "SEU_AUTH_DOMAIN",
   projectId: "SEU_PROJECT_ID",
   storageBucket: "SEU_STORAGE_BUCKET",
@@ -9,13 +8,10 @@ const firebaseConfig = {
   appId: "SEU_APP_ID",
 };
 
-// Inicializa Firebase
 firebase.initializeApp(firebaseConfig);
-
-const auth = firebase.auth();
 const db = firebase.firestore();
 
-// === VARIÁVEIS DO JOGO ===
+// VARIÁVEIS
 let score = 0;
 let clickPower = 1;
 let autoClickers = 0;
@@ -26,10 +22,12 @@ let level = 1;
 let xp = 0;
 let gems = 0;
 
+// SONS
 const clickSound = document.getElementById("clickSound");
 const buySound = document.getElementById("buySound");
 const boostSound = document.getElementById("boostSound");
 
+// ELEMENTOS
 const scoreDisplay = document.getElementById("score");
 const clickBtn = document.getElementById("clickBtn");
 const clickPowerSpan = document.getElementById("clickPower");
@@ -56,18 +54,8 @@ const buyGemsBtn = document.getElementById("buyGemsBtn");
 const saveScoreBtn = document.getElementById("saveScoreBtn");
 const rankingList = document.getElementById("rankingList");
 
-// LOGIN
-const loginSection = document.getElementById("loginSection");
-const gameSection = document.getElementById("gameSection");
-const emailInput = document.getElementById("emailInput");
-const passwordInput = document.getElementById("passwordInput");
-const loginBtn = document.getElementById("loginBtn");
-const anonymousBtn = document.getElementById("anonymousBtn");
-const loginStatus = document.getElementById("loginStatus");
+// FUNÇÕES
 
-let currentUser = null;
-
-// --- Função para atualizar interface ---
 function atualizar() {
   verificarLevelUp();
 
@@ -88,7 +76,6 @@ function atualizar() {
   gemsDisplay.textContent = gems;
 }
 
-// --- Função para verificar level up ---
 function verificarLevelUp() {
   if (xp >= level * 100) {
     xp -= level * 100;
@@ -98,16 +85,15 @@ function verificarLevelUp() {
   }
 }
 
-// --- Clique no botão principal ---
+// CLIQUE PRINCIPAL
 clickBtn.addEventListener("click", () => {
   score += clickPower * multiplier;
-  xp += 1;
+  xp++;
   clickSound.play();
   atualizar();
-  salvarProgresso();
 });
 
-// --- Comprar upgrades ---
+// UPGRADES
 upgradeClickPowerBtn.addEventListener("click", () => {
   const cost = Math.floor(10 * Math.pow(1.5, clickPower - 1));
   if (score >= cost) {
@@ -115,7 +101,6 @@ upgradeClickPowerBtn.addEventListener("click", () => {
     clickPower++;
     buySound.play();
     atualizar();
-    salvarProgresso();
   }
 });
 
@@ -126,7 +111,6 @@ buyAutoClickerBtn.addEventListener("click", () => {
     autoClickers++;
     buySound.play();
     atualizar();
-    salvarProgresso();
   }
 });
 
@@ -138,11 +122,10 @@ buyMultiplierBtn.addEventListener("click", () => {
     multiplierCount++;
     buySound.play();
     atualizar();
-    salvarProgresso();
   }
 });
 
-// --- Boosts ---
+// BOOSTS
 speedBoostBtn.addEventListener("click", () => {
   if (gems >= 20) {
     gems -= 20;
@@ -150,7 +133,6 @@ speedBoostBtn.addEventListener("click", () => {
     let boost = setInterval(() => {
       score += clickPower * multiplier;
       atualizar();
-      salvarProgresso();
     }, 100);
     setTimeout(() => clearInterval(boost), 30000);
   }
@@ -162,81 +144,36 @@ multiplierBoostBtn.addEventListener("click", () => {
     buySound.play();
     multiplier *= 5;
     atualizar();
-    salvarProgresso();
     setTimeout(() => {
       multiplier /= 5;
       atualizar();
-      salvarProgresso();
     }, 30000);
   }
 });
 
-// --- Loja ---
+// LOJA
 buyGemsBtn.addEventListener("click", () => {
   gems += 100;
   buySound.play();
   atualizar();
-  salvarProgresso();
 });
 
-// --- Auto Clickers ---
+// AUTO CLICKERS
 setInterval(() => {
   score += autoClickers * multiplier;
   cps = autoClickers * multiplier;
   atualizar();
-  salvarProgresso();
 }, 1000);
 
-// --- Salvar progresso Firestore ---
-function salvarProgresso() {
-  if (!currentUser) return;
-
-  const userDoc = db.collection("users").doc(currentUser.uid);
-  userDoc.set({
-    score,
-    clickPower,
-    autoClickers,
-    multiplier,
-    multiplierCount,
-    cps,
-    level,
-    xp,
-    gems,
-  }).catch(console.error);
-}
-
-// --- Carregar progresso Firestore ---
-async function carregarProgresso() {
-  if (!currentUser) return;
-
-  try {
-    const doc = await db.collection("users").doc(currentUser.uid).get();
-    if (doc.exists) {
-      const data = doc.data();
-      score = data.score || 0;
-      clickPower = data.clickPower || 1;
-      autoClickers = data.autoClickers || 0;
-      multiplier = data.multiplier || 1;
-      multiplierCount = data.multiplierCount || 0;
-      cps = data.cps || 0;
-      level = data.level || 1;
-      xp = data.xp || 0;
-      gems = data.gems || 0;
-    }
-  } catch (e) {
-    console.error("Erro ao carregar progresso:", e);
-  }
-}
-
-// --- Ranking Firestore ---
-async function salvarScoreRanking() {
-  if (!currentUser) {
-    alert("Faça login para salvar o ranking!");
+// RANKING FIREBASE
+async function salvarScore() {
+  const nome = prompt("Digite seu nome para salvar no ranking:");
+  if (!nome) {
+    alert("Nome obrigatório para salvar no ranking!");
     return;
   }
   try {
-    await db.collection("ranking").doc(currentUser.uid).set({
-      nome: currentUser.email || "Anônimo",
+    await db.collection("ranking").doc(nome).set({
       score,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
@@ -256,7 +193,7 @@ async function pegarRanking() {
 
     const ranking = [];
     snapshot.forEach(doc => {
-      ranking.push(doc.data());
+      ranking.push({ nome: doc.id, score: doc.data().score });
     });
     return ranking;
   } catch (e) {
@@ -275,69 +212,16 @@ async function atualizarRanking() {
   });
 }
 
-// --- Login ---
-loginBtn.addEventListener("click", () => {
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
+saveScoreBtn.addEventListener("click", salvarScore);
 
-  if (!email || !password) {
-    loginStatus.textContent = "Preencha email e senha!";
-    return;
-  }
-
-  auth.signInWithEmailAndPassword(email, password)
-    .then(() => {
-      loginStatus.textContent = "Login realizado!";
-    })
-    .catch(err => {
-      if (err.code === "auth/user-not-found") {
-        // Cria conta
-        auth.createUserWithEmailAndPassword(email, password)
-          .then(() => {
-            loginStatus.textContent = "Conta criada e logado!";
-          })
-          .catch(error => {
-            loginStatus.textContent = "Erro: " + error.message;
-          });
-      } else {
-        loginStatus.textContent = "Erro: " + err.message;
-      }
-    });
-});
-
-// Login Anônimo
-anonymousBtn.addEventListener("click", () => {
-  auth.signInAnonymously()
-    .then(() => {
-      loginStatus.textContent = "Login anônimo realizado!";
-    })
-    .catch(err => {
-      loginStatus.textContent = "Erro: " + err.message;
-    });
-});
-
-// Detecta mudança de estado de autenticação
-auth.onAuthStateChanged(user => {
-  if (user) {
-    currentUser = user;
-    loginStatus.textContent = "";
-    loginSection.style.display = "none";
-    gameSection.style.display = "block";
-    carregarProgresso().then(() => {
-      atualizar();
-      atualizarRanking();
-    });
-  } else {
-    currentUser = null;
-    loginSection.style.display = "block";
-    gameSection.style.display = "none";
-  }
-});
-
-// Salvar pontuação botão
-saveScoreBtn.addEventListener("click", salvarScoreRanking);
-
-// Tema escuro
+// TEMA ESCURO
 document.getElementById("toggleThemeBtn").addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
+
+// CARREGAR INICIAL
+window.addEventListener("load", () => {
+  atualizar();
+  atualizarRanking();
+});
+
