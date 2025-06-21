@@ -1,190 +1,84 @@
-/* Reset básico */
-* {
-  box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clicker Simulator Completo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <button id="toggleThemeBtn" class="theme-btn">🌙</button>
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  background: #121212;
-  color: #eee;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 20px;
-  position: relative;
-  overflow-x: hidden;
-}
+  <div class="container">
 
-.container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-  gap: 20px;
-  width: 100%;
-  max-width: 900px;
-}
+    <section class="panel" id="click-panel">
+      <h2>Click</h2>
+      <button id="clickBtn" class="big-btn">Clique Aqui!</button>
+      <div>Pontos: <span id="score">0</span></div>
+      <div>Poder do clique: <span id="clickPower">1</span></div>
+    </section>
 
-/* Painéis organizados */
-.panel {
-  background: #222;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 0 15px #0ff6;
-  text-align: center;
-  transition: background 0.3s ease;
-}
+    <section class="panel" id="auto-clicker-panel">
+      <h2>Auto Clickers</h2>
+      <button id="buyAutoClickerBtn">Comprar Auto Clicker (<span id="autoClickerCost">50</span>)</button>
+      <div>Quantidade: <span id="autoClickers">0</span></div>
+    </section>
 
-.panel h2 {
-  margin-top: 0;
-  margin-bottom: 15px;
-  color: #0ff;
-  text-shadow: 0 0 5px #0ff;
-}
+    <section class="panel" id="multiplier-panel">
+      <h2>Multiplicador</h2>
+      <button id="buyMultiplierBtn">Comprar Multiplicador (<span id="multiplierCost">100</span>)</button>
+      <div>Quantidade: <span id="multiplierCount">0</span></div>
+    </section>
 
-/* Botões principais */
-.big-btn {
-  font-size: 1.5rem;
-  padding: 15px 25px;
-  border: none;
-  border-radius: 10px;
-  background: #00ffcc;
-  color: #000;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 0 10px #00ffccaa;
-  transition: background 0.3s ease;
-}
+    <section class="panel" id="upgrade-panel">
+      <h2>Upgrade Clique</h2>
+      <button id="upgradeClickPowerBtn">Melhorar Clique (<span id="upgradeClickPowerCost">10</span>)</button>
+      <div>Quantidade para comprar:
+        <button class="upgradeAmountBtn active" data-amount="1">1</button>
+        <button class="upgradeAmountBtn" data-amount="10">10</button>
+        <button class="upgradeAmountBtn" data-amount="100">100</button>
+      </div>
+    </section>
 
-.big-btn:hover {
-  background: #00ccaa;
-  box-shadow: 0 0 15px #00ccaa;
-}
+    <section class="panel" id="boost-panel">
+      <h2>Boosts</h2>
+      <button id="speedBoostBtn">Boost Velocidade (20 gems)</button>
+      <button id="multiplierBoostBtn">Boost Multiplicador (50 gems)</button>
+      <button id="buyGemsBtn">Comprar 100 Gems</button>
+      <div>Gemas: <span id="gemsCount">0</span></div>
+    </section>
 
-/* Botões upgrade */
-button {
-  cursor: pointer;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  background: #0ff;
-  color: #000;
-  font-weight: 600;
-  margin: 5px;
-  box-shadow: 0 0 8px #0ff9;
-  transition: background 0.3s ease;
-}
+    <section class="panel" id="xp-level-panel">
+      <h2>XP e Nível</h2>
+      <div>Nível: <span id="levelDisplay">1</span></div>
+      <div class="xp-bar-bg">
+        <div id="xpBar" class="xp-bar-fill"></div>
+      </div>
+    </section>
 
-button:hover {
-  background: #0cc;
-  box-shadow: 0 0 12px #0cc;
-}
+    <section class="panel" id="rebirth-panel">
+      <h2>Rebirth</h2>
+      <button id="rebirthBtn">Rebirth</button>
+      <div>Rebirths: <span id="rebirthCount">0</span></div>
+    </section>
 
-button.active {
-  background: #0aa;
-  color: #fff;
-  box-shadow: 0 0 14px #0aa;
-}
+    <section class="panel" id="reset-panel">
+      <h2>Reset</h2>
+      <button id="resetBtn" class="danger-btn">Resetar Jogo</button>
+    </section>
 
-.danger-btn {
-  background: #ff4444;
-  color: #fff;
-  box-shadow: 0 0 12px #f44;
-}
+    <section class="panel" id="cps-panel">
+      <h2>Clicks por segundo</h2>
+      <div><span id="cps">0</span></div>
+    </section>
 
-.danger-btn:hover {
-  background: #cc0000;
-  box-shadow: 0 0 18px #c00;
-}
+  </div>
 
-/* Botão tema */
-.theme-btn {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  background: #0ff;
-  border: none;
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  cursor: pointer;
-  font-size: 1.3rem;
-  color: #000;
-  box-shadow: 0 0 10px #0ff;
-  transition: background 0.3s ease;
-}
+  <!-- Sons -->
+  <audio id="clickSound" src="click.mp3" preload="auto"></audio>
+  <audio id="buySound" src="buy.mp3" preload="auto"></audio>
+  <audio id="boostSound" src="boost.mp3" preload="auto"></audio>
 
-.theme-btn:hover {
-  background: #0cc;
-  box-shadow: 0 0 15px #0cc;
-}
-
-/* Tema escuro */
-body.dark {
-  background: #111;
-  color: #0ff;
-}
-
-body.dark .panel {
-  background: #003333;
-  box-shadow: 0 0 25px #0ff9;
-}
-
-body.dark button {
-  background: #0ff;
-  color: #000;
-  box-shadow: 0 0 12px #0ff9;
-}
-
-body.dark button:hover {
-  background: #0cc;
-  box-shadow: 0 0 15px #0cc;
-}
-
-body.dark .big-btn {
-  background: #00ffcc;
-  color: #000;
-  box-shadow: 0 0 15px #00ffccaa;
-}
-
-body.dark .big-btn:hover {
-  background: #00ccaa;
-  box-shadow: 0 0 18px #00ccaa;
-}
-
-/* Luz piscando nos cantos */
-@keyframes piscarLuz {
-  0%, 100% { box-shadow: 0 0 15px 5px #0ff; }
-  50% { box-shadow: 0 0 35px 15px #0ff; }
-}
-
-body::before, body::after,
-#click-panel::before, #click-panel::after {
-  content: '';
-  position: fixed;
-  border-radius: 50%;
-  opacity: 0.5;
-  pointer-events: none;
-  animation: piscarLuz 3s infinite ease-in-out;
-  filter: drop-shadow(0 0 5px #0ff);
-}
-
-body::before {
-  top: 20px;
-  left: 20px;
-  width: 100px;
-  height: 100px;
-}
-
-body::after {
-  bottom: 20px;
-  right: 20px;
-  width: 120px;
-  height: 120px;
-}
-
-/* Ajuste para botões pequenos em upgrade */
-#upgrades-panel div button {
-  min-width: 45px;
-}
+  <script src="script.js"></script>
+</body>
+</html>
