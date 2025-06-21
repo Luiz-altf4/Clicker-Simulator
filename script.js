@@ -24,7 +24,7 @@ let autoClickerCost = 50;
 
 let multiplierCount = 0;
 let multiplierCost = 100;
-let multiplierEffect = 1; // vai multiplicar o clickPower
+let multiplierEffect = 1;
 
 // Salva no localStorage
 function saveGame() {
@@ -49,7 +49,7 @@ function loadGame() {
   const savedMultiplierCost = localStorage.getItem('multiplierCost');
   const savedMultiplierEffect = localStorage.getItem('multiplierEffect');
 
-  if (savedScore !== null) score = parseInt(savedScore, 10);
+  if (savedScore !== null) score = parseFloat(savedScore);
   if (savedClickPower !== null) clickPower = parseInt(savedClickPower, 10);
   if (savedUpgradeClickPowerCost !== null) upgradeClickPowerCost = parseInt(savedUpgradeClickPowerCost, 10);
   if (savedAutoClickers !== null) autoClickers = parseInt(savedAutoClickers, 10);
@@ -63,7 +63,8 @@ function loadGame() {
 
 // Atualiza a interface e desabilita botões quando não pode comprar
 function updateDisplay() {
-  scoreDisplay.textContent = score;
+  // Mostrar score com 1 casa decimal (remove .0 se for inteiro)
+  scoreDisplay.textContent = score % 1 === 0 ? score.toString() : score.toFixed(1);
   clickPowerDisplay.textContent = clickPower * multiplierEffect;
   upgradeClickPowerCostDisplay.textContent = upgradeClickPowerCost;
   autoClickersDisplay.textContent = autoClickers;
@@ -73,7 +74,6 @@ function updateDisplay() {
 
   cpsDisplay.textContent = `Clicks por segundo: ${(autoClickers * clickPower * multiplierEffect).toFixed(1)}`;
 
-  // Desabilita botões se o usuário não tiver pontos suficientes
   upgradeClickPowerBtn.disabled = score < upgradeClickPowerCost;
   buyAutoClickerBtn.disabled = score < autoClickerCost;
   buyMultiplierBtn.disabled = score < multiplierCost;
@@ -129,17 +129,17 @@ buyMultiplierBtn.addEventListener('click', () => {
   }
 });
 
-// Função que gera clicks automáticos a cada 100ms para ser mais suave
+// Função que gera clicks automáticos a cada 1000ms (1 segundo)
 function autoClickerInterval() {
   if (autoClickers > 0) {
-    score += (autoClickers * clickPower * multiplierEffect) / 10;
+    score += autoClickers * clickPower * multiplierEffect;
     updateDisplay();
     saveGame();
     animateScore();
   }
 }
 
-setInterval(autoClickerInterval, 100);
+setInterval(autoClickerInterval, 1000);
 
 // Inicializa jogo
 loadGame();
