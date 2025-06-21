@@ -1,39 +1,29 @@
 /* Reset básico */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
 }
 
 body {
-  background: #f0f4f8;
+  font-family: 'Poppins', sans-serif;
+  background: #f0f2f5;
   color: #222;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 20px;
-  transition: background 0.3s, color 0.3s;
-}
-
-body.dark {
-  background: #121212;
-  color: #ddd;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .container {
-  width: 360px;
-  background: white;
-  padding: 20px;
+  max-width: 480px;
+  width: 100%;
+  background: #fff;
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  transition: background 0.3s, color 0.3s;
-}
-
-body.dark .container {
-  background: #1e1e1e;
-  color: #ddd;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  padding: 25px 30px 40px;
 }
 
 header {
@@ -44,352 +34,401 @@ header {
 }
 
 header h1 {
-  font-size: 1.4rem;
   font-weight: 700;
+  font-size: 1.8rem;
+  color: #4a90e2;
+  user-select: none;
 }
 
 #toggleThemeBtn {
+  font-size: 1.4rem;
   background: transparent;
   border: none;
-  font-size: 1.5rem;
   cursor: pointer;
-  color: inherit;
-  transition: transform 0.2s;
+  color: #4a90e2;
+  transition: color 0.3s;
 }
 
 #toggleThemeBtn:hover {
-  transform: rotate(20deg);
+  color: #357ABD;
 }
 
-/* Stats e botão click */
 .stats {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .score-section {
   width: 100%;
+  margin-bottom: 15px;
   text-align: center;
-  margin-bottom: 12px;
 }
 
 #score {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 4px;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #2c3e50;
+  margin-bottom: 5px;
+  user-select: none;
 }
 
 #cps {
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 12px;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #7f8c8d;
+  margin-bottom: 15px;
+  user-select: none;
 }
 
 #xpBarContainer {
+  background: #d1d5db;
+  border-radius: 12px;
+  height: 18px;
   width: 100%;
-  background: #ddd;
-  height: 12px;
-  border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
 }
 
 #xpBar {
-  background: #4caf50;
+  background: #4a90e2;
   height: 100%;
   width: 0%;
-  transition: width 0.3s;
+  transition: width 0.3s ease-in-out;
 }
 
 #levelDisplay {
-  font-size: 0.9rem;
-  color: #333;
+  font-weight: 600;
+  color: #34495e;
+  text-align: right;
+  user-select: none;
 }
 
-/* Botão grande de clique */
-.big-btn {
-  background: #2196f3;
+#clickBtn {
+  background: #4a90e2;
   color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 15px 0;
-  width: 100%;
-  font-size: 1.4rem;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(33, 150, 243, 0.4);
-  transition: background 0.3s;
-}
-
-.big-btn:hover {
-  background: #1976d2;
-}
-
-/* Seção upgrades */
-.upgrades {
-  margin-bottom: 20px;
-}
-
-.upgrades h2 {
-  font-size: 1.2rem;
-  margin-bottom: 12px;
-  text-align: center;
-}
-
-/* Batch selector */
-.batch-selector {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 15px;
-}
-
-.batch-btn {
-  background: #eee;
-  border: 1.5px solid #aaa;
-  border-radius: 8px;
-  margin: 0 5px;
-  padding: 8px 14px;
+  font-size: 1.5rem;
   font-weight: 700;
+  padding: 18px 25px;
+  border-radius: 10px;
+  border: none;
   cursor: pointer;
-  transition: background 0.3s, border-color 0.3s;
+  width: 100%;
+  box-shadow: 0 6px #357ABD;
+  transition: background-color 0.3s ease;
+  user-select: none;
 }
 
-.batch-btn.active,
-.batch-btn:hover {
-  background: #2196f3;
+#clickBtn:hover {
+  background: #357ABD;
+}
+
+#clickBtn:active {
+  box-shadow: 0 3px #2c5ca6;
+  transform: translateY(3px);
+}
+
+section {
+  margin-bottom: 30px;
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #34495e;
+  margin-bottom: 15px;
+  user-select: none;
+}
+
+/* Upgrade amount buttons */
+.upgrade-amount {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: #555;
+  user-select: none;
+}
+
+.upgradeAmountBtn {
+  background: #ecf0f1;
+  border: none;
+  padding: 7px 15px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #34495e;
+  transition: background-color 0.3s, color 0.3s;
+  user-select: none;
+}
+
+.upgradeAmountBtn:hover {
+  background: #bdc3c7;
+}
+
+.upgradeAmountBtn.active {
+  background: #4a90e2;
   color: white;
-  border-color: #1976d2;
 }
 
 /* Upgrade boxes */
 .upgrade-box {
-  background: #f9f9f9;
-  border-radius: 10px;
-  padding: 12px;
+  background: #f7f9fc;
+  border-radius: 12px;
+  padding: 15px 20px;
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
   margin-bottom: 12px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-  transition: background 0.3s;
-}
-
-body.dark .upgrade-box {
-  background: #2a2a2a;
+  user-select: none;
 }
 
 .upgrade-box p {
-  margin-bottom: 8px;
   font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 10px;
 }
 
 .upgrade-box button {
-  background: #4caf50;
-  border: none;
-  border-radius: 8px;
+  background: #2980b9;
   color: white;
-  padding: 10px;
-  width: 100%;
   font-weight: 700;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background 0.3s;
+  box-shadow: 0 5px #1f6391;
+  transition: background-color 0.3s ease;
 }
 
 .upgrade-box button:hover {
-  background: #388e3c;
+  background: #1f6391;
+}
+
+.upgrade-box button:active {
+  box-shadow: 0 2px #1a5276;
+  transform: translateY(3px);
 }
 
 /* Boosts */
-.boosts {
-  margin-bottom: 20px;
-}
-
-.boosts h2 {
-  font-size: 1.2rem;
-  margin-bottom: 12px;
-  text-align: center;
-}
-
 .boosts button {
-  background: #ff9800;
-  border: none;
-  border-radius: 12px;
+  background: #e67e22;
   color: white;
-  padding: 12px;
-  width: 100%;
   font-weight: 700;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 12px;
   cursor: pointer;
-  margin-bottom: 8px;
-  transition: background 0.3s;
+  width: 100%;
+  margin-bottom: 10px;
+  box-shadow: 0 5px #ba6e17;
+  transition: background-color 0.3s ease;
+  user-select: none;
 }
 
 .boosts button:hover {
-  background: #f57c00;
+  background: #ba6e17;
+}
+
+.boosts button:active {
+  box-shadow: 0 2px #8e5310;
+  transform: translateY(3px);
 }
 
 /* Loja */
-.shop {
-  margin-bottom: 20px;
-}
-
-.shop h2 {
-  font-size: 1.2rem;
-  margin-bottom: 8px;
-  text-align: center;
-}
-
 .shop div {
   font-weight: 700;
+  font-size: 1.2rem;
   margin-bottom: 10px;
-  text-align: center;
-  font-size: 1.1rem;
+  user-select: none;
 }
 
 .shop button {
-  background: #9c27b0;
-  border: none;
-  border-radius: 12px;
+  background: #27ae60;
   color: white;
-  padding: 12px;
-  width: 100%;
   font-weight: 700;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s;
+  width: 100%;
+  box-shadow: 0 5px #1e8449;
+  transition: background-color 0.3s ease;
 }
 
 .shop button:hover {
-  background: #7b1fa2;
+  background: #1e8449;
+}
+
+.shop button:active {
+  box-shadow: 0 2px #145a32;
+  transform: translateY(3px);
 }
 
 /* Rebirth */
 .rebirth-section {
   text-align: center;
-  margin-bottom: 20px;
+  user-select: none;
 }
 
 #rebirthBtn {
-  background: #e91e63;
-  border: none;
-  border-radius: 12px;
+  background: #8e44ad;
   color: white;
-  padding: 14px 0;
-  width: 100%;
   font-weight: 700;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 15px;
   cursor: pointer;
-  transition: background 0.3s;
-  font-size: 1.1rem;
+  margin-top: 10px;
+  box-shadow: 0 6px #6c3483;
+  transition: background-color 0.3s ease;
 }
 
-#rebirthBtn:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-  color: #888;
+#rebirthBtn:hover {
+  background: #6c3483;
 }
 
-#rebirthBtn:hover:enabled {
-  background: #ad1457;
-}
-
-.rebirth-info {
-  margin-top: 8px;
-  font-size: 0.9rem;
-  font-style: italic;
-  color: #555;
+#rebirthBtn:active {
+  box-shadow: 0 3px #512e5f;
+  transform: translateY(3px);
 }
 
 /* Reset */
 .reset-section {
   text-align: center;
-  margin-bottom: 10px;
 }
 
 .reset-btn {
-  background: #f44336;
-  border: none;
-  border-radius: 12px;
+  background: #c0392b;
   color: white;
-  padding: 12px 0;
-  width: 100%;
   font-weight: 700;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s;
-  font-size: 1.1rem;
+  box-shadow: 0 5px #922b21;
+  transition: background-color 0.3s ease;
+  user-select: none;
 }
 
 .reset-btn:hover {
-  background: #c62828;
+  background: #922b21;
 }
 
-/* Missões e conquistas placeholders */
-.missions, .achievements {
-  margin-bottom: 20px;
+.reset-btn:active {
+  box-shadow: 0 2px #6e2118;
+  transform: translateY(3px);
 }
 
-.missions h2, .achievements h2 {
-  font-size: 1.2rem;
-  margin-bottom: 8px;
-  text-align: center;
+/* Dark Theme */
+body.dark {
+  background: #121212;
+  color: #eee;
 }
 
-#misisonsList, #achievementsList {
-  list-style: none;
-  max-height: 100px;
-  overflow-y: auto;
-  padding-left: 15px;
-  color: #666;
-  font-size: 0.9rem;
+body.dark .container {
+  background: #1e1e1e;
+  box-shadow: 0 15px 40px rgba(255, 255, 255, 0.1);
 }
 
-/* Dark mode adjustments */
-body.dark .batch-btn {
+body.dark header h1,
+body.dark #toggleThemeBtn {
+  color: #9b59b6;
+}
+
+body.dark #score {
+  color: #dcd6f7;
+}
+
+body.dark #cps,
+body.dark #levelDisplay {
+  color: #a39ec6;
+}
+
+body.dark #xpBarContainer {
   background: #333;
-  border-color: #555;
-  color: #ccc;
 }
 
-body.dark .batch-btn.active,
-body.dark .batch-btn:hover {
-  background: #64b5f6;
-  border-color: #64b5f6;
-  color: #000;
+body.dark #xpBar {
+  background: #9b59b6;
 }
 
-body.dark .big-btn {
-  background: #1976d2;
-  box-shadow: 0 4px 10px rgba(25, 118, 210, 0.6);
+body.dark #clickBtn {
+  background: #9b59b6;
+  box-shadow: 0 6px #7d3c98;
 }
 
-body.dark .big-btn:hover {
-  background: #1565c0;
+body.dark #clickBtn:hover {
+  background: #7d3c98;
+}
+
+body.dark .upgrade-box {
+  background: #292929;
+  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+}
+
+body.dark .upgrade-box p,
+body.dark .upgradeAmountBtn,
+body.dark h2 {
+  color: #dcd6f7;
+}
+
+body.dark .upgradeAmountBtn {
+  background: #3c3c3c;
+  color: #dcd6f7;
+}
+
+body.dark .upgradeAmountBtn.active {
+  background: #9b59b6;
+  color: #fff;
+}
+
+body.dark .upgradeAmountBtn:hover {
+  background: #7d3c98;
 }
 
 body.dark .upgrade-box button {
-  background: #388e3c;
+  background: #8e44ad;
+  box-shadow: 0 5px #6c3483;
 }
 
 body.dark .upgrade-box button:hover {
-  background: #2e7d32;
+  background: #6c3483;
 }
 
 body.dark .boosts button {
-  background: #ef6c00;
+  background: #9b59b6;
+  box-shadow: 0 5px #6c3483;
 }
 
 body.dark .boosts button:hover {
-  background: #e65100;
+  background: #6c3483;
 }
 
 body.dark .shop button {
-  background: #7b1fa2;
+  background: #27ae60;
+  box-shadow: 0 5px #1e8449;
 }
 
 body.dark .shop button:hover {
-  background: #6a1b9a;
+  background: #1e8449;
 }
 
-body.dark #rebirthBtn:enabled:hover {
-  background: #880e4f;
+body.dark #rebirthBtn {
+  background: #9b59b6;
+  box-shadow: 0 6px #6c3483;
+}
+
+body.dark #rebirthBtn:hover {
+  background: #6c3483;
+}
+
+body.dark .reset-btn {
+  background: #c0392b;
+  box-shadow: 0 5px #922b21;
 }
 
 body.dark .reset-btn:hover {
-  background: #b71c1c;
+  background: #922b21;
 }
-
