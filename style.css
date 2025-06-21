@@ -1,83 +1,99 @@
 /* style.css */
+
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #111;
+  font-family: Arial, sans-serif;
+  background-color: #111;
   color: #fff;
-  text-align: center;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 
-#game {
-  padding: 2rem;
+.container {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #1a1a1a;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  position: relative;
+}
+
+h1, h2 {
+  text-align: center;
 }
 
 button {
-  margin: 0.5rem;
-  padding: 0.7rem 1.5rem;
-  background: #222;
-  color: #fff;
-  border: 2px solid #555;
-  border-radius: 8px;
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  font-size: 1rem;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background: #444;
+  background-color: #555;
 }
 
-#xpBarContainer {
-  width: 80%;
-  height: 20px;
+.panel {
+  margin-top: 20px;
+  padding: 15px;
+  background: #222;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+.xp-bar-container {
+  width: 100%;
   background: #333;
-  border-radius: 10px;
-  margin: auto;
-  margin-bottom: 1rem;
+  border-radius: 5px;
+  height: 20px;
+  overflow: hidden;
+  margin-bottom: 10px;
 }
 
-#xpBar {
+.xp-bar {
   height: 100%;
-  background: #0ff;
-  border-radius: 10px;
+  background: limegreen;
   width: 0%;
+  transition: width 0.5s ease;
 }
 
-#shop {
-  margin-top: 2rem;
-  background: #1a1a1a;
-  border: 2px solid #333;
-  padding: 1rem;
-  border-radius: 12px;
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.shop-section {
-  margin-bottom: 1rem;
-}
-
-.hidden {
-  display: none;
-}
-
+/* Dark theme toggle */
 .dark {
-  background: #000;
-  color: #0f0;
+  background-color: #000;
+  color: #fff;
 }
 
-@keyframes flashCorners {
-  0%, 100% { box-shadow: 0 0 20px #0ff; }
-  50% { box-shadow: 0 0 60px #f0f; }
+/* Luz piscando nos cantos */
+@keyframes piscar {
+  0%, 100% {
+    box-shadow: 0 0 30px 5px rgba(0, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 50px 15px rgba(0, 255, 255, 0.2);
+  }
 }
 
-body::before {
+body::before, body::after {
   content: "";
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  pointer-events: none;
-  box-shadow: 0 0 20px #0ff;
-  animation: flashCorners 2s infinite;
-  z-index: 9999;
+  top: 0;
+  width: 100%;
+  height: 20px;
+  background: transparent;
+  box-shadow: 0 0 20px cyan;
+  animation: piscar 2s infinite;
+  z-index: -1;
+}
+
+body::after {
+  top: auto;
+  bottom: 0;
 }
