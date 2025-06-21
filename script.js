@@ -4,19 +4,12 @@ let autoClickers = 0;
 let multiplier = 1;
 let multiplierCount = 0;
 let cps = 0;
-let level = 1;
-let xp = 0;
 let gems = 0;
 
-let speedBoostActive = false;
-let multiplierBoostActive = false;
-
-const clickSound = document.getElementById("clickSound");
-const buySound = document.getElementById("buySound");
-const boostSound = document.getElementById("boostSound");
-
+// Elements
 const scoreDisplay = document.getElementById("score");
 const clickBtn = document.getElementById("clickBtn");
+
 const clickPowerSpan = document.getElementById("clickPower");
 const upgradeClickPowerBtn = document.getElementById("upgradeClickPowerBtn");
 const upgradeClickPowerCostSpan = document.getElementById("upgradeClickPowerCost");
@@ -30,141 +23,61 @@ const multiplierCountSpan = document.getElementById("multiplierCount");
 const buyMultiplierBtn = document.getElementById("buyMultiplierBtn");
 
 const cpsDisplay = document.getElementById("cps");
-const xpBar = document.getElementById("xpBar");
-const levelDisplay = document.getElementById("levelDisplay");
 const gemsDisplay = document.getElementById("gemsCount");
 
-const speedBoostBtn = document.getElementById("speedBoostBtn");
-const multiplierBoostBtn = document.getElementById("multiplierBoostBtn");
 const buyGemsBtn = document.getElementById("buyGemsBtn");
+const toggleThemeBtn = document.getElementById("toggleThemeBtn");
 
-const speedBoostActiveDiv = document.getElementById("speedBoostActive");
-const multiplierBoostActiveDiv = document.getElementById("multiplierBoostActive");
+const saveScoreBtn = document.getElementById("saveScoreBtn");
+const rankingList = document.getElementById("rankingList");
 
-// --- CLICKER ---
+// --- Funções do jogo ---
+
 clickBtn.addEventListener("click", () => {
   score += clickPower * multiplier;
-  xp += 1;
-  clickSound.play();
   atualizar();
 });
 
-// --- UPGRADE: CLICK POWER ---
 upgradeClickPowerBtn.addEventListener("click", () => {
   const cost = Math.floor(10 * Math.pow(1.5, clickPower - 1));
   if (score >= cost) {
     score -= cost;
     clickPower++;
-    buySound.play();
     atualizar();
   }
 });
 
-// --- UPGRADE: AUTOCLICKER ---
 buyAutoClickerBtn.addEventListener("click", () => {
   const cost = 50 * (autoClickers + 1);
   if (score >= cost) {
     score -= cost;
     autoClickers++;
-    buySound.play();
     atualizar();
   }
 });
 
-// --- UPGRADE: MULTIPLICADOR ---
 buyMultiplierBtn.addEventListener("click", () => {
   const cost = 100 * (multiplierCount + 1);
   if (score >= cost) {
     score -= cost;
     multiplier *= 2;
     multiplierCount++;
-    buySound.play();
     atualizar();
   }
 });
 
-// --- BOOST: VELOCIDADE ---
-speedBoostBtn.addEventListener("click", () => {
-  if (gems >= 20 && !speedBoostActive) {
-    gems -= 20;
-    buySound.play();
-    speedBoostActive = true;
-    speedBoostActiveDiv.hidden = false;
-    boostSound.play();
-
-    let boostInterval = setInterval(() => {
-      score += clickPower * multiplier;
-      atualizar();
-    }, 100);
-
-    setTimeout(() => {
-      clearInterval(boostInterval);
-      speedBoostActive = false;
-      speedBoostActiveDiv.hidden = true;
-    }, 30000);
-
-    atualizar();
-  }
-});
-
-// --- BOOST: MULTIPLICADOR x5 ---
-multiplierBoostBtn.addEventListener("click", () => {
-  if (gems >= 50 && !multiplierBoostActive) {
-    gems -= 50;
-    buySound.play();
-    multiplierBoostActive = true;
-    multiplierBoostActiveDiv.hidden = false;
-    multiplier *= 5;
-    boostSound.play();
-
-    setTimeout(() => {
-      multiplier /= 5;
-      multiplierBoostActive = false;
-      multiplierBoostActiveDiv.hidden = true;
-      atualizar();
-    }, 30000);
-
-    atualizar();
-  }
-});
-
-// --- LOJA ---
 buyGemsBtn.addEventListener("click", () => {
   gems += 100;
-  buySound.play();
   atualizar();
 });
 
-// --- AUTOCLICK ---
 setInterval(() => {
   score += autoClickers * multiplier;
   cps = autoClickers * multiplier;
   atualizar();
 }, 1000);
 
-// --- LEVEL UP ---
-function verificarLevelUp() {
-  if (xp >= level * 100) {
-    xp = 0;
-    level++;
-    gems += 10;
-    buySound.play();
-    animarLevelUp();
-  }
-}
-
-// --- ANIMAÇÃO LEVEL UP ---
-function animarLevelUp() {
-  levelDisplay.classList.add("level-up");
-  setTimeout(() => {
-    levelDisplay.classList.remove("level-up");
-  }, 1500);
-}
-
-// --- ATUALIZA INTERFACE ---
 function atualizar() {
-  verificarLevelUp();
-
   scoreDisplay.textContent = Math.floor(score);
   clickPowerSpan.textContent = clickPower;
   upgradeClickPowerCostSpan.textContent = Math.floor(10 * Math.pow(1.5, clickPower - 1));
@@ -176,18 +89,30 @@ function atualizar() {
   multiplierCostSpan.textContent = 100 * (multiplierCount + 1);
 
   cpsDisplay.textContent = `Clicks por segundo: ${cps}`;
-  levelDisplay.textContent = `Nível: ${level}`;
-  xpBar.style.width = `${(xp / (level * 100)) * 100}%`;
-
   gemsDisplay.textContent = gems;
 }
 
-// --- TEMA ---
-document.getElementById("toggleThemeBtn").addEventListener("click", () => {
+// Tema dark toggle simples
+toggleThemeBtn.addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-// === 🏆 RANKING FIREBASE ===
+// Firebase setup (lembre de configurar o Firebase e adicionar o SDK no html se ainda não fez)
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAT4F4_k9zmi9PtqUST8oiOHw5k7f1uPfg",
+  authDomain: "clicker-ranking.firebaseapp.com",
+  projectId: "clicker-ranking",
+  storageBucket: "clicker-ranking.firebasestorage.app",
+  messagingSenderId: "72533988657",
+  appId: "1:72533988657:web:b3afb73f21926b0a1ccc10",
+  measurementId: "G-JPPX1JJ5VC"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// Ranking firebase
 
 async function salvarScore(nome, score) {
   if (!nome) return;
@@ -222,8 +147,6 @@ async function pegarRanking() {
 
 async function atualizarRanking() {
   const ranking = await pegarRanking();
-  const rankingList = document.getElementById('rankingList');
-  if (!rankingList) return;
   rankingList.innerHTML = "";
   ranking.forEach((jogador, i) => {
     const li = document.createElement('li');
@@ -232,17 +155,16 @@ async function atualizarRanking() {
   });
 }
 
-// Pergunta nome e salva score
-function pedirNomeESalvarScore() {
+// Salvar score com prompt
+saveScoreBtn.addEventListener("click", () => {
   const nome = prompt("Digite seu nome para o ranking:");
   if (nome && score > 0) {
     salvarScore(nome, score).then(() => {
       atualizarRanking();
     });
   }
-}
+});
 
-// Inicializa ranking e interface ao carregar
 window.addEventListener("load", () => {
   atualizarRanking();
   atualizar();
