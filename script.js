@@ -5,6 +5,8 @@ let multiplier = 1;
 let multiplierCount = 0;
 let cps = 0;
 let gems = 0;
+let level = 1;
+let xp = 0;
 
 const scoreDisplay = document.getElementById("score");
 const clickBtn = document.getElementById("clickBtn");
@@ -26,11 +28,17 @@ const gemsDisplay = document.getElementById("gemsCount");
 
 const buyGemsBtn = document.getElementById("buyGemsBtn");
 
+const levelDisplay = document.getElementById("levelDisplay");
+const xpBar = document.getElementById("xpBar");
+
+// CLICK
 clickBtn.addEventListener("click", () => {
   score += clickPower * multiplier;
+  xp += 1;
   atualizar();
 });
 
+// UPGRADE CLICK POWER
 upgradeClickPowerBtn.addEventListener("click", () => {
   const cost = Math.floor(10 * Math.pow(1.5, clickPower - 1));
   if (score >= cost) {
@@ -40,6 +48,7 @@ upgradeClickPowerBtn.addEventListener("click", () => {
   }
 });
 
+// UPGRADE AUTOCLICKER
 buyAutoClickerBtn.addEventListener("click", () => {
   const cost = 50 * (autoClickers + 1);
   if (score >= cost) {
@@ -49,6 +58,7 @@ buyAutoClickerBtn.addEventListener("click", () => {
   }
 });
 
+// UPGRADE MULTIPLICADOR
 buyMultiplierBtn.addEventListener("click", () => {
   const cost = 100 * (multiplierCount + 1);
   if (score >= cost) {
@@ -59,18 +69,33 @@ buyMultiplierBtn.addEventListener("click", () => {
   }
 });
 
+// COMPRA GEMAS SIMULADO
 buyGemsBtn.addEventListener("click", () => {
   gems += 100;
   atualizar();
 });
 
+// AUTO CLICKER FUNCIONANDO
 setInterval(() => {
   score += autoClickers * multiplier;
   cps = autoClickers * multiplier;
+  xp += autoClickers * multiplier;
   atualizar();
 }, 1000);
 
+// LEVEL UP
+function verificarLevelUp() {
+  if (xp >= level * 100) {
+    xp = 0;
+    level++;
+    gems += 10;
+  }
+}
+
+// ATUALIZA TELA
 function atualizar() {
+  verificarLevelUp();
+
   scoreDisplay.textContent = Math.floor(score);
   clickPowerSpan.textContent = clickPower;
   upgradeClickPowerCostSpan.textContent = Math.floor(10 * Math.pow(1.5, clickPower - 1));
@@ -83,14 +108,17 @@ function atualizar() {
 
   cpsDisplay.textContent = `Clicks por segundo: ${cps}`;
   gemsDisplay.textContent = gems;
+
+  levelDisplay.textContent = `Nível: ${level}`;
+  xpBar.style.width = `${(xp / (level * 100)) * 100}%`;
 }
 
-// Tema dark toggle simples
+// TOGGLE DARK MODE
 document.getElementById("toggleThemeBtn").addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-// Inicializa interface no load
+// INICIALIZA TELA
 window.addEventListener("load", () => {
   atualizar();
 });
