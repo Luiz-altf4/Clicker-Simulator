@@ -3,25 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator FULL</title>
+  <title>Clicker Simulator - Reset</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>🚀 Clicker do Luiz - FULL</h1>
+      <h1>🚀 Clicker Simulator Reset</h1>
       <button id="toggleThemeBtn" title="Trocar tema">🌙</button>
     </header>
 
     <div class="stats">
-      <div class="score-section">
-        <div id="score">0</div>
-        <div id="cps">Clicks por segundo: 0</div>
-        <div id="xpBarContainer">
-          <div id="xpBar"></div>
-          <div id="levelDisplay">Nível: 1</div>
-        </div>
+      <div id="score">0</div>
+      <div id="cps">Clicks por segundo: 0</div>
+      <div id="xpBarContainer">
+        <div id="xpBar"></div>
+        <div id="levelDisplay">Nível: 1</div>
       </div>
       <button id="clickBtn">Clique Aqui!</button>
     </div>
@@ -60,11 +58,8 @@
     <section class="ranking">
       <h2>Ranking Online</h2>
       <button id="saveScoreBtn">Salvar minha pontuação</button>
-      <ul id="rankingList">
-        <!-- Ranking será carregado aqui -->
-      </ul>
+      <ul id="rankingList"></ul>
     </section>
-
   </div>
 
   <audio id="clickSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
