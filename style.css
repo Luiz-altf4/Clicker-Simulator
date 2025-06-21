@@ -1,24 +1,17 @@
-/* Reset básico */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0; padding: 0; box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
 
 body {
-  background: #f0f2f5;
-  color: #222;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
+  background: #f0f2f5; color: #222;
+  display: flex; justify-content: center;
+  padding: 20px; min-height: 100vh;
   transition: background 0.3s, color 0.3s;
-  min-height: 100vh;
 }
 
 body.dark {
-  background: #121212;
-  color: #eee;
+  background: #121212; color: #eee;
 }
 
 .container {
@@ -36,9 +29,7 @@ body.dark .container {
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex; justify-content: space-between; align-items: center;
   margin-bottom: 25px;
 }
 
