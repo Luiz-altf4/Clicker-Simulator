@@ -1,4 +1,4 @@
-// Variáveis principais
+// Variáveis do jogo
 let score = 0;
 let clickPower = 1;
 let autoClickers = 0;
@@ -9,7 +9,6 @@ let level = 1;
 let xp = 0;
 let gems = 0;
 let rebirths = 0;
-let batchAmount = 1; // Para botões 1x, 10x, 100x
 
 // Sons
 const clickSound = document.getElementById("clickSound");
@@ -41,163 +40,118 @@ const multiplierBoostBtn = document.getElementById("multiplierBoostBtn");
 const buyGemsBtn = document.getElementById("buyGemsBtn");
 
 const rebirthBtn = document.getElementById("rebirthBtn");
-const rebirthInfo = document.getElementById("rebirthInfo");
+const rebirthCountSpan = document.getElementById("rebirthCount");
 
 const resetBtn = document.getElementById("resetBtn");
 
-const batchButtons = document.querySelectorAll(".batch-btn");
+const upgradeAmountBtns = document.querySelectorAll(".upgradeAmountBtn");
+let upgradeAmount = 1; // Default comprar 1 upgrade por vez
 
-// Formatação números grande escala
-function formatNumber(num) {
+// Array com as potências para as unidades do rebirth, até 100 níveis
+const rebirthCostsPowers = [
+  3, 6, 9, 12, 15, 18, 21, 24, 27, 30,
+  33, 36, 39, 42, 45, 48, 51, 54, 57, 60,
+  63, 66, 69, 72, 75, 78, 81, 84, 87, 90,
+  93, 96, 99, 102, 105, 108, 111, 114, 117, 120,
+  123, 126, 129, 132, 135, 138, 141, 144, 147, 150,
+  153, 156, 159, 162, 165, 168, 171, 174, 177, 180,
+  183, 186, 189, 192, 195, 198, 201, 204, 207, 210,
+  213, 216, 219, 222, 225, 228, 231, 234, 237, 240,
+  243, 246, 249, 252, 255, 258, 261, 264, 267, 270,
+  273, 276, 279, 282, 285, 288, 291, 294, 297, 300
+];
+
+// Função para calcular custo do rebirth com base na quantidade de rebirths já feitas
+function custoRebirth(rebirthCount) {
+  if (rebirthCount < rebirthCostsPowers.length) {
+    return Math.pow(10, rebirthCostsPowers[rebirthCount]);
+  } else {
+    // Crescimento infinito após 100 níveis (linear + potência máxima)
+    return Math.pow(10, rebirthCostsPowers[rebirthCostsPowers.length - 1]) + (rebirthCount - rebirthCostsPowers.length + 1) * 1e300;
+  }
+}
+
+// Função para formatar números grandes com unidades tipo 1k, 1M, 1B, 1T, etc até infinito
+function formatarNumero(num) {
   if (num < 1000) return num.toFixed(0);
-  const units = [
-    "", "K", "M", "B", "T", "Q", "Qi", "Sx", "Sp", "Oc", "N", "Dc",
-    "Ud", "Dd", "Td", "Qd", "Qn", "Sxd", "Spd", "Ocd", "Nd", "Vg",
-    "UVg", "DVg", "TVg", "QVg", "QnVg", "SVg", "SpVg", "OVg", "NVg",
-    "Tg", "UTg", "DTg", "TTg", "QTg", "QnTg", "STg", "SpTg", "OTg", "NTg",
-    "Qg", "UQg", "DQg", "TQg", "QQg", "QnQg", "SQg", "SpQg", "OQg", "NQg",
-    "Qq", "UQq", "DQq", "TQq", "QQq", "QnQq", "SQq", "SpQq", "OQq", "NQq",
-    "Sg", "USg", "DSg", "TSg", "QSg", "QnSg", "SSg", "SpSg", "OSg", "NSg",
-    "Sgnt", "USgnt", "DSgnt", "TSgnt", "QSgnt", "QnSgnt", "SSgnt", "SpSgnt", "OSgnt", "NSgnt"
+  const unidades = [
+    "", "K", "M", "B", "T", "Q", "Qi", "Sx", "Sp", "Oc",
+    "N", "Dc", "Ud", "Dd", "Td", "Qd", "Qn", "Sxd", "Spd", "Ocd",
+    "Nd", "Vg", "UVg", "DVg", "TVg", "QVg", "QnVg", "SVg", "SpVg", "OVg",
+    "NVg", "Tg", "UTg", "DTg", "TTg", "QTg", "QnTg", "STg", "SpTg", "OTg",
+    "NTg", "Qg", "UQg", "DQg", "TQg", "QQg", "QnQg", "SQg", "SpQg", "OQg",
+    "NQg", "Qq", "UQq", "DQq", "TQq", "QQq", "QnQq", "SQq", "SpQq", "OQq",
+    "NQq", "Sg", "USg", "DSg", "TSg", "QSg", "QnSg", "SSg", "SpSg", "OSg",
+    "NSg", "Sgnt", "USgnt", "DSgnt", "TSgnt", "QSgnt", "QnSgnt", "SSgnt", "SpSgnt", "OSgnt", "NSgnt",
+    "Ogt", "UOgt", "DOgt", "TOgt", "QOgt", "QnOgt", "SOgt", "SpOgt", "OOgt", "NOgt",
+    "Ng", "UNg", "DNn", "TNn", "QNn", "QnNn", "SNn", "SpNn", "ONn", "NNn"
   ];
-  const tier = Math.floor(Math.log10(num) / 3);
-  if (tier >= units.length) return num.toExponential(2);
-  const scale = Math.pow(10, tier * 3);
-  const scaled = num / scale;
-  return scaled.toFixed(2) + units[tier];
+  let ordem = Math.min(Math.floor(Math.log10(num) / 3), unidades.length - 1);
+  let valor = num / Math.pow(1000, ordem);
+  return valor.toFixed(2) + unidades[ordem];
 }
 
-// Salvar no localStorage
-function saveGame() {
-  const data = {
-    score, clickPower, autoClickers, multiplier, multiplierCount,
-    cps, level, xp, gems, rebirths
+// --- Função para salvar o estado no localStorage ---
+function salvarEstado() {
+  const estado = {
+    score,
+    clickPower,
+    autoClickers,
+    multiplier,
+    multiplierCount,
+    cps,
+    level,
+    xp,
+    gems,
+    rebirths
   };
-  localStorage.setItem("clickerSave", JSON.stringify(data));
+  localStorage.setItem("clickerSimEstado", JSON.stringify(estado));
 }
 
-// Carregar do localStorage
-function loadGame() {
-  const saved = localStorage.getItem("clickerSave");
-  if (saved) {
-    try {
-      const data = JSON.parse(saved);
-      score = data.score || 0;
-      clickPower = data.clickPower || 1;
-      autoClickers = data.autoClickers || 0;
-      multiplier = data.multiplier || 1;
-      multiplierCount = data.multiplierCount || 0;
-      cps = data.cps || 0;
-      level = data.level || 1;
-      xp = data.xp || 0;
-      gems = data.gems || 0;
-      rebirths = data.rebirths || 0;
-    } catch {
-      resetGame();
-    }
+// --- Função para carregar estado do localStorage ---
+function carregarEstado() {
+  const estado = localStorage.getItem("clickerSimEstado");
+  if (estado) {
+    const obj = JSON.parse(estado);
+    score = obj.score || 0;
+    clickPower = obj.clickPower || 1;
+    autoClickers = obj.autoClickers || 0;
+    multiplier = obj.multiplier || 1;
+    multiplierCount = obj.multiplierCount || 0;
+    cps = obj.cps || 0;
+    level = obj.level || 1;
+    xp = obj.xp || 0;
+    gems = obj.gems || 0;
+    rebirths = obj.rebirths || 0;
   }
 }
 
-// Resetar jogo
-function resetGame() {
-  if (!confirm("Tem certeza que quer resetar o jogo? Isso apagará todo progresso!")) return;
-  score = 0;
-  clickPower = 1;
-  autoClickers = 0;
-  multiplier = 1;
-  multiplierCount = 0;
-  cps = 0;
-  level = 1;
-  xp = 0;
-  gems = 0;
-  rebirths = 0;
-  saveGame();
-  atualizar();
-}
-
-// Rebirth - renascimento
-function canRebirth() {
-  return score >= 1e12; // 1 Trilhão pontos para rebirth
-}
-
-function doRebirth() {
-  if (!canRebirth()) {
-    alert("Você precisa de pelo menos 1 Trilhão de pontos para renascer!");
-    return;
-  }
-  if (!confirm("Tem certeza que quer renascer? Isso resetará progresso mas dará bônus!")) return;
-
-  rebirths++;
-  // Resetar quase tudo, mas mantendo rebirths e talvez bônus
-  score = 0;
-  clickPower = 1;
-  autoClickers = 0;
-  multiplier = 1;
-  multiplierCount = 0;
-  cps = 0;
-  level = 1;
-  xp = 0;
-  gems = 0;
-
-  alert(`Você renasceu! Total de renascimentos: ${rebirths}`);
-
-  saveGame();
-  atualizar();
-}
-
-// Atualizar UI
+// --- Função que atualiza a interface ---
 function atualizar() {
   verificarLevelUp();
 
-  scoreDisplay.textContent = formatNumber(score);
+  scoreDisplay.textContent = formatarNumero(score);
   clickPowerSpan.textContent = clickPower;
-  upgradeClickPowerCostSpan.textContent = formatNumber(calcUpgradeClickPowerCost() * batchAmount);
+  upgradeClickPowerCostSpan.textContent = formatarNumero(Math.floor(10 * Math.pow(1.5, clickPower - 1)));
 
   autoClickersSpan.textContent = autoClickers;
-  autoClickerCostSpan.textContent = formatNumber(calcAutoClickerCost() * batchAmount);
+  autoClickerCostSpan.textContent = formatarNumero(50 * (autoClickers + 1));
 
   multiplierCountSpan.textContent = multiplierCount;
-  multiplierCostSpan.textContent = formatNumber(calcMultiplierCost() * batchAmount);
+  multiplierCostSpan.textContent = formatarNumero(100 * (multiplierCount + 1));
 
-  cpsDisplay.textContent = `Clicks por segundo: ${formatNumber(cps)}`;
+  cpsDisplay.textContent = `Clicks por segundo: ${formatarNumero(cps)}`;
   levelDisplay.textContent = `Nível: ${level}`;
   xpBar.style.width = `${(xp / (level * 100)) * 100}%`;
 
-  gemsDisplay.textContent = formatNumber(gems);
+  gemsDisplay.textContent = gems;
 
-  // Atualizar botão rebirth
-  rebirthBtn.disabled = !canRebirth();
-  rebirthInfo.textContent = `Você precisa de 1T pontos para renascer. Renascimentos: ${rebirths}`;
+  rebirthCountSpan.textContent = rebirths;
 
-  saveGame();
+  salvarEstado();
 }
 
-// Cálculo de custos levando em conta batch e quantidade
-function calcUpgradeClickPowerCost() {
-  let cost = 0;
-  for (let i = 0; i < batchAmount; i++) {
-    cost += Math.floor(10 * Math.pow(1.5, (clickPower - 1) + i));
-  }
-  return cost;
-}
-
-function calcAutoClickerCost() {
-  let cost = 0;
-  for (let i = 0; i < batchAmount; i++) {
-    cost += 50 * (autoClickers + 1 + i);
-  }
-  return cost;
-}
-
-function calcMultiplierCost() {
-  let cost = 0;
-  for (let i = 0; i < batchAmount; i++) {
-    cost += 100 * (multiplierCount + 1 + i);
-  }
-  return cost;
-}
-
-// Level up
+// --- Função para checar level up ---
 function verificarLevelUp() {
   if (xp >= level * 100) {
     xp -= level * 100;
@@ -207,57 +161,56 @@ function verificarLevelUp() {
   }
 }
 
-// Eventos
+// --- Eventos dos botões ---
 
-// Clique manual
+// Clique principal
 clickBtn.addEventListener("click", () => {
-  score += clickPower * multiplier * batchAmount;
-  xp += batchAmount;
+  score += clickPower * multiplier;
+  xp += 1;
   clickSound.play();
   atualizar();
 });
 
-// Upgrades
-
+// Upgrade click power
 upgradeClickPowerBtn.addEventListener("click", () => {
-  const cost = calcUpgradeClickPowerCost();
-  if (score >= cost) {
-    score -= cost;
-    clickPower += batchAmount;
+  const costTotal = Math.floor(10 * Math.pow(1.5, clickPower - 1)) * upgradeAmount;
+  if (score >= costTotal) {
+    score -= costTotal;
+    clickPower += upgradeAmount;
     buySound.play();
     atualizar();
-  } else {
-    alert("Você não tem pontos suficientes para comprar essa melhoria!");
   }
 });
 
+// Comprar auto clicker
 buyAutoClickerBtn.addEventListener("click", () => {
-  const cost = calcAutoClickerCost();
-  if (score >= cost) {
-    score -= cost;
-    autoClickers += batchAmount;
+  const costTotal = 50 * (autoClickers + 1) * upgradeAmount;
+  if (score >= costTotal) {
+    score -= costTotal;
+    autoClickers += upgradeAmount;
     buySound.play();
     atualizar();
-  } else {
-    alert("Você não tem pontos suficientes para comprar esse Auto Clicker!");
   }
 });
 
+// Comprar multiplicador
 buyMultiplierBtn.addEventListener("click", () => {
-  const cost = calcMultiplierCost();
-  if (score >= cost) {
-    score -= cost;
-    for (let i = 0; i < batchAmount; i++) multiplier *= 2;
-    multiplierCount += batchAmount;
+  let costTotal = 0;
+  let multiplierIncrease = 0;
+  for (let i = 0; i < upgradeAmount; i++) {
+    costTotal += 100 * (multiplierCount + i + 1);
+    multiplierIncrease++;
+  }
+  if (score >= costTotal) {
+    score -= costTotal;
+    multiplier *= Math.pow(2, multiplierIncrease);
+    multiplierCount += multiplierIncrease;
     buySound.play();
     atualizar();
-  } else {
-    alert("Você não tem pontos suficientes para comprar esse multiplicador!");
   }
 });
 
 // Boosts
-
 speedBoostBtn.addEventListener("click", () => {
   if (gems >= 20) {
     gems -= 20;
@@ -267,8 +220,6 @@ speedBoostBtn.addEventListener("click", () => {
       atualizar();
     }, 100);
     setTimeout(() => clearInterval(boost), 30000);
-  } else {
-    alert("Você não tem gemas suficientes para o boost de velocidade.");
   }
 });
 
@@ -277,13 +228,10 @@ multiplierBoostBtn.addEventListener("click", () => {
     gems -= 50;
     buySound.play();
     multiplier *= 5;
-    atualizar();
     setTimeout(() => {
       multiplier /= 5;
       atualizar();
     }, 30000);
-  } else {
-    alert("Você não tem gemas suficientes para o boost multiplicador.");
   }
 });
 
@@ -294,44 +242,60 @@ buyGemsBtn.addEventListener("click", () => {
   atualizar();
 });
 
-// Auto clickers (1 vez por segundo)
+// Auto clickers automáticos a cada segundo
 setInterval(() => {
   score += autoClickers * multiplier;
   cps = autoClickers * multiplier;
   atualizar();
 }, 1000);
 
-// Batch buttons seleção
-
-batchButtons.forEach(btn => {
+// Botões para alterar quantidade de upgrades comprados
+upgradeAmountBtns.forEach(btn => {
   btn.addEventListener("click", () => {
-    batchButtons.forEach(b => b.classList.remove("active"));
+    upgradeAmount = parseInt(btn.dataset.amount);
+    upgradeAmountBtns.forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-    batchAmount = parseInt(btn.dataset.batch);
-    atualizar();
   });
 });
 
 // Rebirth
-
 rebirthBtn.addEventListener("click", () => {
-  doRebirth();
+  const cost = custoRebirth(rebirths);
+  if (score >= cost) {
+    score -= cost;
+    rebirths++;
+    // Resetar upgrades básicos, mas mantém gems, level e xp (ou pode ajustar)
+    score = 0;
+    clickPower = 1;
+    autoClickers = 0;
+    multiplier = 1;
+    multiplierCount = 0;
+    cps = 0;
+    level = 1;
+    xp = 0;
+    buySound.play();
+    atualizar();
+  } else {
+    alert(`Rebirth custa ${formatarNumero(cost)} clicks!`);
+  }
 });
 
-// Reset
-
+// Resetar jogo
 resetBtn.addEventListener("click", () => {
-  resetGame();
+  if (confirm("Tem certeza que quer resetar o jogo? Isso apagará todo seu progresso!")) {
+    localStorage.removeItem("clickerSimEstado");
+    location.reload();
+  }
 });
 
-// Tema toggle
-
+// Tema (claro/escuro)
 document.getElementById("toggleThemeBtn").addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-// Ao carregar página
+// --- Inicialização ---
 window.addEventListener("load", () => {
-  loadGame();
+  carregarEstado();
   atualizar();
 });
+
