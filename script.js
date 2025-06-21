@@ -34,6 +34,7 @@ const xpBar = document.getElementById("xpBar");
 const levelDisplay = document.getElementById("levelDisplay");
 const gemsDisplay = document.getElementById("gemsCount");
 
+// Boosts
 const speedBoostBtn = document.getElementById("speedBoostBtn");
 const multiplierBoostBtn = document.getElementById("multiplierBoostBtn");
 const buyGemsBtn = document.getElementById("buyGemsBtn");
@@ -52,6 +53,35 @@ const firebaseConfig = {
 // Inicializa Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+
+// --- Função para formatar números grandes com unidades infinitas ---
+function formatarNumero(num) {
+  const unidadesBase = ['', 'k', 'm', 'b', 't'];
+  const letras = 'abcdefghijklmnopqrstuvwxyz';
+
+  let unidadeIndex = 0;
+  let valor = num;
+
+  while (valor >= 1000) {
+    valor /= 1000;
+    unidadeIndex++;
+  }
+
+  if (unidadeIndex < unidadesBase.length) {
+    return valor.toFixed(1).replace(/\.0$/, '') + unidadesBase[unidadeIndex];
+  }
+
+  // Gera sufixo com letras (a, b, c, ..., aa, ab, ac, ...)
+  let index = unidadeIndex - unidadesBase.length;
+  let sufixo = '';
+
+  while (index >= 0) {
+    sufixo = letras[index % 26] + sufixo;
+    index = Math.floor(index / 26) - 1;
+  }
+
+  return valor.toFixed(1).replace(/\.0$/, '') + sufixo;
+}
 
 // --- SALVAR PROGRESSO ---
 function salvarProgresso() {
@@ -190,21 +220,21 @@ function verificarLevelUp() {
 function atualizar() {
   verificarLevelUp();
 
-  scoreDisplay.textContent = Math.floor(score);
+  scoreDisplay.textContent = formatarNumero(Math.floor(score));
   clickPowerSpan.textContent = clickPower;
-  upgradeClickPowerCostSpan.textContent = Math.floor(10 * Math.pow(1.5, clickPower - 1));
+  upgradeClickPowerCostSpan.textContent = formatarNumero(Math.floor(10 * Math.pow(1.5, clickPower - 1)));
 
   autoClickersSpan.textContent = autoClickers;
-  autoClickerCostSpan.textContent = 50 * (autoClickers + 1);
+  autoClickerCostSpan.textContent = formatarNumero(50 * (autoClickers + 1));
 
   multiplierCountSpan.textContent = multiplierCount;
-  multiplierCostSpan.textContent = 100 * (multiplierCount + 1);
+  multiplierCostSpan.textContent = formatarNumero(100 * (multiplierCount + 1));
 
-  cpsDisplay.textContent = `Clicks por segundo: ${cps}`;
+  cpsDisplay.textContent = `Clicks por segundo: ${formatarNumero(cps)}`;
   levelDisplay.textContent = `Nível: ${level}`;
   xpBar.style.width = `${(xp / (level * 100)) * 100}%`;
 
-  gemsDisplay.textContent = gems;
+  gemsDisplay.textContent = formatarNumero(gems);
 
   salvarProgresso(); // Salva sempre que atualizar a UI
 }
@@ -253,7 +283,7 @@ async function atualizarRanking() {
   rankingList.innerHTML = "";
   ranking.forEach((jogador, i) => {
     const li = document.createElement('li');
-    li.textContent = `${i + 1}. ${jogador.nome} - ${Math.floor(jogador.score)}`;
+    li.textContent = `${i + 1}. ${jogador.nome} - ${formatarNumero(jogador.score)}`;
     rankingList.appendChild(li);
   });
 }
