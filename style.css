@@ -1,181 +1,208 @@
-/* Reset básico */
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: #f0f2f5;
+  background: #f0f0f0;
   color: #222;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark {
+  background: #121212;
+  color: #eee;
 }
 
 .container {
-  background: white;
-  width: 100%;
   max-width: 480px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-  padding: 20px 30px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
 }
 
-header h1 {
+h1 {
   font-weight: 700;
-  font-size: 1.7rem;
+  font-size: 1.6rem;
 }
 
 #toggleThemeBtn {
-  font-size: 1.4rem;
-  background: none;
-  border: none;
+  font-size: 1.3rem;
   cursor: pointer;
-  transition: transform 0.3s;
-}
-
-#toggleThemeBtn:hover {
-  transform: rotate(20deg);
+  background: transparent;
+  border: none;
+  color: inherit;
 }
 
 .stats {
+  margin: 20px 0;
   text-align: center;
-  margin-bottom: 25px;
 }
 
 #score {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 700;
-  color: #007bff;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
-#cps, #levelDisplay {
-  font-weight: 600;
+#cps {
+  font-size: 1rem;
   margin-bottom: 10px;
-  color: #555;
 }
 
 #xpBarContainer {
-  width: 100%;
-  height: 12px;
   background: #ddd;
-  border-radius: 8px;
-  margin-bottom: 15px;
+  border-radius: 10px;
   overflow: hidden;
+  position: relative;
+  height: 20px;
+  margin: 0 auto 10px;
+  width: 90%;
+  max-width: 350px;
 }
 
 #xpBar {
+  background: #4caf50;
   height: 100%;
-  width: 0;
-  background: #007bff;
+  width: 0%;
   transition: width 0.3s ease;
 }
 
-.click-button {
-  padding: 15px 40px;
-  font-size: 1.3rem;
+#levelDisplay {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   font-weight: 700;
-  color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 40px;
-  box-shadow: 0 6px 15px rgba(0,123,255,0.5);
+  color: #fff;
+  text-shadow: 0 0 2px #000;
+  line-height: 20px;
+}
+
+#clickBtn {
+  font-size: 1.2rem;
+  padding: 15px 30px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
-  user-select: none;
+  border: none;
+  border-radius: 8px;
+  background: #2196f3;
+  color: #fff;
+  transition: background 0.3s;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+  display: block;
 }
 
-.click-button:hover {
-  background-color: #0056b3;
+#clickBtn:hover {
+  background: #1769aa;
 }
 
-.upgrades, .gems-shop, .save-load {
-  background: #f9fafb;
-  border-radius: 10px;
-  padding: 15px 20px;
-  margin-bottom: 25px;
-  box-shadow: inset 0 0 8px rgba(0,0,0,0.03);
-  text-align: center;
+section {
+  margin-top: 30px;
 }
 
-.upgrades h2, .gems-shop h2 {
+h2 {
   font-weight: 700;
-  color: #333;
   margin-bottom: 15px;
+  border-bottom: 2px solid #2196f3;
+  padding-bottom: 5px;
 }
 
-.upgrade-item {
+.upgrade-box {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
 }
 
-.upgrade-item p {
+.upgrade-box p {
+  margin: 0;
   font-weight: 600;
 }
 
-.upgrade-item button, #buyGemsBtn, #saveBtn, #loadBtn, #resetBtn {
-  background-color: #28a745;
-  border: none;
-  color: white;
-  padding: 7px 16px;
-  border-radius: 8px;
-  font-weight: 600;
+.upgrade-box button {
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  user-select: none;
-  margin: 5px;
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  transition: background 0.3s;
 }
 
-.upgrade-item button:hover, #buyGemsBtn:hover, #saveBtn:hover, #loadBtn:hover, #resetBtn:hover {
-  background-color: #1e7e34;
+.upgrade-box button:hover {
+  background: #357a38;
 }
 
-/* DARK MODE */
-body.dark {
-  background: #121212;
-  color: #ddd;
+.boosts button {
+  cursor: pointer;
+  background: #ff9800;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border-radius: 6px;
+  transition: background 0.3s;
 }
 
-body.dark .container {
-  background: #1f1f1f;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+.boosts button:hover {
+  background: #b26a00;
 }
 
-body.dark #score {
-  color: #66aaff;
+.shop button {
+  cursor: pointer;
+  background: #9c27b0;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  transition: background 0.3s;
 }
 
-body.dark .stats {
-  color: #ccc;
+.shop button:hover {
+  background: #6d1b7b;
 }
 
-body.dark .upgrades, body.dark .gems-shop, body.dark .save-load {
-  background: #2a2a2a;
-  box-shadow: inset 0 0 8px rgba(255,255,255,0.1);
-}
-
-body.dark .upgrade-item button, body.dark #buyGemsBtn, body.dark #saveBtn, body.dark #loadBtn, body.dark #resetBtn {
-  background-color: #2ecc71;
-}
-
-body.dark .upgrade-item button:hover, body.dark #buyGemsBtn:hover, body.dark #saveBtn:hover, body.dark #loadBtn:hover, body.dark #resetBtn:hover {
-  background-color: #27ae60;
+/* Dark mode overrides */
+body.dark #xpBarContainer {
+  background: #333;
 }
 
 body.dark #xpBar {
-  background: #66aaff;
+  background: #81c784;
+}
+
+body.dark .upgrade-box button {
+  background: #81c784;
+  color: #222;
+}
+
+body.dark .upgrade-box button:hover {
+  background: #519657;
+}
+
+body.dark .boosts button {
+  background: #ffb74d;
+  color: #222;
+}
+
+body.dark .boosts button:hover {
+  background: #c88719;
+}
+
+body.dark .shop button {
+  background: #ba68c8;
+  color: #222;
+}
+
+body.dark .shop button:hover {
+  background: #8e3ca6;
 }
