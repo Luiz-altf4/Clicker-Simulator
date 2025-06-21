@@ -84,7 +84,9 @@ function formatarNumero(num) {
     "NQq", "Sg", "USg", "DSg", "TSg", "QSg", "QnSg", "SSg", "SpSg", "OSg",
     "NSg", "Sgnt", "USgnt", "DSgnt", "TSgnt", "QSgnt", "QnSgnt", "SSgnt", "SpSgnt", "OSgnt", "NSgnt",
     "Ogt", "UOgt", "DOgt", "TOgt", "QOgt", "QnOgt", "SOgt", "SpOgt", "OOgt", "NOgt",
-    "Ng", "UNg", "DNn", "TNn", "QNn", "QnNn", "SNn", "SpNn", "ONn", "NNn"
+    "Ng", "UNg", "DNn", "TNn", "QNn", "QnNn", "SNn", "SpNn", "ONn", "NNn", "OLPWO", "NdOs", "NSposk",
+    "Ldm", "Huoop", "Nowid", "Infernal", "Nallk", "Alsk", "SEoiUd", "A", "B", "C", "D", "E",
+    "AB", "AC", "AD", "AE", "Comdwi", "CMD", "Gfsppdo", "osiwop", "OOOOOOOgtu", "DQtgSqSp", "omhfooe", 
   ];
   let ordem = Math.min(Math.floor(Math.log10(num) / 3), unidades.length - 1);
   let valor = num / Math.pow(1000, ordem);
