@@ -16,7 +16,7 @@ const upgradeClickPowerBtn = document.getElementById("upgradeClickPowerBtn");
 const upgradeClickPowerCostSpan = document.getElementById("upgradeClickPowerCost");
 
 const autoClickersSpan = document.getElementById("autoClickers");
-const autoClickerCostSpan = document.getElementById("autoClickerCost");
+const autoClickerCostSpan = document.createElement("span");
 const buyAutoClickerBtn = document.getElementById("buyAutoClickerBtn");
 
 const multiplierCostSpan = document.getElementById("multiplierCost");
@@ -122,3 +122,4 @@ document.getElementById("toggleThemeBtn").addEventListener("click", () => {
 window.addEventListener("load", () => {
   atualizar();
 });
+
