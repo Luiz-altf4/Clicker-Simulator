@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR" >
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator Capivara Style</title>
+  <title>Clicker Simulator Moderno Plus</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -11,17 +11,28 @@
   <div class="container">
     <h1>🚀 Clicker do Luiz</h1>
     <div id="score">0</div>
+    <div id="cps">Clicks por segundo: 0</div>
     <button id="clickBtn">Clique Aqui!</button>
 
-    <div class="upgrade-section">
-      <p>Clicks por clique: <span id="clickPower">1</span></p>
-      <button id="upgradeBtn">Comprar Upgrade (Custa: <span id="upgradeCost">10</span>)</button>
+    <div class="upgrades">
+
+      <div class="upgrade-box">
+        <p>Clicks por clique: <span id="clickPower">1</span></p>
+        <button id="upgradeClickPowerBtn">Comprar Upgrade (Custa: <span id="upgradeClickPowerCost">10</span>)</button>
+      </div>
+
+      <div class="upgrade-box">
+        <p>Auto Clickers: <span id="autoClickers">0</span></p>
+        <button id="buyAutoClickerBtn">Comprar Auto Clicker (Custa: <span id="autoClickerCost">50</span>)</button>
+      </div>
+
+      <div class="upgrade-box">
+        <p>Multiplicador x2: <span id="multiplierCount">0</span></p>
+        <button id="buyMultiplierBtn">Comprar Multiplicador (Custa: <span id="multiplierCost">100</span>)</button>
+      </div>
+
     </div>
 
-    <div class="auto-clicker-section">
-      <p>Auto Clickers: <span id="autoClickers">0</span></p>
-      <button id="buyAutoClickerBtn">Comprar Auto Clicker (Custa: <span id="autoClickerCost">50</span>)</button>
-    </div>
   </div>
 
   <script src="script.js"></script>
