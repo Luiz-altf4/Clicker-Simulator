@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Clicker Simulator FULL</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -26,14 +26,14 @@
       <button id="clickBtn" class="big-btn">Clique Aqui!</button>
     </div>
 
-    <section class="quantity-selector">
-      <button data-qty="1" class="qty-btn selected">1</button>
-      <button data-qty="10" class="qty-btn">10</button>
-      <button data-qty="100" class="qty-btn">100</button>
-    </section>
-
     <section class="upgrades">
       <h2>Upgrades</h2>
+
+      <div class="batch-selector">
+        <button class="batch-btn active" data-batch="1">1x</button>
+        <button class="batch-btn" data-batch="10">10x</button>
+        <button class="batch-btn" data-batch="100">100x</button>
+      </div>
 
       <div class="upgrade-box">
         <p>Clicks por clique: <span id="clickPower">1</span></p>
@@ -57,11 +57,35 @@
       <button id="multiplierBoostBtn">Boost Multiplicador x5 (50 Gemas) - 30s</button>
     </section>
 
+    <section class="missions">
+      <h2>Missões Diárias</h2>
+      <ul id="missionsList">
+        <!-- Missões geradas via JS -->
+      </ul>
+    </section>
+
+    <section class="achievements">
+      <h2>Conquistas</h2>
+      <ul id="achievementsList">
+        <!-- Conquistas geradas via JS -->
+      </ul>
+    </section>
+
     <section class="shop">
       <h2>Loja</h2>
       <div>Gemas: <span id="gemsCount">0</span></div>
       <button id="buyGemsBtn">Comprar 100 Gemas (Simulado)</button>
     </section>
+
+    <section class="rebirth-section">
+      <button id="rebirthBtn" disabled>Rebirth (Renascimento)</button>
+      <div id="rebirthInfo" class="rebirth-info">Você precisa de 1T pontos para renascer.</div>
+    </section>
+
+    <section class="reset-section">
+      <button id="resetBtn" class="reset-btn">Resetar Jogo</button>
+    </section>
+
   </div>
 
   <audio id="clickSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
