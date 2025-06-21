@@ -1,26 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
 
 body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #f0f2f5;
+  background: #f0f2f5;
   color: #222;
-  margin: 0;
+  display: flex;
+  justify-content: center;
   padding: 20px;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background 0.3s, color 0.3s;
+  min-height: 100vh;
 }
 
 body.dark {
-  background-color: #121212;
+  background: #121212;
   color: #eee;
 }
 
 .container {
-  max-width: 450px;
-  margin: 0 auto;
-  background: white;
-  border-radius: 10px;
+  max-width: 480px;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
   transition: background 0.3s, color 0.3s;
 }
 
@@ -32,128 +39,169 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 h1 {
   font-weight: 700;
-  font-size: 24px;
-  margin: 0;
+  font-size: 1.8rem;
 }
 
-button {
-  background-color: #4a90e2;
+#toggleThemeBtn {
+  background: none;
   border: none;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 6px;
+  font-size: 1.6rem;
   cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s;
+  color: inherit;
+  transition: color 0.3s;
 }
 
-button:hover {
-  background-color: #357ABD;
-}
-
-.stats, .upgrades, .boosts, .shop, .ranking {
-  margin-bottom: 20px;
-}
-
-.score-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 15px;
+.stats {
+  text-align: center;
+  margin-bottom: 25px;
 }
 
 #score {
-  font-size: 48px;
+  font-size: 3rem;
   font-weight: 700;
-  user-select: none;
+  margin-bottom: 10px;
+  color: #ff6f61;
 }
 
-#cps, #levelDisplay {
-  font-weight: 600;
-  margin-top: 6px;
+#cps {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
 }
 
 #xpBarContainer {
-  background: #ddd;
-  border-radius: 10px;
   width: 100%;
-  height: 18px;
-  margin-top: 8px;
+  height: 16px;
+  background: #ddd;
+  border-radius: 8px;
   overflow: hidden;
+  margin-bottom: 15px;
 }
 
 #xpBar {
-  background: #4a90e2;
   height: 100%;
-  width: 0%;
-  transition: width 0.3s ease-in-out;
+  background: #ff6f61;
+  width: 0;
+  transition: width 0.3s;
 }
 
-.upgrade-box, .boosts button, .shop > div, .ranking ul {
-  margin-top: 10px;
+#levelDisplay {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+#clickBtn {
+  background: #ff6f61;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.3rem;
+  padding: 15px 0;
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(255, 111, 97, 0.4);
+  transition: background 0.3s;
+}
+
+#clickBtn:hover {
+  background: #e55b50;
+}
+
+section {
+  margin-bottom: 25px;
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #ff6f61;
+  padding-bottom: 5px;
+}
+
+.upgrade-box {
+  background: #f8f8f8;
+  padding: 12px 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s;
+}
+
+body.dark .upgrade-box {
+  background: #292929;
 }
 
 .upgrade-box p {
-  margin: 6px 0;
   font-weight: 600;
 }
 
 .upgrade-box button {
-  width: 100%;
-}
-
-#clickBtn {
-  font-size: 24px;
-  padding: 15px 0;
-  width: 100%;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  user-select: none;
-}
-
-#loginSection input {
-  width: 100%;
-  padding: 10px 14px;
-  margin: 6px 0;
+  background: #ff6f61;
+  border: none;
+  color: #fff;
+  padding: 8px 14px;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  box-sizing: border-box;
-}
-
-#loginSection button {
-  width: 100%;
-  margin-top: 10px;
-}
-
-#loginStatus {
-  margin-top: 10px;
-  color: red;
   font-weight: 600;
-  min-height: 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.upgrade-box button:hover {
+  background: #e55b50;
+}
+
+.boosts button,
+.shop button,
+.ranking button {
+  background: #ff6f61;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.boosts button:hover,
+.shop button:hover,
+.ranking button:hover {
+  background: #e55b50;
+}
+
+.shop div {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
 }
 
 .ranking ul {
   list-style: none;
-  padding-left: 0;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-left: 10px;
 }
 
-.ranking ul li {
-  background: #e3e9ff;
-  margin: 6px 0;
-  padding: 8px 10px;
-  border-radius: 6px;
+.ranking li {
   font-weight: 600;
-  color: #1a237e;
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+  color: #333;
 }
 
-body.dark .ranking ul li {
-  background: #2c2f4a;
-  color: #cfd8dc;
+body.dark .ranking li {
+  border-color: #444;
+  color: #eee;
 }
-
