@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,80 +7,44 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <button id="toggleThemeBtn" class="toggle-theme">🌙</button>
+  <button id="toggleThemeBtn" class="theme-btn">🌙</button>
 
   <div class="container">
-    <h1>Clicker Simulator</h1>
-    <div class="score-box">
-      <h2>Clicks</h2>
-      <div id="score">0</div>
-    </div>
 
-    <button id="clickBtn" class="click-btn">Clique Aqui!</button>
+    <section class="panel" id="click-panel">
+      <h2>Click</h2>
+      <button id="clickBtn" class="big-btn">Clique Aqui!</button>
+      <div>Pontos: <span id="score">0</span></div>
+      <div>Poder do clique: <span id="clickPower">1</span></div>
+    </section>
 
-    <div class="upgrades-container">
-
-      <div class="upgrade-box">
-        <h3>Upgrade Click Power</h3>
-        <div>
-          <span>Click Power: <span id="clickPower">1</span></span><br />
-          <span>Custo: <span id="upgradeClickPowerCost">10</span></span>
-        </div>
-        <button id="upgradeClickPowerBtn" class="upgrade-btn">Comprar</button>
+    <section class="panel" id="upgrades-panel">
+      <h2>Upgrades</h2>
+      <button id="upgradeClickPowerBtn">Melhorar Clique (<span id="upgradeClickPowerCost">10</span> pontos)</button>
+      <div>
+        Quantidade para comprar:
+        <button class="upgradeAmountBtn active" data-amount="1">1</button>
+        <button class="upgradeAmountBtn" data-amount="10">10</button>
+        <button class="upgradeAmountBtn" data-amount="100">100</button>
       </div>
+    </section>
 
-      <div class="upgrade-box">
-        <h3>Auto Clickers</h3>
-        <div>
-          <span>Quantidade: <span id="autoClickers">0</span></span><br />
-          <span>Custo: <span id="autoClickerCost">50</span></span>
-        </div>
-        <button id="buyAutoClickerBtn" class="upgrade-btn">Comprar</button>
-      </div>
+    <section class="panel" id="rebirth-panel">
+      <h2>Rebirth</h2>
+      <button id="rebirthBtn">Rebirth</button>
+      <div>Rebirths: <span id="rebirthCount">0</span></div>
+    </section>
 
-      <div class="upgrade-box">
-        <h3>Multiplicadores</h3>
-        <div>
-          <span>Quantidade: <span id="multiplierCount">0</span></span><br />
-          <span>Custo: <span id="multiplierCost">100</span></span>
-        </div>
-        <button id="buyMultiplierBtn" class="upgrade-btn">Comprar</button>
-      </div>
+    <section class="panel" id="reset-panel">
+      <h2>Reset</h2>
+      <button id="resetBtn" class="danger-btn">Resetar Jogo</button>
+    </section>
 
-    </div>
-
-    <div class="upgrade-amounts">
-      <button class="upgradeAmountBtn active" data-amount="1">1</button>
-      <button class="upgradeAmountBtn" data-amount="10">10</button>
-      <button class="upgradeAmountBtn" data-amount="100">100</button>
-    </div>
-
-    <div class="stats-container">
-      <div><strong>Clicks por segundo:</strong> <span id="cps">0</span></div>
-      <div><strong>Nível:</strong> <span id="levelDisplay">1</span></div>
-      <div class="xp-bar-bg">
-        <div id="xpBar" class="xp-bar-fill"></div>
-      </div>
-      <div><strong>Gemas:</strong> <span id="gemsCount">0</span></div>
-      <div><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
-    </div>
-
-    <div class="boosts-container">
-      <button id="speedBoostBtn" class="boost-btn">Boost Velocidade (20 Gemas)</button>
-      <button id="multiplierBoostBtn" class="boost-btn">Boost Multiplicador (50 Gemas)</button>
-      <button id="buyGemsBtn" class="boost-btn">Comprar 100 Gemas (Simulado)</button>
-    </div>
-
-    <div class="rebirth-reset-container">
-      <button id="rebirthBtn" class="rebirth-btn">Rebirth</button>
-      <button id="resetBtn" class="reset-btn">Resetar Jogo</button>
-    </div>
   </div>
 
   <!-- Sons -->
   <audio id="clickSound" src="click.mp3" preload="auto"></audio>
   <audio id="buySound" src="buy.mp3" preload="auto"></audio>
-  <audio id="boostSound" src="boost.mp3" preload="auto"></audio>
 
   <script src="script.js"></script>
 </body>
