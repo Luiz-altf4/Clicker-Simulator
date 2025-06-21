@@ -206,3 +206,35 @@ body.dark .shop button {
 body.dark .shop button:hover {
   background: #8e3ca6;
 }
+
+#missionsList, #achievementsList {
+  list-style: none;
+  padding: 0;
+}
+
+#missionsList li, #achievementsList li {
+  background: #2196f3;
+  color: white;
+  margin-bottom: 8px;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#missionsList li.completed, #achievementsList li.completed {
+  background: #4caf50;
+  text-decoration: line-through;
+  cursor: default;
+}
+
+body.dark #missionsList li, body.dark #achievementsList li {
+  background: #1e88e5;
+  color: #ddd;
+}
+
+body.dark #missionsList li.completed, body.dark #achievementsList li.completed {
+  background: #388e3c;
+}
+
