@@ -1,3 +1,33 @@
+// Unidades numéricas gigantes (mais de 90)
+const unidades = [
+  "", "k", "M", "B", "T", "Q", "Qi", "Sx", "Sp", "Oc", "N", "Dc", "Ud", "Dd", "Td",
+  "Qd", "Qn", "Sxd", "Spd", "Ocd", "Nd", "Vg",
+  "UVg", "DVg", "TVg", "QVg", "QnVg", "SVg", "SpVg", "OVg", "NVg",
+  "Tg", "UTg", "DTg", "TTg", "QTg", "QnTg", "STg", "SpTg", "OTg", "NTg",
+  "Qg", "UQg", "DQg", "TQg", "QQg", "QnQg", "SQg", "SpQg", "OQg", "NQg",
+  "Qq", "UQq", "DQq", "TQq", "QQq", "QnQq", "SQq", "SpQq", "OQq", "NQq",
+  "Sg", "USg", "DSg", "TSg", "QSg", "QnSg", "SSg", "SpSg", "OSg", "NSg",
+  "Sgnt", "USgnt", "DSgnt", "TSgnt", "QSgnt", "QnSgnt", "SSgnt", "SpSgnt", "OSgnt", "NSgnt",
+  "Ogt", "UOgt", "DOgt", "TOgt", "QOgt", "QnOgt", "SOgt", "SpOgt", "OOgt", "NOgt",
+  "Ng", "UNg", "DNn", "TNn", "QNn", "QnNn", "SNn", "SpNn", "ONn", "NNn"
+];
+
+// Função que formata números para abreviações tipo 1k, 1M, 1B, ... até infinito
+function formatarNumero(num) {
+  if (num < 1000) return num.toString();
+
+  let unidadeIndex = 0;
+  let valor = num;
+
+  while (valor >= 1000 && unidadeIndex < unidades.length - 1) {
+    valor /= 1000;
+    unidadeIndex++;
+  }
+
+  // Mantém 2 casas decimais só se necessário
+  return valor.toFixed(2).replace(/\.00$/, '') + unidades[unidadeIndex];
+}
+
 // Variáveis do jogo
 let score = 0;
 let clickPower = 1;
@@ -14,7 +44,7 @@ const clickSound = document.getElementById("clickSound");
 const buySound = document.getElementById("buySound");
 const boostSound = document.getElementById("boostSound");
 
-// Elementos HTML
+// Elementos da interface
 const scoreDisplay = document.getElementById("score");
 const clickBtn = document.getElementById("clickBtn");
 const clickPowerSpan = document.getElementById("clickPower");
@@ -34,84 +64,9 @@ const xpBar = document.getElementById("xpBar");
 const levelDisplay = document.getElementById("levelDisplay");
 const gemsDisplay = document.getElementById("gemsCount");
 
-// Boosts
 const speedBoostBtn = document.getElementById("speedBoostBtn");
 const multiplierBoostBtn = document.getElementById("multiplierBoostBtn");
 const buyGemsBtn = document.getElementById("buyGemsBtn");
-
-// Firebase config - você já deve ter configurado isso no seu código
-const firebaseConfig = {
-  apiKey: "AIzaSyAT4F4_k9zmi9PtqUST8oiOHw5k7f1uPfg",
-  authDomain: "clicker-ranking.firebaseapp.com",
-  projectId: "clicker-ranking",
-  storageBucket: "clicker-ranking.firebasestorage.app",
-  messagingSenderId: "72533988657",
-  appId: "1:72533988657:web:b3afb73f21926b0a1ccc10",
-  measurementId: "G-JPPX1JJ5VC"
-};
-
-// Inicializa Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-// --- Função para formatar números grandes com unidades infinitas ---
-function formatarNumero(num) {
-  const unidadesBase = ['', 'k', 'm', 'b', 't'];
-  const letras = 'abcdefghijklmnopqrstuvwxyz';
-
-  let unidadeIndex = 0;
-  let valor = num;
-
-  while (valor >= 1000) {
-    valor /= 1000;
-    unidadeIndex++;
-  }
-
-  if (unidadeIndex < unidadesBase.length) {
-    return valor.toFixed(1).replace(/\.0$/, '') + unidadesBase[unidadeIndex];
-  }
-
-  // Gera sufixo com letras (a, b, c, ..., aa, ab, ac, ...)
-  let index = unidadeIndex - unidadesBase.length;
-  let sufixo = '';
-
-  while (index >= 0) {
-    sufixo = letras[index % 26] + sufixo;
-    index = Math.floor(index / 26) - 1;
-  }
-
-  return valor.toFixed(1).replace(/\.0$/, '') + sufixo;
-}
-
-// --- SALVAR PROGRESSO ---
-function salvarProgresso() {
-  const saveData = {
-    score,
-    clickPower,
-    autoClickers,
-    multiplier,
-    multiplierCount,
-    level,
-    xp,
-    gems,
-  };
-  localStorage.setItem('clickerSave', JSON.stringify(saveData));
-}
-
-// --- CARREGAR PROGRESSO ---
-function carregarProgresso() {
-  const saveData = JSON.parse(localStorage.getItem('clickerSave'));
-  if (saveData) {
-    score = saveData.score || 0;
-    clickPower = saveData.clickPower || 1;
-    autoClickers = saveData.autoClickers || 0;
-    multiplier = saveData.multiplier || 1;
-    multiplierCount = saveData.multiplierCount || 0;
-    level = saveData.level || 1;
-    xp = saveData.xp || 0;
-    gems = saveData.gems || 0;
-  }
-}
 
 // --- CLICKER ---
 clickBtn.addEventListener("click", () => {
@@ -129,8 +84,6 @@ upgradeClickPowerBtn.addEventListener("click", () => {
     clickPower++;
     buySound.play();
     atualizar();
-  } else {
-    alert("Você não tem score suficiente para comprar esse upgrade!");
   }
 });
 
@@ -142,8 +95,6 @@ buyAutoClickerBtn.addEventListener("click", () => {
     autoClickers++;
     buySound.play();
     atualizar();
-  } else {
-    alert("Você não tem score suficiente para comprar auto clicker!");
   }
 });
 
@@ -156,8 +107,6 @@ buyMultiplierBtn.addEventListener("click", () => {
     multiplierCount++;
     buySound.play();
     atualizar();
-  } else {
-    alert("Você não tem score suficiente para comprar multiplicador!");
   }
 });
 
@@ -171,8 +120,6 @@ speedBoostBtn.addEventListener("click", () => {
       atualizar();
     }, 100);
     setTimeout(() => clearInterval(boost), 30000);
-  } else {
-    alert("Você não tem gemas suficientes para o boost de velocidade!");
   }
 });
 
@@ -182,13 +129,9 @@ multiplierBoostBtn.addEventListener("click", () => {
     gems -= 50;
     buySound.play();
     multiplier *= 5;
-    atualizar();
     setTimeout(() => {
       multiplier /= 5;
-      atualizar();
     }, 30000);
-  } else {
-    alert("Você não tem gemas suficientes para o boost multiplicador!");
   }
 });
 
@@ -220,7 +163,7 @@ function verificarLevelUp() {
 function atualizar() {
   verificarLevelUp();
 
-  scoreDisplay.textContent = formatarNumero(Math.floor(score));
+  scoreDisplay.textContent = formatarNumero(score);
   clickPowerSpan.textContent = clickPower;
   upgradeClickPowerCostSpan.textContent = formatarNumero(Math.floor(10 * Math.pow(1.5, clickPower - 1)));
 
@@ -235,8 +178,6 @@ function atualizar() {
   xpBar.style.width = `${(xp / (level * 100)) * 100}%`;
 
   gemsDisplay.textContent = formatarNumero(gems);
-
-  salvarProgresso(); // Salva sempre que atualizar a UI
 }
 
 // --- TEMA ---
@@ -244,63 +185,7 @@ document.getElementById("toggleThemeBtn").addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-// === 🏆 RANKING FIREBASE ===
-async function salvarScore(nome, score) {
-  if (!nome) return;
-  try {
-    await db.collection("ranking").doc(nome).set({
-      score: score,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    alert("Pontuação salva no ranking!");
-  } catch (error) {
-    console.error("Erro ao salvar:", error);
-  }
-}
-
-async function pegarRanking() {
-  try {
-    const snapshot = await db.collection("ranking")
-      .orderBy("score", "desc")
-      .limit(10)
-      .get();
-
-    const ranking = [];
-    snapshot.forEach(doc => {
-      ranking.push({ nome: doc.id, score: doc.data().score });
-    });
-    return ranking;
-  } catch (error) {
-    console.error("Erro ao pegar ranking:", error);
-    return [];
-  }
-}
-
-async function atualizarRanking() {
-  const ranking = await pegarRanking();
-  const rankingList = document.getElementById('rankingList');
-  if (!rankingList) return;
-  rankingList.innerHTML = "";
-  ranking.forEach((jogador, i) => {
-    const li = document.createElement('li');
-    li.textContent = `${i + 1}. ${jogador.nome} - ${formatarNumero(jogador.score)}`;
-    rankingList.appendChild(li);
-  });
-}
-
-// Pergunta nome e salva score
-function pedirNomeESalvarScore() {
-  const nome = prompt("Digite seu nome para o ranking:");
-  if (nome && score > 0) {
-    salvarScore(nome, score).then(() => {
-      atualizarRanking();
-    });
-  }
-}
-
-// Inicializa ranking e carrega progresso ao carregar a página
+// Inicializa interface
 window.addEventListener("load", () => {
-  carregarProgresso();
   atualizar();
-  atualizarRanking();
 });
