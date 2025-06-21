@@ -1,257 +1,148 @@
-/* Reset e base */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+:root {
+  --color-bg: #121212;
+  --color-panel-bg: #1f1f1f;
+  --color-text: #eee;
+  --color-accent: #4fc3f7;
+  --color-btn-bg: #222;
+  --color-btn-hover: #4fc3f7;
+  --color-btn-text: #eee;
+  --color-xp-bar-bg: #333;
+  --color-xp-bar-fill: #4fc3f7;
 }
 
 body {
-  background: #121212;
-  color: #eee;
+  margin: 0;
+  font-family: 'Orbitron', monospace, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+  position: relative;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 20px;
-  transition: background 0.3s, color 0.3s;
 }
 
-#game-container {
-  width: 380px;
-  background: #1e1e1e;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 0 15px #00ff99;
+/* Luz piscando nos cantos */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, #4fc3f7, transparent 70%);
+  opacity: 0.5;
+  animation: pulse 2.5s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 1;
 }
 
-header {
-  text-align: center;
-  margin-bottom: 15px;
+body::before {
+  top: 0;
+  left: 0;
 }
 
-h1 {
-  margin-bottom: 10px;
-  color: #00ff99;
-  text-shadow: 0 0 6px #00ff99;
+body::after {
+  bottom: 0;
+  right: 0;
+  animation-delay: 1.25s;
 }
 
-button {
-  cursor: pointer;
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.15);
+  }
+}
+
+/* Botão tema */
+.theme-btn {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  background-color: var(--color-btn-bg);
   border: none;
+  padding: 8px 12px;
+  cursor: pointer;
   border-radius: 6px;
-  padding: 10px 15px;
-  font-weight: bold;
-  font-size: 1rem;
-  background-color: #00cc77;
-  color: #111;
-  box-shadow: 0 0 10px #00cc77;
+  color: var(--color-btn-text);
+  font-size: 20px;
+  z-index: 10;
   transition: background-color 0.3s;
 }
 
-button:hover {
-  background-color: #00ff99;
-  box-shadow: 0 0 14px #00ff99;
+.theme-btn:hover {
+  background-color: var(--color-btn-hover);
 }
 
-.big-button {
-  width: 100%;
-  font-size: 1.3rem;
-  padding: 20px;
-  margin-bottom: 20px;
-  background-color: #00bb66;
-  box-shadow: 0 0 18px #00bb66;
+/* Container geral */
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  padding: 80px 16px 16px 16px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.big-button:hover {
-  background-color: #00ff99;
-}
-
+/* Painéis */
 .panel {
-  background: #222;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  box-shadow: 0 0 12px #00ff99;
+  background-color: var(--color-panel-bg);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 0 20px #0b4f6c44;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 2;
 }
 
-.upgrade-group {
-  margin-bottom: 10px;
+/* Títulos */
+.panel h2 {
+  margin: 0 0 8px 0;
+  font-weight: 700;
+  font-size: 1.3rem;
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: 6px;
+}
+
+/* Botões */
+.btn {
+  background-color: var(--color-btn-bg);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--color-btn-text);
+  font-weight: 700;
+  transition: background-color 0.3s;
+  user-select: none;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: var(--color-btn-hover);
+  outline: none;
+}
+
+/* Click Button - maior */
+.click-btn {
+  font-size: 1.4rem;
+  padding: 20px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+/* Upgrade rows */
+.upgrade-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.upgrade-btn {
-  flex: 1 0 auto;
-  margin-right: 10px;
-  background-color: #006644;
-  color: #cdf9d6;
-  box-shadow: 0 0 8px #00cc77;
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.upgrade-btn:hover {
-  background-color: #00ff99;
-  color: #111;
-}
-
-.boost-btn {
-  width: 100%;
-  margin-bottom: 10px;
-  background-color: #005533;
-  box-shadow: 0 0 8px #00cc77;
-  font-weight: 700;
-}
-
-.boost-btn:hover {
-  background-color: #00ff99;
-  color: #111;
-}
-
-.rebirth-btn,
-.reset-btn {
-  width: 48%;
-  background-color: #aa0000;
-  color: #fff;
-  font-weight: 700;
-  margin-top: 10px;
-  box-shadow: 0 0 10px #ff4444;
-}
-
-.rebirth-btn:hover,
-.reset-btn:hover {
-  background-color: #ff5555;
-  box-shadow: 0 0 15px #ff6666;
-}
-
-#xpBarContainer {
-  background-color: #444;
-  width: 100%;
-  height: 18px;
-  border-radius: 9px;
-  margin: 10px 0 10px 0;
-  box-shadow: inset 0 0 8px #00ff99;
-}
-
-#xpBar {
-  background-color: #00ff99;
-  height: 100%;
-  width: 0%;
-  border-radius: 9px;
-  transition: width 0.5s ease;
-}
-
-.upgradeAmountBtn {
-  margin-left: 5px;
-  background-color: #006644;
-  color: #cdf9d6;
-  padding: 5px 10px;
-  font-weight: 600;
-  border-radius: 5px;
-  box-shadow: 0 0 6px #00cc77;
-  transition: background-color 0.3s;
-}
-
-.upgradeAmountBtn:hover {
-  background-color: #00ff99;
-  color: #111;
-}
-
-.upgradeAmountBtn.active {
-  background-color: #00ff99;
-  color: #111;
-  box-shadow: 0 0 12px #00ff99;
-}
-
-/* Luzes piscando nos cantos */
-
-#corner-lights {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.light {
-  position: fixed;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: #00ff99;
-  filter: blur(16px);
-  opacity: 0.4;
-  animation: pulseLight 3s infinite ease-in-out;
-}
-
-.top-left {
-  top: 20px;
-  left: 20px;
-  animation-delay: 0s;
-}
-
-.top-right {
-  top: 20px;
-  right: 20px;
-  animation-delay: 0.7s;
-}
-
-.bottom-left {
-  bottom: 20px;
-  left: 20px;
-  animation-delay: 1.4s;
-}
-
-.bottom-right {
-  bottom: 20px;
-  right: 20px;
-  animation-delay: 2.1s;
-}
-
-@keyframes pulseLight {
-  0%, 100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-}
-
-/* Tema claro */
-
-body.light {
-  background: #f0f0f0;
-  color: #222;
-}
-
-body.light #game-container {
-  background: #fff;
-  box-shadow: 0 0 15px #007744;
-}
-
-body.light h1 {
-  color: #007744;
-  text-shadow: none;
-}
-
-body.light button {
-  background-color: #007744;
-  color: #fff;
-  box-shadow: 0 0 10px #007744;
-}
-
-body.light button:hover {
-  background-color: #00cc55;
-  box-shadow: 0 0 14px #00cc55;
-}
-
-body.light .panel {
-  background: #ddd;
-  box-shadow: 0 0 12px #00cc55;
-}
+/* Botões de comprar múlt
