@@ -33,7 +33,7 @@ const xpBar = document.getElementById("xpBar");
 const clickSound = document.getElementById("clickSound");
 const buySound = document.getElementById("buySound");
 
-// Função para atualizar a interface
+// Atualiza a interface do jogo
 function atualizar() {
   verificarLevelUp();
 
@@ -56,7 +56,7 @@ function atualizar() {
   salvarProgresso();
 }
 
-// Salvar progresso no localStorage automaticamente
+// Salva os dados no localStorage
 function salvarProgresso() {
   const saveData = {
     score,
@@ -72,7 +72,7 @@ function salvarProgresso() {
   localStorage.setItem("clickerSave", JSON.stringify(saveData));
 }
 
-// Carregar progresso do localStorage
+// Carrega os dados do localStorage
 function carregarProgresso() {
   const saveData = JSON.parse(localStorage.getItem("clickerSave"));
   if (saveData) {
@@ -88,7 +88,7 @@ function carregarProgresso() {
   }
 }
 
-// Verificar level up
+// Verifica se houve level up
 function verificarLevelUp() {
   if (xp >= level * 100) {
     xp -= level * 100;
@@ -99,6 +99,7 @@ function verificarLevelUp() {
 }
 
 // Eventos
+
 clickBtn.addEventListener("click", () => {
   score += clickPower * multiplier;
   xp += 1;
@@ -143,7 +144,7 @@ document.getElementById("buyGemsBtn").addEventListener("click", () => {
   atualizar();
 });
 
-// Auto clicker
+// Auto clicker automático
 setInterval(() => {
   score += autoClickers * multiplier;
   cps = autoClickers * multiplier;
@@ -151,12 +152,12 @@ setInterval(() => {
   atualizar();
 }, 1000);
 
-// Tema escuro
+// Toggle dark mode
 document.getElementById("toggleThemeBtn").addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-// Ao carregar a página, carregar progresso salvo e atualizar tela
+// Carregar progresso e atualizar a interface ao carregar a página
 window.addEventListener("load", () => {
   carregarProgresso();
   atualizar();
