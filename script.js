@@ -61,30 +61,7 @@ function custoRebirth(rebirthCount) {
 
 function formatarNumero(num) {
   if (num < 1000) return num.toFixed(0);
-  const unidades = ["", "K", "M", "B", "T", "Q", "Qi", "Sx", "Sp", "Oc", "N", "Dc"
-                    "", "K", "M", "B", "T", "Q", "Qi", "Sx", "Sp", "Oc",
-    "N", "Dc", "Ud", "Dd", "Td", "Qd", "Qn", "Sxd", "Spd", "Ocd",
-    "Nd", "Vg", "UVg", "DVg", "TVg", "QVg", "QnVg", "SVg", "SpVg", "OVg",
-    "NVg", "Tg", "UTg", "DTg", "TTg", "QTg", "QnTg", "STg", "SpTg", "OTg",
-    "NTg", "Qg", "UQg", "DQg", "TQg", "QQg", "QnQg", "SQg", "SpQg", "OQg",
-    "NQg", "Qq", "UQq", "DQq", "TQq", "QQq", "QnQq", "SQq", "SpQq", "OQq",
-    "NQq", "Sg", "USg", "DSg", "TSg", "QSg", "QnSg", "SSg", "SpSg", "OSg",
-    "NSg", "Sgnt", "USgnt", "DSgnt", "TSgnt", "QSgnt", "QnSgnt", "SSgnt", "SpSgnt", "OSgnt", "NSgnt",
-    "Ogt", "UOgt", "DOgt", "TOgt", "QOgt", "QnOgt", "SOgt", "SpOgt", "OOgt", "NOgt",
-    "Ng", "UNg", "DNn", "TNn", "QNn", "QnNn", "SNn", "SpNn", "ONn", "NNn", "OLPWO", "NdOs", "NSposk",
-    "Ldm", "Huoop", "Nowid", "Infernal", "Nallk", "Alsk", "SEoiUd", "A", "B", "C", "D", "E",
-    "AB", "AC", "AD", "AE", "Comdwi", "CMD", "Gfsppdo", "osiwop", "OOOOOOOgtu", "DQtgSqSp", "omhfooe",
-    "AqTpzRf", "mNsEjkD", "BdLuwXo", "zVtErPc", "yHqLmXa", "rTgPovB", "JtMwuZs", "EqYdrAf", "cLgUpMk", "NvYtlQz",
-"WbmUjfE", "uSkzOcb", "fDwHryQ", "ZxgLMtA", "KoWvnJP", "VsLMdhr", "iPfEoqL", "jYHRxVc", "GblTMaX", "tRkXeNj",
-"XoLqvRy", "YJmgtsd", "dRyxPlW", "FJvLzCn", "msOQaWv", "vLNBfTg", "CtmrYUJ", "GnQHrpl", "hXJKYzb", "VbzMWCs",
-"ejrQphM", "LQNjmpB", "uyXhZWr", "SpMJrqT", "rTwPLmC", "DwZlVoj", "NpFYrEd", "xvRpjKn", "MJYtcqo", "ZPLxkqg",
-"qlKNJus", "wMaRjZv", "epZOUyk", "oLYfJrT", "rLMQkhd", "SKprlTV", "zXDrYMj", "YoRLfnz", "qVWlHkJ", "vRpWZoq",
-"KwLXtYh", "TGmzyPo", "fWLoUjB", "uOMqLrz", "JDmxRlN", "hbRzkLm", "VxLMRTu", "xWAqKLj", "PFvQzoM", "cWkYXJr",
-"tLpVNHb", "UBNkyXc", "zJWxTup", "LsXQnzm", "HFzOrpL", "azqLxWP", "xoLMJRV", "kTYaRbL", "XvLKoPf", "LtZRPoj",
-"dPqrYML", "mWXLKob", "QVpWrlo", "GZxpKYR", "uJvQLxm", "zKHrOYT", "OtwXJlz", "qzYPLkW", "tRLPJxv", "rKOYwZT",
-"EFJrmqY", "MvXULrj", "XJrYtWk", "pTzWRmQ", "bqYoRPx", "yWXTLMk", "LOMxpqY", "JXovTYr", "WqRpXLY", "vnRMxjt",
-"ZPWRyox", "XtqkJLM", "KLYzopM", "mTzYwXp", "pYVoXrm", "LqWRmjt", "xkLYvRp", "rXJPqwt", "JvXoPLY", "TZpqrmY"
-                   ];
+  const unidades = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"];
   let ordem = Math.min(Math.floor(Math.log10(num) / 3), unidades.length - 1);
   let valor = num / Math.pow(1000, ordem);
   return valor.toFixed(2) + unidades[ordem];
@@ -253,9 +230,36 @@ resetBtn.addEventListener("click", () => {
 
 document.getElementById("toggleThemeBtn").addEventListener("click", () => {
   document.body.classList.toggle("dark");
+  document.body.classList.toggle("gamer");
 });
 
 window.addEventListener("load", () => {
   carregarEstado();
   atualizar();
+  // Efeito de luz piscando nos cantos
+  const lights = document.createElement("div");
+  lights.style.position = "fixed";
+  lights.style.top = "0";
+  lights.style.left = "0";
+  lights.style.width = "100%";
+  lights.style.height = "100%";
+  lights.style.pointerEvents = "none";
+  lights.style.zIndex = "9999";
+  lights.style.boxShadow = "0 0 40px 10px rgba(0,255,255,0.3), 0 0 40px 10px rgba(255,0,255,0.3) inset";
+  lights.style.animation = "flashyLights 2s infinite alternate";
+  document.body.appendChild(lights);
 });
+
+// Estilo visual gamer (você pode aplicar isso no CSS também):
+const style = document.createElement('style');
+style.textContent = `
+  body.dark.gamer {
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    color: #0ff;
+  }
+  @keyframes flashyLights {
+    0% { box-shadow: 0 0 20px 5px rgba(0,255,255,0.1), 0 0 20px 5px rgba(255,0,255,0.1) inset; }
+    100% { box-shadow: 0 0 60px 20px rgba(0,255,255,0.4), 0 0 60px 20px rgba(255,0,255,0.4) inset; }
+  }
+`;
+document.head.appendChild(style);
