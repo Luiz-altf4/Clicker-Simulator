@@ -15,11 +15,13 @@
     </header>
 
     <div class="stats">
-      <div id="score">0</div>
-      <div id="cps">Clicks por segundo: 0</div>
-      <div id="xpBarContainer">
-        <div id="xpBar"></div>
-        <div id="levelDisplay">Nível: 1</div>
+      <div class="score-section">
+        <div id="score">0</div>
+        <div id="cps">Clicks por segundo: 0</div>
+        <div id="xpBarContainer">
+          <div id="xpBar"></div>
+          <div id="levelDisplay">Nível: 1</div>
+        </div>
       </div>
       <button id="clickBtn">Clique Aqui!</button>
     </div>
@@ -49,35 +51,18 @@
       <button id="multiplierBoostBtn">Boost Multiplicador x5 (50 Gemas) - 30s</button>
     </section>
 
-    <section class="missions">
-      <h2>Missões Diárias</h2>
-      <ul id="missionsList"></ul>
-    </section>
-
-    <section class="achievements">
-      <h2>Conquistas</h2>
-      <ul id="achievementsList"></ul>
-    </section>
-
     <section class="shop">
       <h2>Loja</h2>
       <div>Gemas: <span id="gemsCount">0</span></div>
       <button id="buyGemsBtn">Comprar 100 Gemas (Simulado)</button>
     </section>
 
-    <section class="ranking">
-      <h2>Ranking Online</h2>
-      <button id="saveScoreBtn">Salvar minha pontuação</button>
-      <ul id="rankingList"></ul>
-    </section>
   </div>
 
   <audio id="clickSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
   <audio id="buySound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
   <audio id="boostSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
 
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
