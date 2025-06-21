@@ -8,12 +8,13 @@ let level = 1;
 let xp = 0;
 let gems = 0;
 
-// Sons
+let speedBoostActive = false;
+let multiplierBoostActive = false;
+
 const clickSound = document.getElementById("clickSound");
 const buySound = document.getElementById("buySound");
 const boostSound = document.getElementById("boostSound");
 
-// Elementos
 const scoreDisplay = document.getElementById("score");
 const clickBtn = document.getElementById("clickBtn");
 const clickPowerSpan = document.getElementById("clickPower");
@@ -36,6 +37,9 @@ const gemsDisplay = document.getElementById("gemsCount");
 const speedBoostBtn = document.getElementById("speedBoostBtn");
 const multiplierBoostBtn = document.getElementById("multiplierBoostBtn");
 const buyGemsBtn = document.getElementById("buyGemsBtn");
+
+const speedBoostActiveDiv = document.getElementById("speedBoostActive");
+const multiplierBoostActiveDiv = document.getElementById("multiplierBoostActive");
 
 // --- CLICKER ---
 clickBtn.addEventListener("click", () => {
@@ -81,26 +85,46 @@ buyMultiplierBtn.addEventListener("click", () => {
 
 // --- BOOST: VELOCIDADE ---
 speedBoostBtn.addEventListener("click", () => {
-  if (gems >= 20) {
+  if (gems >= 20 && !speedBoostActive) {
     gems -= 20;
     buySound.play();
-    let boost = setInterval(() => {
+    speedBoostActive = true;
+    speedBoostActiveDiv.hidden = false;
+    boostSound.play();
+
+    let boostInterval = setInterval(() => {
       score += clickPower * multiplier;
       atualizar();
     }, 100);
-    setTimeout(() => clearInterval(boost), 30000);
+
+    setTimeout(() => {
+      clearInterval(boostInterval);
+      speedBoostActive = false;
+      speedBoostActiveDiv.hidden = true;
+    }, 30000);
+
+    atualizar();
   }
 });
 
 // --- BOOST: MULTIPLICADOR x5 ---
 multiplierBoostBtn.addEventListener("click", () => {
-  if (gems >= 50) {
+  if (gems >= 50 && !multiplierBoostActive) {
     gems -= 50;
     buySound.play();
+    multiplierBoostActive = true;
+    multiplierBoostActiveDiv.hidden = false;
     multiplier *= 5;
+    boostSound.play();
+
     setTimeout(() => {
       multiplier /= 5;
+      multiplierBoostActive = false;
+      multiplierBoostActiveDiv.hidden = true;
+      atualizar();
     }, 30000);
+
+    atualizar();
   }
 });
 
@@ -125,7 +149,16 @@ function verificarLevelUp() {
     level++;
     gems += 10;
     buySound.play();
+    animarLevelUp();
   }
+}
+
+// --- ANIMAÇÃO LEVEL UP ---
+function animarLevelUp() {
+  levelDisplay.classList.add("level-up");
+  setTimeout(() => {
+    levelDisplay.classList.remove("level-up");
+  }, 1500);
 }
 
 // --- ATUALIZA INTERFACE ---
@@ -137,83 +170,4 @@ function atualizar() {
   upgradeClickPowerCostSpan.textContent = Math.floor(10 * Math.pow(1.5, clickPower - 1));
 
   autoClickersSpan.textContent = autoClickers;
-  autoClickerCostSpan.textContent = 50 * (autoClickers + 1);
-
-  multiplierCountSpan.textContent = multiplierCount;
-  multiplierCostSpan.textContent = 100 * (multiplierCount + 1);
-
-  cpsDisplay.textContent = `Clicks por segundo: ${cps}`;
-  levelDisplay.textContent = `Nível: ${level}`;
-  xpBar.style.width = `${(xp / (level * 100)) * 100}%`;
-
-  gemsDisplay.textContent = gems;
-}
-
-// --- TEMA ---
-document.getElementById("toggleThemeBtn").addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-});
-
-// === 🏆 RANKING FIREBASE ===
-
-// Salvar score no Firebase
-async function salvarScore(nome, score) {
-  if (!nome) return;
-  try {
-    await db.collection("ranking").doc(nome).set({
-      score: score,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    alert("Pontuação salva no ranking!");
-  } catch (error) {
-    console.error("Erro ao salvar:", error);
-  }
-}
-
-// Pegar ranking do Firebase
-async function pegarRanking() {
-  try {
-    const snapshot = await db.collection("ranking")
-      .orderBy("score", "desc")
-      .limit(10)
-      .get();
-
-    const ranking = [];
-    snapshot.forEach(doc => {
-      ranking.push({ nome: doc.id, score: doc.data().score });
-    });
-    return ranking;
-  } catch (error) {
-    console.error("Erro ao pegar ranking:", error);
-    return [];
-  }
-}
-
-// Atualizar lista do ranking na tela
-async function atualizarRanking() {
-  const ranking = await pegarRanking();
-  const rankingList = document.getElementById('rankingList');
-  if (!rankingList) return;
-  rankingList.innerHTML = "";
-  ranking.forEach((jogador, i) => {
-    const li = document.createElement('li');
-    li.textContent = `${i + 1}. ${jogador.nome} - ${Math.floor(jogador.score)}`;
-    rankingList.appendChild(li);
-  });
-}
-
-// Função global pra botão salvar no ranking
-window.pedirNomeESalvarScore = function () {
-  const nome = prompt("Digite seu nome para o ranking:");
-  if (nome && score > 0) {
-    salvarScore(nome, score).then(() => {
-      atualizarRanking();
-    });
-  }
-};
-
-// Inicializa ao carregar a página
-window.addEventListener("load", () => {
-  atualizarRanking();
-  atualizar();
-});
+  autoClickerCostSpan.textContent = 50 * (autoClickers + 1
