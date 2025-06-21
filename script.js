@@ -16,7 +16,7 @@ const upgradeClickPowerBtn = document.getElementById("upgradeClickPowerBtn");
 const upgradeClickPowerCostSpan = document.getElementById("upgradeClickPowerCost");
 
 const autoClickersSpan = document.getElementById("autoClickers");
-const autoClickerCostSpan = document.createElement("span");
+const autoClickerCostSpan = document.getElementById("autoClickerCost");
 const buyAutoClickerBtn = document.getElementById("buyAutoClickerBtn");
 
 const multiplierCostSpan = document.getElementById("multiplierCost");
@@ -31,10 +31,19 @@ const buyGemsBtn = document.getElementById("buyGemsBtn");
 const levelDisplay = document.getElementById("levelDisplay");
 const xpBar = document.getElementById("xpBar");
 
+const saveBtn = document.getElementById("saveBtn");
+const loadBtn = document.getElementById("loadBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const clickSound = document.getElementById("clickSound");
+const buySound = document.getElementById("buySound");
+const levelupSound = document.getElementById("levelupSound");
+
 // CLICK
 clickBtn.addEventListener("click", () => {
   score += clickPower * multiplier;
   xp += 1;
+  clickSound.play();
   atualizar();
 });
 
@@ -44,6 +53,7 @@ upgradeClickPowerBtn.addEventListener("click", () => {
   if (score >= cost) {
     score -= cost;
     clickPower++;
+    buySound.play();
     atualizar();
   }
 });
@@ -54,6 +64,7 @@ buyAutoClickerBtn.addEventListener("click", () => {
   if (score >= cost) {
     score -= cost;
     autoClickers++;
+    buySound.play();
     atualizar();
   }
 });
@@ -65,6 +76,7 @@ buyMultiplierBtn.addEventListener("click", () => {
     score -= cost;
     multiplier *= 2;
     multiplierCount++;
+    buySound.play();
     atualizar();
   }
 });
@@ -72,6 +84,7 @@ buyMultiplierBtn.addEventListener("click", () => {
 // COMPRA GEMAS SIMULADO
 buyGemsBtn.addEventListener("click", () => {
   gems += 100;
+  buySound.play();
   atualizar();
 });
 
@@ -89,6 +102,7 @@ function verificarLevelUp() {
     xp = 0;
     level++;
     gems += 10;
+    levelupSound.play();
   }
 }
 
@@ -113,6 +127,60 @@ function atualizar() {
   xpBar.style.width = `${(xp / (level * 100)) * 100}%`;
 }
 
+// SALVAR PROGRESSO NO localStorage
+saveBtn.addEventListener("click", () => {
+  const saveData = {
+    score,
+    clickPower,
+    autoClickers,
+    multiplier,
+    multiplierCount,
+    cps,
+    gems,
+    level,
+    xp
+  };
+  localStorage.setItem("clickerSave", JSON.stringify(saveData));
+  alert("Progresso salvo!");
+});
+
+// CARREGAR PROGRESSO DO localStorage
+loadBtn.addEventListener("click", () => {
+  const saveData = JSON.parse(localStorage.getItem("clickerSave"));
+  if (saveData) {
+    score = saveData.score;
+    clickPower = saveData.clickPower;
+    autoClickers = saveData.autoClickers;
+    multiplier = saveData.multiplier;
+    multiplierCount = saveData.multiplierCount;
+    cps = saveData.cps;
+    gems = saveData.gems;
+    level = saveData.level;
+    xp = saveData.xp;
+    atualizar();
+    alert("Progresso carregado!");
+  } else {
+    alert("Nenhum progresso salvo encontrado.");
+  }
+});
+
+// RESETAR JOGO
+resetBtn.addEventListener("click", () => {
+  if (confirm("Tem certeza que quer resetar seu progresso?")) {
+    score = 0;
+    clickPower = 1;
+    autoClickers = 0;
+    multiplier = 1;
+    multiplierCount = 0;
+    cps = 0;
+    gems = 0;
+    level = 1;
+    xp = 0;
+    localStorage.removeItem("clickerSave");
+    atualizar();
+  }
+});
+
 // TOGGLE DARK MODE
 document.getElementById("toggleThemeBtn").addEventListener("click", () => {
   document.body.classList.toggle("dark");
@@ -122,4 +190,3 @@ document.getElementById("toggleThemeBtn").addEventListener("click", () => {
 window.addEventListener("load", () => {
   atualizar();
 });
-
