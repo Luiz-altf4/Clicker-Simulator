@@ -1,147 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
 body {
   font-family: 'Poppins', sans-serif;
-  background: #f0f4f8;
-  color: #333;
+  background-color: #f0f2f5;
+  color: #222;
   margin: 0;
-  padding: 0;
-  transition: background 0.3s, color 0.3s;
+  padding: 20px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 body.dark {
-  background: #121212;
+  background-color: #121212;
   color: #eee;
 }
 
 .container {
   max-width: 450px;
-  margin: 20px auto;
-  padding: 20px;
+  margin: 0 auto;
   background: white;
   border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  transition: background 0.3s;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  transition: background 0.3s, color 0.3s;
 }
 
 body.dark .container {
   background: #1e1e1e;
-  box-shadow: 0 4px 15px rgba(255,255,255,0.1);
 }
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 h1 {
-  margin: 0;
   font-weight: 700;
+  font-size: 24px;
+  margin: 0;
 }
 
 button {
-  background: #2196f3;
+  background-color: #4a90e2;
   border: none;
   color: white;
-  padding: 10px 15px;
-  border-radius: 7px;
+  padding: 10px 16px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
-  transition: background 0.3s;
+  transition: background-color 0.3s;
 }
 
 button:hover {
-  background: #1976d2;
+  background-color: #357ABD;
 }
 
-.stats {
-  margin: 20px 0;
-  text-align: center;
+.stats, .upgrades, .boosts, .shop, .ranking {
+  margin-bottom: 20px;
+}
+
+.score-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 #score {
-  font-size: 3em;
+  font-size: 48px;
   font-weight: 700;
-  margin-bottom: 10px;
+  user-select: none;
 }
 
-#cps {
-  font-size: 1.1em;
-  margin-bottom: 20px;
+#cps, #levelDisplay {
+  font-weight: 600;
+  margin-top: 6px;
 }
 
 #xpBarContainer {
   background: #ddd;
-  height: 15px;
   border-radius: 10px;
-  margin: 10px auto;
-  width: 90%;
-  position: relative;
+  width: 100%;
+  height: 18px;
+  margin-top: 8px;
+  overflow: hidden;
 }
 
 #xpBar {
-  background: #2196f3;
+  background: #4a90e2;
   height: 100%;
   width: 0%;
-  border-radius: 10px;
-  transition: width 0.3s;
+  transition: width 0.3s ease-in-out;
 }
 
-#levelDisplay {
-  text-align: center;
-  margin-top: 5px;
-  font-weight: 600;
-}
-
-.upgrades, .boosts, .missions, .achievements, .shop {
-  margin-bottom: 20px;
-}
-
-.upgrade-box {
-  background: #e3f2fd;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-body.dark .upgrade-box {
-  background: #2a2a2a;
+.upgrade-box, .boosts button, .shop > div, .ranking ul {
+  margin-top: 10px;
 }
 
 .upgrade-box p {
-  margin: 0;
+  margin: 6px 0;
   font-weight: 600;
 }
 
-.missions ul, .achievements ul {
-  list-style: none;
-  padding: 0;
+.upgrade-box button {
+  width: 100%;
 }
 
-#missionsList li, #achievementsList li {
-  background: #2196f3;
-  color: white;
-  margin-bottom: 8px;
-  padding: 10px;
+#clickBtn {
+  font-size: 24px;
+  padding: 15px 0;
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  user-select: none;
+}
+
+#loginSection input {
+  width: 100%;
+  padding: 10px 14px;
+  margin: 6px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+#loginSection button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+#loginStatus {
+  margin-top: 10px;
+  color: red;
+  font-weight: 600;
+  min-height: 20px;
+}
+
+.ranking ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.ranking ul li {
+  background: #e3e9ff;
+  margin: 6px 0;
+  padding: 8px 10px;
   border-radius: 6px;
   font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s;
+  color: #1a237e;
 }
 
-#missionsList li.completed, #achievementsList li.completed {
-  background: #4caf50;
-  text-decoration: line-through;
-  cursor: default;
+body.dark .ranking ul li {
+  background: #2c2f4a;
+  color: #cfd8dc;
 }
 
-body.dark #missionsList li, body.dark #achievementsList li {
-  background: #1e88e5;
-  color: #ddd;
-}
-
-body.dark #missionsList li.completed, body.dark #achievementsList li.completed {
-  background: #388e3c;
-}
