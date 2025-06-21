@@ -1,3 +1,5 @@
+// --- SCRIPT DO JOGO CLICKER SIMULATOR REVISADO ---
+
 // Variáveis do jogo
 let score = 0;
 let clickPower = 1;
@@ -10,36 +12,44 @@ let xp = 0;
 let gems = 0;
 let rebirths = 0;
 
+// Sons - verifique se esses elementos existem no seu HTML com esses IDs e os arquivos são acessíveis
 const clickSound = document.getElementById("clickSound");
 const buySound = document.getElementById("buySound");
 const boostSound = document.getElementById("boostSound");
 
-// DOM elements
+// Elementos DOM
 const scoreDisplay = document.getElementById("score");
 const clickBtn = document.getElementById("clickBtn");
 const clickPowerSpan = document.getElementById("clickPower");
 const upgradeClickPowerBtn = document.getElementById("upgradeClickPowerBtn");
 const upgradeClickPowerCostSpan = document.getElementById("upgradeClickPowerCost");
+
 const autoClickersSpan = document.getElementById("autoClickers");
 const autoClickerCostSpan = document.getElementById("autoClickerCost");
 const buyAutoClickerBtn = document.getElementById("buyAutoClickerBtn");
+
 const multiplierCostSpan = document.getElementById("multiplierCost");
 const multiplierCountSpan = document.getElementById("multiplierCount");
 const buyMultiplierBtn = document.getElementById("buyMultiplierBtn");
+
 const cpsDisplay = document.getElementById("cps");
 const xpBar = document.getElementById("xpBar");
 const levelDisplay = document.getElementById("levelDisplay");
 const gemsDisplay = document.getElementById("gemsCount");
+
 const speedBoostBtn = document.getElementById("speedBoostBtn");
 const multiplierBoostBtn = document.getElementById("multiplierBoostBtn");
 const buyGemsBtn = document.getElementById("buyGemsBtn");
+
 const rebirthBtn = document.getElementById("rebirthBtn");
 const rebirthCountSpan = document.getElementById("rebirthCount");
-const resetBtn = document.getElementById("resetBtn");
-const upgradeAmountBtns = document.querySelectorAll(".upgradeAmountBtn");
 
+const resetBtn = document.getElementById("resetBtn");
+
+const upgradeAmountBtns = document.querySelectorAll(".upgradeAmountBtn");
 let upgradeAmount = 1;
 
+// Rebirth custo potências
 const rebirthCostsPowers = Array.from({ length: 100 }, (_, i) => 3 * (i + 1));
 
 function custoRebirth(rebirthCount) {
@@ -52,16 +62,17 @@ function custoRebirth(rebirthCount) {
 
 function formatarNumero(num) {
   if (num < 1000) return num.toFixed(0);
-  const unidades = ["", "K", "M", "B", "T", "Q", "Qi", "Sx", "Sp", "Oc", "N", "Dc",
-  "Ud", "Dd", "Td", "Qd", "Qn", "Sxd", "Spd", "Ocd", "Nd", "Vg", "UVg", "DVg",
-  "TVg", "QVg", "QnVg", "SVg", "SpVg", "OVg", "NVg", "Tg", "UTg", "DTg", "TTg",
-  "QTg", "QnTg", "STg", "SpTg", "OTg", "NTg", "Qg", "UQg", "DQg", "TQg", "QQg",
-  "QnQg", "SQg", "SpQg", "OQg", "NQg", "Qq", "UQq", "DQq", "TQq", "QQq", "QnQq",
-  "SQq", "SpQq", "OQq", "NQq", "Sg", "USg", "DSg", "TSg", "QSg", "QnSg", "SSg",
-  "SpSg", "OSg", "NSg", "Sgnt", "USgnt", "DSgnt", "TSgnt", "QSgnt", "QnSgnt",
-  "SSgnt", "SpSgnt", "OSgnt", "NSgnt", "Ogt", "UOgt", "DOgt", "TOgt", "QOgt",
-  "QnOgt", "SOgt", "SpOgt", "OOgt", "NOgt", "Ng", "UNg", "DNn", "TNn", "QNn",
-  "QnNn", "SNn", "SpNn", "ONn", "NNn"];
+  const unidades = ["", "K", "M", "B", "T", "Q", "Qi", "Sx", "Sp", "Oc",
+                    "N", "Dc", "Ud", "Dd", "Td", "Qd", "Qn", "Sxd", "Spd", "Ocd",
+                    "Nd", "Vg", "UVg", "DVg", "TVg", "QVg", "QnVg", "SVg", "SpVg", "OVg",
+                    "NVg", "Tg", "UTg", "DTg", "TTg", "QTg", "QnTg", "STg", "SpTg", "OTg",
+                    "NTg", "Qg", "UQg", "DQg", "TQg", "QQg", "QnQg", "SQg", "SpQg", "OQg",
+                    "NQg", "Qq", "UQq", "DQq", "TQq", "QQq", "QnQq", "SQq", "SpQq", "OQq",
+                    "NQq", "Sg", "USg", "DSg", "TSg", "QSg", "QnSg", "SSg", "SpSg", "OSg",
+                    "NSg", "Sgnt", "USgnt", "DSgnt", "TSgnt", "QSgnt", "QnSgnt", "SSgnt", "SpSgnt", "OSgnt", "NSgnt",
+                    "Ogt", "UOgt", "DOgt", "TOgt", "QOgt", "QnOgt", "SOgt", "SpOgt", "OOgt", "NOgt",
+                    "Ng", "UNg", "DNn", "TNn", "QNn", "QnNn", "SNn", "SpNn", "ONn", "NNn", "OLPWO", "NdOs", "NSposk",
+                    "Ldm", "Huoop", "Nowid", "Infernal", "Nallk", "Alsk", "SEoiUd"];
   let ordem = Math.min(Math.floor(Math.log10(num) / 3), unidades.length - 1);
   let valor = num / Math.pow(1000, ordem);
   return valor.toFixed(2) + unidades[ordem];
@@ -76,110 +87,122 @@ function carregarEstado() {
   const estado = localStorage.getItem("clickerSimEstado");
   if (estado) {
     const obj = JSON.parse(estado);
-    score = obj.score || 0;
-    clickPower = obj.clickPower || 1;
-    autoClickers = obj.autoClickers || 0;
-    multiplier = obj.multiplier || 1;
-    multiplierCount = obj.multiplierCount || 0;
-    cps = obj.cps || 0;
-    level = obj.level || 1;
-    xp = obj.xp || 0;
-    gems = obj.gems || 0;
-    rebirths = obj.rebirths || 0;
+    score = obj.score ?? 0;
+    clickPower = obj.clickPower ?? 1;
+    autoClickers = obj.autoClickers ?? 0;
+    multiplier = obj.multiplier ?? 1;
+    multiplierCount = obj.multiplierCount ?? 0;
+    cps = obj.cps ?? 0;
+    level = obj.level ?? 1;
+    xp = obj.xp ?? 0;
+    gems = obj.gems ?? 0;
+    rebirths = obj.rebirths ?? 0;
   }
 }
 
-function verificarLevelUp() {
-  if (xp >= level * 100) {
-    xp -= level * 100;
-    level++;
-    gems += 10;
-    buySound.play();
-  }
-}
-
+// Atualiza a interface
 function atualizar() {
   verificarLevelUp();
+
   scoreDisplay.textContent = formatarNumero(score);
   clickPowerSpan.textContent = clickPower;
   upgradeClickPowerCostSpan.textContent = formatarNumero(Math.floor(10 * Math.pow(1.5, clickPower - 1)));
+
   autoClickersSpan.textContent = autoClickers;
   autoClickerCostSpan.textContent = formatarNumero(50 * (autoClickers + 1));
+
   multiplierCountSpan.textContent = multiplierCount;
   multiplierCostSpan.textContent = formatarNumero(100 * (multiplierCount + 1));
+
   cpsDisplay.textContent = `Clicks por segundo: ${formatarNumero(cps)}`;
   levelDisplay.textContent = `Nível: ${level}`;
   xpBar.style.width = `${(xp / (level * 100)) * 100}%`;
+
   gemsDisplay.textContent = gems;
+
   rebirthCountSpan.textContent = rebirths;
+
   salvarEstado();
 }
 
-// Eventos
+// Verifica se tem level up e aplica
+function verificarLevelUp() {
+  while (xp >= level * 100) {
+    xp -= level * 100;
+    level++;
+    gems += 10;
+    buySound?.play();
+  }
+}
+
+// Eventos:
+
+// Clique principal
 clickBtn.addEventListener("click", () => {
   score += clickPower * multiplier;
   xp++;
-  clickSound.play();
+  clickSound?.play();
   atualizar();
 });
 
+// Comprar upgrade click power
 upgradeClickPowerBtn.addEventListener("click", () => {
   const costTotal = Math.floor(10 * Math.pow(1.5, clickPower - 1)) * upgradeAmount;
   if (score >= costTotal) {
     score -= costTotal;
     clickPower += upgradeAmount;
-    buySound.play();
+    buySound?.play();
     atualizar();
   }
 });
 
+// Comprar auto clicker
 buyAutoClickerBtn.addEventListener("click", () => {
   const costTotal = 50 * (autoClickers + 1) * upgradeAmount;
   if (score >= costTotal) {
     score -= costTotal;
     autoClickers += upgradeAmount;
-    buySound.play();
+    buySound?.play();
     atualizar();
   }
 });
 
+// Comprar multiplicador
 buyMultiplierBtn.addEventListener("click", () => {
   let costTotal = 0;
-  let increase = 0;
+  let multiplierIncrease = 0;
   for (let i = 0; i < upgradeAmount; i++) {
     costTotal += 100 * (multiplierCount + i + 1);
-    increase++;
+    multiplierIncrease++;
   }
   if (score >= costTotal) {
     score -= costTotal;
-    multiplier *= Math.pow(2, increase);
-    multiplierCount += increase;
-    buySound.play();
+    multiplier *= Math.pow(2, multiplierIncrease);
+    multiplierCount += multiplierIncrease;
+    buySound?.play();
     atualizar();
   }
 });
 
+// Boost de velocidade
 speedBoostBtn.addEventListener("click", () => {
   if (gems >= 20) {
     gems -= 20;
-    boostSound.play();
+    buySound?.play();
     let boost = setInterval(() => {
       score += clickPower * multiplier;
       atualizar();
     }, 100);
-    setTimeout(() => {
-      clearInterval(boost);
-      atualizar();
-    }, 30000);
+    setTimeout(() => clearInterval(boost), 30000);
   }
 });
 
+// Boost multiplicador
 multiplierBoostBtn.addEventListener("click", () => {
   if (gems >= 50) {
     gems -= 50;
-    boostSound.play();
+    buySound?.play();
     multiplier *= 5;
-    atualizar();
     setTimeout(() => {
       multiplier /= 5;
       atualizar();
@@ -187,12 +210,30 @@ multiplierBoostBtn.addEventListener("click", () => {
   }
 });
 
+// Comprar gemas
 buyGemsBtn.addEventListener("click", () => {
   gems += 100;
-  buySound.play();
+  buySound?.play();
   atualizar();
 });
 
+// Auto clicker automático a cada segundo
+setInterval(() => {
+  score += autoClickers * multiplier;
+  cps = autoClickers * multiplier;
+  atualizar();
+}, 1000);
+
+// Botões para escolher quantidade (1,10,100)
+upgradeAmountBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    upgradeAmount = parseInt(btn.dataset.amount);
+    upgradeAmountBtns.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+  });
+});
+
+// Rebirth
 rebirthBtn.addEventListener("click", () => {
   const cost = custoRebirth(rebirths);
   if (score >= cost) {
@@ -205,13 +246,14 @@ rebirthBtn.addEventListener("click", () => {
     level = 1;
     xp = 0;
     rebirths++;
-    buySound.play();
+    buySound?.play();
     atualizar();
   } else {
     alert(`Rebirth custa ${formatarNumero(cost)} clicks!`);
   }
 });
 
+// Resetar jogo
 resetBtn.addEventListener("click", () => {
   if (confirm("Tem certeza que quer resetar o jogo? Isso apagará todo seu progresso!")) {
     localStorage.clear();
@@ -219,27 +261,13 @@ resetBtn.addEventListener("click", () => {
   }
 });
 
-upgradeAmountBtns.forEach(btn => {
-  btn.addEventListener("click", () => {
-    upgradeAmount = parseInt(btn.dataset.amount);
-    upgradeAmountBtns.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-  });
+// Tema claro/escuro
+document.getElementById("toggleThemeBtn").addEventListener("click", () => {
+  document.body.classList.toggle("dark");
 });
 
-setInterval(() => {
-  score += autoClickers * multiplier;
-  cps = autoClickers * multiplier;
-  atualizar();
-}, 1000);
-
-// Carrega estado salvo e atualiza tela
+// Inicialização
 window.addEventListener("load", () => {
   carregarEstado();
   atualizar();
-});
-
-// Tema escuro toggle
-document.getElementById("toggleThemeBtn").addEventListener("click", () => {
-  document.body.classList.toggle("light");
 });
