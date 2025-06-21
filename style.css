@@ -1,14 +1,10 @@
-* {
-  box-sizing: border-box;
-}
-
 body {
   font-family: 'Poppins', sans-serif;
-  background: #f0f0f0;
-  color: #222;
+  background: #f0f4f8;
+  color: #333;
   margin: 0;
   padding: 0;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background 0.3s, color 0.3s;
 }
 
 body.dark {
@@ -17,9 +13,18 @@ body.dark {
 }
 
 .container {
-  max-width: 480px;
-  margin: 0 auto;
+  max-width: 450px;
+  margin: 20px auto;
   padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: background 0.3s;
+}
+
+body.dark .container {
+  background: #1e1e1e;
+  box-shadow: 0 4px 15px rgba(255,255,255,0.1);
 }
 
 header {
@@ -29,16 +34,23 @@ header {
 }
 
 h1 {
+  margin: 0;
   font-weight: 700;
-  font-size: 1.6rem;
 }
 
-#toggleThemeBtn {
-  font-size: 1.3rem;
-  cursor: pointer;
-  background: transparent;
+button {
+  background: #2196f3;
   border: none;
-  color: inherit;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #1976d2;
 }
 
 .stats {
@@ -47,80 +59,55 @@ h1 {
 }
 
 #score {
-  font-size: 3rem;
+  font-size: 3em;
   font-weight: 700;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 #cps {
-  font-size: 1rem;
-  margin-bottom: 10px;
+  font-size: 1.1em;
+  margin-bottom: 20px;
 }
 
 #xpBarContainer {
   background: #ddd;
+  height: 15px;
   border-radius: 10px;
-  overflow: hidden;
-  position: relative;
-  height: 20px;
-  margin: 0 auto 10px;
+  margin: 10px auto;
   width: 90%;
-  max-width: 350px;
+  position: relative;
 }
 
 #xpBar {
-  background: #4caf50;
+  background: #2196f3;
   height: 100%;
   width: 0%;
-  transition: width 0.3s ease;
+  border-radius: 10px;
+  transition: width 0.3s;
 }
 
 #levelDisplay {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  font-weight: 700;
-  color: #fff;
-  text-shadow: 0 0 2px #000;
-  line-height: 20px;
+  text-align: center;
+  margin-top: 5px;
+  font-weight: 600;
 }
 
-#clickBtn {
-  font-size: 1.2rem;
-  padding: 15px 30px;
-  cursor: pointer;
-  border: none;
-  border-radius: 8px;
-  background: #2196f3;
-  color: #fff;
-  transition: background 0.3s;
-  width: 100%;
-  max-width: 350px;
-  margin: 0 auto;
-  display: block;
-}
-
-#clickBtn:hover {
-  background: #1769aa;
-}
-
-section {
-  margin-top: 30px;
-}
-
-h2 {
-  font-weight: 700;
-  margin-bottom: 15px;
-  border-bottom: 2px solid #2196f3;
-  padding-bottom: 5px;
+.upgrades, .boosts, .missions, .achievements, .shop {
+  margin-bottom: 20px;
 }
 
 .upgrade-box {
+  background: #e3f2fd;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+}
+
+body.dark .upgrade-box {
+  background: #2a2a2a;
 }
 
 .upgrade-box p {
@@ -128,86 +115,7 @@ h2 {
   font-weight: 600;
 }
 
-.upgrade-box button {
-  cursor: pointer;
-  background: #4caf50;
-  color: #fff;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 6px;
-  transition: background 0.3s;
-}
-
-.upgrade-box button:hover {
-  background: #357a38;
-}
-
-.boosts button {
-  cursor: pointer;
-  background: #ff9800;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin-right: 10px;
-  border-radius: 6px;
-  transition: background 0.3s;
-}
-
-.boosts button:hover {
-  background: #b26a00;
-}
-
-.shop button {
-  cursor: pointer;
-  background: #9c27b0;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  transition: background 0.3s;
-}
-
-.shop button:hover {
-  background: #6d1b7b;
-}
-
-/* Dark mode overrides */
-body.dark #xpBarContainer {
-  background: #333;
-}
-
-body.dark #xpBar {
-  background: #81c784;
-}
-
-body.dark .upgrade-box button {
-  background: #81c784;
-  color: #222;
-}
-
-body.dark .upgrade-box button:hover {
-  background: #519657;
-}
-
-body.dark .boosts button {
-  background: #ffb74d;
-  color: #222;
-}
-
-body.dark .boosts button:hover {
-  background: #c88719;
-}
-
-body.dark .shop button {
-  background: #ba68c8;
-  color: #222;
-}
-
-body.dark .shop button:hover {
-  background: #8e3ca6;
-}
-
-#missionsList, #achievementsList {
+.missions ul, .achievements ul {
   list-style: none;
   padding: 0;
 }
@@ -237,4 +145,3 @@ body.dark #missionsList li, body.dark #achievementsList li {
 body.dark #missionsList li.completed, body.dark #achievementsList li.completed {
   background: #388e3c;
 }
-
