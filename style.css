@@ -95,3 +95,100 @@ button {
 #score.pulse {
   animation: pulse 0.3s ease;
 }
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.container {
+  background: rgba(255 255 255 / 0.1);
+  padding: 40px 50px;
+  border-radius: 16px;
+  width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+#score {
+  font-size: 5rem;
+  font-weight: 700;
+  user-select: none;
+  transition: transform 0.25s ease;
+}
+
+button {
+  padding: 14px 28px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 6px 15px rgba(102, 126, 234, 0.5);
+  transition: all 0.3s ease;
+}
+
+#clickBtn {
+  background-color: #7b9eff;
+  color: #fff;
+}
+
+#clickBtn:hover {
+  background-color: #5677f5;
+  box-shadow: 0 8px 20px rgba(86, 119, 245, 0.7);
+  transform: translateY(-3px);
+}
+
+.upgrade-section p {
+  font-size: 1.1rem;
+}
+
+#upgradeBtn {
+  background-color: #5cb85c;
+  color: white;
+  box-shadow: 0 6px 15px rgba(92, 184, 92, 0.5);
+}
+
+#upgradeBtn:hover {
+  background-color: #4cae4c;
+  box-shadow: 0 8px 20px rgba(76, 174, 76, 0.7);
+  transform: translateY(-3px);
+}
+
+/* Animação pulse para o score */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+#score.pulse {
+  animation: pulse 0.3s ease;
+}
