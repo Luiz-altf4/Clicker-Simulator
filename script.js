@@ -97,17 +97,6 @@ function formatarNumero(num) {
 "dPqrYML", "mWXLKob", "QVpWrlo", "GZxpKYR", "uJvQLxm", "zKHrOYT", "OtwXJlz", "qzYPLkW", "tRLPJxv", "rKOYwZT",
 "EFJrmqY", "MvXULrj", "XJrYtWk", "pTzWRmQ", "bqYoRPx", "yWXTLMk", "LOMxpqY", "JXovTYr", "WqRpXLY", "vnRMxjt",
 "ZPWRyox", "XtqkJLM", "KLYzopM", "mTzYwXp", "pYVoXrm", "LqWRmjt", "xkLYvRp", "rXJPqwt", "JvXoPLY", "TZpqrmY"
-"7K4DM", "1Z8QR", "X0P2A", "LM59Y", "B7WQ2", "N4XTV", "8Y0ZR", "ADL93", "K7QWM", "J3X2L",
-"MTL6B", "P98QX", "ZYX03", "RWK52", "F7T9A", "QU91D", "29LXR", "DX50C", "H3MVQ", "A7LWB",
-"WGQ83", "XB91T", "KL7Y5", "34QZD", "5RMNP", "TVX09", "LM83Q", "W8YF1", "AQR52", "7N03V",
-"EZ94M", "LYT83", "MB0PW", "CV28L", "JZR01", "XPQ94", "YNZ35", "WDK70", "MR2AX", "PL8QV",
-"89YKT", "U7PL0", "B43XZ", "2TNQM", "RYP30", "Z0MXT", "F1W2L", "T4JY8", "WLR05", "V9XPQ",
-"QM7X1", "G23YZ", "XYM04", "5AZKD", "JZTX2", "80LYV", "WMZ73", "V19TL", "MQR58", "T8JX9",
-"ZW58P", "A30YL", "D9LQT", "7KXZM", "XRP95", "BK03N", "N57YM", "P4TWZ", "RMA78", "YT02L",
-"KE92Z", "1QMTX", "UXJ03", "4ZPND", "TFM18", "XKY93", "WY5RL", "NJX08", "0PLZD", "VQK72",
-"7ZPXY", "Q9Y1M", "MJL80", "X59RV", "4AKLT", "NQ7DZ", "TU19M", "93XZV", "DLQT5", "Y0MRX",
-"XP4TZ", "J3QWD", "VL0NM", "MW71X", "GXPZ9", "2NYKT", "B58RQ", "WTQ94", "PKL8M", "R7YJX",
-  "demonocasoeol"
 
   ];
   let ordem = Math.min(Math.floor(Math.log10(num) / 3), unidades.length - 1);
