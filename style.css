@@ -18,7 +18,7 @@ body {
 .container {
   background: white;
   width: 100%;
-  max-width: 450px;
+  max-width: 480px;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.1);
   padding: 20px 30px;
@@ -60,10 +60,26 @@ header h1 {
   margin-bottom: 10px;
 }
 
-#cps {
+#cps, #levelDisplay {
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: #555;
+}
+
+#xpBarContainer {
+  width: 100%;
+  height: 12px;
+  background: #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+#xpBar {
+  height: 100%;
+  width: 0;
+  background: #007bff;
+  transition: width 0.3s ease;
 }
 
 .click-button {
@@ -77,6 +93,8 @@ header h1 {
   box-shadow: 0 6px 15px rgba(0,123,255,0.5);
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 10px;
+  user-select: none;
 }
 
 .click-button:hover {
@@ -117,13 +135,45 @@ header h1 {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  user-select: none;
 }
 
 .upgrade-item button:hover, #buyGemsBtn:hover {
   background-color: #1e7e34;
 }
 
-.gems-shop p {
-  margin-bottom: 15px;
+/* DARK MODE */
+body.dark {
+  background: #121212;
+  color: #ddd;
 }
 
+body.dark .container {
+  background: #1f1f1f;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+}
+
+body.dark #score {
+  color: #66aaff;
+}
+
+body.dark .stats {
+  color: #ccc;
+}
+
+body.dark .upgrades, body.dark .gems-shop {
+  background: #2a2a2a;
+  box-shadow: inset 0 0 8px rgba(255,255,255,0.1);
+}
+
+body.dark .upgrade-item button, body.dark #buyGemsBtn {
+  background-color: #2ecc71;
+}
+
+body.dark .upgrade-item button:hover, body.dark #buyGemsBtn:hover {
+  background-color: #27ae60;
+}
+
+body.dark #xpBar {
+  background: #66aaff;
+}
