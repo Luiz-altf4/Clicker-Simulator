@@ -3,7 +3,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
   font-family: 'Poppins', sans-serif;
   background-color: #f2f2f2;
@@ -15,12 +14,10 @@ body {
   padding: 20px;
   transition: background 0.3s, color 0.3s;
 }
-
 body.dark {
   background-color: #121212;
   color: #f5f5f5;
 }
-
 .container {
   max-width: 600px;
   width: 100%;
@@ -28,21 +25,17 @@ body.dark {
   padding: 30px;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  transition: background 0.3s, color 0.3s;
 }
-
 body.dark .container {
   background: #1e1e1e;
   color: #f5f5f5;
 }
-
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
 }
-
 #toggleThemeBtn {
   background: none;
   border: none;
@@ -50,23 +43,19 @@ header {
   cursor: pointer;
   color: inherit;
 }
-
 .stats {
   text-align: center;
   margin-bottom: 30px;
 }
-
 #score {
   font-size: 48px;
   font-weight: bold;
 }
-
 #cps {
   margin-top: 10px;
   font-size: 16px;
   color: #888;
 }
-
 #clickBtn {
   margin-top: 20px;
   padding: 15px 40px;
@@ -76,40 +65,25 @@ header {
   background-color: #4CAF50;
   color: white;
   cursor: pointer;
-  transition: background 0.3s;
 }
-
-#clickBtn:hover {
-  background-color: #45a049;
-}
-
 section {
   margin-top: 30px;
 }
-
 h2 {
   font-size: 20px;
   margin-bottom: 10px;
   border-bottom: 2px solid #ccc;
   padding-bottom: 5px;
 }
-
 .upgrade-box {
   background: #f7f7f7;
   border-radius: 12px;
   padding: 15px;
   margin-bottom: 15px;
-  transition: background 0.3s;
 }
-
 body.dark .upgrade-box {
   background: #2c2c2c;
 }
-
-.upgrade-box p {
-  margin-bottom: 10px;
-}
-
 .upgrade-box button {
   width: 100%;
   padding: 10px;
@@ -118,35 +92,7 @@ body.dark .upgrade-box {
   border-radius: 8px;
   background-color: #2196F3;
   color: white;
-  cursor: pointer;
-  transition: background 0.3s;
 }
-
-.upgrade-box button:hover {
-  background-color: #1976D2;
-}
-
-#xpBarContainer {
-  margin-top: 15px;
-  background: #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-  height: 20px;
-  position: relative;
-}
-
-#xpBar {
-  background: #4caf50;
-  height: 100%;
-  width: 0%;
-  transition: width 0.4s;
-}
-
-#levelDisplay {
-  margin-top: 5px;
-  font-weight: bold;
-}
-
 .boosts button,
 .shop button {
   width: 100%;
@@ -157,48 +103,28 @@ body.dark .upgrade-box {
   font-size: 15px;
   background-color: #ff9800;
   color: white;
-  cursor: pointer;
-  transition: background 0.3s;
 }
-
-.boosts button:hover,
-.shop button:hover {
-  background-color: #e68900;
-}
-
-.ranking {
-  margin-top: 30px;
-}
-
-.ranking ul {
-  list-style: none;
-  padding: 0;
-}
-
 .ranking li {
   padding: 8px 0;
   border-bottom: 1px solid #ccc;
 }
-
 body.dark .ranking li {
   border-color: #444;
 }
-
-.missions ul,
-.achievements ul {
-  list-style: none;
-  padding-left: 0;
+#xpBarContainer {
+  margin-top: 15px;
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 20px;
 }
-
-.missions li,
-.achievements li {
-  margin-bottom: 8px;
-  padding: 8px;
-  background: #efefef;
-  border-radius: 8px;
+#xpBar {
+  background: #4caf50;
+  height: 100%;
+  width: 0%;
+  transition: width 0.4s;
 }
-
-body.dark .missions li,
-body.dark .achievements li {
-  background: #2a2a2a;
+#levelDisplay {
+  margin-top: 5px;
+  font-weight: bold;
 }
