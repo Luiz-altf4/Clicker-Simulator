@@ -1,6 +1,6 @@
-// Configuração Firebase (coloque seus dados aqui)
+// === Config Firebase - coloque os seus dados abaixo ===
 const firebaseConfig = {
-  apiKey: "COLE_AQUI_SEU_API_KEY",
+  apiKey: "SEU_API_KEY",
   authDomain: "SEU_AUTH_DOMAIN",
   projectId: "SEU_PROJECT_ID",
   storageBucket: "SEU_STORAGE_BUCKET",
@@ -11,7 +11,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Variáveis do jogo
+// === Variáveis do jogo ===
 let score = 0;
 let clickPower = 1;
 let autoClickers = 0;
@@ -54,7 +54,8 @@ const buyGemsBtn = document.getElementById("buyGemsBtn");
 const saveScoreBtn = document.getElementById("saveScoreBtn");
 const rankingList = document.getElementById("rankingList");
 
-// Função para atualizar interface
+// === Funções do jogo ===
+
 function atualizar() {
   verificarLevelUp();
 
@@ -75,7 +76,6 @@ function atualizar() {
   gemsDisplay.textContent = gems;
 }
 
-// Função para checar level up
 function verificarLevelUp() {
   if (xp >= level * 100) {
     xp -= level * 100;
@@ -85,7 +85,6 @@ function verificarLevelUp() {
   }
 }
 
-// Evento clique principal
 clickBtn.addEventListener("click", () => {
   score += clickPower * multiplier;
   xp++;
@@ -93,7 +92,6 @@ clickBtn.addEventListener("click", () => {
   atualizar();
 });
 
-// Comprar upgrades
 upgradeClickPowerBtn.addEventListener("click", () => {
   const cost = Math.floor(10 * Math.pow(1.5, clickPower - 1));
   if (score >= cost) {
@@ -125,7 +123,6 @@ buyMultiplierBtn.addEventListener("click", () => {
   }
 });
 
-// Boosts
 speedBoostBtn.addEventListener("click", () => {
   if (gems >= 20) {
     gems -= 20;
@@ -151,21 +148,19 @@ multiplierBoostBtn.addEventListener("click", () => {
   }
 });
 
-// Comprar gemas (simulado)
 buyGemsBtn.addEventListener("click", () => {
   gems += 100;
   buySound.play();
   atualizar();
 });
 
-// Auto clickers incrementando
 setInterval(() => {
   score += autoClickers * multiplier;
   cps = autoClickers * multiplier;
   atualizar();
 }, 1000);
 
-// Ranking Firebase
+// === Ranking sem login, só prompt ===
 async function salvarScore() {
   const nome = prompt("Digite seu nome para salvar no ranking:");
   if (!nome) {
@@ -214,13 +209,15 @@ async function atualizarRanking() {
 
 saveScoreBtn.addEventListener("click", salvarScore);
 
-// Trocar tema
 document.getElementById("toggleThemeBtn").addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-// Iniciar
+// Inicia tudo
 window.addEventListener("load", () => {
   atualizar();
   atualizarRanking();
 });
+
+// === MISSÕES e CONQUISTAS Simples para adicionar depois ===
+// Pode expandir a parte de missões e conquistas aqui, se quiser!
