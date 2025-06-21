@@ -8,6 +8,7 @@ let gems = 0;
 let level = 1;
 let xp = 0;
 
+// Elements
 const scoreDisplay = document.getElementById("score");
 const clickBtn = document.getElementById("clickBtn");
 
@@ -26,87 +27,13 @@ const buyMultiplierBtn = document.getElementById("buyMultiplierBtn");
 const cpsDisplay = document.getElementById("cps");
 const gemsDisplay = document.getElementById("gemsCount");
 
-const buyGemsBtn = document.getElementById("buyGemsBtn");
-
 const levelDisplay = document.getElementById("levelDisplay");
 const xpBar = document.getElementById("xpBar");
 
-const saveBtn = document.getElementById("saveBtn");
-const loadBtn = document.getElementById("loadBtn");
-const resetBtn = document.getElementById("resetBtn");
-
 const clickSound = document.getElementById("clickSound");
 const buySound = document.getElementById("buySound");
-const levelupSound = document.getElementById("levelupSound");
 
-// CLICK
-clickBtn.addEventListener("click", () => {
-  score += clickPower * multiplier;
-  xp += 1;
-  clickSound.play();
-  atualizar();
-});
-
-// UPGRADE CLICK POWER
-upgradeClickPowerBtn.addEventListener("click", () => {
-  const cost = Math.floor(10 * Math.pow(1.5, clickPower - 1));
-  if (score >= cost) {
-    score -= cost;
-    clickPower++;
-    buySound.play();
-    atualizar();
-  }
-});
-
-// UPGRADE AUTOCLICKER
-buyAutoClickerBtn.addEventListener("click", () => {
-  const cost = 50 * (autoClickers + 1);
-  if (score >= cost) {
-    score -= cost;
-    autoClickers++;
-    buySound.play();
-    atualizar();
-  }
-});
-
-// UPGRADE MULTIPLICADOR
-buyMultiplierBtn.addEventListener("click", () => {
-  const cost = 100 * (multiplierCount + 1);
-  if (score >= cost) {
-    score -= cost;
-    multiplier *= 2;
-    multiplierCount++;
-    buySound.play();
-    atualizar();
-  }
-});
-
-// COMPRA GEMAS SIMULADO
-buyGemsBtn.addEventListener("click", () => {
-  gems += 100;
-  buySound.play();
-  atualizar();
-});
-
-// AUTO CLICKER FUNCIONANDO
-setInterval(() => {
-  score += autoClickers * multiplier;
-  cps = autoClickers * multiplier;
-  xp += autoClickers * multiplier;
-  atualizar();
-}, 1000);
-
-// LEVEL UP
-function verificarLevelUp() {
-  if (xp >= level * 100) {
-    xp = 0;
-    level++;
-    gems += 10;
-    levelupSound.play();
-  }
-}
-
-// ATUALIZA TELA
+// Função para atualizar a interface
 function atualizar() {
   verificarLevelUp();
 
@@ -125,10 +52,12 @@ function atualizar() {
 
   levelDisplay.textContent = `Nível: ${level}`;
   xpBar.style.width = `${(xp / (level * 100)) * 100}%`;
+
+  salvarProgresso();
 }
 
-// SALVAR PROGRESSO NO localStorage
-saveBtn.addEventListener("click", () => {
+// Salvar progresso no localStorage automaticamente
+function salvarProgresso() {
   const saveData = {
     score,
     clickPower,
@@ -138,14 +67,13 @@ saveBtn.addEventListener("click", () => {
     cps,
     gems,
     level,
-    xp
+    xp,
   };
   localStorage.setItem("clickerSave", JSON.stringify(saveData));
-  alert("Progresso salvo!");
-});
+}
 
-// CARREGAR PROGRESSO DO localStorage
-loadBtn.addEventListener("click", () => {
+// Carregar progresso do localStorage
+function carregarProgresso() {
   const saveData = JSON.parse(localStorage.getItem("clickerSave"));
   if (saveData) {
     score = saveData.score;
@@ -157,49 +85,79 @@ loadBtn.addEventListener("click", () => {
     gems = saveData.gems;
     level = saveData.level;
     xp = saveData.xp;
+  }
+}
+
+// Verificar level up
+function verificarLevelUp() {
+  if (xp >= level * 100) {
+    xp -= level * 100;
+    level++;
+    gems += 10;
+    buySound.play();
+  }
+}
+
+// Eventos
+clickBtn.addEventListener("click", () => {
+  score += clickPower * multiplier;
+  xp += 1;
+  clickSound.play();
+  atualizar();
+});
+
+upgradeClickPowerBtn.addEventListener("click", () => {
+  const cost = Math.floor(10 * Math.pow(1.5, clickPower - 1));
+  if (score >= cost) {
+    score -= cost;
+    clickPower++;
+    buySound.play();
     atualizar();
-    alert("Progresso carregado!");
-  } else {
-    alert("Nenhum progresso salvo encontrado.");
   }
 });
 
-// RESETAR JOGO
-resetBtn.addEventListener("click", () => {
-  if (confirm("Tem certeza que quer resetar seu progresso?")) {
-    score = 0;
-    clickPower = 1;
-    autoClickers = 0;
-    multiplier = 1;
-    multiplierCount = 0;
-    cps = 0;
-    gems = 0;
-    level = 1;
-    xp = 0;
-    localStorage.removeItem("clickerSave");
+buyAutoClickerBtn.addEventListener("click", () => {
+  const cost = 50 * (autoClickers + 1);
+  if (score >= cost) {
+    score -= cost;
+    autoClickers++;
+    buySound.play();
     atualizar();
   }
 });
 
-// TOGGLE DARK MODE
+buyMultiplierBtn.addEventListener("click", () => {
+  const cost = 100 * (multiplierCount + 1);
+  if (score >= cost) {
+    score -= cost;
+    multiplier *= 2;
+    multiplierCount++;
+    buySound.play();
+    atualizar();
+  }
+});
+
+document.getElementById("buyGemsBtn").addEventListener("click", () => {
+  gems += 100;
+  buySound.play();
+  atualizar();
+});
+
+// Auto clicker
+setInterval(() => {
+  score += autoClickers * multiplier;
+  cps = autoClickers * multiplier;
+  xp += autoClickers * multiplier;
+  atualizar();
+}, 1000);
+
+// Tema escuro
 document.getElementById("toggleThemeBtn").addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-// CARREGA PROGRESSO AO ABRIR A PÁGINA
+// Ao carregar a página, carregar progresso salvo e atualizar tela
 window.addEventListener("load", () => {
-  const saveData = JSON.parse(localStorage.getItem("clickerSave"));
-  if (saveData) {
-    score = saveData.score;
-    clickPower = saveData.clickPower;
-    autoClickers = saveData.autoClickers;
-    multiplier = saveData.multiplier;
-    multiplierCount = saveData.multiplierCount;
-    cps = saveData.cps;
-    gems = saveData.gems;
-    level = saveData.level;
-    xp = saveData.xp;
-  }
+  carregarProgresso();
   atualizar();
 });
-
