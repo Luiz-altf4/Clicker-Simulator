@@ -3,32 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator FULL</title>
+  <title>Clicker Simulator FULL - Upgrade</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Firebase compat scripts (para navegador) -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-  <script>
-    // Configuração do seu Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyAT4F4_k9zmi9PtqUST8oiOHw5k7f1uPfg",
-      authDomain: "clicker-ranking.firebaseapp.com",
-      projectId: "clicker-ranking",
-      storageBucket: "clicker-ranking.firebasestorage.app",
-      messagingSenderId: "72533988657",
-      appId: "1:72533988657:web:b3afb73f21926b0a1ccc10",
-      measurementId: "G-JPPX1JJ5VC"
-    };
-
-    // Inicializa o Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-  </script>
 </head>
-
 <body>
   <div class="container">
     <header>
@@ -45,7 +23,7 @@
           <div id="levelDisplay">Nível: 1</div>
         </div>
       </div>
-      <button id="clickBtn">Clique Aqui!</button>
+      <button id="clickBtn" class="pulse">Clique Aqui!</button>
     </div>
 
     <section class="upgrades">
@@ -70,21 +48,20 @@
     <section class="boosts">
       <h2>Boosts Temporários</h2>
       <button id="speedBoostBtn">Boost de Velocidade (20 Gemas) - 30s</button>
+      <div id="speedBoostActive" class="boost-active" hidden>🚀 Boost de Velocidade ativo!</div>
+      
       <button id="multiplierBoostBtn">Boost Multiplicador x5 (50 Gemas) - 30s</button>
+      <div id="multiplierBoostActive" class="boost-active" hidden>🔥 Boost Multiplicador ativo!</div>
     </section>
 
     <section class="missions">
       <h2>Missões Diárias</h2>
-      <ul id="missionsList">
-        <!-- Missões geradas via JS -->
-      </ul>
+      <ul id="missionsList"></ul>
     </section>
 
     <section class="achievements">
       <h2>Conquistas</h2>
-      <ul id="achievementsList">
-        <!-- Conquistas geradas via JS -->
-      </ul>
+      <ul id="achievementsList"></ul>
     </section>
 
     <section class="shop">
@@ -93,7 +70,6 @@
       <button id="buyGemsBtn">Comprar 100 Gemas (Simulado)</button>
     </section>
 
-    <!-- 🏆 Ranking online -->
     <section class="ranking">
       <h2>Ranking Global</h2>
       <ul id="rankingList"></ul>
@@ -101,10 +77,28 @@
     </section>
   </div>
 
-  <!-- Sons -->
   <audio id="clickSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
   <audio id="buySound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
   <audio id="boostSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <!-- Config Firebase -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAT4F4_k9zmi9PtqUST8oiOHw5k7f1uPfg",
+      authDomain: "clicker-ranking.firebaseapp.com",
+      projectId: "clicker-ranking",
+      storageBucket: "clicker-ranking.appspot.com",
+      messagingSenderId: "72533988657",
+      appId: "1:72533988657:web:b3afb73f21926b0a1ccc10",
+      measurementId: "G-JPPX1JJ5VC"
+    };
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+  </script>
 
   <script src="script.js"></script>
 </body>
