@@ -170,4 +170,81 @@ function atualizar() {
   upgradeClickPowerCostSpan.textContent = Math.floor(10 * Math.pow(1.5, clickPower - 1));
 
   autoClickersSpan.textContent = autoClickers;
-  autoClickerCostSpan.textContent = 50 * (autoClickers + 1
+  autoClickerCostSpan.textContent = 50 * (autoClickers + 1);
+
+  multiplierCountSpan.textContent = multiplierCount;
+  multiplierCostSpan.textContent = 100 * (multiplierCount + 1);
+
+  cpsDisplay.textContent = `Clicks por segundo: ${cps}`;
+  levelDisplay.textContent = `Nível: ${level}`;
+  xpBar.style.width = `${(xp / (level * 100)) * 100}%`;
+
+  gemsDisplay.textContent = gems;
+}
+
+// --- TEMA ---
+document.getElementById("toggleThemeBtn").addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+});
+
+// === 🏆 RANKING FIREBASE ===
+
+async function salvarScore(nome, score) {
+  if (!nome) return;
+  try {
+    await db.collection("ranking").doc(nome).set({
+      score: score,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    alert("Pontuação salva no ranking!");
+  } catch (error) {
+    console.error("Erro ao salvar:", error);
+  }
+}
+
+async function pegarRanking() {
+  try {
+    const snapshot = await db.collection("ranking")
+      .orderBy("score", "desc")
+      .limit(10)
+      .get();
+
+    const ranking = [];
+    snapshot.forEach(doc => {
+      ranking.push({ nome: doc.id, score: doc.data().score });
+    });
+    return ranking;
+  } catch (error) {
+    console.error("Erro ao pegar ranking:", error);
+    return [];
+  }
+}
+
+async function atualizarRanking() {
+  const ranking = await pegarRanking();
+  const rankingList = document.getElementById('rankingList');
+  if (!rankingList) return;
+  rankingList.innerHTML = "";
+  ranking.forEach((jogador, i) => {
+    const li = document.createElement('li');
+    li.textContent = `${i + 1}. ${jogador.nome} - ${Math.floor(jogador.score)}`;
+    rankingList.appendChild(li);
+  });
+}
+
+// Pergunta nome e salva score
+function pedirNomeESalvarScore() {
+  const nome = prompt("Digite seu nome para o ranking:");
+  if (nome && score > 0) {
+    salvarScore(nome, score).then(() => {
+      atualizarRanking();
+    });
+  }
+}
+
+// Inicializa ranking e interface ao carregar
+window.addEventListener("load", () => {
+  atualizarRanking();
+  atualizar();
+});
+
