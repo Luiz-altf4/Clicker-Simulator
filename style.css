@@ -1,176 +1,310 @@
-body {
-  font-family: 'Poppins', sans-serif;
-  background: #f4f4f8;
-  color: #333;
+/* Reset básico */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #f0f2f5;
+  color: #222;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
-  min-height: 100vh;
-}
-
-.container {
-  width: 350px;
-  background: #fff;
+  align-items: flex-start;
   padding: 20px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
-  border-radius: 10px;
-  margin: 20px;
 }
 
+body.dark {
+  background: #181a1f;
+  color: #ddd;
+}
+
+/* Container */
+.container {
+  background: white;
+  max-width: 480px;
+  width: 100%;
+  padding: 30px 25px 40px 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgb(0 0 0 / 0.1);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.dark .container {
+  background: #22252f;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.5);
+}
+
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 header h1 {
-  font-size: 1.3rem;
-  margin: 0;
+  font-weight: 700;
+  font-size: 1.6rem;
+  user-select: none;
 }
 
 #toggleThemeBtn {
-  font-size: 1.4rem;
   background: none;
   border: none;
+  font-size: 1.5rem;
   cursor: pointer;
+  transition: color 0.3s ease;
+  user-select: none;
 }
 
+#toggleThemeBtn:hover {
+  color: #007bff;
+}
+
+/* Stats */
 .stats {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 #score {
-  font-size: 2.5rem;
+  font-size: 3.2rem;
   font-weight: 700;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  user-select: none;
 }
 
 #cps {
-  font-size: 0.9rem;
-  color: #666;
-  margin-bottom: 10px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 12px;
 }
 
 #xpBarContainer {
-  width: 100%;
-  height: 15px;
-  background: #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 10px;
   position: relative;
+  background: #ddd;
+  height: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 0 auto 8px auto;
+  width: 100%;
+  max-width: 300px;
 }
 
 #xpBar {
   height: 100%;
-  width: 0;
-  background: #4caf50;
-  transition: width 0.3s ease;
+  background: #00bfff;
+  width: 0%;
+  transition: width 0.4s ease;
 }
 
 #levelDisplay {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
   font-weight: 600;
-  font-size: 0.8rem;
-  color: #fff;
-  text-shadow: 0 0 3px rgba(0,0,0,0.5);
+  user-select: none;
 }
 
+/* Click Button */
 #clickBtn {
-  width: 100%;
-  padding: 15px;
-  font-size: 1.3rem;
-  font-weight: 700;
-  background: #4caf50;
+  background: #007bff;
   color: white;
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding: 15px 0;
   border: none;
   border-radius: 10px;
+  width: 100%;
   cursor: pointer;
-  transition: background 0.3s ease;
-  margin-bottom: 25px;
+  box-shadow: 0 5px 15px rgb(0 123 255 / 0.4);
+  transition: background-color 0.3s ease;
+  user-select: none;
 }
 
 #clickBtn:hover {
-  background: #43a047;
+  background: #0056b3;
 }
 
-.upgrades, .boosts, .shop {
-  margin-bottom: 20px;
+/* Sections */
+section {
+  margin-bottom: 30px;
 }
 
-.upgrades h2, .boosts h2, .shop h2 {
-  font-size: 1.1rem;
-  margin-bottom: 10px;
-  border-bottom: 2px solid #4caf50;
-  padding-bottom: 5px;
+h2 {
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 6px;
+  user-select: none;
 }
 
+/* Upgrade Boxes */
 .upgrade-box {
-  margin-bottom: 10px;
+  background: #f9f9f9;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.05);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+
+body.dark .upgrade-box {
+  background: #2a2e3b;
+  box-shadow: 0 1px 6px rgb(0 0 0 / 0.3);
 }
 
 .upgrade-box p {
-  margin: 0 0 5px;
+  flex: 1 1 100%;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 6px;
 }
 
-.upgrade-box button, .boosts button, .shop button {
-  width: 100%;
-  padding: 10px;
+/* Labels */
+.upgrade-box label {
   font-weight: 600;
-  background: #2196f3;
+  font-size: 0.9rem;
+  margin-right: 8px;
+}
+
+/* Selects */
+.upgrade-box select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  user-select: none;
+}
+
+.upgrade-box select:hover,
+.upgrade-box select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Upgrade Buttons */
+.upgrade-box button {
+  background: #28a745;
   color: white;
+  font-weight: 700;
   border: none;
   border-radius: 8px;
+  padding: 10px 16px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  box-shadow: 0 4px 12px rgb(40 167 69 / 0.5);
+  transition: background-color 0.3s ease;
+  flex-shrink: 0;
+  user-select: none;
 }
 
-.upgrade-box button:hover, .boosts button:hover, .shop button:hover {
-  background: #1976d2;
+.upgrade-box button:hover {
+  background: #1e7e34;
 }
 
-/* Dark mode */
-body.dark {
-  background: #121212;
-  color: #eee;
-}
-
-body.dark .container {
-  background: #1e1e1e;
-  box-shadow: 0 0 20px rgba(255,255,255,0.1);
-}
-
-body.dark #clickBtn {
-  background: #388e3c;
-}
-
-body.dark #clickBtn:hover {
-  background: #2e7d32;
-}
-
-body.dark .upgrade-box button,
-body.dark .boosts button,
-body.dark .shop button {
-  background: #1565c0;
-}
-
-body.dark .upgrade-box button:hover,
-body.dark .boosts button:hover,
-body.dark .shop button:hover {
-  background: #0d47a1;
-}
-
-body.dark #xpBar {
-  background: #81c784;
-}
-
-body.dark #levelDisplay {
+/* Boosts Buttons */
+.boosts button {
+  background: #ffc107;
+  border: none;
   color: #222;
-  text-shadow: none;
+  font-weight: 700;
+  padding: 12px 18px;
+  border-radius: 10px;
+  width: 100%;
+  margin-bottom: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgb(255 193 7 / 0.6);
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.boosts button:hover {
+  background: #e0a800;
+}
+
+/* Missions & Achievements Lists */
+#missionsList, #achievementsList {
+  list-style-type: none;
+  max-height: 160px;
+  overflow-y: auto;
+  padding-right: 8px;
+  user-select: none;
+}
+
+#missionsList li, #achievementsList li {
+  padding: 6px 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+body.dark #missionsList li, 
+body.dark #achievementsList li {
+  border-color: #444;
+}
+
+/* Shop */
+.shop {
+  font-weight: 600;
+  font-size: 1.1rem;
+  user-select: none;
+}
+
+#buyGemsBtn {
+  background: #17a2b8;
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  margin-top: 10px;
+  width: 100%;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgb(23 162 184 / 0.5);
+  transition: background-color 0.3s ease;
+}
+
+#buyGemsBtn:hover {
+  background: #117a8b;
+}
+
+/* Scrollbar estilizado */
+#missionsList::-webkit-scrollbar,
+#achievementsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+#missionsList::-webkit-scrollbar-thumb,
+#achievementsList::-webkit-scrollbar-thumb {
+  background-color: #007bff;
+  border-radius: 3px;
+}
+
+/* Responsividade */
+@media (max-width: 520px) {
+  .container {
+    padding: 20px 15px 30px 15px;
+  }
+
+  #score {
+    font-size: 2.6rem;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+  }
+
+  .upgrade-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .upgrade-box button {
+    width: 100%;
+  }
 }
