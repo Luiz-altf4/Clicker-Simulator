@@ -29,19 +29,46 @@
     <section class="upgrades">
       <h2>Upgrades</h2>
 
+      <!-- Upgrade Click Power -->
       <div class="upgrade-box">
         <p>Clicks por clique: <span id="clickPower">1</span></p>
-        <button id="upgradeClickPowerBtn">Comprar Upgrade (Custa: <span id="upgradeClickPowerCost">10</span>)</button>
+
+        <label for="clickPowerQty">Comprar quantas:</label>
+        <select id="clickPowerQty">
+          <option value="1">1</option>
+          <option value="10">10</option>
+          <option value="100">100</option>
+        </select>
+
+        <button id="upgradeClickPowerBtn">Comprar Upgrade (Custa: <span id="upgradeClickPowerCost">10</span> cada)</button>
       </div>
 
+      <!-- Upgrade AutoClickers -->
       <div class="upgrade-box">
         <p>Auto Clickers: <span id="autoClickers">0</span></p>
-        <button id="buyAutoClickerBtn">Comprar Auto Clicker (Custa: <span id="autoClickerCost">50</span>)</button>
+
+        <label for="autoClickerQty">Comprar quantos:</label>
+        <select id="autoClickerQty">
+          <option value="1">1</option>
+          <option value="10">10</option>
+          <option value="100">100</option>
+        </select>
+
+        <button id="buyAutoClickerBtn">Comprar Auto Clicker (Custa: <span id="autoClickerCost">50</span> cada)</button>
       </div>
 
+      <!-- Upgrade Multiplier -->
       <div class="upgrade-box">
         <p>Multiplicador x2: <span id="multiplierCount">0</span></p>
-        <button id="buyMultiplierBtn">Comprar Multiplicador (Custa: <span id="multiplierCost">100</span>)</button>
+
+        <label for="multiplierQty">Comprar quantos:</label>
+        <select id="multiplierQty">
+          <option value="1">1</option>
+          <option value="10">10</option>
+          <option value="100">100</option>
+        </select>
+
+        <button id="buyMultiplierBtn">Comprar Multiplicador (Custa: <span id="multiplierCost">100</span> cada)</button>
       </div>
     </section>
 
@@ -49,6 +76,20 @@
       <h2>Boosts Temporários</h2>
       <button id="speedBoostBtn">Boost de Velocidade (20 Gemas) - 30s</button>
       <button id="multiplierBoostBtn">Boost Multiplicador x5 (50 Gemas) - 30s</button>
+    </section>
+
+    <section class="missions">
+      <h2>Missões Diárias</h2>
+      <ul id="missionsList">
+        <!-- Missões geradas via JS -->
+      </ul>
+    </section>
+
+    <section class="achievements">
+      <h2>Conquistas</h2>
+      <ul id="achievementsList">
+        <!-- Conquistas geradas via JS -->
+      </ul>
     </section>
 
     <section class="shop">
