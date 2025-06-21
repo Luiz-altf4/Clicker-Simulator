@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Clicker Game</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clicker Simulator Melhorado</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>💰 Clicker do Luiz</h1>
-  <p id="score">0</p>
-  <button id="clickBtn">Clique Aqui!</button>
+  <div class="container">
+    <h1>🚀 Clicker do Luiz</h1>
+    <div id="score">0</div>
+    <button id="clickBtn">Clique Aqui!</button>
+
+    <div class="upgrade-section">
+      <p>Clicks por clique: <span id="clickPower">1</span></p>
+      <button id="upgradeBtn">Comprar Upgrade (Custa: <span id="upgradeCost">10</span>)</button>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
