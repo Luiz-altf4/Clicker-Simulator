@@ -1,4 +1,3 @@
-// Unidades numéricas gigantes (mais de 90)
 const unidades = [
   "", "k", "M", "B", "T", "Q", "Qi", "Sx", "Sp", "Oc", "N", "Dc", "Ud", "Dd", "Td",
   "Qd", "Qn", "Sxd", "Spd", "Ocd", "Nd", "Vg",
@@ -12,23 +11,18 @@ const unidades = [
   "Ng", "UNg", "DNn", "TNn", "QNn", "QnNn", "SNn", "SpNn", "ONn", "NNn"
 ];
 
-// Função que formata números para abreviações tipo 1k, 1M, 1B, ... até infinito
 function formatarNumero(num) {
   if (num < 1000) return num.toString();
-
   let unidadeIndex = 0;
   let valor = num;
-
   while (valor >= 1000 && unidadeIndex < unidades.length - 1) {
     valor /= 1000;
     unidadeIndex++;
   }
-
-  // Mantém 2 casas decimais só se necessário
   return valor.toFixed(2).replace(/\.00$/, '') + unidades[unidadeIndex];
 }
 
-// Variáveis do jogo
+// --- VARIÁVEIS ---
 let score = 0;
 let clickPower = 1;
 let autoClickers = 0;
@@ -44,39 +38,62 @@ const clickSound = document.getElementById("clickSound");
 const buySound = document.getElementById("buySound");
 const boostSound = document.getElementById("boostSound");
 
-// Elementos da interface
+// Elementos da UI
 const scoreDisplay = document.getElementById("score");
 const clickBtn = document.getElementById("clickBtn");
 const clickPowerSpan = document.getElementById("clickPower");
 const upgradeClickPowerBtn = document.getElementById("upgradeClickPowerBtn");
 const upgradeClickPowerCostSpan = document.getElementById("upgradeClickPowerCost");
-
 const autoClickersSpan = document.getElementById("autoClickers");
 const autoClickerCostSpan = document.getElementById("autoClickerCost");
 const buyAutoClickerBtn = document.getElementById("buyAutoClickerBtn");
-
 const multiplierCostSpan = document.getElementById("multiplierCost");
 const multiplierCountSpan = document.getElementById("multiplierCount");
 const buyMultiplierBtn = document.getElementById("buyMultiplierBtn");
-
 const cpsDisplay = document.getElementById("cps");
 const xpBar = document.getElementById("xpBar");
 const levelDisplay = document.getElementById("levelDisplay");
 const gemsDisplay = document.getElementById("gemsCount");
-
 const speedBoostBtn = document.getElementById("speedBoostBtn");
 const multiplierBoostBtn = document.getElementById("multiplierBoostBtn");
 const buyGemsBtn = document.getElementById("buyGemsBtn");
 
-// --- CLICKER ---
+// --- SALVAR E CARREGAR ---
+
+function salvarProgresso() {
+  const estado = {
+    score, clickPower, autoClickers, multiplier, multiplierCount,
+    cps, level, xp, gems
+  };
+  localStorage.setItem("clickerSave", JSON.stringify(estado));
+}
+
+function carregarProgresso() {
+  const salvo = localStorage.getItem("clickerSave");
+  if (salvo) {
+    const estado = JSON.parse(salvo);
+    score = estado.score || 0;
+    clickPower = estado.clickPower || 1;
+    autoClickers = estado.autoClickers || 0;
+    multiplier = estado.multiplier || 1;
+    multiplierCount = estado.multiplierCount || 0;
+    cps = estado.cps || 0;
+    level = estado.level || 1;
+    xp = estado.xp || 0;
+    gems = estado.gems || 0;
+  }
+}
+
+// --- LÓGICA DO JOGO ---
+
 clickBtn.addEventListener("click", () => {
   score += clickPower * multiplier;
   xp += 1;
   clickSound.play();
   atualizar();
+  salvarProgresso();
 });
 
-// --- UPGRADE: CLICK POWER ---
 upgradeClickPowerBtn.addEventListener("click", () => {
   const cost = Math.floor(10 * Math.pow(1.5, clickPower - 1));
   if (score >= cost) {
@@ -84,10 +101,10 @@ upgradeClickPowerBtn.addEventListener("click", () => {
     clickPower++;
     buySound.play();
     atualizar();
+    salvarProgresso();
   }
 });
 
-// --- UPGRADE: AUTOCLICKER ---
 buyAutoClickerBtn.addEventListener("click", () => {
   const cost = 50 * (autoClickers + 1);
   if (score >= cost) {
@@ -95,10 +112,10 @@ buyAutoClickerBtn.addEventListener("click", () => {
     autoClickers++;
     buySound.play();
     atualizar();
+    salvarProgresso();
   }
 });
 
-// --- UPGRADE: MULTIPLICADOR ---
 buyMultiplierBtn.addEventListener("click", () => {
   const cost = 100 * (multiplierCount + 1);
   if (score >= cost) {
@@ -107,10 +124,10 @@ buyMultiplierBtn.addEventListener("click", () => {
     multiplierCount++;
     buySound.play();
     atualizar();
+    salvarProgresso();
   }
 });
 
-// --- BOOST: VELOCIDADE ---
 speedBoostBtn.addEventListener("click", () => {
   if (gems >= 20) {
     gems -= 20;
@@ -118,38 +135,41 @@ speedBoostBtn.addEventListener("click", () => {
     let boost = setInterval(() => {
       score += clickPower * multiplier;
       atualizar();
+      salvarProgresso();
     }, 100);
     setTimeout(() => clearInterval(boost), 30000);
   }
 });
 
-// --- BOOST: MULTIPLICADOR x5 ---
 multiplierBoostBtn.addEventListener("click", () => {
   if (gems >= 50) {
     gems -= 50;
     buySound.play();
     multiplier *= 5;
+    atualizar();
+    salvarProgresso();
     setTimeout(() => {
       multiplier /= 5;
+      atualizar();
+      salvarProgresso();
     }, 30000);
   }
 });
 
-// --- LOJA ---
 buyGemsBtn.addEventListener("click", () => {
   gems += 100;
   buySound.play();
   atualizar();
+  salvarProgresso();
 });
 
-// --- AUTOCLICK ---
 setInterval(() => {
   score += autoClickers * multiplier;
   cps = autoClickers * multiplier;
   atualizar();
+  salvarProgresso();
 }, 1000);
 
-// --- LEVEL UP ---
 function verificarLevelUp() {
   if (xp >= level * 100) {
     xp = 0;
@@ -159,7 +179,6 @@ function verificarLevelUp() {
   }
 }
 
-// --- ATUALIZA INTERFACE ---
 function atualizar() {
   verificarLevelUp();
 
@@ -180,12 +199,12 @@ function atualizar() {
   gemsDisplay.textContent = formatarNumero(gems);
 }
 
-// --- TEMA ---
 document.getElementById("toggleThemeBtn").addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-// Inicializa interface
+// --- INICIALIZA ---
 window.addEventListener("load", () => {
+  carregarProgresso();
   atualizar();
 });
