@@ -1,6 +1,5 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,70 +7,58 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="game">
+  <div class="container">
     <h1>Clicker Simulator</h1>
-    <p>Clicks: <span id="score">0</span></p>
-    <button id="clickBtn">Clique!</button>
-    <p>Poder do Clique: <span id="clickPower">1</span></p>
+    <p>Score: <span id="score">0</span></p>
+    <p>Power: <span id="clickPower">1</span></p>
+    <p>Clicks por segundo: <span id="cps">0</span></p>
+    <button id="clickBtn">Clicar</button>
 
-    <h2>Melhorias</h2>
-    <button id="upgradeClickPowerBtn">Melhorar clique (<span id="upgradeClickPowerCost">10</span>)</button>
-    <button id="buyAutoClickerBtn">Comprar AutoClicker (<span id="autoClickerCost">50</span>)</button>
-    <button id="buyMultiplierBtn">Comprar Multiplicador (<span id="multiplierCost">100</span>)</button>
-
-    <p>Multiplicadores: <span id="multiplierCount">0</span></p>
-    <p>AutoClickers: <span id="autoClickers">0</span></p>
-    <p id="cps">Clicks por segundo: 0</p>
-
-    <h2>Nível</h2>
-    <div id="xpBarContainer"><div id="xpBar"></div></div>
-    <p id="levelDisplay">Nível: 1</p>
-
-    <h2>Gemas: <span id="gemsCount">0</span></h2>
-    <button id="speedBoostBtn">Turbo Click (20 gemas)</button>
-    <button id="multiplierBoostBtn">Multiplicador Turbo (50 gemas)</button>
-    <button id="buyGemsBtn">Ganhar 100 Gemas</button>
-
-    <h2>Rebirths: <span id="rebirthCount">0</span></h2>
-    <button id="rebirthBtn">Fazer Rebirth</button>
-
-    <button id="resetBtn">Resetar Jogo</button>
-    <button id="toggleThemeBtn">Alternar Tema</button>
-    <button id="toggleShopBtn">🛒 Loja</button>
-
-    <div id="shop" class="hidden">
-      <h2>🛒 Loja Clicker</h2>
-
-      <div class="shop-section">
-        <h3>Boosts</h3>
-        <button onclick="comprarItem('boostCPS')">+2x CPS por 30s (20 gemas)</button>
-        <button onclick="comprarItem('boostMultiplicador')">+5x Mult por 30s (50 gemas)</button>
-      </div>
-
-      <div class="shop-section">
-        <h3>Estética</h3>
-        <button onclick="comprarItem('skin1')">Skin: Roxo Neon (100 gemas)</button>
-        <button onclick="comprarItem('skin2')">Skin: Verde Hacker (100 gemas)</button>
-      </div>
-
-      <div class="shop-section">
-        <h3>Extras</h3>
-        <button onclick="comprarItem('xpBoost')">+500 XP (30 gemas)</button>
-        <button onclick="comprarItem('rebirthBonus')">+1 Rebirth (200 gemas)</button>
-      </div>
-
-      <div class="shop-section">
-        <h3>Comprar Gemas</h3>
-        <button onclick="comprarItem('buyGems100')">+100 gemas (grátis)</button>
-        <button onclick="comprarItem('buyGems500')">+500 gemas (pago)</button>
+    <div class="panel">
+      <h2>Upgrades</h2>
+      <button id="upgradeClickPowerBtn">Aumentar Poder (<span id="upgradeClickPowerCost">10</span>)</button>
+      <button id="buyAutoClickerBtn">Comprar Auto Clicker (<span id="autoClickerCost">50</span>)</button>
+      <button id="buyMultiplierBtn">Multiplicador (<span id="multiplierCost">100</span>)</button>
+      <div>
+        <label>Quantidade:</label>
+        <button class="upgradeAmountBtn" data-amount="1">1</button>
+        <button class="upgradeAmountBtn" data-amount="10">10</button>
+        <button class="upgradeAmountBtn" data-amount="100">100</button>
       </div>
     </div>
+
+    <div class="panel">
+      <h2>Status</h2>
+      <p>Nível: <span id="levelDisplay">1</span></p>
+      <div class="xp-bar-container">
+        <div id="xpBar" class="xp-bar"></div>
+      </div>
+      <p>Gemas: <span id="gemsCount">0</span></p>
+      <p>Rebirths: <span id="rebirthCount">0</span></p>
+    </div>
+
+    <div class="panel">
+      <h2>Boosts e Extras</h2>
+      <button id="speedBoostBtn">Boost de Velocidade (20 gemas)</button>
+      <button id="multiplierBoostBtn">Boost de Multiplicador (50 gemas)</button>
+      <button id="buyGemsBtn">Ganhar Gemas</button>
+      <button id="rebirthBtn">Rebirth</button>
+      <button id="resetBtn">Resetar Jogo</button>
+      <button id="toggleThemeBtn">Tema Claro/Escuro</button>
+    </div>
+
+    <div class="panel">
+      <h2>Loja</h2>
+      <button id="buyItem1">Item da Sorte (100 gemas)</button>
+      <button id="buyItem2">Personalização (250 gemas)</button>
+      <button id="buyItem3">Chance de Crítico (500 gemas)</button>
+    </div>
+
+    <audio id="clickSound" src="click.mp3"></audio>
+    <audio id="buySound" src="buy.mp3"></audio>
+    <audio id="boostSound" src="boost.mp3"></audio>
   </div>
-
-  <audio id="clickSound" src="click.mp3"></audio>
-  <audio id="buySound" src="buy.mp3"></audio>
-  <audio id="boostSound" src="boost.mp3"></audio>
-
   <script src="script.js"></script>
 </body>
 </html>
+
