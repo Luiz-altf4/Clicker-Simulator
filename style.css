@@ -1,26 +1,69 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body {
-  text-align: center;
-  background-color: #222;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  margin-top: 100px;
-}
-
-button {
-  font-size: 24px;
-  padding: 15px 30px;
-  background-color: #4caf50;
-  border: none;
+  background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
-  border-radius: 10px;
-  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-button:hover {
-  background-color: #45a049;
+.container {
+  background-color: rgba(0,0,0,0.4);
+  padding: 40px 60px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(255,255,255,0.2);
+  width: 320px;
+}
+
+h1 {
+  margin-bottom: 30px;
 }
 
 #score {
-  font-size: 48px;
-  margin-bottom: 20px;
+  font-size: 60px;
+  margin-bottom: 25px;
+  transition: transform 0.15s ease;
+}
+
+button {
+  cursor: pointer;
+  font-size: 22px;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ff6f61;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 5px 10px rgba(255,111,97,0.6);
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #ff4b3e;
+}
+
+.upgrade-section {
+  margin-top: 30px;
+}
+
+.upgrade-section p {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+#upgradeBtn {
+  background-color: #4caf50;
+  box-shadow: 0 5px 10px rgba(76,175,80,0.6);
+}
+
+#upgradeBtn:hover {
+  background-color: #3e8e41;
 }
