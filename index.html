@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator</title>
+  <title>Clicker Simulator Completo</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -18,14 +18,41 @@
       <div>Poder do clique: <span id="clickPower">1</span></div>
     </section>
 
-    <section class="panel" id="upgrades-panel">
-      <h2>Upgrades</h2>
-      <button id="upgradeClickPowerBtn">Melhorar Clique (<span id="upgradeClickPowerCost">10</span> pontos)</button>
-      <div>
-        Quantidade para comprar:
+    <section class="panel" id="auto-clicker-panel">
+      <h2>Auto Clickers</h2>
+      <button id="buyAutoClickerBtn">Comprar Auto Clicker (<span id="autoClickerCost">50</span>)</button>
+      <div>Quantidade: <span id="autoClickers">0</span></div>
+    </section>
+
+    <section class="panel" id="multiplier-panel">
+      <h2>Multiplicador</h2>
+      <button id="buyMultiplierBtn">Comprar Multiplicador (<span id="multiplierCost">100</span>)</button>
+      <div>Quantidade: <span id="multiplierCount">0</span></div>
+    </section>
+
+    <section class="panel" id="upgrade-panel">
+      <h2>Upgrade Clique</h2>
+      <button id="upgradeClickPowerBtn">Melhorar Clique (<span id="upgradeClickPowerCost">10</span>)</button>
+      <div>Quantidade para comprar:
         <button class="upgradeAmountBtn active" data-amount="1">1</button>
         <button class="upgradeAmountBtn" data-amount="10">10</button>
         <button class="upgradeAmountBtn" data-amount="100">100</button>
+      </div>
+    </section>
+
+    <section class="panel" id="boost-panel">
+      <h2>Boosts</h2>
+      <button id="speedBoostBtn">Boost Velocidade (20 gems)</button>
+      <button id="multiplierBoostBtn">Boost Multiplicador (50 gems)</button>
+      <button id="buyGemsBtn">Comprar 100 Gems</button>
+      <div>Gemas: <span id="gemsCount">0</span></div>
+    </section>
+
+    <section class="panel" id="xp-level-panel">
+      <h2>XP e Nível</h2>
+      <div>Nível: <span id="levelDisplay">1</span></div>
+      <div class="xp-bar-bg">
+        <div id="xpBar" class="xp-bar-fill"></div>
       </div>
     </section>
 
@@ -40,11 +67,17 @@
       <button id="resetBtn" class="danger-btn">Resetar Jogo</button>
     </section>
 
+    <section class="panel" id="cps-panel">
+      <h2>Clicks por segundo</h2>
+      <div><span id="cps">0</span></div>
+    </section>
+
   </div>
 
   <!-- Sons -->
   <audio id="clickSound" src="click.mp3" preload="auto"></audio>
   <audio id="buySound" src="buy.mp3" preload="auto"></audio>
+  <audio id="boostSound" src="boost.mp3" preload="auto"></audio>
 
   <script src="script.js"></script>
 </body>
