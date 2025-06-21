@@ -1,17 +1,17 @@
-// CONFIG FIREBASE
+// Configuração Firebase (coloque seus dados aqui)
 const firebaseConfig = {
   apiKey: "COLE_AQUI_SEU_API_KEY",
   authDomain: "SEU_AUTH_DOMAIN",
   projectId: "SEU_PROJECT_ID",
   storageBucket: "SEU_STORAGE_BUCKET",
   messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-  appId: "SEU_APP_ID",
+  appId: "SEU_APP_ID"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// VARIÁVEIS
+// Variáveis do jogo
 let score = 0;
 let clickPower = 1;
 let autoClickers = 0;
@@ -22,12 +22,12 @@ let level = 1;
 let xp = 0;
 let gems = 0;
 
-// SONS
+// Sons
 const clickSound = document.getElementById("clickSound");
 const buySound = document.getElementById("buySound");
 const boostSound = document.getElementById("boostSound");
 
-// ELEMENTOS
+// Elementos DOM
 const scoreDisplay = document.getElementById("score");
 const clickBtn = document.getElementById("clickBtn");
 const clickPowerSpan = document.getElementById("clickPower");
@@ -54,8 +54,7 @@ const buyGemsBtn = document.getElementById("buyGemsBtn");
 const saveScoreBtn = document.getElementById("saveScoreBtn");
 const rankingList = document.getElementById("rankingList");
 
-// FUNÇÕES
-
+// Função para atualizar interface
 function atualizar() {
   verificarLevelUp();
 
@@ -76,6 +75,7 @@ function atualizar() {
   gemsDisplay.textContent = gems;
 }
 
+// Função para checar level up
 function verificarLevelUp() {
   if (xp >= level * 100) {
     xp -= level * 100;
@@ -85,7 +85,7 @@ function verificarLevelUp() {
   }
 }
 
-// CLIQUE PRINCIPAL
+// Evento clique principal
 clickBtn.addEventListener("click", () => {
   score += clickPower * multiplier;
   xp++;
@@ -93,7 +93,7 @@ clickBtn.addEventListener("click", () => {
   atualizar();
 });
 
-// UPGRADES
+// Comprar upgrades
 upgradeClickPowerBtn.addEventListener("click", () => {
   const cost = Math.floor(10 * Math.pow(1.5, clickPower - 1));
   if (score >= cost) {
@@ -125,7 +125,7 @@ buyMultiplierBtn.addEventListener("click", () => {
   }
 });
 
-// BOOSTS
+// Boosts
 speedBoostBtn.addEventListener("click", () => {
   if (gems >= 20) {
     gems -= 20;
@@ -151,21 +151,21 @@ multiplierBoostBtn.addEventListener("click", () => {
   }
 });
 
-// LOJA
+// Comprar gemas (simulado)
 buyGemsBtn.addEventListener("click", () => {
   gems += 100;
   buySound.play();
   atualizar();
 });
 
-// AUTO CLICKERS
+// Auto clickers incrementando
 setInterval(() => {
   score += autoClickers * multiplier;
   cps = autoClickers * multiplier;
   atualizar();
 }, 1000);
 
-// RANKING FIREBASE
+// Ranking Firebase
 async function salvarScore() {
   const nome = prompt("Digite seu nome para salvar no ranking:");
   if (!nome) {
@@ -214,14 +214,13 @@ async function atualizarRanking() {
 
 saveScoreBtn.addEventListener("click", salvarScore);
 
-// TEMA ESCURO
+// Trocar tema
 document.getElementById("toggleThemeBtn").addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-// CARREGAR INICIAL
+// Iniciar
 window.addEventListener("load", () => {
   atualizar();
   atualizarRanking();
 });
-
