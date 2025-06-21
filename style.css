@@ -1,84 +1,165 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator Completo</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <button id="toggleThemeBtn" class="theme-btn">🌙</button>
+/* Reset básico */
+* {
+  margin: 0; padding: 0; box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-  <div class="container">
+body {
+  background: #121212;
+  color: #eee;
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+  overflow-x: hidden;
+}
 
-    <section class="panel" id="click-panel">
-      <h2>Click</h2>
-      <button id="clickBtn" class="big-btn">Clique Aqui!</button>
-      <div>Pontos: <span id="score">0</span></div>
-      <div>Poder do clique: <span id="clickPower">1</span></div>
-    </section>
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap: 20px;
+}
 
-    <section class="panel" id="auto-clicker-panel">
-      <h2>Auto Clickers</h2>
-      <button id="buyAutoClickerBtn">Comprar Auto Clicker (<span id="autoClickerCost">50</span>)</button>
-      <div>Quantidade: <span id="autoClickers">0</span></div>
-    </section>
+.panel {
+  background: #1e1e1e;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #0ff6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
 
-    <section class="panel" id="multiplier-panel">
-      <h2>Multiplicador</h2>
-      <button id="buyMultiplierBtn">Comprar Multiplicador (<span id="multiplierCost">100</span>)</button>
-      <div>Quantidade: <span id="multiplierCount">0</span></div>
-    </section>
+.big-number {
+  font-size: 3rem;
+  margin: 15px 0;
+  font-weight: 700;
+  color: #00fff7;
+  text-shadow: 0 0 8px #00fff7aa;
+}
 
-    <section class="panel" id="upgrade-panel">
-      <h2>Upgrade Clique</h2>
-      <button id="upgradeClickPowerBtn">Melhorar Clique (<span id="upgradeClickPowerCost">10</span>)</button>
-      <div>Quantidade para comprar:
-        <button class="upgradeAmountBtn active" data-amount="1">1</button>
-        <button class="upgradeAmountBtn" data-amount="10">10</button>
-        <button class="upgradeAmountBtn" data-amount="100">100</button>
-      </div>
-    </section>
+.main-btn, button {
+  background: #00fff7;
+  border: none;
+  color: #121212;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 8px 0;
+  transition: background 0.3s ease;
+  box-shadow: 0 0 8px #00fff7aa;
+}
 
-    <section class="panel" id="boost-panel">
-      <h2>Boosts</h2>
-      <button id="speedBoostBtn">Boost Velocidade (20 gems)</button>
-      <button id="multiplierBoostBtn">Boost Multiplicador (50 gems)</button>
-      <button id="buyGemsBtn">Comprar 100 Gems</button>
-      <div>Gemas: <span id="gemsCount">0</span></div>
-    </section>
+.main-btn:hover, button:hover {
+  background: #00d7c7;
+  box-shadow: 0 0 16px #00d7c7bb;
+}
 
-    <section class="panel" id="xp-level-panel">
-      <h2>XP e Nível</h2>
-      <div>Nível: <span id="levelDisplay">1</span></div>
-      <div class="xp-bar-bg">
-        <div id="xpBar" class="xp-bar-fill"></div>
-      </div>
-    </section>
+.upgrade-group {
+  margin: 10px 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    <section class="panel" id="rebirth-panel">
-      <h2>Rebirth</h2>
-      <button id="rebirthBtn">Rebirth</button>
-      <div>Rebirths: <span id="rebirthCount">0</span></div>
-    </section>
+.buy-amounts {
+  margin-top: 12px;
+}
 
-    <section class="panel" id="reset-panel">
-      <h2>Reset</h2>
-      <button id="resetBtn" class="danger-btn">Resetar Jogo</button>
-    </section>
+.upgradeAmountBtn {
+  background: #444;
+  color: #eee;
+  border-radius: 6px;
+  border: none;
+  padding: 6px 12px;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
 
-    <section class="panel" id="cps-panel">
-      <h2>Clicks por segundo</h2>
-      <div><span id="cps">0</span></div>
-    </section>
+.upgradeAmountBtn.active {
+  background: #00fff7;
+  color: #121212;
+  box-shadow: 0 0 12px #00fff7bb;
+}
 
-  </div>
+.upgradeAmountBtn:hover:not(.active) {
+  background: #555;
+}
 
-  <!-- Sons -->
-  <audio id="clickSound" src="click.mp3" preload="auto"></audio>
-  <audio id="buySound" src="buy.mp3" preload="auto"></audio>
-  <audio id="boostSound" src="boost.mp3" preload="auto"></audio>
+.xp-bar-container {
+  background: #333;
+  width: 100%;
+  height: 14px;
+  border-radius: 10px;
+  margin: 8px 0;
+  overflow: hidden;
+  box-shadow: inset 0 0 8px #00fff7aa;
+}
 
-  <script src="script.js"></script>
-</body>
-</html>
+#xpBar {
+  background: #00fff7;
+  height: 100%;
+  width: 0%;
+  border-radius: 10px 0 0 10px;
+  transition: width 0.4s ease;
+}
+
+/* Tema claro para toggle (se quiser) */
+body.light {
+  background: #f0f0f0;
+  color: #111;
+}
+
+body.light .panel {
+  background: #fff;
+  box-shadow: 0 0 10px #0ff6;
+}
+
+body.light .main-btn, body.light button {
+  background: #00a3a3;
+  color: white;
+}
+
+body.light .main-btn:hover, body.light button:hover {
+  background: #007878;
+}
+
+/* Luz piscando nos cantos */
+@keyframes pulseLight {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.6; }
+}
+
+.light-corner {
+  position: fixed;
+  width: 150px;
+  height: 150px;
+  pointer-events: none;
+  filter: drop-shadow(0 0 10px #00fff7);
+  animation: pulseLight 3s infinite;
+  mix-blend-mode: screen;
+  z-index: 10;
+}
+
+.top-left {
+  top: 0; left: 0;
+  background: radial-gradient(circle, #00fff7 40%, transparent 70%);
+}
+
+.top-right {
+  top: 0; right: 0;
+  background: radial-gradient(circle, #00fff7 40%, transparent 70%);
+}
+
+.bottom-left {
+  bottom: 0; left: 0;
+  background: radial-gradient(circle, #00fff7 40%, transparent 70%);
+}
+
+.bottom-right {
+  bottom: 0; right: 0;
+  background: radial-gradient(circle, #00fff7 40%, transparent 70%);
+}
