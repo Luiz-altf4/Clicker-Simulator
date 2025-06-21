@@ -1,8 +1,8 @@
-/* Reset simples */
+/* Reset básico */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -17,29 +17,27 @@ body {
 
 .container {
   background: white;
-  max-width: 480px;
   width: 100%;
+  max-width: 450px;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-  padding: 25px 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
+  padding: 20px 30px;
 }
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 header h1 {
   font-weight: 700;
-  font-size: 1.8rem;
+  font-size: 1.7rem;
 }
 
 #toggleThemeBtn {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   background: none;
   border: none;
   cursor: pointer;
@@ -50,39 +48,34 @@ header h1 {
   transform: rotate(20deg);
 }
 
-main {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
-
 .stats {
   text-align: center;
+  margin-bottom: 25px;
 }
 
 #score {
-  font-size: 3.8rem;
+  font-size: 3.5rem;
   font-weight: 700;
-  margin-bottom: 10px;
   color: #007bff;
+  margin-bottom: 10px;
 }
 
 #cps {
-  margin-bottom: 15px;
   font-weight: 600;
+  margin-bottom: 20px;
   color: #555;
 }
 
 .click-button {
+  padding: 15px 40px;
   font-size: 1.3rem;
-  padding: 15px 30px;
-  border-radius: 40px;
-  border: none;
-  background-color: #007bff;
-  color: white;
   font-weight: 700;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 40px;
+  box-shadow: 0 6px 15px rgba(0,123,255,0.5);
   cursor: pointer;
-  box-shadow: 0 6px 15px rgba(0,123,255,0.4);
   transition: background-color 0.3s ease;
 }
 
@@ -90,135 +83,47 @@ main {
   background-color: #0056b3;
 }
 
-.upgrades, .gems-shop, .ranking {
+.upgrades, .gems-shop {
   background: #f9fafb;
-  padding: 15px 20px;
   border-radius: 10px;
+  padding: 15px 20px;
+  margin-bottom: 25px;
   box-shadow: inset 0 0 8px rgba(0,0,0,0.03);
 }
 
-.upgrades h2,
-.gems-shop h2,
-.ranking h2 {
-  margin-bottom: 15px;
+.upgrades h2, .gems-shop h2 {
   font-weight: 700;
   color: #333;
+  margin-bottom: 15px;
 }
 
 .upgrade-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-.upgrade-item span {
+.upgrade-item p {
   font-weight: 600;
 }
 
-.upgrade-item button {
+.upgrade-item button, #buyGemsBtn {
   background-color: #28a745;
   border: none;
   color: white;
-  padding: 6px 14px;
-  border-radius: 6px;
+  padding: 7px 16px;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.upgrade-item button:hover {
+.upgrade-item button:hover, #buyGemsBtn:hover {
   background-color: #1e7e34;
 }
 
-.gems-shop button {
-  background-color: #ffc107;
-  border: none;
-  padding: 10px 18px;
-  font-weight: 700;
-  border-radius: 8px;
-  cursor: pointer;
-  color: #212529;
-  transition: background-color 0.3s ease;
-  width: 100%;
+.gems-shop p {
+  margin-bottom: 15px;
 }
 
-.gems-shop button:hover {
-  background-color: #e0a800;
-}
-
-.ranking ol {
-  list-style: decimal inside;
-  max-height: 180px;
-  overflow-y: auto;
-  padding-left: 15px;
-  margin-bottom: 10px;
-  font-weight: 600;
-  color: #555;
-}
-
-#saveScoreBtn {
-  background-color: #17a2b8;
-  border: none;
-  padding: 10px 16px;
-  width: 100%;
-  border-radius: 8px;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#saveScoreBtn:hover {
-  background-color: #117a8b;
-}
-
-/* Dark mode */
-
-body.dark {
-  background: #121212;
-  color: #eee;
-}
-
-body.dark .container {
-  background: #1e1e1e;
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
-}
-
-body.dark #score {
-  color: #66aaff;
-}
-
-body.dark .click-button {
-  background-color: #3399ff;
-  box-shadow: 0 6px 15px rgba(51, 153, 255, 0.6);
-}
-
-body.dark .click-button:hover {
-  background-color: #0077ff;
-}
-
-body.dark .upgrade-item button {
-  background-color: #28a745;
-}
-
-body.dark .upgrade-item button:hover {
-  background-color: #1e7e34;
-}
-
-body.dark .gems-shop button {
-  background-color: #ffcc33;
-  color: #222;
-}
-
-body.dark .gems-shop button:hover {
-  background-color: #e6b800;
-}
-
-body.dark #saveScoreBtn {
-  background-color: #17a2b8;
-}
-
-body.dark #saveScoreBtn:hover {
-  background-color: #117a8b;
-}
