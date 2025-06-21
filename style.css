@@ -1,130 +1,205 @@
+/* Reset e base */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #f2f2f2;
-  color: #333;
+  background: #f5f6fa;
+  color: #222;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: start;
-  min-height: 100vh;
+  align-items: flex-start;
   padding: 20px;
-  transition: background 0.3s, color 0.3s;
 }
-body.dark {
-  background-color: #121212;
-  color: #f5f5f5;
-}
+
 .container {
-  max-width: 600px;
+  max-width: 480px;
   width: 100%;
   background: #fff;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
-body.dark .container {
-  background: #1e1e1e;
-  color: #f5f5f5;
-}
+
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
+
+h1 {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #2f3640;
+}
+
 #toggleThemeBtn {
-  background: none;
+  background: transparent;
   border: none;
-  font-size: 24px;
+  font-size: 1.4rem;
   cursor: pointer;
-  color: inherit;
+  transition: transform 0.3s ease;
 }
+#toggleThemeBtn:hover {
+  transform: rotate(20deg);
+}
+
+/* Estatísticas */
 .stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.score-section {
   text-align: center;
-  margin-bottom: 30px;
-}
-#score {
-  font-size: 48px;
-  font-weight: bold;
-}
-#cps {
-  margin-top: 10px;
-  font-size: 16px;
-  color: #888;
-}
-#clickBtn {
-  margin-top: 20px;
-  padding: 15px 40px;
-  font-size: 20px;
-  border: none;
-  border-radius: 10px;
-  background-color: #4CAF50;
-  color: white;
-  cursor: pointer;
-}
-section {
-  margin-top: 30px;
-}
-h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
-  border-bottom: 2px solid #ccc;
-  padding-bottom: 5px;
-}
-.upgrade-box {
-  background: #f7f7f7;
-  border-radius: 12px;
-  padding: 15px;
   margin-bottom: 15px;
 }
-body.dark .upgrade-box {
-  background: #2c2c2c;
-}
-.upgrade-box button {
-  width: 100%;
-  padding: 10px;
-  font-size: 15px;
-  border: none;
-  border-radius: 8px;
-  background-color: #2196F3;
-  color: white;
-}
-.boosts button,
-.shop button {
-  width: 100%;
-  padding: 12px;
+
+#score {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #00a8ff;
   margin-bottom: 10px;
-  border: none;
-  border-radius: 10px;
-  font-size: 15px;
-  background-color: #ff9800;
-  color: white;
 }
-.ranking li {
-  padding: 8px 0;
-  border-bottom: 1px solid #ccc;
+
+#cps {
+  font-weight: 600;
+  color: #718093;
+  margin-bottom: 10px;
 }
-body.dark .ranking li {
-  border-color: #444;
-}
+
 #xpBarContainer {
-  margin-top: 15px;
-  background: #ddd;
+  position: relative;
+  background: #dcdde1;
   border-radius: 10px;
-  overflow: hidden;
   height: 20px;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 10px;
 }
+
 #xpBar {
-  background: #4caf50;
+  background: #44bd32;
   height: 100%;
   width: 0%;
-  transition: width 0.4s;
+  transition: width 0.5s ease;
+  border-radius: 10px 0 0 10px;
 }
+
 #levelDisplay {
-  margin-top: 5px;
-  font-weight: bold;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+  line-height: 20px;
+  user-select: none;
 }
+
+/* Botão de clique com efeito pulsante */
+#clickBtn {
+  background: #00a8ff;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 18px 30px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,168,255,0.5);
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+#clickBtn:hover {
+  background: #0097e6;
+}
+
+/* Animação pulsante */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(0,168,255,0.7); }
+  70% { box-shadow: 0 0 10px 15px rgba(0,168,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(0,168,255,0); }
+}
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Upgrades e boosts */
+.upgrades, .boosts, .missions, .achievements, .shop, .ranking {
+  margin-bottom: 25px;
+}
+
+.upgrades h2, .boosts h2, .missions h2, .achievements h2, .shop h2, .ranking h2 {
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #2f3640;
+}
+
+.upgrade-box {
+  background: #f1f2f6;
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: inset 0 0 7px #dcdde1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.upgrade-box p {
+  font-weight: 600;
+  color: #2f3640;
+}
+
+.upgrade-box button {
+  background: #44bd32;
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 5px 10px rgba(68,189,50,0.7);
+  transition: background-color 0.3s ease;
+}
+
+.upgrade-box button:hover {
+  background: #4cd137;
+}
+
+/* Boost ativo estilo */
+.boost-active {
+  margin-top: 8px;
+  font-weight: 700;
+  color: #e1b12c;
+  text-align: center;
+  font-size: 1.1rem;
+  animation: blink 1.2s infinite;
+}
+
+/* Blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Loja */
+.shop div {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.shop button {
+  background: #fbc531;
+  border
