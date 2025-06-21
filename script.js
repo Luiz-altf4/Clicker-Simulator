@@ -186,7 +186,20 @@ document.getElementById("toggleThemeBtn").addEventListener("click", () => {
   document.body.classList.toggle("dark");
 });
 
-// INICIALIZA TELA
+// CARREGA PROGRESSO AO ABRIR A PÁGINA
 window.addEventListener("load", () => {
+  const saveData = JSON.parse(localStorage.getItem("clickerSave"));
+  if (saveData) {
+    score = saveData.score;
+    clickPower = saveData.clickPower;
+    autoClickers = saveData.autoClickers;
+    multiplier = saveData.multiplier;
+    multiplierCount = saveData.multiplierCount;
+    cps = saveData.cps;
+    gems = saveData.gems;
+    level = saveData.level;
+    xp = saveData.xp;
+  }
   atualizar();
 });
+
