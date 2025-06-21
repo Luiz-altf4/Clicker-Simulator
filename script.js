@@ -33,10 +33,10 @@ function updateDisplay() {
 }
 
 function animateScore() {
-  scoreDisplay.style.transform = 'scale(1.2)';
+  scoreDisplay.classList.add('pulse');
   setTimeout(() => {
-    scoreDisplay.style.transform = 'scale(1)';
-  }, 150);
+    scoreDisplay.classList.remove('pulse');
+  }, 300);
 }
 
 clickBtn.addEventListener('click', () => {
