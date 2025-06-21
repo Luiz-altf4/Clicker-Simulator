@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR" >
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator FULL</title>
+  <title>Clicker do Luiz - FULL</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -23,16 +23,17 @@
           <div id="levelDisplay">Nível: 1</div>
         </div>
       </div>
-      <button id="clickBtn" class="big-btn">Clique Aqui!</button>
+      <button id="clickBtn">Clique Aqui!</button>
     </div>
 
     <section class="upgrades">
       <h2>Upgrades</h2>
 
-      <div class="batch-selector">
-        <button class="batch-btn active" data-batch="1">1x</button>
-        <button class="batch-btn" data-batch="10">10x</button>
-        <button class="batch-btn" data-batch="100">100x</button>
+      <div class="upgrade-amount">
+        <span>Quantidade:</span>
+        <button class="upgradeAmountBtn active" data-amount="1">1</button>
+        <button class="upgradeAmountBtn" data-amount="10">10</button>
+        <button class="upgradeAmountBtn" data-amount="100">100</button>
       </div>
 
       <div class="upgrade-box">
@@ -78,8 +79,9 @@
     </section>
 
     <section class="rebirth-section">
-      <button id="rebirthBtn" disabled>Rebirth (Renascimento)</button>
-      <div id="rebirthInfo" class="rebirth-info">Você precisa de 1T pontos para renascer.</div>
+      <h2>Rebirth</h2>
+      <div>Rebirths: <span id="rebirthCount">0</span></div>
+      <button id="rebirthBtn">Fazer Rebirth</button>
     </section>
 
     <section class="reset-section">
