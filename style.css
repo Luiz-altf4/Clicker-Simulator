@@ -1,5 +1,4 @@
-/* Reset básico */
-* {/* Reset e fonte */
+/* Reset e fonte */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -19,13 +18,13 @@ body {
 
 .container {
   background: rgba(255 255 255 / 0.1);
-  padding: 40px 50px;
-  border-radius: 20px;
-  width: 360px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+  padding: 25px 30px;
+  border-radius: 16px;
+  width: 280px; /* menor largura */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
   text-align: center;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -33,32 +32,32 @@ body {
 
 h1 {
   font-weight: 700;
-  font-size: 2.4rem;
-  letter-spacing: 2px;
-  text-shadow: 0 0 12px #fff8;
+  font-size: 1.8rem;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 10px #fff8;
 }
 
 #score {
-  font-size: 6rem;
+  font-size: 4.5rem;
   font-weight: 900;
   color: #ffd54f;
-  text-shadow: 0 0 10px #ffd54faa;
+  text-shadow: 0 0 8px #ffd54faa;
   transition: transform 0.3s ease;
 }
 
 #cps {
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #ccc;
-  margin-bottom: -10px;
+  margin-bottom: -8px;
   font-style: italic;
 }
 
 button {
-  padding: 15px 32px;
-  font-size: 1.25rem;
+  padding: 12px 24px;
+  font-size: 1rem;
   border: none;
-  border-radius: 16px;
+  border-radius: 12px;
   cursor: pointer;
   font-weight: 700;
   box-shadow: 0 6px 18px rgba(102, 126, 234, 0.6);
@@ -84,13 +83,13 @@ button:disabled {
 .upgrades {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
 .upgrade-box {
   background: rgba(0 0 0 / 0.25);
   border-radius: 15px;
-  padding: 18px 24px;
+  padding: 14px 18px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
   display: flex;
   justify-content: space-between;
@@ -98,7 +97,7 @@ button:disabled {
 }
 
 .upgrade-box p {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
   user-select: none;
 }
