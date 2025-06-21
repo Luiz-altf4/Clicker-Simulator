@@ -1,91 +1,97 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Clicker Simulator - Luiz</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clicker Simulator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="game-container">
+  <button id="toggleThemeBtn" class="theme-btn">🌙</button>
 
-    <header>
-      <h1>Clicker Simulator</h1>
-      <button id="toggleThemeBtn">Modo Escuro / Claro</button>
-    </header>
+  <div class="container">
 
-    <main>
+    <!-- Painel de Click -->
+    <section class="panel" id="clickPanel">
+      <h2>Clicks</h2>
+      <button id="clickBtn" class="btn click-btn">Clique Aqui!</button>
+      <p>Clicks: <span id="score">0</span></p>
+      <p>Poder por Click: <span id="clickPower">1</span></p>
+    </section>
 
-      <section id="main-clicker" class="panel">
-        <button id="clickBtn" class="big-button">Clique Aqui!</button>
-        <div>
-          <span>Pontos: <span id="score">0</span></span><br />
-          <span>Power do Clique: <span id="clickPower">1</span></span><br />
-          <span>Multiplicador Total: <span id="multiplierCount">1</span></span><br />
-          <span>Clicks por Segundo (CPS): <span id="cps">0</span></span><br />
-          <span>Nível: <span id="levelDisplay">1</span></span><br />
-          <div id="xpBarContainer">
-            <div id="xpBar"></div>
-          </div>
-          <span>Gemas: <span id="gemsCount">0</span></span><br />
-          <span>Rebirths: <span id="rebirthCount">0</span></span>
-        </div>
-      </section>
+    <!-- Upgrades -->
+    <section class="panel" id="upgradePanel">
+      <h2>Upgrades</h2>
+      <div class="upgrade-row">
+        <button id="upgradeClickPowerBtn" class="btn upgrade-btn">Melhorar Click Power</button>
+        <span>Custo: <span id="upgradeClickPowerCost">10</span></span>
+      </div>
 
-      <section id="upgrades" class="panel">
-        <h2>Upgrades</h2>
-        <div class="upgrade-group">
-          <button id="upgradeClickPowerBtn" class="upgrade-btn">Aumentar Power do Clique</button>
-          <span>Custo: <span id="upgradeClickPowerCost">10</span></span>
-        </div>
+      <div class="upgrade-row">
+        <button id="buyAutoClickerBtn" class="btn upgrade-btn">Comprar AutoClicker</button>
+        <span>Qtd: <span id="autoClickers">0</span> | Custo: <span id="autoClickerCost">50</span></span>
+      </div>
 
-        <div class="upgrade-group">
-          <button id="buyAutoClickerBtn" class="upgrade-btn">Comprar Auto Clicker</button>
-          <span>Quantidade: <span id="autoClickers">0</span></span>
-          <span>Custo: <span id="autoClickerCost">50</span></span>
-        </div>
+      <div class="upgrade-row">
+        <button id="buyMultiplierBtn" class="btn upgrade-btn">Comprar Multiplicador</button>
+        <span>Qtd: <span id="multiplierCount">0</span> | Custo: <span id="multiplierCost">100</span></span>
+      </div>
 
-        <div class="upgrade-group">
-          <button id="buyMultiplierBtn" class="upgrade-btn">Comprar Multiplicador</button>
-          <span>Quantidade: <span id="multiplierCount">0</span></span>
-          <span>Custo: <span id="multiplierCost">100</span></span>
-        </div>
+      <div class="upgrade-row">
+        <span>Comprar em: </span>
+        <button class="btn upgradeAmountBtn active" data-amount="1">1</button>
+        <button class="btn upgradeAmountBtn" data-amount="10">10</button>
+        <button class="btn upgradeAmountBtn" data-amount="100">100</button>
+      </div>
+    </section>
 
-        <div class="upgrade-group">
-          <label>Quantidade:</label>
-          <button class="upgradeAmountBtn active" data-amount="1">1</button>
-          <button class="upgradeAmountBtn" data-amount="10">10</button>
-          <button class="upgradeAmountBtn" data-amount="100">100</button>
-        </div>
-      </section>
+    <!-- Informações -->
+    <section class="panel" id="infoPanel">
+      <h2>Informações</h2>
+      <p id="cps">Clicks por segundo: 0</p>
+      <p id="levelDisplay">Nível: 1</p>
+      <div id="xpBarContainer">
+        <div id="xpBar"></div>
+      </div>
+      <p>Gemas: <span id="gemsCount">0</span></p>
+      <p>Rebirths: <span id="rebirthCount">0</span></p>
+    </section>
 
-      <section id="boosts" class="panel">
-        <h2>Boosts</h2>
-        <button id="speedBoostBtn" class="boost-btn">Boost Velocidade (20 Gemas)</button><br />
-        <button id="multiplierBoostBtn" class="boost-btn">Boost Multiplicador (50 Gemas)</button><br />
-        <button id="buyGemsBtn" class="boost-btn">Comprar 100 Gemas (Simulado)</button>
-      </section>
+    <!-- Boosts -->
+    <section class="panel" id="boostPanel">
+      <h2>Boosts</h2>
+      <button id="speedBoostBtn" class="btn boost-btn">Boost de Velocidade (20 Gemas)</button>
+      <button id="multiplierBoostBtn" class="btn boost-btn">Boost de Multiplicador (50 Gemas)</button>
+      <button id="buyGemsBtn" class="btn boost-btn">Comprar 100 Gemas</button>
+    </section>
 
-      <section id="rebirth-reset" class="panel">
-        <h2>Rebirth e Reset</h2>
-        <button id="rebirthBtn" class="rebirth-btn">Fazer Rebirth</button>
-        <button id="resetBtn" class="reset-btn">Resetar Jogo</button>
-      </section>
+    <!-- Rebirth & Reset -->
+    <section class="panel" id="rebirthPanel">
+      <h2>Rebirth & Reset</h2>
+      <button id="rebirthBtn" class="btn rebirth-btn">Fazer Rebirth</button>
+      <button id="resetBtn" class="btn reset-btn">Resetar Jogo</button>
+    </section>
 
-    </main>
-
-    <audio id="clickSound" src="click.mp3"></audio>
-    <audio id="buySound" src="buy.mp3"></audio>
-    <audio id="boostSound" src="boost.mp3"></audio>
+    <!-- Loja -->
+    <section class="panel" id="shopPanel">
+      <h2>Loja</h2>
+      <div class="shop-item">
+        <button class="btn shop-buy" data-item="clickPowerBoost" data-cost="500">Comprar Click Power Boost (500 clicks)</button>
+      </div>
+      <div class="shop-item">
+        <button class="btn shop-buy" data-item="autoClickerBoost" data-cost="1000">Comprar AutoClicker Boost (1000 clicks)</button>
+      </div>
+      <div class="shop-item">
+        <button class="btn shop-buy" data-item="multiplierBoost" data-cost="2000">Comprar Multiplicador Boost (2000 clicks)</button>
+      </div>
+    </section>
 
   </div>
 
-  <div id="corner-lights">
-    <div class="light top-left"></div>
-    <div class="light top-right"></div>
-    <div class="light bottom-left"></div>
-    <div class="light bottom-right"></div>
-  </div>
+  <!-- Sons -->
+  <audio id="clickSound" src="click.mp3" preload="auto"></audio>
+  <audio id="buySound" src="buy.mp3" preload="auto"></audio>
+  <audio id="boostSound" src="boost.mp3" preload="auto"></audio>
 
   <script src="script.js"></script>
 </body>
