@@ -1,13 +1,13 @@
 /* Reset básico */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
 
 body {
-  background: #f0f2f5;
+  background: #f0f4f8;
   color: #222;
   min-height: 100vh;
   display: flex;
@@ -17,13 +17,23 @@ body {
   transition: background 0.3s, color 0.3s;
 }
 
+body.dark {
+  background: #121212;
+  color: #ddd;
+}
+
 .container {
-  max-width: 480px;
-  width: 100%;
-  background: #fff;
+  width: 360px;
+  background: white;
+  padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 6px 20px rgb(0 0 0 / 0.15);
-  padding: 20px 30px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark .container {
+  background: #1e1e1e;
+  color: #ddd;
 }
 
 header {
@@ -34,238 +44,352 @@ header {
 }
 
 header h1 {
+  font-size: 1.4rem;
   font-weight: 700;
-  font-size: 1.5rem;
-  color: #222;
 }
 
 #toggleThemeBtn {
-  font-size: 1.5rem;
   background: transparent;
   border: none;
+  font-size: 1.5rem;
   cursor: pointer;
-  transition: transform 0.3s;
+  color: inherit;
+  transition: transform 0.2s;
 }
 
 #toggleThemeBtn:hover {
   transform: rotate(20deg);
 }
 
+/* Stats e botão click */
 .stats {
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-#score {
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: #2a9d8f;
-  user-select: none;
-}
-
-#cps {
-  font-weight: 500;
-  color: #555;
-  margin-bottom: 10px;
-}
-
-#xpBarContainer {
-  background: #e0e0e0;
-  border-radius: 10px;
-  height: 18px;
-  margin: 0 auto 15px;
-  max-width: 360px;
-  overflow: hidden;
-  position: relative;
-}
-
-#xpBar {
-  height: 100%;
-  background: linear-gradient(90deg, #2a9d8f, #3caea3);
-  width: 0;
-  transition: width 0.4s ease;
-}
-
-#levelDisplay {
-  text-align: center;
-  font-weight: 600;
-  color: #333;
-  margin-top: 4px;
-  user-select: none;
-}
-
-.big-btn {
-  background: #2a9d8f;
-  color: #fff;
-  border: none;
-  padding: 18px 30px;
-  font-size: 1.6rem;
-  border-radius: 12px;
-  cursor: pointer;
-  user-select: none;
-  box-shadow: 0 4px 12px rgb(42 157 143 / 0.5);
-  transition: background 0.3s ease;
-}
-
-.big-btn:hover {
-  background: #21867a;
-}
-
-.quantity-selector {
   display: flex;
-  justify-content: center;
-  gap: 15px;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 20px;
 }
 
-.qty-btn {
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: 2px solid #2a9d8f;
-  background: transparent;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  user-select: none;
-  color: #2a9d8f;
-}
-
-.qty-btn.selected,
-.qty-btn:hover {
-  background: #2a9d8f;
-  color: #fff;
-  border-color: #21867a;
-}
-
-.upgrades, .boosts, .shop {
-  margin-bottom: 25px;
-}
-
-.upgrades h2,
-.boosts h2,
-.shop h2 {
-  font-weight: 700;
-  font-size: 1.3rem;
-  margin-bottom: 15px;
-  color: #264653;
-  user-select: none;
-}
-
-.upgrade-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 14px;
-  padding: 12px 16px;
-  background: #eaf4f4;
-  border-radius: 10px;
-  box-shadow: inset 0 2px 5px rgb(42 157 143 / 0.15);
-}
-
-.upgrade-box p {
-  font-weight: 600;
-  color: #264653;
-  user-select: none;
-}
-
-.upgrade-box button {
-  background: #2a9d8f;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  font-weight: 600;
-  border-radius: 10px;
-  cursor: pointer;
-  user-select: none;
-  box-shadow: 0 2px 10px rgb(42 157 143 / 0.4);
-  transition: background 0.3s ease;
-}
-
-.upgrade-box button:hover {
-  background: #21867a;
-}
-
-.boosts button,
-.shop button {
+.score-section {
   width: 100%;
-  padding: 12px 0;
-  font-weight: 700;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  user-select: none;
-  background: #e76f51;
-  color: white;
-  box-shadow: 0 3px 15px rgb(231 111 81 / 0.6);
-  transition: background 0.3s ease;
+  text-align: center;
   margin-bottom: 12px;
 }
 
-.boosts button:hover,
-.shop button:hover {
-  background: #d8593d;
+#score {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+#cps {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+#xpBarContainer {
+  width: 100%;
+  background: #ddd;
+  height: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+#xpBar {
+  background: #4caf50;
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s;
+}
+
+#levelDisplay {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* Botão grande de clique */
+.big-btn {
+  background: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 15px 0;
+  width: 100%;
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(33, 150, 243, 0.4);
+  transition: background 0.3s;
+}
+
+.big-btn:hover {
+  background: #1976d2;
+}
+
+/* Seção upgrades */
+.upgrades {
+  margin-bottom: 20px;
+}
+
+.upgrades h2 {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+/* Batch selector */
+.batch-selector {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.batch-btn {
+  background: #eee;
+  border: 1.5px solid #aaa;
+  border-radius: 8px;
+  margin: 0 5px;
+  padding: 8px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.batch-btn.active,
+.batch-btn:hover {
+  background: #2196f3;
+  color: white;
+  border-color: #1976d2;
+}
+
+/* Upgrade boxes */
+.upgrade-box {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+  transition: background 0.3s;
+}
+
+body.dark .upgrade-box {
+  background: #2a2a2a;
+}
+
+.upgrade-box p {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.upgrade-box button {
+  background: #4caf50;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 10px;
+  width: 100%;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.upgrade-box button:hover {
+  background: #388e3c;
+}
+
+/* Boosts */
+.boosts {
+  margin-bottom: 20px;
+}
+
+.boosts h2 {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.boosts button {
+  background: #ff9800;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  padding: 12px;
+  width: 100%;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: background 0.3s;
+}
+
+.boosts button:hover {
+  background: #f57c00;
+}
+
+/* Loja */
+.shop {
+  margin-bottom: 20px;
+}
+
+.shop h2 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  text-align: center;
 }
 
 .shop div {
   font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center;
   font-size: 1.1rem;
-  color: #264653;
-  margin-bottom: 12px;
-  user-select: none;
 }
 
-/* Tema escuro */
-
-body.dark {
-  background: #121212;
-  color: #eee;
+.shop button {
+  background: #9c27b0;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  padding: 12px;
+  width: 100%;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
-body.dark .container {
-  background: #1e1e1e;
-  box-shadow: 0 6px 20px rgb(0 0 0 / 0.8);
+.shop button:hover {
+  background: #7b1fa2;
 }
 
-body.dark header h1 {
-  color: #a8dadc;
+/* Rebirth */
+.rebirth-section {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-body.dark #score {
-  color: #a8dadc;
+#rebirthBtn {
+  background: #e91e63;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  padding: 14px 0;
+  width: 100%;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 1.1rem;
 }
 
-body.dark #cps,
-body.dark #levelDisplay,
-body.dark .upgrades h2,
-body.dark .boosts h2,
-body.dark .shop h2,
-body.dark .upgrade-box p,
-body.dark .shop div {
+#rebirthBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  color: #888;
+}
+
+#rebirthBtn:hover:enabled {
+  background: #ad1457;
+}
+
+.rebirth-info {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #555;
+}
+
+/* Reset */
+.reset-section {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.reset-btn {
+  background: #f44336;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  padding: 12px 0;
+  width: 100%;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 1.1rem;
+}
+
+.reset-btn:hover {
+  background: #c62828;
+}
+
+/* Missões e conquistas placeholders */
+.missions, .achievements {
+  margin-bottom: 20px;
+}
+
+.missions h2, .achievements h2 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+#misisonsList, #achievementsList {
+  list-style: none;
+  max-height: 100px;
+  overflow-y: auto;
+  padding-left: 15px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Dark mode adjustments */
+body.dark .batch-btn {
+  background: #333;
+  border-color: #555;
   color: #ccc;
 }
 
-body.dark .upgrade-box {
-  background: #264653;
-  box-shadow: inset 0 2px 5px rgb(168 218 220 / 0.25);
+body.dark .batch-btn.active,
+body.dark .batch-btn:hover {
+  background: #64b5f6;
+  border-color: #64b5f6;
+  color: #000;
+}
+
+body.dark .big-btn {
+  background: #1976d2;
+  box-shadow: 0 4px 10px rgba(25, 118, 210, 0.6);
+}
+
+body.dark .big-btn:hover {
+  background: #1565c0;
 }
 
 body.dark .upgrade-box button {
-  background: #457b9d;
-  box-shadow: 0 2px 10px rgb(69 123 157 / 0.8);
+  background: #388e3c;
 }
 
 body.dark .upgrade-box button:hover {
-  background: #1d3557;
+  background: #2e7d32;
 }
 
-body.dark .boosts button,
+body.dark .boosts button {
+  background: #ef6c00;
+}
+
+body.dark .boosts button:hover {
+  background: #e65100;
+}
+
 body.dark .shop button {
-  background: #e63946;
-  box-shadow: 0 3px 15px rgb(230 57 70 / 0.8);
+  background: #7b1fa2;
 }
 
-body.dark .boosts button:hover,
 body.dark .shop button:hover {
-  background: #b32b36;
+  background: #6a1b9a;
 }
+
+body.dark #rebirthBtn:enabled:hover {
+  background: #880e4f;
+}
+
+body.dark .reset-btn:hover {
+  background: #b71c1c;
+}
+
