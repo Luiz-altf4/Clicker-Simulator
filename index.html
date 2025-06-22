@@ -1,75 +1,71 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Clicker Simulator - Versão Completa</title>
-<link rel="stylesheet" href="style.css" />
-<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clicker Simulator</title>
+  <!-- Fonte moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Roboto&display=swap" rel="stylesheet" />
+  <!-- Link para o CSS externo -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="container">
+    <h1>Clicker Simulator</h1>
 
-<button class="theme-btn" id="toggleTheme" title="Alternar tema">🌙</button>
-
-<header>
-  <h1>Clicker Simulator</h1>
-  <div id="statsPanel">
-    <div><strong>Clique:</strong> <span id="clicksDisplay">0</span></div>
-    <div><strong>Clicks por Segundo:</strong> <span id="cpsDisplay">0</span></div>
-    <div><strong>Nível:</strong> <span id="levelDisplay">1</span></div>
-    <div><strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
-    <div><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
-    <div><strong>Mundo:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
-  </div>
-</header>
-
-<main class="container">
-
-  <section id="clickPanel" class="panel">
-    <h2>Clique Aqui!</h2>
-    <button id="clickBtn" class="btn click-btn">CLIQUE</button>
-  </section>
-
-  <section id="upgradesPanel" class="panel">
-    <h2>Melhorias</h2>
-    <div id="upgradesList"></div>
-    <div class="upgradeAmountBtnsContainer">
-      <button class="upgradeAmountBtn active" data-amount="1">1</button>
-      <button class="upgradeAmountBtn" data-amount="10">10</button>
-      <button class="upgradeAmountBtn" data-amount="100">100</button>
-      <button class="upgradeAmountBtn" data-amount="1000">1000</button>
-      <button class="upgradeAmountBtn" data-amount="max">Máximo</button>
+    <div class="stats">
+      <p>Cliques: <span id="clicks">0</span></p>
+      <p>Por segundo: <span id="cps">0</span></p>
+      <p>Prestígio: <span id="prestige">0</span></p>
+      <p>Nível: <span id="level">1</span></p>
     </div>
-  </section>
 
-  <section id="shopPanel" class="panel">
-    <h2>Loja</h2>
-    <div id="shopItemsList"></div>
-  </section>
+    <div class="progress-container">
+      <div class="progress-bar" id="xp-bar"></div>
+    </div>
 
-  <section id="petsPanel" class="panel">
-    <h2>Pets</h2>
-    <div id="petsList" class="flex-row-wrap"></div>
-    <div id="activePet" style="margin-top:12px; font-weight:700; color: var(--color-accent);"></div>
-  </section>
+    <button id="clickBtn">Clique Aqui!</button>
 
-  <section id="rebirthPanel" class="panel">
-    <h2>Rebirth</h2>
-    <button id="rebirthBtn" class="btn">Fazer Rebirth</button>
-    <div id="rebirthInfo" style="margin-top: 10px;"></div>
-  </section>
+    <div class="buttons">
+      <button id="upgradeClickBtn">Upg. de Clique (x2) - <span id="upgradeClickCost">25</span></button>
+      <button id="upgradeAutoBtn">Auto-Clicker - <span id="upgradeAutoCost">100</span></button>
+      <button id="prestigeBtn">Prestígio (requer 1M)</button>
+    </div>
 
-  <section id="worldsPanel" class="panel">
-    <h2>Mundos</h2>
-    <div id="worldsList" class="flex-row-wrap"></div>
-  </section>
+    <div class="panel">
+      <h2>Árvore de Upgrades</h2>
+      <div class="upgrade-tree">
+        <div class="upgrade">
+          <div>+1 clique por clique</div>
+          <button id="lvlClickBtn">Custo: <span id="lvlClickCost">25</span></button>
+        </div>
+        <div class="upgrade">
+          <div>Auto‑Clicker</div>
+          <button id="lvlAutoBtn">Custo: <span id="lvlAutoCost">100</span></button>
+        </div>
+      </div>
+    </div>
 
-</main>
+    <div class="panel">
+      <h2>Missões</h2>
+      <ul id="missions">
+        <li>Clique 100 vezes <span class="status" id="mission1">❌</span></li>
+        <li>Alcance 1 K CPS <span class="status" id="mission2">❌</span></li>
+        <li>Colete 1 Prestígio <span class="status" id="mission3">❌</span></li>
+      </ul>
+    </div>
 
-<footer>
-  <p>© 2025 Clicker Simulator - Criado por Luiz</p>
-</footer>
+    <div class="panel">
+      <h2>Conquistas</h2>
+      <ul id="achievements">
+        <li id="achv1" class="locked">10 K cliques</li>
+        <li id="achv2" class="locked">100 K cliques</li>
+        <li id="achv3" class="locked">1 M cliques</li>
+      </ul>
+    </div>
+  </div>
 
-<script src="script.js"></script>
+  <!-- Link para o JS externo -->
+  <script src="script.js"></script>
 </body>
 </html>
