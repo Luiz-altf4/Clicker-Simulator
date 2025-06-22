@@ -22,7 +22,6 @@ body {
   min-height: 100vh;
 }
 
-/* Luz piscando nos cantos */
 body::before,
 body::after {
   content: "";
@@ -58,7 +57,6 @@ body::after {
   }
 }
 
-/* Botão tema */
 .theme-btn {
   position: fixed;
   top: 12px;
@@ -78,7 +76,6 @@ body::after {
   background-color: var(--color-btn-hover);
 }
 
-/* Container geral */
 .container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -88,7 +85,6 @@ body::after {
   margin: 0 auto;
 }
 
-/* Painéis */
 .panel {
   background-color: var(--color-panel-bg);
   border-radius: 12px;
@@ -100,7 +96,6 @@ body::after {
   z-index: 2;
 }
 
-/* Títulos */
 .panel h2 {
   margin: 0 0 8px 0;
   font-weight: 700;
@@ -109,7 +104,6 @@ body::after {
   padding-bottom: 6px;
 }
 
-/* Botões */
 .btn {
   background-color: var(--color-btn-bg);
   border: none;
@@ -129,7 +123,6 @@ body::after {
   outline: none;
 }
 
-/* Click Button - maior */
 .click-btn {
   font-size: 1.4rem;
   padding: 20px;
@@ -138,11 +131,34 @@ body::after {
   font-weight: 900;
 }
 
-/* Upgrade rows */
 .upgrade-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-/* Botões de comprar múlt
+#xpBarContainer {
+  width: 100%;
+  background-color: var(--color-xp-bar-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  height: 20px;
+}
+
+#xpBar {
+  height: 100%;
+  background-color: var(--color-xp-bar-fill);
+  transition: width 0.3s;
+  width: 0;
+}
+
+.shop-item {
+  margin-bottom: 10px;
+}
+
+button.active {
+  background-color: var(--color-accent);
+  color: black;
+}
