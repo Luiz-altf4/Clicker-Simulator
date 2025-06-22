@@ -168,7 +168,7 @@ body::after {
 /* Upgrade rows */
 .upgrade-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
@@ -220,7 +220,7 @@ body::after {
 }
 
 /* Informações extras do jogo */
-#cps, #levelDisplay, #gemsCount, #rebirthCount, #worldName, #currentWorld {
+#clicksDisplay, #cps, #levelDisplay, #gemsCount, #rebirthCount, #worldName, #currentWorld, #activePet {
   font-weight: 700;
   font-size: 1.2rem;
   letter-spacing: 1.2px;
@@ -228,28 +228,39 @@ body::after {
   user-select: none;
 }
 
-/* Painel Loja */
-#shopPanel .shop-item {
-  margin-bottom: 18px;
-}
-
-.shop-buy {
-  width: 100%;
-  text-align: center;
-  padding: 16px 0;
-}
-
-/* Novos Painéis Extras (para futuros recursos) */
-#achievementsPanel, #worldPanel, #inventoryPanel {
-  background-color: var(--color-panel-bg);
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 0 28px var(--color-shadow);
+/* Pets list */
+#petsList {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-  color: var(--color-btn-text);
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.pet-card {
+  background-color: #222;
+  border-radius: 16px;
+  padding: 16px;
+  width: 130px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
   user-select: none;
+}
+
+.pet-card:hover {
+  box-shadow: 0 0 20px var(--color-accent);
+}
+
+.pet-card.active {
+  border: 2px solid var(--color-accent);
+  box-shadow: 0 0 25px var(--color-accent);
+}
+
+.pet-name {
+  margin: 8px 0 4px 0;
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: var(--color-accent);
 }
 
 /* Responsividade */
@@ -267,5 +278,9 @@ body::after {
   .click-btn {
     padding: 26px;
     font-size: 1.6rem;
+  }
+
+  #petsList {
+    justify-content: center;
   }
 }
