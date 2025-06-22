@@ -3,58 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator - Luiz</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Clicker Simulator - Luiz Felipe</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <button class="theme-btn" id="themeBtn" title="Alternar tema">🌙</button>
+  <button id="themeBtn" class="theme-btn" title="Alternar Tema">🌙</button>
 
-  <div class="container">
-    <section class="panel" id="mainPanel">
+  <main class="container">
+    <section id="mainPanel" class="panel">
       <h2>Clicker Simulator</h2>
       <button id="clickBtn" class="btn click-btn">CLICK!</button>
-      <div id="clickCount">0</div>
-      <div id="cps">CPS: 0</div>
-      <div id="multiplierDisplay">Multiplier: x1.0</div>
-      <div id="xpBarContainer">
-        <div id="xpBar"></div>
+      <div class="stats">
+        <p id="clickCount" class="stat-item large">0</p>
+        <p id="cps" class="stat-item">CPS: 0</p>
+        <p id="multiplierDisplay" class="stat-item">Multiplicador: x1.0</p>
+        <p id="xpDisplay" class="stat-item">XP:</p>
+        <div id="xpBarContainer" aria-label="Barra de XP">
+          <div id="xpBar"></div>
+        </div>
+        <p id="gemsCount" class="stat-item">Gemas: 0</p>
+        <p id="rebirthCount" class="stat-item">Rebirths: 0</p>
+        <p id="currentWorld" class="stat-item">Mundo: Default</p>
       </div>
-      <div id="gemsCount">Gems: 0</div>
-      <div id="rebirthCount">Rebirths: 0</div>
-      <div id="currentWorld">World: Default</div>
     </section>
 
-    <section class="panel" id="upgradesPanel">
+    <section id="upgradesPanel" class="panel">
       <h2>Upgrades</h2>
-      <div>
-        Quantidade para comprar:
-        <button class="upgradeAmountBtn" data-amount="1">1</button>
+      <div class="buy-amounts">
+        <label>Quantidade:</label>
+        <button class="upgradeAmountBtn active" data-amount="1">1</button>
         <button class="upgradeAmountBtn" data-amount="10">10</button>
         <button class="upgradeAmountBtn" data-amount="100">100</button>
         <button class="upgradeAmountBtn" data-amount="1000">1000</button>
-        <button class="upgradeAmountBtn" data-amount="max">Max</button>
+        <button class="upgradeAmountBtn" data-amount="max">Máximo</button>
       </div>
-      <div id="upgradesContainer"></div>
+      <div id="upgradesContainer" class="upgrades-list"></div>
     </section>
 
-    <section class="panel" id="shopPanelSection">
+    <section id="shopPanelSection" class="panel">
       <h2>Loja</h2>
-      <div id="shopPanel"></div>
+      <div id="shopPanel" class="shop-list"></div>
     </section>
 
-    <section class="panel" id="worldPanel">
+    <section id="worldPanel" class="panel">
       <h2>Mundos</h2>
-      <select id="worldsSelect"></select>
+      <select id="worldsSelect" aria-label="Selecionar Mundo"></select>
     </section>
 
-    <section class="panel" id="actionsPanel">
+    <section id="actionsPanel" class="panel">
       <h2>Ações</h2>
-      <button id="rebirthBtn" class="btn">Rebirth</button>
-      <button id="resetBtn" class="btn">Resetar Tudo</button>
+      <button id="rebirthBtn" class="btn action-btn">Rebirth</button>
+      <button id="resetBtn" class="btn action-btn reset">Resetar Tudo</button>
     </section>
-  </div>
+  </main>
 
   <script src="script.js"></script>
 </body>
 </html>
+
