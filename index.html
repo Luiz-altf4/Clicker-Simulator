@@ -23,19 +23,22 @@
     <section class="panel" id="upgradePanel">
       <h2>Upgrades</h2>
       <div class="upgrade-row">
-        <button id="upgradeClickPowerBtn" class="btn upgrade-btn">+ Click Power</button>
+        <button id="upgradeClickPowerBtn" class="btn upgrade-btn">Melhorar Click Power</button>
         <span>Custo: <span id="upgradeClickPowerCost">10</span></span>
       </div>
+
       <div class="upgrade-row">
-        <button id="buyAutoClickerBtn" class="btn upgrade-btn">+ AutoClicker</button>
+        <button id="buyAutoClickerBtn" class="btn upgrade-btn">Comprar AutoClicker</button>
         <span>Qtd: <span id="autoClickers">0</span> | Custo: <span id="autoClickerCost">50</span></span>
       </div>
+
       <div class="upgrade-row">
-        <button id="buyMultiplierBtn" class="btn upgrade-btn">+ Multiplicador</button>
+        <button id="buyMultiplierBtn" class="btn upgrade-btn">Comprar Multiplicador</button>
         <span>Qtd: <span id="multiplierCount">0</span> | Custo: <span id="multiplierCost">100</span></span>
       </div>
+
       <div class="upgrade-row">
-        <span>Comprar em: </span>
+        <span>Comprar em:</span>
         <button class="btn upgradeAmountBtn active" data-amount="1">1</button>
         <button class="btn upgradeAmountBtn" data-amount="10">10</button>
         <button class="btn upgradeAmountBtn" data-amount="100">100</button>
@@ -46,29 +49,51 @@
 
     <!-- Informações -->
     <section class="panel" id="infoPanel">
-      <h2>Status</h2>
-      <p id="cps">CPS: 0</p>
+      <h2>Informações</h2>
+      <p id="cps">Clicks por segundo: 0</p>
       <p id="levelDisplay">Nível: 1</p>
-      <div id="xpBarContainer"><div id="xpBar"></div></div>
+      <div id="xpBarContainer">
+        <div id="xpBar"></div>
+      </div>
       <p>Gemas: <span id="gemsCount">0</span></p>
       <p>Rebirths: <span id="rebirthCount">0</span></p>
-      <p>Mundo: <span id="worldName">Terra</span></p>
+      <div id="worldPanel">Mundo Atual: <strong id="worldName">Earth</strong></div>
     </section>
 
     <!-- Boosts -->
     <section class="panel" id="boostPanel">
       <h2>Boosts</h2>
-      <button id="speedBoostBtn" class="btn boost-btn">Velocidade (20 Gemas)</button>
-      <button id="multiplierBoostBtn" class="btn boost-btn">Multiplicador (50 Gemas)</button>
-      <button id="buyGemsBtn" class="btn boost-btn">+100 Gemas</button>
+      <button id="speedBoostBtn" class="btn boost-btn">Boost de Velocidade (20 Gemas)</button>
+      <button id="multiplierBoostBtn" class="btn boost-btn">Boost de Multiplicador (50 Gemas)</button>
+      <button id="buyGemsBtn" class="btn boost-btn">Comprar 100 Gemas</button>
     </section>
 
     <!-- Rebirth & Reset -->
     <section class="panel" id="rebirthPanel">
-      <h2>Rebirth & Mundo</h2>
+      <h2>Rebirth & Reset</h2>
       <button id="rebirthBtn" class="btn rebirth-btn">Fazer Rebirth</button>
-      <button id="nextWorldBtn" class="btn">Ir para o próximo mundo</button>
       <button id="resetBtn" class="btn reset-btn">Resetar Jogo</button>
+    </section>
+
+    <!-- Loja -->
+    <section class="panel" id="shopPanel">
+      <h2>Loja</h2>
+      <div class="shop-item">
+        <button class="btn shop-buy" data-item="clickPowerBoost" data-cost="500">Comprar Click Power Boost (500 clicks)</button>
+      </div>
+      <div class="shop-item">
+        <button class="btn shop-buy" data-item="autoClickerBoost" data-cost="1000">Comprar AutoClicker Boost (1000 clicks)</button>
+      </div>
+      <div class="shop-item">
+        <button class="btn shop-buy" data-item="multiplierBoost" data-cost="2000">Comprar Multiplicador Boost (2000 clicks)</button>
+      </div>
+    </section>
+
+    <!-- Mundo -->
+    <section class="panel" id="worldPanel">
+      <h2>Mundo</h2>
+      <p>Você está em: <strong id="currentWorld">Earth</strong></p>
+      <button id="nextWorldBtn" class="btn">Ir para o próximo mundo</button>
     </section>
 
   </div>
