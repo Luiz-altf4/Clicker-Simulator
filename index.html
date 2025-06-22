@@ -53,20 +53,25 @@
     <div id="worldsList"></div>
   </section>
 
-  <section class="missions" aria-label="Missões">
-    <h2>Missões</h2>
-    <div id="missionsList"></div>
-  </section>
-
-  <section class="achievements" aria-label="Conquistas">
-    <h2>Conquistas</h2>
-    <div id="achievementsList"></div>
-  </section>
-
   <section class="rebirth-section" aria-label="Seção de rebirth">
     <button id="rebirthBtn" class="btn" style="width: 100%;">Fazer Rebirth</button>
     <p id="rebirthInfo" style="margin-top:10px;"></p>
   </section>
+
+  <!-- Ranking Online -->
+  <section class="ranking" aria-label="Ranking dos jogadores">
+    <h2>Ranking Online</h2>
+    <ol id="rankingList"></ol>
+    <div style="margin-top: 10px;">
+      <input type="text" id="playerNameInput" placeholder="Digite seu nome" maxlength="20" />
+      <button id="saveScoreBtn" class="btn">Salvar Pontuação</button>
+    </div>
+  </section>
+
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 
   <script src="script.js"></script>
 </body>
