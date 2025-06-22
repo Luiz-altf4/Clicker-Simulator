@@ -8,9 +8,7 @@
 </head>
 <body>
   <button id="toggleThemeBtn" class="theme-btn">🌙</button>
-
   <div class="container">
-
     <!-- Painel de Click -->
     <section class="panel" id="clickPanel">
       <h2>Clicks</h2>
@@ -19,7 +17,7 @@
       <p>Poder por Click: <span id="clickPower">1</span></p>
     </section>
 
-    <!-- Upgrades -->
+    <!-- Painel de Upgrades -->
     <section class="panel" id="upgradePanel">
       <h2>Upgrades</h2>
       <div class="upgrade-row">
@@ -45,19 +43,17 @@
       </div>
     </section>
 
-    <!-- Informações -->
+    <!-- Painel de Informacoes -->
     <section class="panel" id="infoPanel">
-      <h2>Informações</h2>
+      <h2>Informacoes</h2>
       <p id="cps">Clicks por segundo: 0</p>
       <p id="levelDisplay">Nível: 1</p>
-      <div id="xpBarContainer">
-        <div id="xpBar"></div>
-      </div>
+      <div id="xpBarContainer"><div id="xpBar"></div></div>
       <p>Gemas: <span id="gemsCount">0</span></p>
       <p>Rebirths: <span id="rebirthCount">0</span></p>
     </section>
 
-    <!-- Boosts -->
+    <!-- Painel de Boosts -->
     <section class="panel" id="boostPanel">
       <h2>Boosts</h2>
       <button id="speedBoostBtn" class="btn boost-btn">Boost de Velocidade (20 Gemas)</button>
@@ -65,27 +61,27 @@
       <button id="buyGemsBtn" class="btn boost-btn">Comprar 100 Gemas</button>
     </section>
 
-    <!-- Rebirth & Reset -->
+    <!-- Painel de Rebirth -->
     <section class="panel" id="rebirthPanel">
       <h2>Rebirth & Reset</h2>
       <button id="rebirthBtn" class="btn rebirth-btn">Fazer Rebirth</button>
+      <button id="prestigeBtn" class="btn prestige-btn">Prestígio</button>
       <button id="resetBtn" class="btn reset-btn">Resetar Jogo</button>
     </section>
 
-    <!-- Loja -->
+    <!-- Painel da Loja -->
     <section class="panel" id="shopPanel">
       <h2>Loja</h2>
       <div class="shop-item">
-        <button class="btn shop-buy" data-item="clickPowerBoost" data-cost="500">Comprar Click Power Boost (500 clicks)</button>
+        <button class="btn shop-buy" data-item="clickPowerBoost" data-cost="500">Click Power Boost (500)</button>
       </div>
       <div class="shop-item">
-        <button class="btn shop-buy" data-item="autoClickerBoost" data-cost="1000">Comprar AutoClicker Boost (1000 clicks)</button>
+        <button class="btn shop-buy" data-item="autoClickerBoost" data-cost="1000">AutoClicker Boost (1000)</button>
       </div>
       <div class="shop-item">
-        <button class="btn shop-buy" data-item="multiplierBoost" data-cost="2000">Comprar Multiplicador Boost (2000 clicks)</button>
+        <button class="btn shop-buy" data-item="multiplierBoost" data-cost="2000">Multiplicador Boost (2000)</button>
       </div>
     </section>
-
   </div>
 
   <!-- Sons -->
