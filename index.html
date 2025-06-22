@@ -1,75 +1,71 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Clicker Simulator - Dark Gamer</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clicker Simulator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="dark">
+<body>
+  <h1>Clicker Simulator 🖱️</h1>
 
-  <h1>Clicker Simulator 🕹️</h1>
-  <button id="toggleTheme" title="Alternar tema">☀️</button>
-
-  <section id="clickAreaSection" style="margin-bottom:30px;">
-    <button id="clickBtn" title="Clique aqui!">Clique!</button>
+  <div id="stats">
     <p>Clicks: <span id="clicksDisplay">0</span></p>
-    <p>Total de Clicks: <span id="totalClicksStat">0</span></p>
-    <p>Clicks por segundo (CPS): <span id="cpsDisplay">0</span></p>
+    <p>Total Clicks: <span id="totalClicksStat">0</span></p>
+    <p>CPS (Clicks por segundo): <span id="cpsDisplay">0</span></p>
     <p>Nível: <span id="levelDisplay">1</span></p>
     <p>XP: <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></p>
     <p>Rebirths: <span id="rebirthCount">0</span></p>
-    <p>Mundo Atual: <span id="currentWorld">1 - Jardim Inicial</span></p>
-  </section>
+    <p>Mundo atual: <span id="currentWorld">1 - Jardim Inicial</span></p>
+  </div>
 
-  <section id="upgradesSection">
+  <button id="clickBtn" title="Clique aqui!">Clique!</button>
+
+  <div id="upgradesSection">
     <h2>🛠️ Upgrades</h2>
     <div id="upgrades"></div>
-  </section>
+  </div>
 
-  <section id="shopSection">
-    <h2>🛍️ Loja</h2>
-    <div id="shopList"></div>
-  </section>
-
-  <section id="petsSection">
+  <div id="petsSection">
     <h2>🐾 Pets</h2>
     <div id="pets"></div>
-  </section>
+  </div>
 
-  <section id="missionsSection">
+  <div id="shopSection">
+    <h2>🛍️ Loja</h2>
+    <div id="shopList"></div>
+  </div>
+
+  <div id="missionsSection">
     <h2>🎯 Missões</h2>
     <ul id="missions"></ul>
-  </section>
+  </div>
 
-  <section id="achievementsSection">
+  <div id="achievementsSection">
     <h2>🏆 Conquistas</h2>
     <ul id="achievementsList"></ul>
-  </section>
+  </div>
 
-  <section id="rankingSection">
+  <div id="rankingSection">
     <h2>📊 Ranking</h2>
-    <input type="text" id="playerNameInput" placeholder="Seu nome para ranking" maxlength="15" />
+    <input type="text" id="playerNameInput" placeholder="Digite seu nome" maxlength="15" />
     <button id="saveScoreBtn">Salvar no Ranking</button>
-    <div id="detailedRankingList"></div>
-  </section>
+    <div id="detailedRankingList">Carregando ranking...</div>
+  </div>
 
-  <section id="chatSection">
+  <div id="chatSection">
     <h2>💬 Chat Global</h2>
-    <div id="chat">
-      <div id="chatMessages"></div>
-      <input type="text" id="chatInput" placeholder="Digite sua mensagem..." maxlength="100" />
-      <button id="chatSendBtn">Enviar</button>
-    </div>
-  </section>
+    <div id="chatMessages" style="height: 150px; overflow-y: auto; background:#111; padding:5px; border-radius:8px; margin-bottom: 10px;"></div>
+    <input type="text" id="chatInput" placeholder="Digite mensagem" maxlength="100" />
+    <button id="chatSendBtn">Enviar</button>
+  </div>
 
-  <section id="controls">
-    <button id="saveBtn">Salvar Progresso</button>
-    <button id="clearSaveBtn">Apagar Progresso</button>
-    <button id="rebirthBtn">Rebirth (10k clicks)</button>
-  </section>
+  <div id="notification" style="display:none; position: fixed; top: 10px; left: 50%; transform: translateX(-50%); padding: 10px 20px; border-radius: 8px; font-weight: bold; z-index: 999;"></div>
 
-  <div id="notification"></div>
+  <button id="rebirthBtn" title="Fazer rebirth">Rebirth</button>
+  <button id="saveBtn" title="Salvar progresso">Salvar</button>
+  <button id="clearSaveBtn" title="Limpar progresso">Limpar Save</button>
+  <button id="toggleTheme" title="Alternar tema">🌙</button>
 
   <script type="module" src="script.js"></script>
 </body>
