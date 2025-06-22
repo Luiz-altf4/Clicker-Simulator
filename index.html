@@ -7,123 +7,75 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <header>
+    <h1>Clicker Simulator</h1>
+    <div id="currentWorldDisplay" aria-live="polite" aria-label="Mundo atual"></div>
+  </header>
 
-  <div id="gameContainer">
+  <main>
+    <section id="stats" aria-label="Estatísticas do jogador">
+      <div><strong>Clicks:</strong> <span id="clicksDisplay">0</span></div>
+      <div><strong>Total Clicks:</strong> <span id="totalClicksStat">0</span></div>
+      <div><strong>Clicks por segundo (CPS):</strong> <span id="cpsDisplay">0</span></div>
+      <div><strong>Nível:</strong> <span id="levelDisplay">1</span></div>
+      <div><strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
+      <div><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
+      <div><strong>Pet ativo:</strong> <span id="activePetsStat">Nenhum</span></div>
+    </section>
 
-    <!-- Seção Principal -->
-    <main id="mainSection">
+    <section id="clicker" aria-label="Área de cliques">
+      <button id="clickBtn" aria-label="Clique aqui para ganhar clicks">Clique Aqui!</button>
+      <div id="buyAmountButtons">
+        <button class="buyAmountBtn active" data-amount="1" aria-pressed="true">x1</button>
+        <button class="buyAmountBtn" data-amount="10" aria-pressed="false">x10</button>
+        <button class="buyAmountBtn" data-amount="100" aria-pressed="false">x100</button>
+      </div>
+      <button id="rebirthBtn" aria-label="Fazer rebirth">Rebirth</button>
+    </section>
 
-      <!-- Botão principal de clique -->
-      <button id="clickBtn" aria-label="Clique para ganhar clicks">Clique Aqui!</button>
+    <section id="upgradesSection" aria-label="Upgrades">
+      <h2>Upgrades</h2>
+      <div id="upgrades" role="list"></div>
+    </section>
 
-      <!-- Estatísticas principais -->
-      <section class="statsGrid" aria-label="Estatísticas do jogador">
-        <div class="statItem" role="region" aria-live="polite" aria-atomic="true">
-          <h3>Clicks</h3>
-          <p id="clicksDisplay">0</p>
-        </div>
-        <div class="statItem">
-          <h3>Total Clicks</h3>
-          <p id="totalClicksStat">0</p>
-        </div>
-        <div class="statItem">
-          <h3>CPS</h3>
-          <p id="cpsDisplay">0</p>
-        </div>
-        <div class="statItem">
-          <h3>Nível</h3>
-          <p id="levelDisplay">1</p>
-        </div>
-        <div class="statItem">
-          <h3>XP</h3>
-          <p id="xpDisplay">0</p>
-        </div>
-        <div class="statItem">
-          <h3>XP Próximo</h3>
-          <p id="xpToNextLevel">100</p>
-        </div>
-        <div class="statItem">
-          <h3>Rebirths</h3>
-          <p id="rebirthCount">0</p>
-        </div>
-        <div class="statItem">
-          <h3>Mundo Atual</h3>
-          <p id="currentWorldDisplay">1 - Jardim Inicial</p>
-        </div>
-        <div class="statItem">
-          <h3>Pet Ativo</h3>
-          <p id="activePetsStat">Nenhum</p>
-        </div>
-      </section>
+    <section id="petsSection" aria-label="Pets">
+      <h2>Pets</h2>
+      <div id="pets" role="list"></div>
+    </section>
 
-      <!-- Controles: Salvar, Rebirth, Tema -->
-      <section id="actionButtons" style="display:flex;gap:10px; margin-bottom:20px;">
-        <button id="saveBtn" aria-label="Salvar progresso">Salvar</button>
-        <button id="rebirthBtn" aria-label="Fazer rebirth">Rebirth</button>
-        <button id="clearSaveBtn" aria-label="Apagar progresso">Resetar</button>
-        <button id="toggleTheme" aria-label="Alternar tema">🌙</button>
-      </section>
+    <section id="shopSection" aria-label="Loja">
+      <h2>Loja</h2>
+      <div id="shop" role="list"></div>
+    </section>
 
-      <!-- Upgrades -->
-      <section class="listContainer" aria-label="Lista de upgrades">
-        <h2>Upgrades</h2>
-        <div id="upgrades"></div>
-      </section>
+    <section id="missionsSection" aria-label="Missões">
+      <h2>Missões</h2>
+      <ul id="missions" role="list"></ul>
+    </section>
 
-      <!-- Loja -->
-      <section class="listContainer" aria-label="Loja de multiplicadores">
-        <h2>Loja</h2>
-        <div id="shopList"></div>
-      </section>
+    <section id="achievementsSection" aria-label="Conquistas">
+      <h2>Conquistas</h2>
+      <ul id="achievementsList" role="list"></ul>
+    </section>
 
-      <!-- Pets -->
-      <section class="listContainer" aria-label="Lista de pets">
-        <h2>Pets</h2>
-        <div id="pets"></div>
-      </section>
+    <section id="rankingSection" aria-label="Ranking">
+      <h2>Ranking</h2>
+      <input type="text" id="playerNameInput" placeholder="Seu nome para ranking e chat" aria-label="Nome do jogador" minlength="3" required />
+      <button id="sendScoreBtn" aria-label="Enviar score para ranking">Enviar Score</button>
+      <ol id="rankingList" role="list"></ol>
+    </section>
 
-      <!-- Missões -->
-      <section class="listContainer" aria-label="Lista de missões">
-        <h2>Missões</h2>
-        <ul id="missions" tabindex="0"></ul>
-      </section>
+    <section id="chatSection" aria-label="Chat global">
+      <h2>Chat Global</h2>
+      <div id="chatMessages" tabindex="0" aria-live="polite" aria-relevant="additions" style="height:200px; overflow-y:auto; border:1px solid #ccc; padding:8px;"></div>
+      <input type="text" id="chatInput" placeholder="Digite sua mensagem" aria-label="Mensagem do chat" />
+      <button id="sendChatBtn" aria-label="Enviar mensagem do chat">Enviar</button>
+    </section>
+  </main>
 
-      <!-- Conquistas -->
-      <section class="listContainer" aria-label="Lista de conquistas">
-        <h2>Conquistas</h2>
-        <ul id="achievementsList" tabindex="0"></ul>
-      </section>
-
-    </main>
-
-    <!-- Sidebar com Ranking e Chat -->
-    <aside id="sidebar" aria-label="Ranking e chat">
-
-      <!-- Ranking Online -->
-      <section id="rankingContainer" class="listContainer" aria-label="Ranking dos jogadores">
-        <h2>Ranking Top 10</h2>
-        <div id="detailedRankingList">Carregando ranking...</div>
-        <input type="text" id="playerNameInput" placeholder="Seu nome (mín 3 caracteres)" aria-label="Digite seu nome para salvar o score" minlength="3" maxlength="20" />
-        <button id="saveScoreBtn" aria-label="Salvar score no ranking">Salvar Score</button>
-      </section>
-
-      <!-- Chat Global -->
-      <section id="chatContainer" aria-label="Chat global">
-        <h2>Chat Global</h2>
-        <div id="chatMessages" role="log" aria-live="polite" aria-relevant="additions"></div>
-        <div id="chatControls">
-          <input type="text" id="chatInput" placeholder="Digite sua mensagem..." aria-label="Mensagem do chat" maxlength="200" />
-          <button id="sendChatBtn" aria-label="Enviar mensagem">Enviar</button>
-        </div>
-      </section>
-
-    </aside>
-
-  </div>
-
-  <div id="notifications"></div>
+  <div id="notificationContainer" aria-live="assertive" aria-atomic="true" style="position: fixed; top: 10px; right: 10px; z-index: 9999;"></div>
 
   <script type="module" src="script.js"></script>
-
 </body>
 </html>
+
