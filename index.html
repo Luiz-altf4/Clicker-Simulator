@@ -5,67 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Clicker Simulator</title>
   <link rel="stylesheet" href="style.css" />
+  <script type="module" src="script.js" defer></script>
 </head>
 <body>
-
   <h1>Clicker Simulator</h1>
 
-  <!-- Área de clique -->
-  <div id="clickArea" title="Clique aqui para ganhar clicks!">Clique!</div>
-
-  <!-- Stats principais -->
   <div id="stats">
     <p>Clicks: <span id="clicksDisplay">0</span></p>
     <p>Total Clicks: <span id="totalClicksStat">0</span></p>
-    <p>Clicks por Segundo (CPS): <span id="cpsDisplay">0</span></p>
+    <p>Clicks por segundo (CPS): <span id="cpsDisplay">0</span></p>
     <p>Nível: <span id="levelDisplay">1</span></p>
     <p>XP: <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></p>
     <p>Rebirths: <span id="rebirthCount">0</span></p>
     <p>Mundo Atual: <span id="currentWorld">1 - Jardim Inicial</span></p>
   </div>
 
-  <!-- Upgrades -->
-  <section>
+  <div id="clickArea" role="button" aria-label="Área de clique">
+    Clique Aqui
+  </div>
+
+  <section id="upgradesSection">
     <h2>🛠️ Upgrades</h2>
-    <div id="upgrades"></div>
+    <div id="upgradesList"></div>
   </section>
 
-  <!-- Loja -->
-  <section>
-    <h2>🛍️ Loja</h2>
-    <div id="shopList"></div>
-  </section>
-
-  <!-- Pets -->
-  <section>
+  <section id="petsSection">
     <h2>🐾 Pets</h2>
     <div id="petsList"></div>
   </section>
 
-  <!-- Missões -->
-  <section>
+  <section id="shopSection">
+    <h2>🛍️ Loja</h2>
+    <div id="shopList"></div>
+  </section>
+
+  <section id="missionsSection">
     <h2>🎯 Missões</h2>
     <div id="missionsList"></div>
   </section>
 
-  <!-- Conquistas -->
-  <section>
+  <section id="achievementsSection">
     <h2>🏆 Conquistas</h2>
     <div id="achievementsList"></div>
   </section>
 
-  <!-- Ranking -->
-  <section>
+  <section id="rankingSection">
     <h2>📊 Ranking</h2>
-    <input type="text" id="playerName" placeholder="Seu nome para ranking" maxlength="15" />
-    <button id="sendScoreBtn">Enviar Score</button>
-    <div id="rankingList"></div>
+    <div id="rankingList">Carregando ranking...</div>
+    <button id="btnSubmitScore" aria-label="Enviar pontuação para ranking">Enviar Pontuação</button>
   </section>
 
-  <!-- Notificações -->
-  <div id="notification" style="display:none; position:fixed; bottom: 10px; left:50%; transform: translateX(-50%);
-      padding: 15px 30px; border-radius: 10px; color: white; font-weight: bold; z-index: 999;"></div>
+  <button id="btnRebirth" aria-label="Fazer Rebirth">Fazer Rebirth</button>
 
-  <script type="module" src="script.js"></script>
+  <div id="notification" role="alert" aria-live="assertive" style="display:none; position:fixed; bottom:10px; left:50%; transform:translateX(-50%); padding:10px 20px; border-radius:5px; color:white; font-weight:bold; z-index:1000;"></div>
 </body>
 </html>
