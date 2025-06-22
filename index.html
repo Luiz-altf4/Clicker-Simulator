@@ -4,165 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Clicker Simulator</title>
-  <style>
-    /* Estilos básicos para organização */
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #121212;
-      color: #eee;
-      margin: 0;
-      padding: 0 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
-    header {
-      margin: 20px 0;
-      text-align: center;
-    }
-    button {
-      cursor: pointer;
-      background: #333;
-      color: #eee;
-      border: none;
-      padding: 8px 16px;
-      margin: 4px;
-      border-radius: 5px;
-      transition: background 0.3s;
-    }
-    button:hover:not(:disabled) {
-      background: #555;
-    }
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    h2 {
-      margin-top: 20px;
-    }
-    .stats, .upgrades, .shop, .pets, .worlds, .rebirth-section, .buy-amounts {
-      width: 100%;
-      max-width: 600px;
-      background: #222;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 10px #000;
-    }
-    .stats div {
-      margin: 6px 0;
-      font-size: 1.1rem;
-    }
-    #clickBtn {
-      font-size: 1.5rem;
-      padding: 20px 40px;
-      margin: 20px 0;
-      background: #0a84ff;
-      border-radius: 15px;
-      color: white;
-      font-weight: bold;
-      user-select: none;
-    }
-    .upgrade-row, .shop-item, .pet-card, .world-card {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px;
-      background: #333;
-      margin-bottom: 8px;
-      border-radius: 8px;
-    }
-    .upgrade-row div, .shop-item h3, .pet-name {
-      flex: 1;
-    }
-    .pet-card {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 10px;
-      cursor: pointer;
-    }
-    .pet-card.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    .pet-card.active {
-      border: 2px solid #0a84ff;
-    }
-    .pet-emoji {
-      font-size: 2rem;
-    }
-    .pet-bonus, .pet-price {
-      font-size: 0.9rem;
-      margin-top: 2px;
-      color: #aaa;
-    }
-    .btn {
-      min-width: 100px;
-      font-weight: 600;
-    }
-    .shop-buy-btn {
-      min-width: 140px;
-    }
-    .world-card {
-      padding: 12px;
-      cursor: pointer;
-      border-radius: 8px;
-      text-align: center;
-    }
-    .world-card.disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-    .world-card.active {
-      background: #0a84ff;
-      font-weight: bold;
-      color: white;
-    }
-    .buy-amounts button {
-      margin: 0 5px;
-      padding: 6px 14px;
-    }
-    .buy-amounts .active {
-      background: #0a84ff;
-      color: white;
-    }
-    #toggleTheme {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      background: transparent;
-      font-size: 1.5rem;
-      border: none;
-      color: #0a84ff;
-    }
-    /* Tema claro */
-    body.light-theme {
-      background: #f0f0f0;
-      color: #222;
-    }
-    body.light-theme .stats,
-    body.light-theme .upgrades,
-    body.light-theme .shop,
-    body.light-theme .pets,
-    body.light-theme .worlds,
-    body.light-theme .rebirth-section,
-    body.light-theme .buy-amounts {
-      background: #fff;
-      color: #222;
-      box-shadow: 0 0 10px #ccc;
-    }
-    body.light-theme button {
-      background: #ddd;
-      color: #222;
-    }
-    body.light-theme button:hover:not(:disabled) {
-      background: #bbb;
-    }
-    body.light-theme .world-card.active {
-      background: #007aff;
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
@@ -216,6 +58,16 @@
     <p id="rebirthInfo" style="margin-top:10px;"></p>
   </section>
 
-  <script src="script.js"></script>
+  <section class="missions" aria-label="Missões">
+    <h2>Missões</h2>
+    <div id="missionsList"></div>
+  </section>
+
+  <section class="achievements" aria-label="Conquistas">
+    <h2>Conquistas</h2>
+    <div id="achievementsList"></div>
+  </section>
+
+  <script src="js/script.js"></script>
 </body>
 </html>
