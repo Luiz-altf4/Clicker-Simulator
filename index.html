@@ -3,326 +3,780 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator - Ultimate Edition</title>
-
-  <!-- Fonte Google -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-
-  <!-- Ícones -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-  <!-- CSS -->
+  <title>Clicker Simulator Supremo Lendário</title>
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Metadados adicionais -->
-  <meta name="description" content="Clicker Simulator lendário, o melhor jogo incremental com upgrades, pets, ranking online, missões e muito mais!" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <meta name="description" content="Clicker Simulator lendário, com upgrades, pets, loja, ranking online, missões e conquistas." />
   <meta name="author" content="Luiz Felipe" />
+  <style>
+    /* Reset simples */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    html {
+      font-size: 16px;
+      font-family: 'Roboto', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    :root {
+      --bg: #121212;
+      --text: #f0f0f0;
+      --primary: #1e88e5;
+      --secondary: #90caf9;
+      --accent: #ffca28;
+      --danger: #e53935;
+      --success: #43a047;
+      --border-radius: 8px;
+      --transition: 0.3s ease;
+      --shadow: rgba(0,0,0,0.7);
+      --btn-bg: #1e88e5;
+      --btn-hover: #1565c0;
+    }
+    body.light-theme {
+      --bg: #f7f7f7;
+      --text: #222222;
+      --btn-bg: #1976d2;
+      --btn-hover: #1565c0;
+      --shadow: rgba(0,0,0,0.2);
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    a:hover,
+    a:focus {
+      color: var(--accent);
+      outline: none;
+    }
+    header {
+      width: 100%;
+      max-width: 1200px;
+      padding: 1rem 2rem;
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      font-size: 1.5rem;
+      text-align: center;
+      box-shadow: 0 3px 5px var(--shadow);
+      user-select: none;
+    }
+    main#gameArea {
+      flex-grow: 1;
+      width: 100%;
+      max-width: 1200px;
+      padding: 1rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    /* Contêiner principal */
+    #container {
+      background: var(--bg);
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 8px var(--shadow);
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    #container > h1 {
+      font-weight: 900;
+      font-size: 2.8rem;
+      letter-spacing: 0.05em;
+      text-align: center;
+      user-select: none;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+    }
+    /* Botão de clique grande */
+    #clickBtn {
+      background: var(--btn-bg);
+      border: none;
+      border-radius: var(--border-radius);
+      color: white;
+      font-size: 2.2rem;
+      padding: 1.2rem 2rem;
+      cursor: pointer;
+      transition: background var(--transition);
+      box-shadow: 0 4px 8px var(--shadow);
+      user-select: none;
+      width: 100%;
+      max-width: 400px;
+      align-self: center;
+    }
+    #clickBtn:hover,
+    #clickBtn:focus {
+      background: var(--btn-hover);
+      outline: none;
+      box-shadow: 0 6px 12px var(--shadow);
+    }
+    /* Informações principais */
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      user-select: none;
+    }
+    .stats > div {
+      background: var(--primary);
+      padding: 0.6rem 1rem;
+      border-radius: var(--border-radius);
+      min-width: 140px;
+      text-align: center;
+      box-shadow: 0 2px 5px var(--shadow);
+      color: white;
+      user-select: none;
+      transition: background var(--transition);
+    }
+    /* Barra de XP */
+    #xpBar {
+      width: 100%;
+      background: var(--secondary);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      height: 24px;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.5);
+      margin-top: 0.4rem;
+      user-select: none;
+    }
+    #xpProgressFill {
+      background: var(--accent);
+      height: 100%;
+      width: 0;
+      transition: width 0.7s ease;
+      box-shadow: 0 0 10px var(--accent);
+    }
+    /* Flex containers para seções */
+    .flex-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .box {
+      background: var(--primary);
+      border-radius: var(--border-radius);
+      color: white;
+      padding: 1rem;
+      box-shadow: 0 4px 10px var(--shadow);
+      flex: 1 1 320px;
+      max-width: 350px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      user-select: none;
+    }
+    .box h2 {
+      margin: 0 0 0.8rem 0;
+      font-weight: 900;
+      font-size: 1.5rem;
+      text-align: center;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+      user-select: none;
+    }
+    /* Scroll para listas dentro das caixas */
+    #upgrades, #shop, #pets, #missions, #achievements {
+      max-height: 300px;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      border: 2px solid var(--accent);
+      padding: 0.8rem;
+    }
+    /* Itens internos das listas */
+    .item-card {
+      background: var(--secondary);
+      border-radius: var(--border-radius);
+      padding: 0.6rem;
+      margin-bottom: 0.6rem;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px var(--shadow);
+      transition: background var(--transition);
+      cursor: pointer;
+      user-select: none;
+    }
+    .item-card:hover,
+    .item-card:focus {
+      background: var(--accent);
+      outline: none;
+      color: var(--bg);
+      font-weight: 700;
+    }
+    .item-card > .item-info {
+      flex-grow: 1;
+      padding-right: 0.8rem;
+    }
+    .item-card > button {
+      background: var(--btn-bg);
+      border: none;
+      border-radius: var(--border-radius);
+      color: white;
+      font-weight: 700;
+      padding: 0.3rem 0.8rem;
+      cursor: pointer;
+      transition: background var(--transition);
+      user-select: none;
+    }
+    .item-card > button:hover,
+    .item-card > button:focus {
+      background: var(--btn-hover);
+      outline: none;
+      box-shadow: 0 0 5px var(--btn-hover);
+    }
+    /* Ranking */
+    #rankingList {
+      max-height: 280px;
+      overflow-y: auto;
+      border: 2px solid var(--accent);
+      padding: 0.8rem;
+      font-weight: 700;
+      user-select: none;
+    }
+    .ranking-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.3rem 0.5rem;
+      border-bottom: 1px solid var(--secondary);
+      user-select: none;
+    }
+    .ranking-item:last-child {
+      border-bottom: none;
+    }
+    .rank-position {
+      font-weight: 900;
+      color: var(--accent);
+      width: 30px;
+      text-align: center;
+    }
+    .rank-name {
+      flex-grow: 1;
+      padding-left: 1rem;
+      color: var(--text);
+    }
+    .rank-score {
+      color: var(--accent);
+      font-weight: 700;
+      width: 90px;
+      text-align: right;
+      user-select: none;
+    }
+    /* Botões de controles gerais */
+    #controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      user-select: none;
+    }
+    #controls > button {
+      background: var(--btn-bg);
+      border: none;
+      border-radius: var(--border-radius);
+      color: white;
+      font-weight: 700;
+      padding: 0.8rem 1.5rem;
+      cursor: pointer;
+      transition: background var(--transition);
+      user-select: none;
+      box-shadow: 0 3px 6px var(--shadow);
+    }
+    #controls > button:hover,
+    #controls > button:focus {
+      background: var(--btn-hover);
+      outline: none;
+      box-shadow: 0 5px 10px var(--btn-hover);
+    }
+    /* Input para nome do jogador */
+    #playerNameInput {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      border-radius: var(--border-radius);
+      border: none;
+      font-size: 1rem;
+      font-weight: 700;
+      user-select: text;
+      box-shadow: inset 0 0 4px var(--shadow);
+      transition: box-shadow var(--transition);
+    }
+    #playerNameInput:focus {
+      outline: none;
+      box-shadow: 0 0 8px var(--accent);
+    }
+    /* Modal geral */
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      user-select: none;
+      padding: 1rem;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: var(--bg);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 6px 20px var(--shadow);
+      position: relative;
+      color: var(--text);
+      user-select: none;
+    }
+    .modal-content h2 {
+      margin-top: 0;
+      font-weight: 900;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      user-select: none;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: transparent;
+      border: none;
+      color: var(--accent);
+      font-size: 1.8rem;
+      cursor: pointer;
+      transition: color var(--transition);
+      user-select: none;
+    }
+    .modal-close:hover,
+    .modal-close:focus {
+      color: var(--danger);
+      outline: none;
+    }
+    /* Scrollbar customizada para listas */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--primary);
+      border-radius: var(--border-radius);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: var(--border-radius);
+    }
+    /* Notificações */
+    #notificationArea {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      max-width: 320px;
+      z-index: 11000;
+      user-select: none;
+    }
+    .notification {
+      background: var(--accent);
+      color: var(--bg);
+      padding: 0.8rem 1.2rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 0.8rem;
+      box-shadow: 0 3px 10px var(--shadow);
+      font-weight: 700;
+      user-select: none;
+      opacity: 0.9;
+      animation: fadeInOut 4s forwards;
+    }
+    .notification.error {
+      background: var(--danger);
+      color: white;
+      font-weight: 900;
+    }
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateY(-10px); }
+      10% { opacity: 0.9; transform: translateY(0); }
+      90% { opacity: 0.9; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-10px); }
+    }
+    /* Área para partículas */
+    #particleContainer {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 10000;
+    }
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation-name: particleMove;
+      animation-timing-function: ease-out;
+      animation-fill-mode: forwards;
+      user-select: none;
+    }
+    @keyframes particleMove {
+      0% {
+        opacity: 1;
+        transform: translate(0,0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(var(--randX) * 30px), calc(var(--randY) * -30px)) scale(0);
+      }
+    }
+    /* Botão alternar tema */
+    #toggleTheme {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      background: var(--btn-bg);
+      border: none;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: white;
+      box-shadow: 0 3px 7px var(--shadow);
+      transition: background var(--transition);
+      user-select: none;
+      z-index: 11000;
+    }
+    #toggleTheme:hover,
+    #toggleTheme:focus {
+      background: var(--btn-hover);
+      outline: none;
+      box-shadow: 0 5px 12px var(--btn-hover);
+    }
+    /* Responsividade */
+    @media (max-width: 900px) {
+      .flex-row {
+        flex-direction: column;
+        align-items: center;
+      }
+      .box {
+        max-width: 90vw;
+      }
+      #clickBtn {
+        max-width: 90vw;
+        font-size: 1.8rem;
+      }
+    }
+    @media (max-width: 400px) {
+      header {
+        font-size: 1.3rem;
+        padding: 0.8rem 1rem;
+      }
+      #clickBtn {
+        font-size: 1.4rem;
+        padding: 1rem 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Botão para alternar tema -->
-  <button id="toggleTheme" class="btn-theme" aria-label="Alternar tema" title="Alternar tema">🌙</button>
+  <header role="banner" aria-label="Cabeçalho do jogo Clicker Simulator">
+    Clicker Simulator Supremo Lendário
+  </header>
 
-  <!-- Container principal -->
-  <div id="container" role="main" aria-label="Clicker Simulator - jogo incremental lendário">
+  <button id="toggleTheme" aria-pressed="false" aria-label="Alternar tema escuro e claro">🌙</button>
 
-    <!-- Cabeçalho com título e menu -->
-    <header>
-      <h1 id="gameTitle" tabindex="0">Clicker Simulator <small class="version">v2.5 - Ultimate Edition</small></h1>
+  <main id="gameArea" role="main" aria-live="polite" aria-atomic="true" aria-label="Área principal do jogo">
+    <section id="container" aria-label="Painel principal do jogo">
 
-      <!-- Menu principal -->
-      <nav aria-label="Menu principal de navegação">
-        <ul id="mainMenu" class="menu-list" role="menubar">
-          <li role="none">
-            <button id="btnUpgrades" class="menu-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" aria-controls="upgradesPanel">
-              Upgrades <i class="fas fa-chevron-down"></i>
-            </button>
-          </li>
-          <li role="none">
-            <button id="btnShop" class="menu-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" aria-controls="shopPanel">
-              Loja <i class="fas fa-shopping-cart"></i>
-            </button>
-          </li>
-          <li role="none">
-            <button id="btnPets" class="menu-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" aria-controls="petsPanel">
-              Pets <i class="fas fa-paw"></i>
-            </button>
-          </li>
-          <li role="none">
-            <button id="btnMissions" class="menu-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" aria-controls="missionsPanel">
-              Missões <i class="fas fa-bullseye"></i>
-            </button>
-          </li>
-          <li role="none">
-            <button id="btnAchievements" class="menu-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" aria-controls="achievementsPanel">
-              Conquistas <i class="fas fa-trophy"></i>
-            </button>
-          </li>
-          <li role="none">
-            <button id="btnRanking" class="menu-btn" role="menuitem" aria-haspopup="true" aria-expanded="false" aria-controls="rankingPanel">
-              Ranking <i class="fas fa-list-ol"></i>
-            </button>
-          </li>
-        </ul>
-      </nav>
-    </header>
+      <h1 tabindex="0">Clicker Simulator</h1>
 
-    <!-- Seção de status do jogador -->
-    <section id="playerStats" aria-label="Estatísticas do jogador" tabindex="0" class="stats-panel">
-      <div class="stat-item" role="status" aria-live="polite" aria-atomic="true"><strong>Clicks:</strong> <span id="clicksDisplay">0</span></div>
-      <div class="stat-item" role="status" aria-live="polite" aria-atomic="true"><strong>CPS:</strong> <span id="cpsDisplay">0</span></div>
-      <div class="stat-item" role="status" aria-live="polite" aria-atomic="true"><strong>Level:</strong> <span id="levelDisplay">1</span></div>
-      <div class="stat-item xp-bar-container" aria-label="Barra de experiência">
-        <strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span>
-        <div class="level-progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-live="polite" aria-atomic="true" aria-describedby="xpPercentLabel">
-          <div class="level-progress-fill" id="xpProgressFill"></div>
+      <section class="stats" aria-label="Estatísticas do jogador" role="region" tabindex="0">
+        <div><strong>Clicks:</strong> <span id="clicksDisplay" aria-live="polite" aria-atomic="true">0</span></div>
+        <div><strong>CPS:</strong> <span id="cpsDisplay" aria-live="polite" aria-atomic="true">0</span></div>
+        <div><strong>Level:</strong> <span id="levelDisplay" aria-live="polite" aria-atomic="true">1</span></div>
+        <div aria-label="Pontos de experiência e progresso">
+          <strong>XP:</strong> <span id="xpDisplay" aria-live="polite" aria-atomic="true">0</span> /
+          <span id="xpToNextLevel" aria-live="polite" aria-atomic="true">100</span>
+          <div id="xpBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Barra de experiência">
+            <div id="xpProgressFill"></div>
+          </div>
         </div>
-        <span id="xpPercentLabel" class="visually-hidden">0% de XP para o próximo nível</span>
-      </div>
-      <div class="stat-item" role="status" aria-live="polite" aria-atomic="true"><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
-      <div class="stat-item" role="status" aria-live="polite" aria-atomic="true"><strong>Mundo Atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
-    </section>
+        <div><strong>Rebirths:</strong> <span id="rebirthCount" aria-live="polite" aria-atomic="true">0</span></div>
+        <div><strong>Mundo Atual:</strong> <span id="currentWorld" aria-live="polite" aria-atomic="true">1 - Jardim Inicial</span></div>
+      </section>
 
-    <!-- Botão gigante para click -->
-    <button id="clickBtn" class="btn-click" aria-label="Clique para ganhar clicks e XP">Clique aqui!</button>
+      <button id="clickBtn" aria-label="Clique para ganhar clicks" role="button" tabindex="0">Clique aqui!</button>
 
-    <!-- Painéis principais -->
-    <section id="panelsContainer" aria-live="polite" aria-relevant="additions removals" aria-atomic="true">
+      <section id="controls" aria-label="Controles principais" role="region" tabindex="0">
+        <button id="resetBtn" aria-label="Resetar progresso do jogo">Resetar</button>
+        <button id="rebirthBtn" aria-label="Fazer Rebirth e resetar parte do progresso">Rebirth</button>
+        <button id="soundToggle" aria-label="Ativar ou desativar som">🔊</button>
+        <button id="exportSaveBtn" aria-label="Exportar progresso salvo">Exportar Save</button>
+        <label for="importSaveInput" class="sr-only">Importar Save</label>
+        <input type="file" id="importSaveInput" accept="application/json" aria-label="Importar progresso salvo" />
+      </section>
 
-      <!-- Painel de Upgrades -->
-      <article id="upgradesPanel" class="panel hidden" role="region" aria-labelledby="btnUpgrades" tabindex="0">
-        <h2>Upgrades</h2>
-        <p class="panel-description">Melhore seus ganhos comprando upgrades incríveis! Cada upgrade aumenta seus clicks por segundo.</p>
-        <div id="upgradesList" class="list-container" aria-live="polite" aria-relevant="additions"></div>
-        
-        <!-- Filtro e pesquisa de upgrades -->
-        <div class="filter-search">
-          <input type="text" id="upgradeSearch" placeholder="Buscar upgrade..." aria-label="Buscar upgrade" />
-          <select id="upgradeFilter" aria-label="Filtrar upgrades">
-            <option value="all" selected>Todos</option>
-            <option value="cps">CPS</option>
-            <option value="clicks">Clicks por clique</option>
-            <option value="special">Especiais</option>
-          </select>
+      <section class="flex-row" aria-label="Seções de upgrades, loja e pets" role="region" tabindex="0">
+
+        <article class="box" id="upgrades" tabindex="0" aria-label="Upgrades disponíveis">
+          <h2>Upgrades</h2>
+          <!-- Conteúdo dinâmico inserido pelo JS -->
+        </article>
+
+        <article class="box" id="shop" tabindex="0" aria-label="Loja de itens">
+          <h2>Loja</h2>
+          <!-- Conteúdo dinâmico inserido pelo JS -->
+        </article>
+
+        <article class="box" id="pets" tabindex="0" aria-label="Pets disponíveis para ativar">
+          <h2>Pets</h2>
+          <!-- Conteúdo dinâmico inserido pelo JS -->
+        </article>
+
+      </section>
+
+      <section class="flex-row" aria-label="Missões, conquistas e ranking" role="region" tabindex="0">
+
+        <article class="box" id="missions" tabindex="0" aria-label="Missões do jogador">
+          <h2>Missões</h2>
+          <!-- Conteúdo dinâmico inserido pelo JS -->
+        </article>
+
+        <article class="box" id="achievements" tabindex="0" aria-label="Conquistas do jogador">
+          <h2>Conquistas</h2>
+          <!-- Conteúdo dinâmico inserido pelo JS -->
+        </article>
+
+        <article class="box" aria-label="Ranking online" tabindex="0" aria-live="polite" aria-atomic="true">
+          <h2>Ranking Online</h2>
+          <input id="playerNameInput" type="text" placeholder="Seu nome" aria-label="Nome do jogador para ranking" />
+          <button id="saveScoreBtn" aria-label="Salvar score no ranking">Salvar Score</button>
+          <div id="rankingList" role="list" aria-live="polite" aria-atomic="true" tabindex="0"></div>
+        </article>
+
+      </section>
+
+      <div id="particleContainer" aria-hidden="true"></div>
+
+      <div id="notificationArea" aria-live="assertive" aria-atomic="true"></div>
+
+      <!-- Tutorial Modal -->
+      <section id="tutorialModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tutorialTitle" aria-describedby="tutorialDesc">
+        <div class="modal-content">
+          <button class="modal-close" aria-label="Fechar tutorial" title="Fechar">&times;</button>
+          <h2 id="tutorialTitle">Tutorial</h2>
+          <p id="tutorialDesc">Bem-vindo ao Clicker Simulator! Clique em 'Próximo' para avançar.</p>
+          <button id="tutorialNextBtn" aria-label="Próximo passo do tutorial">Próximo &raquo;</button>
         </div>
-
-        <!-- Info adicional de upgrades -->
-        <div id="upgradeInfo" class="info-box" aria-live="polite" aria-atomic="true"></div>
-      </article>
-
-      <!-- Painel de Loja -->
-      <article id="shopPanel" class="panel hidden" role="region" aria-labelledby="btnShop" tabindex="0">
-        <h2>Loja</h2>
-        <p class="panel-description">Compre itens exclusivos para aumentar sua jogabilidade e acelerar sua evolução.</p>
-        <div id="shopList" class="list-container" aria-live="polite" aria-relevant="additions"></div>
-        
-        <!-- Categoria da loja -->
-        <div class="filter-search">
-          <select id="shopCategory" aria-label="Filtrar itens da loja">
-            <option value="all" selected>Todos</option>
-            <option value="boosts">Boosts</option>
-            <option value="consumables">Consumíveis</option>
-            <option value="skins">Skins</option>
-          </select>
-        </div>
-
-        <!-- Informações extras -->
-        <div id="shopInfo" class="info-box" aria-live="polite" aria-atomic="true"></div>
-      </article>
-
-      <!-- Painel Pets -->
-      <article id="petsPanel" class="panel hidden" role="region" aria-labelledby="btnPets" tabindex="0">
-        <h2>Pets</h2>
-        <p class="panel-description">Adote pets que ajudam a aumentar seus ganhos automaticamente.</p>
-        <div id="petsList" class="list-container" aria-live="polite" aria-relevant="additions"></div>
-
-        <!-- Filtro e ordenação de pets -->
-        <div class="filter-search">
-          <select id="petsSort" aria-label="Ordenar pets">
-            <option value="rarity" selected>Por raridade</option>
-            <option value="name">Por nome</option>
-            <option value="bonus">Por bônus</option>
-          </select>
-        </div>
-
-        <!-- Info pet ativo -->
-        <div id="activePetInfo" class="info-box" aria-live="polite" aria-atomic="true">Nenhum pet ativo</div>
-      </article>
+      </section>
 
     </section>
+  </main>
 
-    <!-- Painéis secundários -->
-
-    <section id="secondaryPanels" aria-live="polite" aria-relevant="additions removals" aria-atomic="true">
-
-      <!-- Painel Missões -->
-      <article id="missionsPanel" class="panel hidden" role="region" aria-labelledby="btnMissions" tabindex="0">
-        <h2>Missões</h2>
-        <p class="panel-description">Complete missões para ganhar recompensas especiais!</p>
-        <div id="missionsList" class="list-container" aria-live="polite" aria-relevant="additions"></div>
-
-        <!-- Filtro missões -->
-        <div class="filter-search">
-          <select id="missionsFilter" aria-label="Filtrar missões">
-            <option value="all" selected>Todas</option>
-            <option value="daily">Diárias</option>
-            <option value="weekly">Semanais</option>
-            <option value="special">Especiais</option>
-          </select>
-        </div>
-      </article>
-
-      <!-- Painel Conquistas -->
-      <article id="achievementsPanel" class="panel hidden" role="region" aria-labelledby="btnAchievements" tabindex="0">
-        <h2>Conquistas</h2>
-        <p class="panel-description">Veja suas conquistas e quanto você já progrediu no jogo.</p>
-        <div id="achievementsList" class="list-container" aria-live="polite" aria-relevant="additions"></div>
-      </article>
-
-      <!-- Painel Ranking -->
-      <article id="rankingPanel" class="panel hidden" role="region" aria-labelledby="btnRanking" tabindex="0">
-        <h2>Ranking Online</h2>
-        <form id="saveScoreForm" aria-label="Salvar seu score">
-          <label for="playerNameInput">Seu nome:</label>
-          <input id="playerNameInput" name="playerNameInput" type="text" maxlength="15" placeholder="Digite seu nome (mín 3 letras)" required autocomplete="off" aria-required="true" />
-          <button type="submit" id="saveScoreBtn" class="btn-save" aria-label="Salvar seu score">Salvar Score</button>
-        </form>
-        <div id="rankingList" class="list-container" aria-live="polite" aria-relevant="additions"></div>
-      </article>
-
-    </section>
-
-    <!-- Ações rápidas -->
-    <div id="quickActions" role="toolbar" aria-label="Ações rápidas">
-      <button id="resetBtn" class="btn-reset" aria-label="Resetar jogo com confirmação">Resetar Jogo</button>
-      <button id="changeWorldBtn" class="btn-change-world" aria-label="Trocar de mundo">Mudar Mundo</button>
-    </div>
-
-    <!-- Modal genérico para avisos e confirmações -->
-    <div id="modalOverlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
-      <div class="modal-content">
-        <button class="modal-close" aria-label="Fechar modal">&times;</button>
-        <h3 id="modalTitle">Título do Modal</h3>
-        <p id="modalDesc">Conteúdo do modal vai aqui.</p>
-        <button id="modalConfirmBtn" class="btn-confirm">Confirmar</button>
-      </div>
-    </div>
-
-    <!-- Container para partículas visuais -->
-    <div class="particles-container" aria-hidden="true"></div>
-
-    <!-- Tooltip geral para descrição rápida -->
-    <div id="tooltip" role="tooltip" class="tooltip hidden" aria-hidden="true"></div>
-
-    <!-- Área de notificações -->
-    <div id="notificationArea" aria-live="assertive" role="alert" class="notification-area"></div>
-
-  </div>
-
-  <!-- Rodapé -->
-  <footer>
-    <p>© 2025 Luiz Felipe - Clicker Simulator Supremacy. Todos os direitos reservados.</p>
+  <footer role="contentinfo" aria-label="Rodapé do jogo" tabindex="0" style="margin:1rem 0; font-size:0.9rem; color: var(--secondary); user-select:none; text-align:center;">
+    Desenvolvido por Luiz Felipe &copy; 2025 - Clicker Simulator Supremo Lendário
   </footer>
 
-  <!-- Script principal -->
   <script type="module" src="script.js"></script>
-
 </body>
 </html>
 
-<!-- Parte 2 continua do arquivo HTML -->
+<!-- Continuação do HTML - Parte 2 -->
 
-<!-- Painel Upgrades: Cards detalhados -->
-<script type="text/template" id="upgradeCardTemplate">
-  <div class="upgrade-card" tabindex="0" role="button" aria-pressed="false" aria-label="Upgrade: {{name}} - Custo: {{cost}}">
-    <div class="upgrade-info">
-      <h3 class="upgrade-name">{{name}}</h3>
-      <p class="upgrade-desc">{{description}}</p>
-      <p class="upgrade-stats">+{{cps}} CPS | +{{clickBonus}} clicks por clique</p>
-      <p class="upgrade-cost">Custo: <span class="cost-value">{{costFormatted}}</span></p>
+<!-- MODAIS SECUNDÁRIOS -->
+
+<!-- Modal Loja -->
+<section id="shopModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="shopTitle" aria-describedby="shopDesc">
+  <div class="modal-content">
+    <button class="modal-close" aria-label="Fechar loja" title="Fechar">&times;</button>
+    <h2 id="shopTitle">Loja</h2>
+    <p id="shopDesc">Compre itens especiais para acelerar seu progresso.</p>
+    <div id="shopItemsContainer" tabindex="0" aria-live="polite" aria-atomic="true">
+      <!-- Itens da loja dinâmicos aqui -->
     </div>
-    <button class="btn-buy-upgrade" aria-label="Comprar upgrade {{name}} por {{costFormatted}}">Comprar</button>
+    <button class="modal-action-close" aria-label="Fechar modal loja">Fechar</button>
   </div>
-</script>
+</section>
 
-<!-- Painel Loja: Cards para itens -->
-<script type="text/template" id="shopItemTemplate">
-  <div class="shop-item-card" tabindex="0" role="button" aria-pressed="false" aria-label="Item: {{name}} - Custo: {{cost}}">
-    <div class="shop-item-info">
-      <h3 class="shop-item-name">{{name}}</h3>
-      <p class="shop-item-desc">{{description}}</p>
-      <p class="shop-item-effects">{{effects}}</p>
-      <p class="shop-item-cost">Custo: <span class="cost-value">{{costFormatted}}</span></p>
+<!-- Modal Pets -->
+<section id="petsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="petsTitle" aria-describedby="petsDesc">
+  <div class="modal-content">
+    <button class="modal-close" aria-label="Fechar pets" title="Fechar">&times;</button>
+    <h2 id="petsTitle">Pets</h2>
+    <p id="petsDesc">Ative e gerencie seus pets para bônus incríveis.</p>
+    <div id="petsContainer" tabindex="0" aria-live="polite" aria-atomic="true">
+      <!-- Pets dinâmicos aqui -->
     </div>
-    <button class="btn-buy-shop-item" aria-label="Comprar item {{name}} por {{costFormatted}}">Comprar</button>
+    <button class="modal-action-close" aria-label="Fechar modal pets">Fechar</button>
   </div>
-</script>
+</section>
 
-<!-- Painel Pets: Cards detalhados -->
-<script type="text/template" id="petCardTemplate">
-  <div class="pet-card" tabindex="0" role="button" aria-pressed="false" aria-label="Pet: {{name}} - Bônus: {{bonusPercent}}%">
-    <img src="{{image}}" alt="Imagem do pet {{name}}" class="pet-image" />
-    <div class="pet-info">
-      <h3 class="pet-name">{{name}}</h3>
-      <p class="pet-rarity">Raridade: {{rarity}}</p>
-      <p class="pet-bonus">Bônus: +{{bonusPercent}}% clicks por segundo</p>
+<!-- Modal Upgrades -->
+<section id="upgradesModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="upgradesTitle" aria-describedby="upgradesDesc">
+  <div class="modal-content">
+    <button class="modal-close" aria-label="Fechar upgrades" title="Fechar">&times;</button>
+    <h2 id="upgradesTitle">Upgrades</h2>
+    <p id="upgradesDesc">Compre e melhore seus upgrades para aumentar clicks e CPS.</p>
+    <div id="upgradesContainer" tabindex="0" aria-live="polite" aria-atomic="true">
+      <!-- Upgrades dinâmicos aqui -->
     </div>
-    <button class="btn-select-pet" aria-label="Selecionar pet {{name}}">Selecionar</button>
+    <button class="modal-action-close" aria-label="Fechar modal upgrades">Fechar</button>
   </div>
-</script>
+</section>
 
-<!-- Painel Missões: Lista com progresso -->
-<script type="text/template" id="missionItemTemplate">
-  <div class="mission-item" tabindex="0" role="button" aria-pressed="false" aria-label="Missão: {{title}} - Progresso: {{progress}} de {{goal}}">
-    <h3 class="mission-title">{{title}}</h3>
-    <p class="mission-desc">{{description}}</p>
-    <progress max="{{goal}}" value="{{progress}}" class="mission-progress"></progress>
-    <button class="btn-claim-mission" aria-label="Reclamar recompensa da missão {{title}}" {{#if completed}}disabled{{/if}}>Reclamar</button>
+<!-- Modal Missões -->
+<section id="missionsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="missionsTitle" aria-describedby="missionsDesc">
+  <div class="modal-content">
+    <button class="modal-close" aria-label="Fechar missões" title="Fechar">&times;</button>
+    <h2 id="missionsTitle">Missões</h2>
+    <p id="missionsDesc">Complete missões para ganhar recompensas e subir no ranking.</p>
+    <div id="missionsContainer" tabindex="0" aria-live="polite" aria-atomic="true">
+      <!-- Missões dinâmicas aqui -->
+    </div>
+    <button class="modal-action-close" aria-label="Fechar modal missões">Fechar</button>
   </div>
-</script>
+</section>
 
-<!-- Painel Conquistas: Lista detalhada -->
-<script type="text/template" id="achievementItemTemplate">
-  <div class="achievement-item" tabindex="0" aria-label="Conquista: {{name}} - Status: {{status}}">
-    <h3 class="achievement-name">{{name}}</h3>
-    <p class="achievement-desc">{{description}}</p>
-    <p class="achievement-status">{{statusText}}</p>
+<!-- Modal Conquistas -->
+<section id="achievementsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="achievementsTitle" aria-describedby="achievementsDesc">
+  <div class="modal-content">
+    <button class="modal-close" aria-label="Fechar conquistas" title="Fechar">&times;</button>
+    <h2 id="achievementsTitle">Conquistas</h2>
+    <p id="achievementsDesc">Veja suas conquistas e colecione troféus.</p>
+    <div id="achievementsContainer" tabindex="0" aria-live="polite" aria-atomic="true">
+      <!-- Conquistas dinâmicas aqui -->
+    </div>
+    <button class="modal-action-close" aria-label="Fechar modal conquistas">Fechar</button>
   </div>
-</script>
+</section>
 
-<!-- Painel Ranking: Lista online -->
-<script type="text/template" id="rankingItemTemplate">
-  <div class="ranking-item" aria-label="#{{position}} {{name}} com {{scoreFormatted}} clicks">
-    <span class="rank-position">#{{position}}</span>
-    <span class="rank-name">{{name}}</span>
-    <span class="rank-score">{{scoreFormatted}}</span>
+<!-- Modal Ranking -->
+<section id="rankingModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="rankingTitle" aria-describedby="rankingDesc">
+  <div class="modal-content">
+    <button class="modal-close" aria-label="Fechar ranking" title="Fechar">&times;</button>
+    <h2 id="rankingTitle">Ranking Online</h2>
+    <p id="rankingDesc">Veja os melhores jogadores e seus scores.</p>
+    <div id="rankingModalList" tabindex="0" aria-live="polite" aria-atomic="true">
+      <!-- Ranking dinâmico aqui -->
+    </div>
+    <button class="modal-action-close" aria-label="Fechar modal ranking">Fechar</button>
   </div>
-</script>
+</section>
 
-<!-- Exemplo de lista carregada dinâmica (vazia, será preenchida pelo JS) -->
-<div id="dynamicContent" aria-live="polite" aria-atomic="true"></div>
-
-<!-- Rodapé expandido com links e créditos -->
-<footer>
-  <div class="footer-content">
-    <p>© 2025 Luiz Felipe - Clicker Simulator Supremacy.</p>
-    <p>Desenvolvido com ❤️ e dedicação.</p>
-    <nav aria-label="Links úteis">
-      <ul class="footer-links">
-        <li><a href="https://github.com/Luiz-altf4/Clicker-Simulator" target="_blank" rel="noopener noreferrer">Repositório GitHub</a></li>
-        <li><a href="https://firebase.google.com/" target="_blank" rel="noopener noreferrer">Firebase</a></li>
-        <li><a href="https://fonts.google.com/specimen/Orbitron" target="_blank" rel="noopener noreferrer">Fonte Orbitron</a></li>
-        <li><a href="mailto:luiz@example.com">Contato</a></li>
-      </ul>
-    </nav>
+<!-- Modal Opções -->
+<section id="optionsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="optionsTitle" aria-describedby="optionsDesc">
+  <div class="modal-content">
+    <button class="modal-close" aria-label="Fechar opções" title="Fechar">&times;</button>
+    <h2 id="optionsTitle">Opções</h2>
+    <p id="optionsDesc">Configurações gerais do jogo.</p>
+    <form id="optionsForm" tabindex="0" aria-live="polite" aria-atomic="true">
+      <fieldset>
+        <legend>Configurações de som</legend>
+        <label>
+          <input type="checkbox" id="soundEffectsToggle" checked />
+          Ativar efeitos sonoros
+        </label>
+        <label>
+          <input type="checkbox" id="musicToggle" />
+          Ativar música de fundo
+        </label>
+      </fieldset>
+      <fieldset>
+        <legend>Tema</legend>
+        <label>
+          <input type="radio" name="themeOption" value="dark" checked />
+          Escuro
+        </label>
+        <label>
+          <input type="radio" name="themeOption" value="light" />
+          Claro
+        </label>
+      </fieldset>
+      <fieldset>
+        <legend>Outras opções</legend>
+        <label>
+          <input type="checkbox" id="notificationsToggle" checked />
+          Mostrar notificações
+        </label>
+      </fieldset>
+      <button type="submit" id="saveOptionsBtn">Salvar Configurações</button>
+    </form>
   </div>
+</section>
+
+<!-- Botões para abrir modais -->
+<nav id="modalOpeners" aria-label="Menu de navegação secundária" role="navigation" tabindex="0">
+  <button class="open-modal-btn" data-target="shopModal" aria-haspopup="dialog" aria-controls="shopModal">Loja</button>
+  <button class="open-modal-btn" data-target="petsModal" aria-haspopup="dialog" aria-controls="petsModal">Pets</button>
+  <button class="open-modal-btn" data-target="upgradesModal" aria-haspopup="dialog" aria-controls="upgradesModal">Upgrades</button>
+  <button class="open-modal-btn" data-target="missionsModal" aria-haspopup="dialog" aria-controls="missionsModal">Missões</button>
+  <button class="open-modal-btn" data-target="achievementsModal" aria-haspopup="dialog" aria-controls="achievementsModal">Conquistas</button>
+  <button class="open-modal-btn" data-target="rankingModal" aria-haspopup="dialog" aria-controls="rankingModal">Ranking</button>
+  <button class="open-modal-btn" data-target="optionsModal" aria-haspopup="dialog" aria-controls="optionsModal">Opções</button>
+</nav>
+
+<!-- Footer avançado -->
+<footer role="contentinfo" aria-label="Rodapé detalhado do jogo" tabindex="0" style="max-width: 1200px; width: 100%; margin: 2rem auto 1rem auto; color: var(--secondary); font-size: 0.9rem; user-select:none; text-align:center;">
+  <p>© 2025 Clicker Simulator Supremo Lendário - Desenvolvido por Luiz Felipe</p>
+  <p>GitHub: <a href="https://github.com/Luiz-altf4/Clicker-Simulator" target="_blank" rel="noopener noreferrer">luiz-altf4/Clicker-Simulator</a> | Contato: <a href="mailto:luiz@example.com">luiz@example.com</a></p>
+  <p>Fontes: <a href="https://fonts.google.com/specimen/Roboto" target="_blank" rel="noopener noreferrer">Roboto</a></p>
+  <p>Powered by Firebase Realtime Database, JavaScript moderno e muito café ☕</p>
 </footer>
 
-<!-- Scripts adicionais (ex: libs de animação, efeitos) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" defer></script>
+<script>
+  // Script mínimo para abrir/fechar modais
+  document.querySelectorAll('.open-modal-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const modalId = btn.getAttribute('data-target');
+      const modal = document.getElementById(modalId);
+      if(modal) {
+        modal.classList.add('active');
+        modal.querySelector('.modal-close').focus();
+      }
+    });
+  });
 
-<!-- Script principal -->
-<script type="module" src="script.js" defer></script>
+  document.querySelectorAll('.modal-close, .modal-action-close').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const modal = btn.closest('.modal');
+      if(modal) {
+        modal.classList.remove('active');
+        // Voltar foco para o botão que abriu o modal seria melhor, pode implementar futuramente
+      }
+    });
+  });
 
-</body>
-</html>
+  // Fechar modal com ESC
+  window.addEventListener('keydown', (e) => {
+    if(e.key === "Escape") {
+      document.querySelectorAll('.modal.active').forEach(modal => {
+        modal.classList.remove('active');
+      });
+    }
+  });
+</script>
