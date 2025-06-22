@@ -1,197 +1,234 @@
-/* === Reset === */
+/* Reset básico */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Cores RGB pulsantes */
+@keyframes rgbPulse {
+  0% { color: #ff0000; }
+  33% { color: #00ff00; }
+  66% { color: #0000ff; }
+  100% { color: #ff0000; }
 }
 
 body {
-  background: #0f0f0f;
-  color: #fff;
-  overflow-x: hidden;
-  transition: background 0.3s, color 0.3s;
-}
-
-body.light-theme {
-  background: #f0f0f0;
-  color: #222;
-}
-
-/* === Container === */
-#gameContainer {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: auto;
+  background-color: #121212;
+  color: #eee;
+  animation: rgbPulse 10s linear infinite;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  animation: rgbPulse 10s infinite alternate;
+  align-items: center;
 }
 
-@keyframes rgbPulse {
-  0%   { box-shadow: 0 0 20px red; }
-  25%  { box-shadow: 0 0 20px orange; }
-  50%  { box-shadow: 0 0 20px lime; }
-  75%  { box-shadow: 0 0 20px blue; }
-  100% { box-shadow: 0 0 20px violet; }
-}
-
-/* === Header === */
 header {
+  width: 100%;
+  padding: 1rem;
+  background: #222;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid rgba(255,255,255,0.1);
-  padding-bottom: 1rem;
+  box-shadow: 0 0 15px #0ff;
 }
 
-header h1 {
-  font-size: 2.2rem;
-  color: #00ffe1;
-  text-shadow: 0 0 10px #00ffe1;
+h1 {
+  font-size: 2rem;
+  letter-spacing: 3px;
+  text-shadow: 0 0 8px #0ff;
 }
 
-#toggleTheme {
-  background: transparent;
-  color: inherit;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-/* === Seções === */
-section {
-  background: rgba(255,255,255,0.05);
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
-  backdrop-filter: blur(5px);
-  transition: all 0.2s;
-}
-
-section h2 {
-  margin-bottom: 0.5rem;
-  font-size: 1.3rem;
-  color: #fff;
-  text-shadow: 0 0 5px cyan;
-}
-
-/* === Botões === */
 button {
+  background: linear-gradient(45deg, #00ffff, #0000ff);
+  border: none;
   padding: 0.5rem 1rem;
-  margin: 0.3rem;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(90deg, #00f, #0ff);
-  color: white;
-  font-weight: bold;
+  color: #fff;
   cursor: pointer;
-  box-shadow: 0 0 10px #0ff;
-  transition: transform 0.2s, background 0.3s;
-}
-
-button:hover {
-  transform: scale(1.05);
-  background: linear-gradient(90deg, #f0f, #0ff);
-}
-
-/* === Texto e Entradas === */
-input[type="text"] {
-  padding: 0.5rem;
-  border: none;
-  border-radius: 6px;
-  width: 100%;
-  margin: 0.3rem 0;
-  font-size: 1rem;
-}
-
-p, li {
-  font-size: 1rem;
-  margin: 0.2rem 0;
-}
-
-.scroll-section {
-  max-height: 250px;
-  overflow-y: auto;
-  padding-right: 8px;
-}
-
-.scroll-section::-webkit-scrollbar {
-  width: 6px;
-}
-.scroll-section::-webkit-scrollbar-thumb {
-  background: #0ff;
-  border-radius: 6px;
-}
-
-/* === Itens === */
-.upgrade-item, .shop-item, .pet-item, .ranking-item {
-  background: rgba(0,0,0,0.2);
-  border: 1px solid #0ff;
+  font-weight: bold;
   border-radius: 8px;
-  padding: 0.7rem;
-  margin: 0.5rem 0;
+  transition: background 0.3s ease;
+  box-shadow: 0 0 10px #0ff;
 }
 
-.mission-item, .achievement-item {
-  margin-bottom: 0.4rem;
+button:hover:not(:disabled) {
+  background: linear-gradient(45deg, #0000ff, #00ffff);
+  box-shadow: 0 0 20px #0ff;
 }
 
-.achievement-item.completed {
-  text-decoration: line-through;
-  color: #aaa;
+button:disabled {
+  background: #555;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
-/* === Chat === */
-.chat-box {
-  height: 150px;
-  overflow-y: auto;
-  background: rgba(0,0,0,0.2);
-  padding: 0.5rem;
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
+main {
+  max-width: 960px;
+  width: 90%;
+  margin: 2rem auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
 }
 
-.chat-box::-webkit-scrollbar {
-  width: 5px;
-}
-.chat-box::-webkit-scrollbar-thumb {
-  background: cyan;
+section {
+  background: #222;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00ffffaa;
+  animation: rgbPulse 8s linear infinite;
 }
 
-/* === Notificação === */
-.notification {
+#gameSection {
+  grid-column: span 2;
+  text-align: center;
+}
+
+#clickBtn {
+  font-size: 1.5rem;
+  padding: 1rem 3rem;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  text-shadow: 0 0 10px #0ff;
+  box-shadow: 0 0 15px #0ff;
+}
+
+#clickBtn:hover {
+  box-shadow: 0 0 25px #0ff;
+}
+
+#notification {
   position: fixed;
-  bottom: 10px;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
-  background: #0ff;
-  color: #000;
-  padding: 0.7rem 1.2rem;
-  border-radius: 10px;
+  padding: 1rem 2rem;
+  background-color: #0f62fe;
+  color: white;
+  border-radius: 12px;
   font-weight: bold;
-  box-shadow: 0 0 15px #0ff;
   display: none;
-  z-index: 999;
-  animation: flashRGB 2s infinite alternate;
+  z-index: 9999;
+  box-shadow: 0 0 15px #0ff;
+  animation: rgbPulse 6s linear infinite;
 }
 
-@keyframes flashRGB {
-  0%   { background: red;   color: white; }
-  25%  { background: orange; color: black; }
-  50%  { background: lime;  color: black; }
-  75%  { background: blue;  color: white; }
-  100% { background: violet; color: white; }
+#upgrades, #shopList, #pets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
 }
 
-/* === Responsivo === */
-@media (max-width: 768px) {
-  #gameContainer {
-    padding: 1rem;
-  }
-  button {
-    width: 100%;
-    margin: 0.5rem 0;
-  }
+.upgrade-item, .shop-item, .pet-item {
+  background: #111;
+  border-radius: 10px;
+  padding: 1rem;
+  width: 200px;
+  box-shadow: 0 0 10px #0ff88;
+  text-align: center;
+  color: #0ff;
+  animation: rgbPulse 7s linear infinite;
+}
+
+.upgrade-item h4, .shop-item h4, .pet-item h4 {
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  text-shadow: 0 0 5px #0ff;
+}
+
+.upgrade-item button, .shop-item button, .pet-item button {
+  margin-top: 0.8rem;
+  width: 100%;
+  font-weight: 700;
+  border-radius: 8px;
+}
+
+.upgrade-item p, .shop-item p, .pet-item p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+#missions, #achievementsList {
+  list-style-type: none;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 0.5rem;
+  color: #0ff;
+  font-weight: 600;
+  animation: rgbPulse 10s linear infinite;
+}
+
+.ranking-item {
+  background: #111;
+  margin: 0.25rem 0;
+  padding: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 8px #0ff99;
+  color: #0ff;
+  font-weight: 700;
+  animation: rgbPulse 8s linear infinite;
+}
+
+#playerNameInput, #chatInput {
+  width: calc(100% - 90px);
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  outline: none;
+}
+
+#saveScoreBtn, #chatSendBtn {
+  width: 80px;
+}
+
+#chatMessages {
+  background: #111;
+  height: 150px;
+  overflow-y: auto;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #0ff88;
+  color: #0ff;
+  font-weight: 600;
+  animation: rgbPulse 12s linear infinite;
+}
+
+.light-theme {
+  background-color: #eee;
+  color: #111;
+  animation: none !important;
+}
+
+.light-theme header {
+  background: #ddd;
+  box-shadow: 0 0 15px #00f;
+}
+
+.light-theme button {
+  background: linear-gradient(45deg, #0077ff, #00bbff);
+  color: #fff;
+  box-shadow: 0 0 15px #00bbff;
+}
+
+.light-theme section {
+  background: #ddd;
+  box-shadow: 0 0 10px #0099ffaa;
+  color: #111;
+  animation: none !important;
+}
+
+.light-theme .upgrade-item, .light-theme .shop-item, .light-theme .pet-item, .light-theme .ranking-item {
+  background: #ccc;
+  color: #005577;
+  box-shadow: 0 0 10px #0077ccaa;
+  animation: none !important;
+}
+
+.light-theme #notification {
+  background-color: #0077ff;
+  color: #eee;
 }
