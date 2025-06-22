@@ -1,4 +1,4 @@
-//* Reset básico */
+/* Reset básico */
 * {
   margin: 0;
   padding: 0;
@@ -6,202 +6,231 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body {
+body.dark-theme {
   background: #121212;
   color: #eee;
-  min-height: 100vh;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-.light-theme {
-  background: #fafafa;
-  color: #222;
-}
-
-header {
-  width: 100%;
-  max-width: 960px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-h1 {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-#toggleTheme {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: inherit;
-}
-
-main {
-  width: 100%;
-  max-width: 960px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
-}
-
-section {
-  background: #222;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 0 6px #000;
-  min-height: 120px;
-  overflow-y: auto;
-}
-
-.light-theme section {
-  background: #fff;
-  box-shadow: 0 0 6px #ccc;
-}
-
-#gameInfo p {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-}
-
-#clickBtn {
-  width: 100%;
-  padding: 1rem;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  border-radius: 10px;
-  border: none;
-  background: #0f62fe;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#clickBtn:hover {
-  background: #0353e9;
-}
-
-button {
-  cursor: pointer;
-  border-radius: 5px;
-  border: none;
-  padding: 0.5rem 1rem;
-  background: #0f62fe;
-  color: white;
-  transition: background-color 0.3s ease;
-}
-
-button:disabled {
-  background: #555;
-  cursor: not-allowed;
-}
-
-button:hover:not(:disabled) {
-  background: #0353e9;
-}
-
-#upgrades .upgrade-item,
-#shopList .shop-item,
-#pets .pet-item {
-  border: 1px solid #444;
-  margin-bottom: 0.6rem;
-  padding: 0.5rem;
-  border-radius: 5px;
-  background: #1a1a1a;
-}
-
-.light-theme #upgrades .upgrade-item,
-.light-theme #shopList .shop-item,
-.light-theme #pets .pet-item {
-  background: #e5e5e5;
-  border-color: #ccc;
-  color: #222;
-}
-
-.upgrade-item h4,
-.shop-item h4,
-.pet-item h4 {
-  margin-bottom: 0.3rem;
-}
-
-#missions,
-#achievementsList {
-  list-style-type: none;
-  max-height: 150px;
-  overflow-y: auto;
-}
-
-.mission-item,
-.achievement-item {
-  padding: 0.3rem 0;
-  border-bottom: 1px solid #333;
-}
-
-.light-theme .mission-item,
-.light-theme .achievement-item {
-  border-color: #ccc;
-}
-
-.completed {
-  text-decoration: line-through;
-  opacity: 0.6;
-}
-
-.ranking-item {
-  padding: 0.2rem 0;
-  border-bottom: 1px solid #333;
-}
-
-.light-theme .ranking-item {
-  border-color: #ccc;
-}
-
-#chatSection {
-  display: flex;
-  flex-direction: column;
-  height: 250px;
-}
-
-#chatMessages {
-  flex-grow: 1;
-  background: #1a1a1a;
-  border-radius: 5px;
-  padding: 0.5rem;
-  overflow-y: auto;
-  margin-bottom: 0.5rem;
-  color: #eee;
-  font-size: 0.9rem;
-}
-
-.light-theme #chatMessages {
+body.light-theme {
   background: #f0f0f0;
   color: #222;
 }
 
-#chatInput {
-  padding: 0.5rem;
-  border-radius: 5px;
-  border: none;
-  margin-bottom: 0.3rem;
+header {
+  background: #0f62fe;
+  padding: 1rem;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+  user-select: none;
 }
 
-#notification {
+#currentWorld {
+  margin-top: 0.4rem;
+  font-weight: normal;
+  font-size: 1rem;
+  color: #cce1ff;
+}
+
+main {
+  max-width: 960px;
+  margin: 1rem auto;
+  padding: 0 1rem;
+}
+
+section {
+  margin-bottom: 1.5rem;
+  background: #1a1a1a;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #0f62fe50;
+}
+
+body.light-theme section {
+  background: #fff;
+  box-shadow: 0 0 10px #0f62fe40;
+  color: #222;
+}
+
+h2 {
+  margin-bottom: 0.7rem;
+  border-bottom: 2px solid #0f62fe;
+  padding-bottom: 0.3rem;
+}
+
+#statsSection div {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+#buyAmountSelect {
+  padding: 0.3rem;
+  font-size: 1rem;
+  margin-left: 0.4rem;
+}
+
+.big-btn {
+  padding: 1rem 2rem;
+  font-size: 1.8rem;
+  cursor: pointer;
+  border-radius: 12px;
+  border: none;
+  background-color: #0f62fe;
+  color: white;
+  user-select: none;
+  margin: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.big-btn:hover:not(.btn-disabled) {
+  background-color: #0059b3;
+}
+
+.rebirth-btn {
+  background-color: #ff4c4c;
+}
+
+.rebirth-btn:hover:not(.btn-disabled) {
+  background-color: #cc0000;
+}
+
+.btn-disabled {
+  background-color: #444 !important;
+  cursor: not-allowed !important;
+}
+
+.upgrade-item,
+.shop-item,
+.pet-item,
+.mission-item,
+.achievement-item {
+  border-bottom: 1px solid #333;
+  padding: 0.5rem 0;
+}
+
+.upgrade-item:last-child,
+.shop-item:last-child,
+.pet-item:last-child,
+.mission-item:last-child,
+.achievement-item:last-child {
+  border-bottom: none;
+}
+
+.upgrade-item button,
+.shop-item button,
+.pet-item button {
+  margin-top: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 8px;
+  border: none;
+  background-color: #0f62fe;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.upgrade-item button:hover:not(.btn-disabled),
+.shop-item button:hover:not(.btn-disabled),
+.pet-item button:hover:not(.btn-disabled) {
+  background-color: #0059b3;
+}
+
+.mission-item progress {
+  width: 100%;
+  height: 14px;
+  margin-top: 4px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.achievement-item span.achieved {
+  color: #27ae60;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-left: 0.4rem;
+}
+
+.achievement-item span.not-achieved {
+  color: #e74c3c;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-left: 0.4rem;
+}
+
+#chatSection {
+  background-color: #222;
+  padding: 1rem;
+  border-radius: 8px;
+  color: #eee;
+  display: flex;
+  flex-direction: column;
+  max-height: 320px;
+}
+
+.chat-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  background-color: #111;
+  border-radius: 6px;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.6rem;
+  height: 180px;
+  user-select: text;
+  line-height: 1.3rem;
+}
+
+#chatInput {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+#chatSendBtn {
+  align-self: flex-end;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #0f62fe;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#chatSendBtn:hover {
+  background-color: #0059b3;
+}
+
+.notification {
   position: fixed;
   bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #0f62fe;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 12px;
   color: white;
-  padding: 0.7rem 1rem;
-  border-radius: 20px;
-  display: none;
-  z-index: 1000;
   font-weight: bold;
-  box-shadow: 0 0 10px #0f62feaa;
+  font-size: 1rem;
+  z-index: 9999;
+  user-select: none;
+  pointer-events: none;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 600px) {
+  main {
+    padding: 0 0.5rem;
+  }
+  .big-btn {
+    font-size: 1.3rem;
+    padding: 0.8rem 1.2rem;
+    margin: 0.3rem;
+  }
+  #statsSection div {
+    font-size: 1rem;
+  }
 }
