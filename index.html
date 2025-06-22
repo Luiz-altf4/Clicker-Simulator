@@ -20,7 +20,7 @@
     <div><strong>Cliques por segundo (CPS):</strong> <span id="cpsDisplay">0</span></div>
     <div><strong>Nível:</strong> <span id="levelDisplay">1</span></div>
     <div><strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
-    <div><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
+    <div><strong>Prestígio (Rebirths):</strong> <span id="rebirthCount">0</span></div>
     <div><strong>Mundo atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
   </section>
 
@@ -48,7 +48,7 @@
     <p id="activePet" style="margin-top:10px; font-weight:bold;">Pet ativo: Nenhum</p>
   </section>
 
-  <section class="missions" aria-label="Missões do jogo">
+  <section class="missions" aria-label="Missões">
     <h2>Missões</h2>
     <div id="missionsList"></div>
   </section>
@@ -58,24 +58,24 @@
     <div id="achievementsList"></div>
   </section>
 
+  <section class="rebirth-section" aria-label="Seção de prestígio">
+    <button id="rebirthBtn" class="btn" style="width: 100%;">Fazer Prestígio</button>
+    <p id="rebirthInfo" style="margin-top:10px;"></p>
+  </section>
+
   <section class="worlds" aria-label="Mundos desbloqueáveis">
     <h2>Mundos</h2>
     <div id="worldsList"></div>
   </section>
 
-  <section class="rebirth-section" aria-label="Seção de rebirth">
-    <button id="rebirthBtn" class="btn" style="width: 100%;">Fazer Rebirth</button>
-    <p id="rebirthInfo" style="margin-top:10px;"></p>
-  </section>
-
   <section class="ranking" aria-label="Ranking dos jogadores">
-    <h2>Ranking - Top 10</h2>
-    <div id="rankingList"></div>
-    <input type="text" id="playerNameInput" placeholder="Seu nome para ranking" />
-    <button id="saveScoreBtn">Salvar Pontuação</button>
-    <p id="rankMessage" style="color: red;"></p>
+    <h2>Ranking - Top 10 Jogadores</h2>
+    <ol id="rankingList"></ol>
   </section>
 
-  <script type="module" src="script.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <script src="script.js"></script>
 </body>
 </html>
