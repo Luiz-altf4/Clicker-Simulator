@@ -6,232 +6,242 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body {
-  background: linear-gradient(135deg, #1f1c2c, #928dab);
+body.dark-theme {
+  background: #121212;
   color: #e0e0e0;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+}
+
+header {
+  background: #1f1f1f;
   padding: 20px;
-  user-select: none;
-}
-
-/* Container principal */
-#gameContainer {
-  background: rgba(32, 28, 45, 0.9);
-  border-radius: 12px;
-  width: 100%;
-  max-width: 1100px;
-  padding: 25px 35px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
-}
-
-/* Título */
-h1, h2, h3, h4 {
-  color: #ffb400;
-  margin-bottom: 12px;
-  text-shadow: 0 0 8px #ffb400;
-}
-
-h1 {
-  font-size: 2.8rem;
   text-align: center;
-  margin-bottom: 25px;
+  border-bottom: 2px solid #333;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-/* Botão de click principal */
-#clickButton {
-  display: block;
-  margin: 0 auto 30px auto;
-  padding: 18px 40px;
-  background: #ffb400;
-  border: none;
-  border-radius: 40px;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1f1c2c;
-  cursor: pointer;
-  box-shadow: 0 5px 15px rgba(255, 180, 0, 0.6);
-  transition: background-color 0.3s ease, transform 0.15s ease;
-  user-select: none;
+header h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 5px #0ff;
 }
 
-#clickButton:hover {
-  background-color: #ffaa00;
-  transform: scale(1.05);
-}
-
-#clickButton:active {
-  transform: scale(0.95);
-}
-
-/* Estatísticas */
-#stats {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin-bottom: 30px;
-  gap: 20px;
-}
-
-.stat-item {
-  background: #3b3653;
-  border-radius: 10px;
-  padding: 15px 20px;
-  min-width: 140px;
-  text-align: center;
-  box-shadow: inset 0 0 8px rgba(255, 180, 0, 0.3);
-  user-select: text;
-}
-
-.stat-item strong {
-  display: block;
-  font-size: 1.3rem;
-  margin-bottom: 6px;
-  color: #ffe08a;
-}
-
-/* Seções */
-section {
-  margin-bottom: 30px;
-  background: #2b2750;
-  padding: 20px 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-
-/* Listas */
-ul {
-  list-style: none;
-  max-height: 230px;
-  overflow-y: auto;
-  padding-right: 8px;
-}
-
-/* Itens da lista */
-li {
-  padding: 8px 10px;
-  border-radius: 8px;
-  margin-bottom: 8px;
-  background: #423c66;
-  cursor: default;
-  transition: background-color 0.2s ease;
-}
-
-li:hover, li:focus {
-  background-color: #5a518b;
-  outline: none;
-}
-
-/* Botões compra */
-.buy-btn, .select-btn {
-  margin-top: 8px;
-  padding: 8px 16px;
-  background-color: #ffb400;
-  border: none;
-  border-radius: 30px;
-  color: #1f1c2c;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(255, 180, 0, 0.5);
-  transition: background-color 0.25s ease, transform 0.15s ease;
-  user-select: none;
-}
-
-.buy-btn[disabled], .select-btn[disabled] {
-  background-color: #7f7a8b;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-.buy-btn:hover:not([disabled]), .select-btn:hover:not([disabled]) {
-  background-color: #ffaa00;
-  transform: scale(1.05);
-}
-
-.buy-btn:active:not([disabled]), .select-btn:active:not([disabled]) {
-  transform: scale(0.95);
-}
-
-/* Inputs e forms */
-input[type="text"], input[type="number"] {
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: none;
-  outline: none;
-  width: 100%;
-  max-width: 220px;
-  font-size: 1rem;
-  margin-bottom: 8px;
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.4);
-  user-select: text;
-}
-
-/* Botão enviar ranking */
-#submitScore {
-  margin-top: 10px;
-}
-
-/* Notificações */
 .notification {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  background: #ffb400;
-  padding: 12px 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(255, 180, 0, 0.7);
-  color: #1f1c2c;
-  font-weight: 700;
-  opacity: 0.95;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0ff;
+  color: #000;
+  padding: 10px 25px;
+  border-radius: 25px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  font-weight: 600;
+  box-shadow: 0 0 15px #0ffaa;
   z-index: 1000;
-  animation: fadeinout 3s forwards;
 }
 
-.notification.success { background-color: #4CAF50; color: white; }
-.notification.error { background-color: #f44336; color: white; }
-.notification.info { background-color: #2196F3; color: white; }
-
-@keyframes fadeinout {
-  0% { opacity: 0; transform: translateY(-20px); }
-  10%, 90% { opacity: 0.95; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-20px); }
+.notification.success {
+  background: #4caf50;
+  color: #fff;
+  box-shadow: 0 0 15px #4caf50aa;
 }
 
-/* Scrollbar customizada para listas */
-ul::-webkit-scrollbar {
-  width: 8px;
+.notification.error {
+  background: #f44336;
+  color: #fff;
+  box-shadow: 0 0 15px #f44336aa;
 }
 
-ul::-webkit-scrollbar-track {
-  background: #2b2750;
+.notification.info {
+  background: #2196f3;
+  color: #fff;
+  box-shadow: 0 0 15px #2196f3aa;
+}
+
+main {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+section {
+  background: #1e1e1e;
+  border-radius: 12px;
+  padding: 15px 20px;
+  box-shadow: 0 0 15px #0ff3;
+}
+
+h2 {
+  margin-bottom: 12px;
+  font-size: 1.6rem;
+  color: #0ff;
+  text-shadow: 0 0 7px #0ff;
+  border-bottom: 2px solid #0ff;
+  padding-bottom: 6px;
+}
+
+#mainClicker {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
+#clickBtn {
+  background: linear-gradient(145deg, #0ff, #00aaff);
+  border: none;
+  color: #000;
+  font-size: 2.5rem;
+  font-weight: bold;
+  padding: 25px 50px;
+  border-radius: 40px;
+  cursor: pointer;
+  box-shadow: 0 0 15px #0ff;
+  transition: background 0.3s ease;
+  user-select: none;
+  outline-offset: 4px;
+}
+
+#clickBtn:hover,
+#clickBtn:focus {
+  background: linear-gradient(145deg, #00aaff, #0ff);
+  outline: none;
+  box-shadow: 0 0 25px #0ff;
+}
+
+.stats p {
+  margin: 8px 0;
+  font-size: 1.1rem;
+}
+
+.items-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.upgrade-item, .shop-item, .pet-item {
+  background: #262626;
+  border-radius: 12px;
+  padding: 12px;
+  width: calc(50% - 15px);
+  box-shadow: 0 0 10px #0ff6;
+  transition: transform 0.3s ease;
+}
+
+.upgrade-item:hover, .shop-item:hover, .pet-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #0ff9;
+}
+
+.upgrade-item h4,
+.shop-item h4,
+.pet-item h4 {
+  font-size: 1.25rem;
+  margin-bottom: 6px;
+  color: #0ff;
+  text-shadow: 0 0 5px #0ff;
+}
+
+.upgrade-item p,
+.shop-item p,
+.pet-item p {
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+  color: #cceeff;
+}
+
+.buy-btn,
+.select-btn,
+#sendNameBtn {
+  background: #00aaff;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 15px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  user-select: none;
+}
+
+.buy-btn:disabled,
+.select-btn:disabled {
+  background: #555;
+  cursor: not-allowed;
+  color: #999;
+}
+
+.buy-btn:hover:not(:disabled),
+.select-btn:hover:not(:disabled),
+#sendNameBtn:hover {
+  background: #0ff;
+  color: #000;
+}
+
+#playerName {
+  width: 70%;
+  padding: 8px 15px;
+  margin-top: 15px;
+  border-radius: 25px;
+  border: 1px solid #00aaff;
+  background: #111;
+  color: #e0e0e0;
+  font-size: 1rem;
+  outline-offset: 3px;
+}
+
+#missions, #achievementsList, #rankingList {
+  list-style: none;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.mission-item, .achievement-item {
+  padding: 8px 10px;
+  margin-bottom: 6px;
   border-radius: 10px;
+  background: #333;
+  color: #ddd;
+  font-weight: 600;
+  cursor: default;
 }
 
-ul::-webkit-scrollbar-thumb {
-  background: #ffb400;
-  border-radius: 10px;
+.mission-item.completed {
+  background: #4caf50;
+  color: #fff;
+  text-decoration: line-through;
 }
 
-/* Responsividade */
-@media (max-width: 800px) {
-  #stats {
-    flex-direction: column;
-    align-items: center;
-  }
+.achievement-item.achieved {
+  background: #2196f3;
+  color: #fff;
+  text-decoration: underline;
+}
 
-  #gameContainer {
-    padding: 20px;
+/* Responsividade para telas pequenas */
+@media (max-width: 700px) {
+  main {
+    grid-template-columns: 1fr;
   }
-
-  #clickButton {
+  .upgrade-item, .shop-item, .pet-item {
     width: 100%;
-    font-size: 1.7rem;
-    padding: 15px 0;
   }
-
-  ul {
-    max-height: 180px;
+  #playerName {
+    width: 100%;
+  }
+  #clickBtn {
+    width: 100%;
+    padding: 30px 0;
   }
 }
