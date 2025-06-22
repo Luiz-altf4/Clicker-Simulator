@@ -1,252 +1,101 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clicker Simulator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <button id="toggleThemeBtn" class="theme-btn">🌙</button>
 
-:root {
-  --color-bg: #121212;
-  --color-panel-bg: #1f1f1f;
-  --color-text: #eee;
-  --color-accent: #4fc3f7;
-  --color-btn-bg: #222;
-  --color-btn-hover: #4fc3f7;
-  --color-btn-text: #eee;
-  --color-xp-bar-bg: #333;
-  --color-xp-bar-fill: #4fc3f7;
-  --color-shadow: rgba(79, 195, 247, 0.5);
-  --transition-speed: 0.3s;
-}
+  <div class="container">
 
-body {
-  margin: 0;
-  font-family: 'Orbitron', monospace, sans-serif;
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  overflow-x: hidden;
-  position: relative;
-  min-height: 100vh;
-  user-select: none;
-}
+    <!-- Painel de Click -->
+    <section class="panel" id="clickPanel">
+      <h2>Clicks</h2>
+      <button id="clickBtn" class="btn click-btn">Clique Aqui!</button>
+      <p>Clicks: <span id="score">0</span></p>
+      <p>Poder por Click: <span id="clickPower">1</span></p>
+    </section>
 
-/* Luz piscando nos cantos */
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle, var(--color-accent), transparent 70%);
-  opacity: 0.4;
-  animation: pulse 2.5s infinite ease-in-out;
-  pointer-events: none;
-  z-index: 1;
-  filter: drop-shadow(0 0 6px var(--color-accent));
-}
+    <!-- Upgrades -->
+    <section class="panel" id="upgradePanel">
+      <h2>Upgrades</h2>
+      <div class="upgrade-row">
+        <button id="upgradeClickPowerBtn" class="btn upgrade-btn">Melhorar Click Power</button>
+        <span>Custo: <span id="upgradeClickPowerCost">10</span></span>
+      </div>
 
-body::before {
-  top: 0;
-  left: 0;
-}
+      <div class="upgrade-row">
+        <button id="buyAutoClickerBtn" class="btn upgrade-btn">Comprar AutoClicker</button>
+        <span>Qtd: <span id="autoClickers">0</span> | Custo: <span id="autoClickerCost">50</span></span>
+      </div>
 
-body::after {
-  bottom: 0;
-  right: 0;
-  animation-delay: 1.25s;
-}
+      <div class="upgrade-row">
+        <button id="buyMultiplierBtn" class="btn upgrade-btn">Comprar Multiplicador</button>
+        <span>Qtd: <span id="multiplierCount">0</span> | Custo: <span id="multiplierCost">100</span></span>
+      </div>
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.85;
-    transform: scale(1.2);
-  }
-}
+      <div class="upgrade-row">
+        <span>Comprar em: </span>
+        <button class="btn upgradeAmountBtn active" data-amount="1">1</button>
+        <button class="btn upgradeAmountBtn" data-amount="10">10</button>
+        <button class="btn upgradeAmountBtn" data-amount="100">100</button>
+        <button class="btn upgradeAmountBtn" data-amount="1000">1000</button>
+        <button class="btn upgradeAmountBtn" data-amount="max">Máximo</button>
+      </div>
+    </section>
 
-/* Botão tema */
-.theme-btn {
-  position: fixed;
-  top: 12px;
-  right: 12px;
-  background-color: var(--color-btn-bg);
-  border: none;
-  padding: 10px 16px;
-  cursor: pointer;
-  border-radius: 8px;
-  color: var(--color-btn-text);
-  font-size: 22px;
-  z-index: 10;
-  transition: background-color var(--transition-speed);
-  box-shadow: 0 0 10px var(--color-accent);
-}
+    <!-- Informações -->
+    <section class="panel" id="infoPanel">
+      <h2>Informações</h2>
+      <p id="cps">Clicks por segundo: 0</p>
+      <p id="levelDisplay">Nível: 1</p>
+      <div id="xpBarContainer">
+        <div id="xpBar"></div>
+      </div>
+      <p>Gemas: <span id="gemsCount">0</span></p>
+      <p>Rebirths: <span id="rebirthCount">0</span></p>
+      <p>Mundo Atual: <span id="currentWorld">Terra</span></p>
+    </section>
 
-.theme-btn:hover {
-  background-color: var(--color-btn-hover);
-  box-shadow: 0 0 20px var(--color-accent);
-}
+    <!-- Boosts -->
+    <section class="panel" id="boostPanel">
+      <h2>Boosts</h2>
+      <button id="speedBoostBtn" class="btn boost-btn">Boost de Velocidade (20 Gemas)</button>
+      <button id="multiplierBoostBtn" class="btn boost-btn">Boost de Multiplicador (50 Gemas)</button>
+      <button id="buyGemsBtn" class="btn boost-btn">Comprar 100 Gemas</button>
+    </section>
 
-/* Container geral */
-.container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  padding: 100px 24px 24px 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-  z-index: 2;
-}
+    <!-- Rebirth & Reset -->
+    <section class="panel" id="rebirthPanel">
+      <h2>Rebirth & Reset</h2>
+      <button id="rebirthBtn" class="btn rebirth-btn">Fazer Rebirth</button>
+      <button id="resetBtn" class="btn reset-btn">Resetar Jogo</button>
+    </section>
 
-/* Painéis */
-.panel {
-  background-color: var(--color-panel-bg);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 0 25px var(--color-shadow);
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  transition: box-shadow var(--transition-speed);
-}
+    <!-- Loja -->
+    <section class="panel" id="shopPanel">
+      <h2>Loja</h2>
+      <div class="shop-item">
+        <button class="btn shop-buy" data-item="clickPowerBoost" data-cost="500">Comprar Click Power Boost (500 clicks)</button>
+      </div>
+      <div class="shop-item">
+        <button class="btn shop-buy" data-item="autoClickerBoost" data-cost="1000">Comprar AutoClicker Boost (1000 clicks)</button>
+      </div>
+      <div class="shop-item">
+        <button class="btn shop-buy" data-item="multiplierBoost" data-cost="2000">Comprar Multiplicador Boost (2000 clicks)</button>
+      </div>
+    </section>
 
-.panel:hover {
-  box-shadow: 0 0 40px var(--color-accent);
-}
+  </div>
 
-/* Títulos */
-.panel h2 {
-  margin: 0 0 12px 0;
-  font-weight: 800;
-  font-size: 1.6rem;
-  border-bottom: 3px solid var(--color-accent);
-  padding-bottom: 8px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--color-accent);
-}
+  <!-- Sons -->
+  <audio id="clickSound" src="click.mp3" preload="auto"></audio>
+  <audio id="buySound" src="buy.mp3" preload="auto"></audio>
+  <audio id="boostSound" src="boost.mp3" preload="auto"></audio>
 
-/* Botões */
-.btn {
-  background-color: var(--color-btn-bg);
-  border: none;
-  border-radius: 12px;
-  padding: 14px 22px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  color: var(--color-btn-text);
-  font-weight: 800;
-  transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-  user-select: none;
-  box-shadow: 0 0 12px transparent;
-  letter-spacing: 1.2px;
-}
-
-.btn:hover,
-.btn:focus {
-  background-color: var(--color-btn-hover);
-  outline: none;
-  box-shadow: 0 0 18px var(--color-accent);
-}
-
-/* Botão maior para click */
-.click-btn {
-  font-size: 1.7rem;
-  padding: 28px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  font-weight: 900;
-  user-select: none;
-  transition: transform 0.15s ease;
-  box-shadow: 0 0 25px var(--color-accent);
-}
-
-.click-btn:active {
-  transform: scale(0.92);
-  box-shadow: 0 0 40px var(--color-accent);
-}
-
-/* Upgrade rows */
-.upgrade-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-/* Botões de comprar múltiplos */
-.upgradeAmountBtn {
-  background-color: var(--color-btn-bg);
-  border-radius: 10px;
-  padding: 10px 16px;
-  margin-left: 6px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  color: var(--color-btn-text);
-  border: 2px solid transparent;
-  transition: all var(--transition-speed);
-  min-width: 60px;
-  text-align: center;
-  user-select: none;
-}
-
-.upgradeAmountBtn.active {
-  background-color: var(--color-accent);
-  color: var(--color-bg);
-  border-color: var(--color-btn-text);
-  box-shadow: 0 0 18px var(--color-accent);
-}
-
-/* Barra de XP */
-#xpBarContainer {
-  background-color: var(--color-xp-bar-bg);
-  border-radius: 12px;
-  height: 18px;
-  width: 100%;
-  overflow: hidden;
-  box-shadow: inset 0 0 8px #0009;
-}
-
-#xpBar {
-  background-color: var(--color-xp-bar-fill);
-  height: 100%;
-  width: 0%;
-  transition: width 0.3s ease-in-out;
-  box-shadow: 0 0 10px var(--color-accent);
-  border-radius: 12px;
-}
-
-/* Informações extras do jogo */
-#cps, #levelDisplay, #gemsCount, #rebirthCount, #worldName, #currentWorld {
-  font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: 1px;
-  color: var(--color-btn-text);
-}
-
-/* Painel Loja */
-#shopPanel .shop-item {
-  margin-bottom: 14px;
-}
-
-.shop-buy {
-  width: 100%;
-  text-align: center;
-}
-
-/* Responsividade */
-@media (max-width: 600px) {
-  .container {
-    grid-template-columns: 1fr;
-    padding: 80px 16px 16px 16px;
-  }
-
-  .btn {
-    font-size: 1rem;
-    padding: 12px 18px;
-  }
-
-  .click-btn {
-    padding: 18px;
-    font-size: 1.4rem;
-  }
-}
+  <script src="script.js"></script>
+</body>
+</html>
