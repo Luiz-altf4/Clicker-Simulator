@@ -1,11 +1,10 @@
-// === script.js completo e corrigido ===
-
+// === Importações Firebase ===
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import {
   getDatabase, ref, push, set, get, onValue, query, orderByChild, limitToLast
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
-// Config Firebase - mantenha seus dados aqui
+// === Config Firebase ===
 const firebaseConfig = {
   apiKey: "AIzaSyA4iTIlOQbfvtEQd27R5L6Z7y_oXeatBF8",
   authDomain: "clickersimulatorrank.firebaseapp.com",
@@ -20,20 +19,23 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+// === Utilitários ===
 const $ = id => document.getElementById(id);
-
-let notificationTimeout = null;
-const notificationEl = $("notification");
-
-function showNotification(text, type = "info") {
-  notificationEl.textContent = text;
-  notificationEl.style.backgroundColor = type === "error" ? "#e74c3c" : type === "success" ? "#27ae60" : "#0f62fe";
-  notificationEl.style.display = "block";
-  clearTimeout(notificationTimeout);
-  notificationTimeout = setTimeout(() => {
-    notificationEl.style.display = "none";
-  }, 3500);
-}
+const createEl = (tag, attrs = {}, ...children) => {
+  const el = document.createElement(tag);
+  for (const k in attrs) {
+    if (k === "className") el.className = attrs[k];
+    else if (k.startsWith("aria")) el.setAttribute(k, attrs[k]);
+    else if (k === "dataset") {
+      for (const d in attrs[k]) el.dataset[d] = attrs[k][d];
+    } else el.setAttribute(k, attrs[k]);
+  }
+  children.forEach(c => {
+    if (typeof c === "string") el.appendChild(document.createTextNode(c));
+    else if (c) el.appendChild(c);
+  });
+  return el;
+};
 
 function formatNumber(n) {
   if (typeof n !== "number" || isNaN(n)) return "0";
@@ -47,7 +49,12 @@ function formatNumber(n) {
   return n.toFixed(2) + units[i];
 }
 
-// === Estado global ===
+function getWorldName(id) {
+  const worlds = ["Jardim Inicial", "Cidade Neon", "Espaço", "Dimensão", "Reino Sombrio", "Mundo Místico", "Terra dos Dragões"];
+  return worlds[id - 1] || "???";
+}
+
+// === Estado do jogo ===
 const gameState = {
   clicks: 0,
   totalClicks: 0,
@@ -58,563 +65,459 @@ const gameState = {
   rebirths: 0,
   currentWorld: 1,
   buyAmount: 1,
+  upgrades: [],
+  shopItems: [],
+  pets: [],
+  achievements: [],
+  missions: [],
   activePetId: null,
   theme: "dark",
-  lastChatTimestamp: 0,
-  audio: { musicVolume: 0.5, effectsVolume: 0.7, musicPlaying: false },
-  tutorialShown: false,
+  chatMessages: []
 };
 
-// Inicializa upgrades, pets, loja, missões e conquistas
-function initGameData() {
-  gameState.upgrades = [
-    { id: 1, name: "Click Básico", description: "Aumenta +1 a cada clique", cps: 0, quantity: 0, basePrice: 10 },
-    { id: 2, name: "Click Avançado", description: "Aumenta +1 click por segundo", cps: 1, quantity: 0, basePrice: 100 },
-    { id: 3, name: "Casa de Click", description: "Aumenta +2 clicks por segundo", cps: 2, quantity: 0, basePrice: 500 },
-    { id: 4, name: "Prédio de Click", description: "Aumenta +10 clicks por segundo", cps: 10, quantity: 0, basePrice: 3000 },
-    { id: 5, name: "Laboratório de Click", description: "Aumenta +20 clicks por segundo", cps: 20, quantity: 0, basePrice: 10000 },
-    { id: 6, name: "Fábrica de Click", description: "Aumenta +100 clicks por segundo", cps: 100, quantity: 0, basePrice: 50000 },
-    { id: 7, name: "Cidade de Click", description: "Aumenta +500 clicks por segundo", cps: 500, quantity: 0, basePrice: 250000 },
-    { id: 8, name: "País de Click", description: "Aumenta +10000 clicks por segundo", cps: 10000, quantity: 0, basePrice: 1000000 }
-  ];
+// === Dados base ===
 
-  gameState.shopItems = [
-    { id: 1, name: "Multiplicador x2", description: "Dobra produção por 5 min", owned: false, price: 1000, effectDuration: 300000 },
-    { id: 2, name: "Multiplicador x5", description: "Quíntupla produção por 2 min", owned: false, price: 5000, effectDuration: 120000 },
-  ];
+// Upgrades (valores e efeitos)
+const upgradesData = [
+  { id: "click_basic", name: "Click básico", description: "Aumenta 1 por clique", price: 10, type: "clickPower", power: 1, unlocked: true },
+  { id: "click_advanced", name: "Click avançado", description: "Aumenta 1 por segundo", price: 100, type: "cps", power: 1, unlocked: false },
+  { id: "click_house", name: "Casa de click", description: "Aumenta 2 por segundo", price: 500, type: "cps", power: 2, unlocked: false },
+  { id: "click_building", name: "Prédio de click", description: "Aumenta 10 por segundo", price: 3000, type: "cps", power: 10, unlocked: false },
+  { id: "click_lab", name: "Laboratório de click", description: "Aumenta 20 por segundo", price: 8000, type: "cps", power: 20, unlocked: false },
+  { id: "click_factory", name: "Fábrica de click", description: "Aumenta 100 por segundo", price: 25000, type: "cps", power: 100, unlocked: false },
+  { id: "click_city", name: "Cidade de click", description: "Aumenta 500 por segundo", price: 120000, type: "cps", power: 500, unlocked: false },
+  { id: "click_country", name: "País de click", description: "Aumenta 10000 por segundo", price: 700000, type: "cps", power: 10000, unlocked: false }
+];
 
-  gameState.pets = [
-    { id: 1, name: "Gato Clicker", bonusPercent: 5, owned: false },
-    { id: 2, name: "Cachorro Robótico", bonusPercent: 15, owned: false },
-    { id: 3, name: "Dragão Cibernético", bonusPercent: 30, owned: false },
-  ];
+// Pets (simples)
+const petsData = [
+  { id: "cat", name: "Gato", description: "Gera 1 click por segundo", price: 500, cps: 1, unlocked: false },
+  { id: "dog", name: "Cachorro", description: "Gera 3 clicks por segundo", price: 2000, cps: 3, unlocked: false }
+];
 
-  gameState.missions = [
-    { id: 1, description: "Clique 100 vezes", goal: 100, progress: 0, rewardXP: 50, completed: false },
-    { id: 2, description: "Compre 5 upgrades", goal: 5, progress: 0, rewardXP: 100, completed: false },
-    { id: 3, description: "Faça 1 rebirth", goal: 1, progress: 0, rewardXP: 500, completed: false },
-    { id: 4, description: "Tenha 3 pets ativos", goal: 3, progress: 0, rewardXP: 300, completed: false },
-    { id: 5, description: "Gere 1M clicks no total", goal: 1_000_000, progress: 0, rewardXP: 1000, completed: false }
-  ];
+// Loja simples
+const shopData = [
+  { id: "skin_dark", name: "Skin Dark", description: "Tema Dark Gamer", price: 1000 },
+  { id: "skin_light", name: "Skin Light", description: "Tema Claro", price: 1000 }
+];
 
-  gameState.achievements = [
-    { id: 1, name: "Primeiro Click", description: "Realize seu primeiro click", achieved: false },
-    { id: 2, name: "Novato", description: "Alcance nível 10", achieved: false },
-    { id: 3, name: "Profissional", description: "Alcance 1000 clicks", achieved: false },
-    { id: 4, name: "Veterano", description: "Realize 10 rebirths", achieved: false },
-    { id: 5, name: "Colecionador", description: "Possua todos os pets", achieved: false },
-  ];
-}
+// Missões
+const missionsData = [
+  { id: "mission1", description: "Faça 50 clicks", goal: 50, completed: false, rewardXP: 20 },
+  { id: "mission2", description: "Compre 3 upgrades", goal: 3, completed: false, rewardXP: 30 },
+  { id: "mission3", description: "Alcance 500 clicks totais", goal: 500, completed: false, rewardXP: 50 },
+  { id: "mission4", description: "Tenha 2 pets", goal: 2, completed: false, rewardXP: 40 }
+];
+
+// Conquistas
+const achievementsData = [
+  { id: "achv_click100", description: "Clique 100 vezes no total", achieved: false },
+  { id: "achv_rebirth1", description: "Faça seu 1º rebirth", achieved: false },
+  { id: "achv_level5", description: "Alcance nível 5", achieved: false }
+];
+
+// === Funções principais ===
 
 function saveGame() {
-  try {
-    localStorage.setItem("clickerSave", JSON.stringify(gameState));
-  } catch (err) {
-    console.error("Erro ao salvar:", err);
-    showNotification("Falha ao salvar progresso!", "error");
-  }
+  localStorage.setItem("clickerGameSave", JSON.stringify(gameState));
+  showNotification("Jogo salvo!");
 }
 
 function loadGame() {
-  const saveData = localStorage.getItem("clickerSave");
-  if (saveData) {
-    try {
-      const parsed = JSON.parse(saveData);
-      Object.assign(gameState, parsed);
-
-      // Para arrays que podem estar incompletas, garantimos que existem todos os campos
-      if (!gameState.upgrades || !Array.isArray(gameState.upgrades)) initGameData();
-      if (!gameState.shopItems || !Array.isArray(gameState.shopItems)) initGameData();
-      if (!gameState.pets || !Array.isArray(gameState.pets)) initGameData();
-      if (!gameState.missions || !Array.isArray(gameState.missions)) initGameData();
-      if (!gameState.achievements || !Array.isArray(gameState.achievements)) initGameData();
-
-      showNotification("Progresso carregado!", "success");
-    } catch (err) {
-      console.error("Erro ao carregar save:", err);
-      showNotification("Falha ao carregar progresso!", "error");
-      initGameData();
-    }
+  const save = localStorage.getItem("clickerGameSave");
+  if (save) {
+    Object.assign(gameState, JSON.parse(save));
+    unlockItems();
+    updateUI();
   } else {
-    initGameData();
+    // Inicializa dados
+    gameState.upgrades = upgradesData.map(u => ({ ...u, owned: 0 }));
+    gameState.pets = petsData.map(p => ({ ...p }));
+    gameState.shopItems = shopData.map(s => ({ ...s }));
+    gameState.achievements = achievementsData.map(a => ({ ...a }));
+    gameState.missions = missionsData.map(m => ({ ...m }));
   }
 }
 
-function updateDisplay() {
+function showNotification(msg, duration = 2000) {
+  const notif = $("notification");
+  notif.textContent = msg;
+  notif.style.display = "block";
+  notif.style.backgroundColor = "#00ffcc";
+  notif.style.color = "#111";
+  setTimeout(() => {
+    notif.style.display = "none";
+  }, duration);
+}
+
+function updateUI() {
   $("clicksDisplay").textContent = formatNumber(gameState.clicks);
   $("totalClicksStat").textContent = formatNumber(gameState.totalClicks);
-  $("cpsDisplay").textContent = formatNumber(calcCPS());
+  $("cpsDisplay").textContent = formatNumber(gameState.cps);
   $("levelDisplay").textContent = gameState.level;
   $("xpDisplay").textContent = formatNumber(gameState.xp);
   $("xpToNextLevel").textContent = formatNumber(gameState.xpToNext);
   $("rebirthCount").textContent = gameState.rebirths;
   $("currentWorld").textContent = `${gameState.currentWorld} - ${getWorldName(gameState.currentWorld)}`;
+
+  renderUpgrades();
+  renderPets();
+  renderShop();
+  renderMissions();
+  renderAchievements();
+  renderRanking();
 }
 
-function getWorldName(id) {
-  const worlds = ["Jardim Inicial", "Cidade Neon", "Espaço", "Dimensão", "Reino Sombrio", "Mundo Místico", "Terra dos Dragões"];
-  return worlds[id - 1] || "???";
+function unlockItems() {
+  gameState.upgrades.forEach(u => {
+    if (u.price <= gameState.clicks) u.unlocked = true;
+  });
 }
 
-function calcCPS() {
-  // Soma os CPS dos upgrades
-  let baseCPS = gameState.upgrades.reduce((sum, u) => sum + (u.cps * u.quantity), 0);
-
-  // Aplica bônus do pet ativo
-  if (gameState.activePetId) {
-    const pet = gameState.pets.find(p => p.id === gameState.activePetId);
-    if (pet) baseCPS *= 1 + pet.bonusPercent / 100;
-  }
-
-  // Aplica bônus dos multiplicadores da loja
-  if (currentMultiplier) baseCPS *= currentMultiplier;
-
-  return baseCPS;
-}
-
-function gainClicks(amount = 1) {
+function gainClicks(amount) {
   gameState.clicks += amount;
   gameState.totalClicks += amount;
-
-  addXP(amount * 0.5);
-
-  updateDisplay();
-  updateUpgradesDisplay();
-  updateShopDisplay();
-  updatePetsDisplay();
-  updateMissions();
-  updateAchievements();
-
-  saveGame();
-  checkMissionProgress();
+  gainXP(amount);
+  updateUI();
 }
 
-function addXP(amount) {
+function gainXP(amount) {
   gameState.xp += amount;
-  while (gameState.xp >= gameState.xpToNext) {
-    gameState.xp -= gameState.xpToNext;
+  if (gameState.xp >= gameState.xpToNext) {
     gameState.level++;
-    gameState.xpToNext = Math.floor(gameState.xpToNext * 1.15);
-    showNotification(`Subiu para nível ${gameState.level}! 🎉`, "success");
+    gameState.xp -= gameState.xpToNext;
+    gameState.xpToNext = Math.floor(gameState.xpToNext * 1.2);
+    showNotification(`Você subiu para o nível ${gameState.level}!`);
   }
-}
-
-function updateUpgradesDisplay() {
-  const container = $("upgrades");
-  container.innerHTML = "";
-  gameState.upgrades.forEach(upgrade => {
-    const price = Math.floor(upgrade.basePrice * Math.pow(1.15, upgrade.quantity));
-    const div = document.createElement("div");
-    div.className = "upgrade";
-    div.innerHTML = `
-      <h3>${upgrade.name}</h3>
-      <p>${upgrade.description}</p>
-      <p>Quantidade: ${upgrade.quantity}</p>
-      <p>Preço: ${formatNumber(price)} clicks</p>
-      <button ${gameState.clicks < price ? "disabled" : ""} data-id="${upgrade.id}">Comprar</button>
-    `;
-    container.appendChild(div);
-  });
-
-  // Eventos compra
-  container.querySelectorAll("button").forEach(btn => {
-    btn.onclick = () => {
-      const id = +btn.getAttribute("data-id");
-      buyUpgrade(id);
-    };
-  });
 }
 
 function buyUpgrade(id) {
-  const upgrade = gameState.upgrades.find(u => u.id === id);
-  if (!upgrade) return showNotification("Upgrade inválido!", "error");
-
-  const price = Math.floor(upgrade.basePrice * Math.pow(1.15, upgrade.quantity));
-  if (gameState.clicks >= price) {
-    gameState.clicks -= price;
-    upgrade.quantity++;
-    showNotification(`Você comprou ${upgrade.name}!`, "success");
-    updateDisplay();
-    updateUpgradesDisplay();
-    saveGame();
-  } else {
-    showNotification("Clique insuficiente para comprar!", "error");
+  const upg = gameState.upgrades.find(u => u.id === id);
+  if (!upg) return;
+  if (gameState.clicks < upg.price) {
+    showNotification("Clique insuficiente!");
+    return;
   }
+  gameState.clicks -= upg.price;
+  upg.owned = (upg.owned || 0) + 1;
+
+  if (upg.type === "clickPower") {
+    // aumenta power de clique base
+    baseClickPower = 1 + upg.power * upg.owned;
+  } else if (upg.type === "cps") {
+    // acumula cps
+    recalcCPS();
+  }
+
+  unlockItems();
+  updateUI();
 }
 
-function updateShopDisplay() {
+function recalcCPS() {
+  // Soma cps dos upgrades + pets
+  let totalCPS = 0;
+  gameState.upgrades.forEach(u => {
+    if (u.type === "cps") totalCPS += (u.power || 0) * (u.owned || 0);
+  });
+  gameState.pets.forEach(p => {
+    if (p.unlocked) totalCPS += p.cps;
+  });
+  gameState.cps = totalCPS;
+}
+
+function renderUpgrades() {
+  const container = $("upgrades");
+  container.innerHTML = "";
+  gameState.upgrades.forEach(u => {
+    if (!u.unlocked) return;
+    const div = createEl("div", { className: "upgrade" },
+      createEl("h4", {}, `${u.name}`),
+      createEl("p", {}, u.description),
+      createEl("p", {}, `Preço: ${formatNumber(u.price)}`),
+      createEl("p", {}, `Possuídos: ${u.owned || 0}`),
+      (() => {
+        const btn = createEl("button", {}, "Comprar");
+        btn.disabled = gameState.clicks < u.price;
+        btn.onclick = () => buyUpgrade(u.id);
+        return btn;
+      })()
+    );
+    container.appendChild(div);
+  });
+}
+
+function buyPet(id) {
+  const pet = gameState.pets.find(p => p.id === id);
+  if (!pet) return;
+  if (gameState.clicks < pet.price) {
+    showNotification("Clique insuficiente!");
+    return;
+  }
+  if (pet.unlocked) {
+    showNotification("Você já possui este pet!");
+    return;
+  }
+  gameState.clicks -= pet.price;
+  pet.unlocked = true;
+  recalcCPS();
+  updateUI();
+}
+
+function renderPets() {
+  const container = $("pets");
+  container.innerHTML = "";
+  gameState.pets.forEach(p => {
+    const div = createEl("div", { className: "pet" },
+      createEl("h4", {}, p.name),
+      createEl("p", {}, p.description),
+      createEl("p", {}, `Preço: ${formatNumber(p.price)}`),
+      (() => {
+        const btn = createEl("button", {}, p.unlocked ? "Comprado" : "Comprar");
+        btn.disabled = p.unlocked || gameState.clicks < p.price;
+        btn.onclick = () => buyPet(p.id);
+        return btn;
+      })()
+    );
+    container.appendChild(div);
+  });
+}
+
+// Render loja
+function renderShop() {
   const container = $("shopList");
   container.innerHTML = "";
   gameState.shopItems.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "shopItem";
-    div.innerHTML = `
-      <h3>${item.name}</h3>
-      <p>${item.description}</p>
-      <p>Preço: ${formatNumber(item.price)} clicks</p>
-      <button ${item.owned || gameState.clicks < item.price ? "disabled" : ""} data-id="${item.id}">
-        ${item.owned ? "Comprado" : "Comprar"}
-      </button>
-    `;
+    const div = createEl("div", { className: "shop-item" },
+      createEl("h4", {}, item.name),
+      createEl("p", {}, item.description),
+      createEl("p", {}, `Preço: ${formatNumber(item.price)}`),
+      (() => {
+        const btn = createEl("button", {}, "Comprar");
+        btn.disabled = gameState.clicks < item.price;
+        btn.onclick = () => {
+          // Exemplo: aplicar skin no tema
+          if(item.id === "skin_dark") {
+            setTheme("dark");
+            showNotification("Tema Dark ativado!");
+          } else if(item.id === "skin_light") {
+            setTheme("light");
+            showNotification("Tema Claro ativado!");
+          }
+        };
+        return btn;
+      })()
+    );
     container.appendChild(div);
   });
-
-  container.querySelectorAll("button").forEach(btn => {
-    btn.onclick = () => {
-      const id = +btn.getAttribute("data-id");
-      buyShopItem(id);
-    };
-  });
 }
 
-let currentMultiplier = 1;
-let multiplierTimeout = null;
-
-function buyShopItem(id) {
-  const item = gameState.shopItems.find(i => i.id === id);
-  if (!item) return showNotification("Item inválido!", "error");
-  if (item.owned) return showNotification("Item já comprado!", "info");
-  if (gameState.clicks < item.price) return showNotification("Clique insuficiente para comprar!", "error");
-
-  gameState.clicks -= item.price;
-  item.owned = true;
-  currentMultiplier = id === 1 ? 2 : 5;
-
-  if (multiplierTimeout) clearTimeout(multiplierTimeout);
-  multiplierTimeout = setTimeout(() => {
-    currentMultiplier = 1;
-    item.owned = false;
-    showNotification("Multiplicador acabou!", "info");
-    updateShopDisplay();
-  }, item.effectDuration);
-
-  showNotification(`Você comprou ${item.name}! Multiplicador ativo!`, "success");
-  updateDisplay();
-  updateShopDisplay();
-  saveGame();
-}
-
-function updatePetsDisplay() {
-  const container = $("pets");
-  container.innerHTML = "";
-  gameState.pets.forEach(pet => {
-    const owned = pet.owned ? " (Obtido)" : "";
-    const active = pet.id === gameState.activePetId ? " (Ativo)" : "";
-    const div = document.createElement("div");
-    div.className = "pet";
-    div.innerHTML = `
-      <h3>${pet.name}${owned}${active}</h3>
-      <p>Bônus: +${pet.bonusPercent}% CPS</p>
-      <button ${pet.owned ? "" : (gameState.clicks < 1000 ? "disabled" : "")} data-id="${pet.id}">
-        ${pet.owned ? (active ? "Ativo" : "Ativar") : "Comprar (1000 clicks)"}
-      </button>
-    `;
-    container.appendChild(div);
-  });
-
-  container.querySelectorAll("button").forEach(btn => {
-    btn.onclick = () => {
-      const id = +btn.getAttribute("data-id");
-      buyOrActivatePet(id);
-    };
-  });
-}
-
-function buyOrActivatePet(id) {
-  const pet = gameState.pets.find(p => p.id === id);
-  if (!pet) return showNotification("Pet inválido!", "error");
-  if (pet.owned) {
-    gameState.activePetId = pet.id;
-    showNotification(`${pet.name} ativado!`, "success");
-  } else {
-    if (gameState.clicks >= 1000) {
-      gameState.clicks -= 1000;
-      pet.owned = true;
-      gameState.activePetId = pet.id;
-      showNotification(`Você comprou e ativou ${pet.name}!`, "success");
-    } else {
-      showNotification("Clique insuficiente para comprar pet!", "error");
-    }
-  }
-  updateDisplay();
-  updatePetsDisplay();
-  saveGame();
-}
-
-function updateMissions() {
+// Missões
+function renderMissions() {
   const container = $("missions");
   container.innerHTML = "";
-  gameState.missions.forEach(mission => {
-    const progressPercent = Math.min((mission.progress / mission.goal) * 100, 100);
-    const completedMark = mission.completed ? "✅" : "⏳";
-    const li = document.createElement("li");
-    li.innerHTML = `
-      ${completedMark} ${mission.description} — ${formatNumber(mission.progress)} / ${formatNumber(mission.goal)}
-      <div style="background:#333; width:100%; height:10px; border-radius:5px; margin-top:5px;">
-        <div style="background:#0f62fe; width:${progressPercent}%; height:100%; border-radius:5px;"></div>
-      </div>
-    `;
+  gameState.missions.forEach(m => {
+    const li = createEl("li", { className: "mission-item" }, `${m.description} - ${m.completed ? "✅" : "❌"}`);
     container.appendChild(li);
   });
 }
 
-function checkMissionProgress() {
-  let updated = false;
-  gameState.missions.forEach(mission => {
-    if (!mission.completed) {
-      // Atualiza progresso dependendo do tipo
-      switch (mission.id) {
-        case 1: // Clique 100 vezes
-          if (gameState.totalClicks >= mission.goal) {
-            mission.completed = true;
-            updated = true;
-            gainXP(mission.rewardXP);
-            showNotification(`Missão concluída: ${mission.description}!`, "success");
-          } else {
-            mission.progress = gameState.totalClicks;
-          }
-          break;
-        case 2: // Compre 5 upgrades
-          const totalUpgrades = gameState.upgrades.reduce((sum, u) => sum + u.quantity, 0);
-          if (totalUpgrades >= mission.goal) {
-            mission.completed = true;
-            updated = true;
-            gainXP(mission.rewardXP);
-            showNotification(`Missão concluída: ${mission.description}!`, "success");
-          } else {
-            mission.progress = totalUpgrades;
-          }
-          break;
-        case 3: // Faça 1 rebirth
-          if (gameState.rebirths >= mission.goal) {
-            mission.completed = true;
-            updated = true;
-            gainXP(mission.rewardXP);
-            showNotification(`Missão concluída: ${mission.description}!`, "success");
-          } else {
-            mission.progress = gameState.rebirths;
-          }
-          break;
-        case 4: // Tenha 3 pets ativos (modifiquei para "possuídos")
-          const ownedPets = gameState.pets.filter(p => p.owned).length;
-          if (ownedPets >= mission.goal) {
-            mission.completed = true;
-            updated = true;
-            gainXP(mission.rewardXP);
-            showNotification(`Missão concluída: ${mission.description}!`, "success");
-          } else {
-            mission.progress = ownedPets;
-          }
-          break;
-        case 5: // Gere 1M clicks no total
-          if (gameState.totalClicks >= mission.goal) {
-            mission.completed = true;
-            updated = true;
-            gainXP(mission.rewardXP);
-            showNotification(`Missão concluída: ${mission.description}!`, "success");
-          } else {
-            mission.progress = gameState.totalClicks;
-          }
-          break;
-      }
-    }
-  });
-  if (updated) updateMissions();
-}
-
-function updateAchievements() {
+// Conquistas
+function renderAchievements() {
   const container = $("achievementsList");
   container.innerHTML = "";
-  gameState.achievements.forEach(ach => {
-    const achieved = ach.achieved ? "🏅" : "🔒";
-    const li = document.createElement("li");
-    li.textContent = `${achieved} ${ach.name} — ${ach.description}`;
+  gameState.achievements.forEach(a => {
+    const li = createEl("li", {
+      className: "achievement-item " + (a.achieved ? "completed" : "")
+    }, a.description + (a.achieved ? " ✅" : ""));
     container.appendChild(li);
   });
-
-  // Verifica conquistas a desbloquear
-  if (!gameState.achievements[0].achieved && gameState.totalClicks >= 1) {
-    gameState.achievements[0].achieved = true;
-    showNotification("Conquista desbloqueada: Primeiro Click!", "success");
-  }
-  if (!gameState.achievements[1].achieved && gameState.level >= 10) {
-    gameState.achievements[1].achieved = true;
-    showNotification("Conquista desbloqueada: Novato!", "success");
-  }
-  if (!gameState.achievements[2].achieved && gameState.totalClicks >= 1000) {
-    gameState.achievements[2].achieved = true;
-    showNotification("Conquista desbloqueada: Profissional!", "success");
-  }
-  if (!gameState.achievements[3].achieved && gameState.rebirths >= 10) {
-    gameState.achievements[3].achieved = true;
-    showNotification("Conquista desbloqueada: Veterano!", "success");
-  }
-  if (!gameState.achievements[4].achieved && gameState.pets.every(p => p.owned)) {
-    gameState.achievements[4].achieved = true;
-    showNotification("Conquista desbloqueada: Colecionador!", "success");
-  }
-  saveGame();
 }
 
-function saveRanking() {
-  const name = $("playerNameInput").value.trim();
-  if (!name) {
-    showNotification("Digite seu nome para salvar o ranking!", "error");
+function checkMissions() {
+  gameState.missions.forEach(m => {
+    if (m.completed) return;
+    if (m.id === "mission1" && gameState.totalClicks >= m.goal) m.completed = true;
+    if (m.id === "mission2") {
+      const upgradesOwned = gameState.upgrades.reduce((acc, u) => acc + (u.owned || 0), 0);
+      if (upgradesOwned >= m.goal) m.completed = true;
+    }
+    if (m.id === "mission3" && gameState.totalClicks >= m.goal) m.completed = true;
+    if (m.id === "mission4") {
+      const petsOwned = gameState.pets.filter(p => p.unlocked).length;
+      if (petsOwned >= m.goal) m.completed = true;
+    }
+    if (m.completed) {
+      gainXP(m.rewardXP);
+      showNotification(`Missão concluída! +${m.rewardXP} XP`);
+    }
+  });
+}
+
+function checkAchievements() {
+  gameState.achievements.forEach(a => {
+    if (a.achieved) return;
+    if (a.id === "achv_click100" && gameState.totalClicks >= 100) a.achieved = true;
+    if (a.id === "achv_rebirth1" && gameState.rebirths >= 1) a.achieved = true;
+    if (a.id === "achv_level5" && gameState.level >= 5) a.achieved = true;
+    if (a.achieved) {
+      showNotification(`Conquista desbloqueada: ${a.description}`);
+    }
+  });
+}
+
+// Ranking Firebase
+const rankingRef = ref(db, "ranking");
+async function saveScore() {
+  const name = $("playerNameInput").value.trim() || "Anônimo";
+  if (gameState.totalClicks <= 0) {
+    showNotification("Você ainda não fez nenhum clique!");
     return;
   }
+  const scoreData = {
+    name,
+    score: gameState.totalClicks,
+    timestamp: Date.now()
+  };
+  const newScoreRef = push(rankingRef);
+  await set(newScoreRef, scoreData);
+  showNotification("Pontuação salva!");
+  $("playerNameInput").value = "";
+  loadRanking();
+}
 
-  const dataRef = ref(db, "ranking");
-  push(dataRef).then(pushRef => {
-    return set(pushRef, {
-      name,
-      clicks: gameState.totalClicks,
-      level: gameState.level,
-      timestamp: Date.now()
-    });
-  }).then(() => {
-    showNotification("Ranking salvo com sucesso!", "success");
-    loadRanking();
-  }).catch(() => {
-    showNotification("Falha ao salvar ranking!", "error");
-  });
+function renderRanking() {
+  // inicial vazio, o conteúdo será carregado via Firebase
+  $("detailedRankingList").textContent = "Carregando ranking...";
 }
 
 function loadRanking() {
-  const rankingContainer = $("detailedRankingList");
-  rankingContainer.innerHTML = "Carregando ranking...";
-
-  const rankingRef = query(ref(db, "ranking"), orderByChild("clicks"), limitToLast(10));
-  get(rankingRef).then(snapshot => {
-    if (!snapshot.exists()) {
-      rankingContainer.textContent = "Nenhum dado no ranking ainda.";
+  const q = query(rankingRef, orderByChild("score"), limitToLast(10));
+  onValue(q, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) {
+      $("detailedRankingList").textContent = "Sem dados no ranking.";
       return;
     }
-
-    const data = [];
-    snapshot.forEach(childSnap => {
-      data.push(childSnap.val());
+    const list = Object.values(data).sort((a, b) => b.score - a.score);
+    const container = $("detailedRankingList");
+    container.innerHTML = "";
+    list.forEach((entry, i) => {
+      const div = createEl("div", {}, `${i + 1}º - ${entry.name}: ${formatNumber(entry.score)}`);
+      container.appendChild(div);
     });
-
-    // Ordenar desc
-    data.sort((a, b) => b.clicks - a.clicks);
-
-    rankingContainer.innerHTML = "<ol>";
-    data.forEach(player => {
-      rankingContainer.innerHTML += `<li>${player.name} — ${formatNumber(player.clicks)} clicks — Nível ${player.level}</li>`;
-    });
-    rankingContainer.innerHTML += "</ol>";
-  }).catch(() => {
-    rankingContainer.textContent = "Erro ao carregar ranking.";
   });
 }
 
-function clearSave() {
-  if (confirm("Tem certeza que deseja apagar seu progresso?")) {
-    localStorage.removeItem("clickerSave");
-    location.reload();
-  }
+// Chat Global Firebase
+const chatRef = ref(db, "chat");
+
+function sendChatMessage() {
+  const msg = $("chatInput").value.trim();
+  if (!msg) return;
+  const newMsgRef = push(chatRef);
+  const data = {
+    name: $("playerNameInput").value.trim() || "Anônimo",
+    message: msg,
+    timestamp: Date.now()
+  };
+  set(newMsgRef, data);
+  $("chatInput").value = "";
 }
 
-function rebirth() {
-  if (gameState.clicks < 10000) {
-    showNotification("Você precisa de pelo menos 10.000 clicks para fazer Rebirth!", "error");
+function loadChat() {
+  onValue(chatRef, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
+    const container = $("chatMessages");
+    container.innerHTML = "";
+    const msgs = Object.values(data).sort((a,b) => a.timestamp - b.timestamp);
+    msgs.forEach(m => {
+      const div = createEl("div", {}, `${m.name}: ${m.message}`);
+      container.appendChild(div);
+    });
+    container.scrollTop = container.scrollHeight;
+  });
+}
+
+// Rebirth (reset progress com bônus)
+function doRebirth() {
+  if (gameState.clicks < 100000) {
+    showNotification("Você precisa de 100.000 clicks para rebirth!");
     return;
   }
   gameState.rebirths++;
   gameState.clicks = 0;
   gameState.totalClicks = 0;
+  gameState.cps = 0;
   gameState.level = 1;
   gameState.xp = 0;
   gameState.xpToNext = 100;
-  // Reset upgrades, pets, loja
-  initGameData();
-  showNotification("Rebirth realizado! Comece de novo com bônus!", "success");
-  updateDisplay();
-  updateUpgradesDisplay();
-  updateShopDisplay();
-  updatePetsDisplay();
-  updateMissions();
-  updateAchievements();
+  gameState.upgrades.forEach(u => u.owned = 0);
+  gameState.pets.forEach(p => p.unlocked = false);
+  showNotification("Rebirth feito! Bônus ativado.");
+  updateUI();
+}
+
+// Tema claro/escuro
+function setTheme(theme) {
+  gameState.theme = theme;
+  if (theme === "dark") {
+    document.body.style.background = "linear-gradient(45deg, #0a0a0a, #111111)";
+    document.body.style.color = "#eee";
+  } else {
+    document.body.style.background = "#f0f0f0";
+    document.body.style.color = "#222";
+  }
   saveGame();
 }
 
 function toggleTheme() {
-  if (gameState.theme === "dark") {
-    document.body.classList.remove("dark");
-    document.body.classList.add("light");
-    $("toggleTheme").textContent = "🌙";
-    gameState.theme = "light";
-  } else {
-    document.body.classList.remove("light");
-    document.body.classList.add("dark");
-    $("toggleTheme").textContent = "☀️";
-    gameState.theme = "dark";
-  }
-  saveGame();
+  if (gameState.theme === "dark") setTheme("light");
+  else setTheme("dark");
 }
 
-function mainLoop() {
-  const cps = calcCPS();
-  if (cps > 0) gainClicks(cps / 10); // 10 vezes por segundo para suavizar
-  updateDisplay();
-}
-
-function init() {
+// Eventos iniciais
+window.onload = () => {
   loadGame();
-
-  updateDisplay();
-  updateUpgradesDisplay();
-  updateShopDisplay();
-  updatePetsDisplay();
-  updateMissions();
-  updateAchievements();
+  updateUI();
   loadRanking();
+  loadChat();
 
-  $("clickBtn").onclick = () => {
-    gainClicks(1);
+  // Clique botão
+  $("clickBtn").onclick = () => gainClicks(baseClickPower);
+
+  // Salvar progresso
+  $("saveBtn").onclick = saveGame;
+
+  // Limpar save
+  $("clearSaveBtn").onclick = () => {
+    localStorage.removeItem("clickerGameSave");
+    location.reload();
   };
 
-  $("saveBtn").onclick = saveGame;
-  $("clearSaveBtn").onclick = clearSave;
-  $("rebirthBtn").onclick = rebirth;
-  $("saveScoreBtn").onclick = saveRanking;
+  // Salvar ranking
+  $("saveScoreBtn").onclick = saveScore;
+
+  // Chat
+  $("chatSendBtn").onclick = sendChatMessage;
+  $("chatInput").addEventListener("keydown", e => {
+    if (e.key === "Enter") sendChatMessage();
+  });
+
+  // Rebirth
+  $("rebirthBtn").onclick = doRebirth;
+
+  // Tema
   $("toggleTheme").onclick = toggleTheme;
 
-  $("chatSendBtn").onclick = sendChatMessage;
+  // CPS automático (intervalo 1s)
+  setInterval(() => {
+    gainClicks(gameState.cps);
+    checkMissions();
+    checkAchievements();
+    saveGame();
+  }, 1000);
+};
 
-  setInterval(mainLoop, 100); // loop a cada 100ms
-
-  // Aplica tema salvo
-  if (gameState.theme === "light") {
-    document.body.classList.add("light");
-    $("toggleTheme").textContent = "🌙";
-  } else {
-    document.body.classList.add("dark");
-    $("toggleTheme").textContent = "☀️";
-  }
-}
-
-// Chat global (simples)
-function sendChatMessage() {
-  const msg = $("chatInput").value.trim();
-  if (!msg) return;
-
-  const now = Date.now();
-  if (now - gameState.lastChatTimestamp < 2000) { // Anti spam 2s
-    showNotification("Espere 2 segundos para enviar outra mensagem!", "error");
-    return;
-  }
-
-  gameState.lastChatTimestamp = now;
-  $("chatInput").value = "";
-
-  // Mostra na tela só (sem servidor real, pois não temos backend)
-  const chatMessages = $("chatMessages");
-  const msgEl = document.createElement("div");
-  msgEl.textContent = `Você: ${msg}`;
-  chatMessages.appendChild(msgEl);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-  saveGame();
-}
-
-window.onload = init;
+// Base click power inicial
+let baseClickPower = 1;
