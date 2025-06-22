@@ -3,237 +3,297 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #121212;
+  background-color: #121212;
   color: #eee;
-  line-height: 1.5;
   min-height: 100vh;
-  transition: background 0.3s ease, color 0.3s ease;
+  display: flex;
+  justify-content: center;
   padding: 20px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
+/* Tema claro */
 body.light-theme {
-  background: #f0f0f3;
+  background-color: #f0f0f0;
   color: #222;
 }
 
-/* Container central */
+/* Container principal */
 #container {
   max-width: 960px;
-  margin: 0 auto;
-  padding: 0 15px;
-}
-
-/* Títulos */
-h1 {
-  font-size: 2.8rem;
-  margin-bottom: 20px;
-  font-weight: 700;
-  text-align: center;
-  letter-spacing: 1px;
-  color: #1e90ff;
-}
-
-h2 {
-  font-size: 1.6rem;
-  margin-bottom: 15px;
-  border-bottom: 2px solid #1e90ff;
-  padding-bottom: 6px;
-}
-
-/* Estatísticas */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 12px 20px;
-  background: #222;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 25px;
-  box-shadow: 0 3px 10px rgba(30,144,255,0.3);
-}
-
-body.light-theme .stats {
-  background: #e0e7f7;
-  color: #333;
-  box-shadow: 0 3px 15px rgba(30,144,255,0.2);
-}
-
-.stats div {
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
-/* Botão principal de click */
-#clickBtn {
   width: 100%;
-  padding: 18px 0;
-  font-size: 2.2rem;
-  background: linear-gradient(135deg, #1e90ff 0%, #0a63cc 100%);
-  border: none;
-  border-radius: 16px;
-  color: white;
+  background: rgba(30, 30, 30, 0.85);
+  border-radius: 12px;
+  padding: 20px 30px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.7);
+  transition: background 0.3s, color 0.3s;
+}
+
+body.light-theme #container {
+  background: #fff;
+  box-shadow: 0 0 25px rgba(0,0,0,0.1);
+}
+
+/* Título */
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
   font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 6px 15px rgba(30,144,255,0.6);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  margin-bottom: 30px;
+  font-size: 2.8rem;
   user-select: none;
 }
 
-#clickBtn:hover,
-#clickBtn:focus {
-  background: linear-gradient(135deg, #0a63cc 0%, #1e90ff 100%);
-  box-shadow: 0 8px 22px rgba(30,144,255,0.8);
-  outline: none;
-}
-
-/* Layout flexível para seções */
-.flex-row {
+/* Stats */
+.stats {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 15px;
   justify-content: center;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
-/* Caixas de conteúdo */
-.box {
-  background: #222;
-  border-radius: 14px;
-  padding: 20px;
-  flex: 1 1 280px;
-  min-width: 280px;
-  max-width: 100%;
-  box-shadow: 0 4px 15px rgba(30,144,255,0.3);
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-body.light-theme .box {
-  background: #f5f8ff;
-  color: #222;
-  box-shadow: 0 4px 15px rgba(30,144,255,0.15);
-}
-
-/* Botões internos */
-.box button {
-  background: #1e90ff;
-  border: none;
-  color: white;
-  font-weight: 600;
-  padding: 8px 14px;
+.stats > div {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12px 18px;
   border-radius: 8px;
-  cursor: pointer;
-  margin-left: 8px;
-  transition: background 0.25s ease;
-  font-size: 0.9rem;
+  min-width: 130px;
+  text-align: center;
+  font-weight: 600;
   user-select: none;
+  transition: background-color 0.3s;
 }
 
-.box button:disabled,
-.box button[disabled] {
-  background: #555 !important;
-  cursor: not-allowed;
-  color: #ccc;
+body.light-theme .stats > div {
+  background: #e0e0e0;
+  color: #111;
 }
 
-.box button:hover:not(:disabled),
-.box button:focus:not(:disabled) {
-  background: #0c65d0;
-  outline: none;
-}
-
-/* List items simples dentro das caixas */
-.box div {
-  margin-bottom: 8px;
-  font-size: 1rem;
-}
-
-/* Input do nome para ranking */
-#playerNameInput {
+/* Botão principal */
+#clickBtn {
+  display: block;
   width: 100%;
-  padding: 8px 12px;
+  padding: 18px 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: #00b894;
+  border: none;
   border-radius: 10px;
-  border: 2px solid #1e90ff;
-  font-size: 1rem;
-  margin-bottom: 10px;
-  transition: border-color 0.3s ease;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.25s, transform 0.15s ease;
+  user-select: none;
+  margin-bottom: 30px;
+  box-shadow: 0 6px 10px rgba(0, 184, 148, 0.6);
 }
 
-#playerNameInput:focus {
-  outline: none;
-  border-color: #0c65d0;
+#clickBtn:hover {
+  background: #019f7a;
 }
 
-/* Ranking List */
-#rankingList {
-  max-height: 220px;
-  overflow-y: auto;
-  background: #111;
-  padding: 12px 15px;
-  border-radius: 10px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 1rem;
-  color: #a1cfff;
-  box-shadow: inset 0 0 8px #0a3e87;
+#clickBtn:active {
+  transform: scale(0.95);
 }
 
-body.light-theme #rankingList {
-  background: #dbe6ff;
-  color: #0a3e87;
-  box-shadow: inset 0 0 8px #5a85e0;
+/* Animação do clique */
+#clickBtn.clicked {
+  animation: clickAnim 0.15s ease;
 }
 
-/* Tema toggle botão fixo no topo direito */
+@keyframes clickAnim {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+/* Botão toggle tema */
 #toggleTheme {
   position: fixed;
   top: 20px;
   right: 20px;
   background: transparent;
   border: none;
-  font-size: 28px;
+  font-size: 1.8rem;
   cursor: pointer;
-  color: #1e90ff;
-  transition: color 0.3s ease;
+  color: #eee;
   user-select: none;
-  z-index: 9999;
+  transition: color 0.3s;
+  z-index: 100;
 }
 
-#toggleTheme:hover {
-  color: #0c65d0;
+body.light-theme #toggleTheme {
+  color: #222;
 }
 
-/* Scrollbar customizada para ranking (Chrome/Edge/Firefox) */
-#rankingList::-webkit-scrollbar {
+/* Flex containers para as caixas */
+.flex-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  justify-content: center;
+}
+
+/* Caixas com sombra */
+.box {
+  background: rgba(40, 40, 40, 0.85);
+  padding: 15px 20px;
+  border-radius: 10px;
+  flex: 1 1 280px;
+  min-width: 280px;
+  max-height: 350px;
+  overflow-y: auto;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.light-theme .box {
+  background: #fafafa;
+  color: #222;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+/* Scrollbar customizada */
+.box::-webkit-scrollbar {
   width: 8px;
 }
-#rankingList::-webkit-scrollbar-track {
+
+.box::-webkit-scrollbar-track {
   background: transparent;
 }
-#rankingList::-webkit-scrollbar-thumb {
-  background-color: #1e90ff;
+
+.box::-webkit-scrollbar-thumb {
+  background: #00b894;
   border-radius: 4px;
 }
+
+body.light-theme .box::-webkit-scrollbar-thumb {
+  background: #019f7a;
+}
+
+/* Cabeçalhos das caixas */
+.box h2 {
+  margin-bottom: 15px;
+  font-weight: 700;
+  text-align: center;
+  user-select: none;
+}
+
+/* Itens dentro das caixas */
+.upgrade-item, .shop-item, .pet-item, .mission-item, .achievement-item {
+  margin-bottom: 12px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Botões dentro das listas */
+.upgrade-item button,
+.shop-item button,
+.pet-item button {
+  background: #0984e3;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background-color 0.25s;
+  user-select: none;
+  min-width: 80px;
+  text-align: center;
+}
+
+.upgrade-item button:hover,
+.shop-item button:hover,
+.pet-item button:hover {
+  background: #065fad;
+}
+
+.upgrade-item button:disabled,
+.shop-item button:disabled,
+.pet-item button:disabled {
+  background: #555;
+  cursor: not-allowed;
+  color: #ccc;
+}
+
+/* Inputs e botões no ranking */
+#playerNameInput {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  user-select: text;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.light-theme #playerNameInput {
+  background: #eee;
+  color: #222;
+}
+
+#saveScoreBtn {
+  width: 100%;
+  background: #6c5ce7;
+  color: #fff;
+  border: none;
+  padding: 12px 0;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.25s;
+  user-select: none;
+}
+
+#saveScoreBtn:hover:not(:disabled) {
+  background: #4834d4;
+}
+
+#saveScoreBtn:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+/* Ranking lista */
 #rankingList {
-  scrollbar-width: thin;
-  scrollbar-color: #1e90ff transparent;
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 8px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  font-weight: 600;
+  user-select: none;
+}
+
+body.light-theme #rankingList {
+  background: #ddd;
+  color: #222;
 }
 
 /* Responsividade */
 @media (max-width: 720px) {
+  #container {
+    padding: 15px 20px;
+  }
   .flex-row {
     flex-direction: column;
+    gap: 25px;
   }
+  .box {
+    max-height: none;
+  }
+}
 
-  #clickBtn {
-    font-size: 1.8rem;
-    padding: 14px 0;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
+/* Texto user-select none para evitar seleção indesejada na UI */
+h1, .stats > div, .box h2 {
+  user-select: none;
 }
