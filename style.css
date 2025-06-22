@@ -1,84 +1,209 @@
+/* style.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap');
+
 body {
   background: linear-gradient(45deg, #000, #111);
   color: white;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
   padding: 20px;
-  animation: rgbBackground 5s infinite linear;
+  animation: rgbBackground 10s infinite linear;
+  min-height: 100vh;
+  margin: 0;
 }
 
 @keyframes rgbBackground {
   0% { background-color: #ff0000; }
-  25% { background-color: #00ff00; }
-  50% { background-color: #0000ff; }
-  75% { background-color: #ffff00; }
-  100% { background-color: #ff00ff; }
+  20% { background-color: #00ff00; }
+  40% { background-color: #0000ff; }
+  60% { background-color: #ffff00; }
+  80% { background-color: #ff00ff; }
+  100% { background-color: #00ffff; }
 }
 
 h1 {
-  font-size: 3em;
-  text-shadow: 0 0 10px #fff;
-  margin-bottom: 10px;
+  font-size: 3rem;
+  text-shadow: 0 0 15px #fff;
+  margin-bottom: 15px;
+  user-select: none;
 }
 
-button {
-  background: #222;
-  color: white;
-  padding: 10px 20px;
-  margin: 10px;
-  border: 2px solid white;
-  cursor: pointer;
-  transition: all 0.3s;
-  border-radius: 10px;
-}
-
-button:hover {
-  background: #fff;
-  color: #000;
-}
-
-.upgrade, .pet {
-  background: rgba(255, 255, 255, 0.05);
-  margin: 10px auto;
-  padding: 15px;
-  border-radius: 8px;
-  width: 300px;
-  text-align: left;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+h2 {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-shadow: 0 0 8px #0ff;
+  user-select: none;
 }
 
 #clickArea {
-  margin: 30px auto;
-  background: radial-gradient(circle, #555, #222);
+  margin: 0 auto 30px;
+  background: radial-gradient(circle, #222, #000);
   border-radius: 50%;
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2em;
+  font-size: 2.4rem;
+  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 0 20px #fff;
-  transition: transform 0.1s;
+  box-shadow: 0 0 25px #0ff;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+  user-select: none;
 }
 
 #clickArea:active {
-  transform: scale(0.95);
-  box-shadow: 0 0 40px #fff;
+  transform: scale(0.9);
+  box-shadow: 0 0 50px #0ff;
 }
 
-#stats {
-  margin: 20px;
-  font-size: 1.2em;
+#stats p {
+  font-size: 1.2rem;
+  margin: 5px 0;
+  user-select: none;
 }
 
-#upgradesList, #petsList {
+section {
+  max-width: 600px;
+  margin: 0 auto 40px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 15px 25px;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+#upgrades, #shopList, #petsList {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
 }
 
-@media screen and (max-width: 600px) {
-  body { font-size: 90%; }
-  .upgrade, .pet { width: 90%; }
+.upgrade-item, .shop-item, .pet-item {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #00ffff;
+  border-radius: 12px;
+  width: 170px;
+  padding: 15px;
+  text-align: left;
+  box-shadow: 0 0 10px #00ffffaa;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+.upgrade-item:hover, .shop-item:hover, .pet-item:hover {
+  background: rgba(0, 255, 255, 0.2);
+}
+
+.upgrade-item h4, .shop-item h4, .pet-item h4 {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+  text-shadow: 0 0 5px #0ff;
+}
+
+.upgrade-item p, .shop-item p, .pet-item p {
+  margin: 4px 0;
+  font-size: 0.9rem;
+}
+
+.upgrade-item button, .shop-item button, .pet-item button, #sendScoreBtn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px 0;
+  font-weight: 600;
+  color: #000;
+  background: #00ffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 8px #00ffffaa;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.upgrade-item button:disabled, .shop-item button:disabled, .pet-item button:disabled {
+  background: #00808088;
+  cursor: not-allowed;
+  box-shadow: none;
+  color: #444;
+}
+
+.upgrade-item button:hover:not(:disabled), .shop-item button:hover:not(:disabled), .pet-item button:hover:not(:disabled), #sendScoreBtn:hover:not(:disabled) {
+  background: #00b8b8;
+  color: #fff;
+  box-shadow: 0 0 15px #00ffff;
+}
+
+#missionsList, #achievementsList {
+  text-align: left;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-left: 15px;
+  user-select: none;
+}
+
+#missionsList li, #achievementsList li {
+  margin: 6px 0;
+  font-size: 1rem;
+}
+
+.achievement-item.completed {
+  color: #00ff00;
+  font-weight: bold;
+  text-shadow: 0 0 6px #00ff00;
+}
+
+#rankingList {
+  max-height: 200px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 10px;
+  text-align: left;
+  box-shadow: 0 0 12px #0ff;
+  user-select: none;
+}
+
+#rankingList div {
+  padding: 5px 0;
+  border-bottom: 1px solid #00ffff44;
+}
+
+#rankingList div:last-child {
+  border-bottom: none;
+}
+
+#playerName {
+  width: 60%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  box-shadow: 0 0 10px #00ffffaa;
+}
+
+#notification {
+  font-size: 1.1rem;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Responsivo */
+
+@media (max-width: 720px) {
+  #upgrades, #shopList, #petsList {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .upgrade-item, .shop-item, .pet-item {
+    width: 90%;
+  }
+
+  #playerName {
+    width: 90%;
+  }
 }
