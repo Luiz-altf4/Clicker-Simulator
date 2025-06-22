@@ -7,74 +7,71 @@
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>Clicker Simulator</h1>
-    <button id="toggleTheme" title="Alternar Tema">☀️</button>
-  </header>
+<header>
+  <h1>Clicker Simulator</h1>
+  <button id="toggleTheme" aria-label="Alternar tema">☀️</button>
+</header>
 
-  <main>
-    <section id="game-info">
-      <div>Clicks: <span id="clicksDisplay">0</span></div>
-      <div>Total Clicks: <span id="totalClicksStat">0</span></div>
-      <div>Clicks por segundo (CPS): <span id="cpsDisplay">0</span></div>
-      <div>Nível: <span id="levelDisplay">1</span></div>
-      <div>XP: <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
-      <div>Rebirths: <span id="rebirthCount">0</span></div>
-      <div>Mundo: <span id="currentWorld">1 - Jardim Inicial</span></div>
-    </section>
-
-    <button id="clickBtn" class="big-btn">Clique aqui!</button>
+<main>
+  <section id="gameSection">
+    <button id="clickBtn" aria-label="Clique para ganhar clicks">Clique aqui!</button>
+    <p>Clicks: <span id="clicksDisplay">0</span></p>
+    <p>Total Clicks: <span id="totalClicksStat">0</span></p>
+    <p>CPS: <span id="cpsDisplay">0</span></p>
+    <p>Nível: <span id="levelDisplay">1</span></p>
+    <p>XP: <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></p>
+    <p>Rebirths: <span id="rebirthCount">0</span></p>
+    <p>Mundo: <span id="currentWorld">1 - Jardim Inicial</span></p>
     <button id="rebirthBtn">Rebirth</button>
+  </section>
 
-    <section id="upgrades-section">
-      <h2>Upgrades</h2>
-      <div id="upgrades"></div>
-    </section>
+  <section id="upgradesSection">
+    <h2>Upgrades</h2>
+    <div id="upgrades"></div>
+  </section>
 
-    <section id="shop-section">
-      <h2>Loja</h2>
-      <div id="shopList"></div>
-    </section>
+  <section id="shopSection">
+    <h2>Loja</h2>
+    <div id="shopList"></div>
+  </section>
 
-    <section id="pets-section">
-      <h2>Pets</h2>
-      <div id="pets"></div>
-    </section>
+  <section id="petsSection">
+    <h2>Pets</h2>
+    <div id="pets"></div>
+  </section>
 
-    <section id="missions-section">
-      <h2>Missões</h2>
-      <ul id="missions"></ul>
-    </section>
+  <section id="missionsSection">
+    <h2>Missões</h2>
+    <ul id="missions"></ul>
+  </section>
 
-    <section id="achievements-section">
-      <h2>Conquistas</h2>
-      <ul id="achievementsList"></ul>
-    </section>
+  <section id="achievementsSection">
+    <h2>Conquistas</h2>
+    <ul id="achievementsList"></ul>
+  </section>
 
-    <section id="ranking-section">
-      <h2>Ranking</h2>
-      <input id="playerNameInput" placeholder="Seu nome" />
-      <button id="saveScoreBtn">Enviar pontuação</button>
-      <div id="detailedRankingList"></div>
-    </section>
+  <section id="rankingSection">
+    <h2>Ranking Online</h2>
+    <input type="text" id="playerNameInput" placeholder="Seu nome" maxlength="15" />
+    <button id="saveScoreBtn">Salvar Pontuação</button>
+    <div id="detailedRankingList">Carregando ranking...</div>
+  </section>
 
-    <section id="chat-section">
-      <h2>Chat Global</h2>
-      <div id="chatMessages" class="chat-messages">Nenhuma mensagem ainda.</div>
-      <input id="chatInput" placeholder="Digite uma mensagem" />
-      <button id="chatSendBtn">Enviar</button>
-    </section>
+  <section id="chatSection">
+    <h2>Chat Global</h2>
+    <div id="chatMessages" tabindex="0" aria-live="polite" aria-relevant="additions"></div>
+    <input type="text" id="chatInput" placeholder="Digite sua mensagem" maxlength="200" />
+    <button id="chatSendBtn">Enviar</button>
+  </section>
 
-    <section id="notifications">
-      <div id="notification" class="notification"></div>
-    </section>
+  <section id="saveControls">
+    <button id="saveBtn">Salvar Progresso</button>
+    <button id="clearSaveBtn">Limpar Progresso</button>
+  </section>
 
-    <section id="controls">
-      <button id="saveBtn">Salvar Progresso</button>
-      <button id="clearSaveBtn">Limpar Progresso</button>
-    </section>
-  </main>
+  <div id="notification" role="alert" aria-live="assertive" style="display:none;"></div>
+</main>
 
-  <script type="module" src="script.js"></script>
+<script type="module" src="script.js"></script>
 </body>
 </html>
