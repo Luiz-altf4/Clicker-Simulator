@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Clicker Simulator</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -51,6 +48,16 @@
     <p id="activePet" style="margin-top:10px; font-weight:bold;">Pet ativo: Nenhum</p>
   </section>
 
+  <section class="missions" aria-label="Lista de missões">
+    <h2>Missões</h2>
+    <div id="missionsList"></div>
+  </section>
+
+  <section class="achievements" aria-label="Lista de conquistas">
+    <h2>Conquistas</h2>
+    <div id="achievementsList"></div>
+  </section>
+
   <section class="worlds" aria-label="Mundos desbloqueáveis">
     <h2>Mundos</h2>
     <div id="worldsList"></div>
@@ -61,14 +68,12 @@
     <p id="rebirthInfo" style="margin-top:10px;"></p>
   </section>
 
-  <!-- Ranking fixo no canto direito -->
-  <section id="rankingPanel" aria-label="Ranking dos jogadores">
-    <h3>Ranking Online</h3>
+  <section class="ranking" aria-label="Ranking dos jogadores">
+    <h2>Ranking - Top 10 Jogadores</h2>
     <ol id="rankingList"></ol>
-    <input id="playerNameInput" type="text" placeholder="Seu nome..." maxlength="20" />
-    <button id="saveScoreBtn" class="btn">Salvar Pontuação</button>
   </section>
 
+  <script src="firebase-config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
