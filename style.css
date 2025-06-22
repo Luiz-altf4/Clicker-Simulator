@@ -1,5 +1,4 @@
-/* Basic styling based on your old styles */
-
+/* Estilos básicos para organização */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #121212;
@@ -11,12 +10,10 @@ body {
   align-items: center;
   min-height: 100vh;
 }
-
 header {
   margin: 20px 0;
   text-align: center;
 }
-
 button {
   cursor: pointer;
   background: #333;
@@ -27,21 +24,17 @@ button {
   border-radius: 5px;
   transition: background 0.3s;
 }
-
 button:hover:not(:disabled) {
   background: #555;
 }
-
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-
 h2 {
   margin-top: 20px;
 }
-
-.stats, .upgrades, .shop, .pets, .worlds, .rebirth-section, .buy-amounts, .ranking {
+.stats, .upgrades, .shop, .pets, .worlds, .rebirth-section, .buy-amounts {
   width: 100%;
   max-width: 600px;
   background: #222;
@@ -50,12 +43,10 @@ h2 {
   margin-bottom: 20px;
   box-shadow: 0 0 10px #000;
 }
-
 .stats div {
   margin: 6px 0;
   font-size: 1.1rem;
 }
-
 #clickBtn {
   font-size: 1.5rem;
   padding: 20px 40px;
@@ -66,7 +57,6 @@ h2 {
   font-weight: bold;
   user-select: none;
 }
-
 .upgrade-row, .shop-item, .pet-card, .world-card {
   display: flex;
   justify-content: space-between;
@@ -76,74 +66,60 @@ h2 {
   margin-bottom: 8px;
   border-radius: 8px;
 }
-
 .upgrade-row div, .shop-item h3, .pet-name {
   flex: 1;
 }
-
 .pet-card {
   flex-direction: column;
   align-items: flex-start;
   padding: 10px;
   cursor: pointer;
 }
-
 .pet-card.disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-
 .pet-card.active {
   border: 2px solid #0a84ff;
 }
-
 .pet-emoji {
   font-size: 2rem;
 }
-
 .pet-bonus, .pet-price {
   font-size: 0.9rem;
   margin-top: 2px;
   color: #aaa;
 }
-
 .btn {
   min-width: 100px;
   font-weight: 600;
 }
-
 .shop-buy-btn {
   min-width: 140px;
 }
-
 .world-card {
   padding: 12px;
   cursor: pointer;
   border-radius: 8px;
   text-align: center;
 }
-
 .world-card.disabled {
   opacity: 0.3;
   cursor: not-allowed;
 }
-
 .world-card.active {
   background: #0a84ff;
   font-weight: bold;
   color: white;
 }
-
 .buy-amounts button {
   margin: 0 5px;
   padding: 6px 14px;
 }
-
 .buy-amounts .active {
   background: #0a84ff;
   color: white;
 }
-
 #toggleTheme {
   position: fixed;
   top: 15px;
@@ -159,29 +135,76 @@ body.light-theme {
   background: #f0f0f0;
   color: #222;
 }
-
 body.light-theme .stats,
 body.light-theme .upgrades,
 body.light-theme .shop,
 body.light-theme .pets,
 body.light-theme .worlds,
 body.light-theme .rebirth-section,
-body.light-theme .buy-amounts,
-body.light-theme .ranking {
+body.light-theme .buy-amounts {
   background: #fff;
   color: #222;
   box-shadow: 0 0 10px #ccc;
 }
-
 body.light-theme button {
   background: #ddd;
   color: #222;
 }
-
 body.light-theme button:hover:not(:disabled) {
   background: #bbb;
 }
-
 body.light-theme .world-card.active {
   background: #007aff;
+}
+
+/* Ranking fixo no canto direito */
+#rankingPanel {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  width: 220px;
+  height: 320px;
+  background: #222;
+  color: #eee;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 0 10px #000;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  z-index: 1000;
+}
+
+#rankingPanel h3 {
+  margin-top: 0;
+  text-align: center;
+}
+
+#rankingPanel ol {
+  padding-left: 20px;
+  max-height: 240px;
+  overflow-y: auto;
+  margin: 0;
+}
+
+#rankingPanel input,
+#rankingPanel button {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+  width: 100%;
+  margin-top: 6px;
+  padding: 6px;
+  border-radius: 5px;
+  border: none;
+}
+
+#rankingPanel button {
+  background: #0a84ff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#rankingPanel button:hover {
+  background: #0066cc;
 }
