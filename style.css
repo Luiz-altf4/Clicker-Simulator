@@ -1,1558 +1,360 @@
-/* === CSS Supremo - Parte 1 === */
-
 /* Reset básico */
-* {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #eee;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html {
+  font-size: 16px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  scroll-behavior: smooth;
 }
 
-/* Scroll customizado */
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: #1a1a1a;
-  border-radius: 5px;
-}
-::-webkit-scrollbar-thumb {
-  background: #4a90e2;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #357ABD;
-}
-
-/* Container principal */
-#container {
-  max-width: 1200px;
-  margin: 40px auto 60px;
-  background: rgba(30, 30, 30, 0.85);
-  border-radius: 20px;
-  padding: 30px 40px;
-  box-shadow:
-    0 4px 15px rgba(0, 0, 0, 0.4),
-    inset 0 0 20px #4a90e2;
+body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  user-select: none;
-  position: relative;
+  min-height: 100vh;
+  padding: 1rem;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
-/* Cabeçalho */
-h1 {
-  font-size: 3.2rem;
-  font-weight: 900;
-  letter-spacing: 2px;
-  margin-bottom: 25px;
-  text-transform: uppercase;
-  color: #4a90e2;
-  text-shadow:
-    0 0 10px #4a90e2,
-    0 0 20px #357ABD;
+/* Variáveis para tema claro e escuro */
+:root {
+  --bg: #121212;
+  --text: #eee;
+  --primary: #4caf50;
+  --secondary: #81c784;
+  --accent: #ffca28;
+  --error: #e53935;
+  --info: #2196f3;
+  --success: #43a047;
+  --button-bg: #333;
+  --button-hover-bg: #555;
+  --button-disabled-bg: #666;
+  --border-radius: 8px;
+  --shadow: rgba(0,0,0,0.7);
 }
 
-/* Estatísticas */
-.stats {
+body.light-theme {
+  --bg: #f5f5f5;
+  --text: #222;
+  --primary: #388e3c;
+  --secondary: #a5d6a7;
+  --accent: #fbc02d;
+  --error: #d32f2f;
+  --info: #1976d2;
+  --success: #2e7d32;
+  --button-bg: #ddd;
+  --button-hover-bg: #ccc;
+  --button-disabled-bg: #aaa;
+  --shadow: rgba(0,0,0,0.2);
+}
+
+/* Container principal */
+#gameContainer {
   width: 100%;
+  max-width: 960px;
+  background-color: var(--button-bg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 20px var(--shadow);
+  padding: 1.5rem 2rem;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Header */
+header {
+  display: flex;
   justify-content: space-between;
-  margin-bottom: 25px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #cbd5e1;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
-.stats > div {
-  flex: 1 1 30%;
-  background: rgba(74, 144, 226, 0.15);
-  margin: 8px;
-  padding: 12px 18px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px #4a90e2aa inset;
-  transition: background-color 0.3s ease;
-  cursor: default;
-  user-select: text;
+header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+#toggleTheme {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--accent);
+  transition: transform 0.3s ease;
+}
+
+#toggleTheme:hover,
+#toggleTheme:focus {
+  transform: rotate(20deg);
+  outline: none;
+}
+
+/* Display de cliques */
+#clicksDisplay {
+  font-size: 4rem;
+  font-weight: 900;
   text-align: center;
-}
-
-.stats > div:hover {
-  background: rgba(74, 144, 226, 0.4);
+  color: var(--accent);
+  user-select: none;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px var(--accent);
 }
 
 /* Botão principal */
 #clickBtn {
-  background: linear-gradient(45deg, #4a90e2, #357abd);
+  width: 100%;
+  padding: 1.5rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  background-color: var(--primary);
+  color: var(--bg);
   border: none;
-  padding: 22px 65px;
-  font-size: 2rem;
-  font-weight: 800;
-  border-radius: 40px;
-  color: white;
+  border-radius: var(--border-radius);
   cursor: pointer;
-  box-shadow:
-    0 0 30px #4a90e2,
-    0 8px 15px rgba(53, 122, 189, 0.7);
-  transition:
-    background 0.3s ease,
-    box-shadow 0.3s ease,
-    transform 0.1s ease;
+  box-shadow: 0 5px 10px rgba(72, 180, 97, 0.6);
+  transition: background-color 0.3s ease, transform 0.2s ease;
   user-select: none;
-  margin-bottom: 40px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  text-shadow: 0 0 7px rgba(255,255,255,0.7);
 }
 
-#clickBtn:hover {
-  background: linear-gradient(45deg, #357abd, #4a90e2);
-  box-shadow:
-    0 0 40px #5ea1ff,
-    0 10px 20px rgba(53, 122, 189, 0.9);
+#clickBtn:hover:not(:disabled) {
+  background-color: var(--secondary);
   transform: scale(1.05);
 }
 
-#clickBtn:active {
+#clickBtn:active:not(:disabled) {
   transform: scale(0.95);
-  box-shadow:
-    0 0 15px #4a90e2,
-    0 5px 10px rgba(53, 122, 189, 0.7);
 }
 
-/* Animação no click */
-#clickBtn.clicked {
-  animation: clickPulse 0.25s ease forwards;
+#clickBtn:disabled {
+  background-color: var(--button-disabled-bg);
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
-@keyframes clickPulse {
-  0% { box-shadow: 0 0 30px #4a90e2; transform: scale(1); }
-  50% { box-shadow: 0 0 60px #4a90e2; transform: scale(1.1); }
-  100% { box-shadow: 0 0 30px #4a90e2; transform: scale(1); }
-}
-
-/* Flex container para seções */
-.flex-row {
-  width: 100%;
+/* Status e estatísticas */
+.status-bar {
   display: flex;
-  gap: 20px;
+  justify-content: space-around;
+  gap: 1rem;
   flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 40px;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
-/* Boxes principais */
-.box {
-  background: rgba(30, 30, 30, 0.8);
-  border-radius: 15px;
-  box-shadow:
-    0 0 20px #357abd44 inset,
-    0 5px 20px rgba(0,0,0,0.8);
-  flex: 1 1 30%;
-  min-width: 280px;
-  max-height: 450px;
-  overflow-y: auto;
-  padding: 15px 20px;
-  color: #a8c0ff;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Scroll interno */
-.box::-webkit-scrollbar {
-  width: 8px;
-}
-.box::-webkit-scrollbar-track {
-  background: #111;
-  border-radius: 10px;
-}
-.box::-webkit-scrollbar-thumb {
-  background: #4a90e2aa;
-  border-radius: 10px;
-  transition: background-color 0.3s ease;
-}
-.box::-webkit-scrollbar-thumb:hover {
-  background: #357abdcc;
-}
-
-/* Títulos das boxes */
-.box > h2 {
+.status-bar div {
+  background-color: var(--button-bg);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+  min-width: 120px;
   text-align: center;
-  font-weight: 700;
-  font-size: 1.6rem;
-  margin-bottom: 15px;
-  color: #4a90e2;
-  text-shadow:
-    0 0 8px #4a90e2cc;
   user-select: none;
 }
 
-/* Listas internas */
-#upgradesList, #shopList, #petsList, #missionsList, #achievementsList {
+/* Seção principal de conteúdos */
+.sections {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  overflow-y: auto;
-}
-
-/* Item genérico */
-.item {
-  background: #1e1e1e;
-  padding: 12px 15px;
-  border-radius: 10px;
-  box-shadow: inset 0 0 10px #4a90e2cc;
-  color: #d3e0ff;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center;
+}
+
+/* Coluna maior para upgrades, pets, loja */
+.main-column {
+  flex: 1 1 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Coluna menor para ranking, chat e missões */
+.side-column {
+  flex: 0 1 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Listas estilos */
+.upgrade-item,
+.shop-item,
+.pet-item,
+.mission-item,
+.achievement-item,
+.ranking-item,
+.chat-message {
+  background-color: var(--button-bg);
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.25);
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+.upgrade-item:hover,
+.shop-item:hover,
+.pet-item:hover,
+.mission-item:hover,
+.achievement-item:hover,
+.ranking-item:hover {
+  background-color: var(--secondary);
+  cursor: pointer;
+}
+
+/* Botões dentro das listas */
+.buy-btn,
+.select-pet-btn,
+#saveBtn,
+#rebirthBtn,
+#clearSaveBtn,
+#saveScoreBtn {
+  background-color: var(--primary);
+  border: none;
+  border-radius: var(--border-radius);
+  color: var(--bg);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
   transition: background-color 0.3s ease;
   user-select: none;
 }
 
-.item:hover {
-  background: #357abd;
-  color: #f0f8ff;
-  box-shadow:
-    0 0 12px #5ea1ff;
+.buy-btn:disabled,
+.select-pet-btn:disabled {
+  background-color: var(--button-disabled-bg);
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
-/* Botões dentro dos itens */
-.item button {
-  background: linear-gradient(45deg, #4a90e2, #357abd);
-  border: none;
-  padding: 8px 15px;
-  border-radius: 30px;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition:
-    background 0.3s ease,
-    box-shadow 0.3s ease;
-  user-select: none;
+.buy-btn:hover:not(:disabled),
+.select-pet-btn:hover:not(:disabled),
+#saveBtn:hover,
+#rebirthBtn:hover,
+#clearSaveBtn:hover,
+#saveScoreBtn:hover {
+  background-color: var(--accent);
+  color: var(--bg);
 }
 
-.item button:hover {
-  background: linear-gradient(45deg, #357abd, #4a90e2);
-  box-shadow: 0 0 20px #5ea1ff;
-}
-
-/* Inputs para comprar quantidade */
-#buyAmountInput {
-  width: 60px;
-  margin-left: 10px;
-  padding: 6px 10px;
-  border-radius: 12px;
-  border: 1.5px solid #357abd;
-  background: #1e1e1e;
-  color: #d3e0ff;
-  font-weight: 600;
-  user-select: text;
-  text-align: center;
+/* Inputs */
+input[type="text"] {
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--border-radius);
+  border: 1.5px solid var(--button-disabled-bg);
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 0.5rem;
   transition: border-color 0.3s ease;
 }
 
-#buyAmountInput:focus {
+input[type="text"]:focus {
   outline: none;
-  border-color: #4a90e2;
-  box-shadow: 0 0 8px #4a90e2;
+  border-color: var(--primary);
 }
 
-/* Notificações visuais */
-.notification {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #357abddd;
-  color: white;
-  padding: 14px 30px;
-  border-radius: 30px;
-  font-weight: 700;
-  font-size: 1.2rem;
-  box-shadow:
-    0 0 15px #4a90e2dd;
-  user-select: none;
-  animation: fadeInOut 3s forwards;
-  z-index: 9999;
-}
-
-@keyframes fadeInOut {
-  0% { opacity: 0; transform: translate(-50%, 40px); }
-  10% { opacity: 1; transform: translate(-50%, 0); }
-  90% { opacity: 1; transform: translate(-50%, 0); }
-  100% { opacity: 0; transform: translate(-50%, 40px); }
-}
-
-/* Tema claro */
-body.light-theme {
-  background: linear-gradient(135deg, #dbeafe, #bfdbfe, #93c5fd);
-  color: #111;
-}
-
-body.light-theme #container {
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow:
-    0 4px 15px rgba(0, 0, 0, 0.1),
-    inset 0 0 20px #93c5fd;
-}
-
-body.light-theme h1 {
-  color: #2563eb;
-  text-shadow: none;
-}
-
-body.light-theme .stats > div {
-  background: rgba(147, 197, 253, 0.3);
-  color: #1e3a8a;
-}
-
-body.light-theme #clickBtn {
-  background: linear-gradient(45deg, #2563eb, #1d4ed8);
-  box-shadow:
-    0 0 30px #2563eb,
-    0 8px 15px rgba(29, 78, 216, 0.7);
-  color: white;
-}
-
-body.light-theme #clickBtn:hover {
-  background: linear-gradient(45deg, #1d4ed8, #2563eb);
-  box-shadow:
-    0 0 40px #3b82f6,
-    0 10px 20px rgba(29, 78, 216, 0.9);
-}
-
-/* Tooltip genérico */
-.tooltip {
-  position: fixed;
-  background: #357abdcc;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  user-select: none;
-  pointer-events: none;
-  z-index: 9999;
-  text-shadow: 0 0 4px #234d7e;
-  transition: opacity 0.2s ease;
-}
-
-/* Chat Global */
-
-#chatList {
-  flex: 1 1 auto;
-  background: #222c3a;
-  border-radius: 12px;
-  padding: 12px 20px;
-  color: #b0c7ff;
-  font-size: 0.9rem;
-  overflow-y: auto;
-  box-shadow: inset 0 0 10px #4a90e2cc;
-  max-height: 250px;
-  user-select: text;
-}
-
-#chatList .chat-message {
-  margin-bottom: 6px;
-  padding-bottom: 2px;
-  border-bottom: 1px solid #357abd44;
-}
-
-#chatInput {
-  width: 80%;
-  padding: 8px 15px;
-  border-radius: 20px;
-  border: 2px solid #4a90e2;
-  background: #1e1e1e;
-  color: #d3e0ff;
-  font-weight: 600;
-  margin-right: 10px;
-  user-select: text;
-}
-
-#chatSendBtn {
-  background: linear-gradient(45deg, #4a90e2, #357abd);
-  border: none;
-  padding: 10px 25px;
-  border-radius: 30px;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  user-select: none;
-}
-
-#chatSendBtn:hover {
-  background: linear-gradient(45deg, #357abd, #4a90e2);
-  box-shadow: 0 0 20px #5ea1ff;
-}
-
-/* Responsividade básica */
-@media (max-width: 1024px) {
-  #container {
-    padding: 20px 25px;
-  }
-  .stats > div {
-    flex: 1 1 45%;
-  }
-  .flex-row {
-    gap: 10px;
-  }
-  .box {
-    min-width: 100%;
-    max-height: 300px;
-  }
-  #clickBtn {
-    width: 100%;
-  }
-}
-
-/* Pequenas animações nos botões principais */
-button, input[type="button"], input[type="submit"] {
-  transition: all 0.3s ease;
-  user-select: none;
-}
-
-/* Modal básico para ajuda, conquistas etc */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(10, 10, 10, 0.85);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99999;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.modal.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.modal-content {
-  background: #1e1e1e;
-  border-radius: 15px;
-  padding: 30px 40px;
-  max-width: 600px;
-  width: 90%;
-  box-shadow: 0 0 25px #4a90e2cc;
-  color: #d3e0ff;
-  font-weight: 600;
-  text-align: center;
-  user-select: text;
-}
-
-.modal-close {
-  background: #357abd;
-  border: none;
-  padding: 10px 25px;
-  color: white;
-  border-radius: 30px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 25px;
-  transition: background 0.3s ease;
-  user-select: none;
-}
-
-.modal-close:hover {
-  background: #4a90e2;
-}
-
-/* Sistema de badges para conquistas */
-.badge {
-  background: #4a90e2cc;
-  color: #d3e0ff;
-  font-weight: 700;
-  padding: 6px 12px;
-  border-radius: 20px;
-  margin: 6px 4px;
-  display: inline-block;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  user-select: none;
-  box-shadow: 0 0 10px #4a90e2bb;
-}
-
-/* Animação glow para badges */
-@keyframes badgeGlow {
-  0%, 100% {
-    box-shadow: 0 0 10px #4a90e2bb;
-  }
-  50% {
-    box-shadow: 0 0 25px #7cb9ffcc;
-  }
-}
-
-.badge.glowing {
-  animation: badgeGlow 3s infinite ease-in-out;
-}
-
-/* Botão Toggle de Tema */
-
-#toggleTheme {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  background: #4a90e2cc;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  font-size: 22px;
-  cursor: pointer;
-  box-shadow:
-    0 0 15px #4a90e2cc;
-  transition: background 0.3s ease;
-  user-select: none;
-  z-index: 10000;
-}
-
-#toggleTheme:hover {
-  background: #357abdcc;
-  box-shadow:
-    0 0 25px #5ea1ffcc;
-}
-
-/* Tooltip especial para upgrades e pets */
-.tooltip-special {
-  background: linear-gradient(135deg, #357abdcc, #4a90e2cc);
-  border-radius: 12px;
-  padding: 8px 14px;
-  box-shadow: 0 0 15px #4a90e2cc;
-  color: #e0e7ff;
-  font-weight: 700;
-  font-size: 0.95rem;
-  user-select: none;
-}
-
-/* Efeitos para itens comprados */
-.item.owned {
-  background: linear-gradient(45deg, #4a90e2aa, #357abd99);
-  box-shadow: 0 0 20px #4a90e2cc;
-  color: #d3e0ff;
-  cursor: default;
-  font-weight: 800;
-}
-
-.item.owned:hover {
-  background: linear-gradient(45deg, #357abdcc, #4a90e2cc);
-  box-shadow: 0 0 30px #7cb9ff;
-}
-
-/* Loading spinner */
-
-.loading-spinner {
-  border: 5px solid #1e1e1e;
-  border-top: 5px solid #4a90e2;
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  animation: spin 1.2s linear infinite;
-  margin: auto;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg);}
-  100% { transform: rotate(360deg);}
-}
-
-/* Extra: sistema de contadores com efeito digital */
-
-.counter {
-  font-family: 'Digital-7', monospace;
-  font-size: 1.7rem;
-  letter-spacing: 2px;
-  color: #4a90e2;
-  text-shadow: 0 0 5px #357abd;
-  user-select: none;
-  background: #111;
-  border-radius: 10px;
-  padding: 6px 12px;
-  min-width: 60px;
-  text-align: center;
-  font-weight: 700;
-  margin: 5px 10px;
-  display: inline-block;
-}
-
-/* Tooltip custom para contadores */
-
-.counter[title]:hover::after {
-  content: attr(title);
-  position: absolute;
-  background: #357abdcc;
-  color: white;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  user-select: none;
-  white-space: nowrap;
-  box-shadow: 0 0 10px #4a90e2cc;
-  transform: translateY(-30px);
-  pointer-events: none;
-}
-
-/* Pequeno efeito hover nas estatísticas */
-.stats > div:hover .counter {
-  color: #7cb9ff;
-  text-shadow: 0 0 10px #4a90e2;
-  cursor: help;
-}
-
-/* Footer fixo */
-
-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #0f2027;
-  color: #4a90e2;
-  text-align: center;
-  font-size: 0.9rem;
-  padding: 10px 0;
-  user-select: none;
-  box-shadow: inset 0 2px 5px #357abd99;
-  z-index: 999;
-  font-weight: 700;
-}
-
-/* =================== FIM da Parte 1 =================== */
-
-/* === CSS Supremo - Parte 2 === */
-
-/* Mais animações para botões e transições suaves */
-button:focus, input:focus, select:focus, textarea:focus {
-  outline: none;
-  box-shadow: 0 0 8px #4a90e2cc;
-  transition: box-shadow 0.3s ease;
-}
-
-/* Melhor visual para inputs e selects */
-input[type="text"], input[type="number"], select, textarea {
-  background: #222c3a;
-  border: 2px solid #357abd;
-  color: #d3e0ff;
-  padding: 10px 15px;
-  border-radius: 15px;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-  user-select: text;
-  box-shadow: inset 0 0 8px #4a90e2bb;
-  width: 100%;
-  margin-bottom: 20px;
-  resize: none;
-}
-
-input[type="text"]:hover, input[type="number"]:hover, select:hover, textarea:hover {
-  background: #2c3e50;
-  border-color: #4a90e2;
-  box-shadow: inset 0 0 12px #5ea1ffcc;
-}
-
-input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
-  background: #182c4b;
-  border-color: #7cb9ff;
-  box-shadow: 0 0 15px #7cb9ffcc, inset 0 0 15px #7cb9ffcc;
-  color: #e0e7ff;
-}
-
-/* Melhor estilo para labels */
-label {
-  font-weight: 700;
-  color: #7cb9ff;
-  margin-bottom: 6px;
-  display: block;
-  user-select: none;
-}
-
-/* Sistema de abas customizado para seções (ex: upgrades, loja, pets) */
-.tabs {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  margin-bottom: 25px;
-}
-
-.tab {
-  padding: 10px 25px;
-  font-weight: 700;
-  color: #a8c0ff;
-  background: #1e1e1e;
-  border-radius: 25px;
-  cursor: pointer;
-  box-shadow: inset 0 0 10px #357abd88;
-  transition: background 0.3s ease, color 0.3s ease;
-  user-select: none;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-}
-
-.tab.active,
-.tab:hover {
-  background: linear-gradient(45deg, #4a90e2, #357abd);
-  color: white;
-  box-shadow:
-    0 0 15px #5ea1ff,
-    inset 0 0 15px #357abdcc;
-}
-
-/* Sistema interno de listas com scroll */
-.list-scrollable {
-  max-height: 350px;
+/* Scroll customizado para listas grandes */
+.upgrades,
+.shopList,
+.pets,
+.missions,
+.achievementsList,
+.detailedRankingList,
+#chatMessages {
+  max-height: 280px;
   overflow-y: auto;
   padding-right: 6px;
 }
 
-/* Estilo dos itens de lista - upgrades, pets, etc */
-.list-item {
-  background: #222c3a;
-  border-radius: 12px;
-  padding: 12px 20px;
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #cbd5e1;
-  box-shadow: inset 0 0 12px #357abdbb;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.25s ease, color 0.25s ease;
-  user-select: none;
-}
-
-.list-item:hover {
-  background: #357abdcc;
-  color: #f0f8ff;
-  box-shadow:
-    0 0 18px #5ea1ff,
-    inset 0 0 18px #5ea1ffcc;
-}
-
-.list-item.disabled {
-  background: #444;
-  color: #888;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-.list-item button {
-  background: transparent;
-  border: 2px solid #4a90e2;
-  padding: 7px 18px;
-  border-radius: 30px;
-  color: #a8c0ff;
-  font-weight: 700;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
-  user-select: none;
-}
-
-.list-item button:hover:not(:disabled) {
-  background: #4a90e2;
-  color: white;
-  box-shadow: 0 0 15px #5ea1ff;
-}
-
-.list-item button:disabled {
-  border-color: #666;
-  color: #666;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-/* Pet cards */
-.pet-card {
-  background: linear-gradient(135deg, #1e1e1e, #223344);
-  border-radius: 18px;
-  padding: 18px 22px;
-  color: #a8c0ff;
-  box-shadow:
-    0 0 15px #4a90e2aa;
-  font-weight: 700;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
-  user-select: none;
-  margin-bottom: 15px;
-  user-select: none;
-}
-
-.pet-card:hover {
-  box-shadow:
-    0 0 30px #5ea1ff;
-  transform: scale(1.05);
-}
-
-/* Imagem do pet */
-.pet-card img {
-  width: 100px;
-  height: 100px;
-  border-radius: 100%;
-  border: 3px solid #4a90e2;
-  margin-bottom: 12px;
-  object-fit: cover;
-  user-select: none;
-}
-
-/* Nome do pet */
-.pet-card .pet-name {
-  font-size: 1.3rem;
-  color: #cbd5e1;
-  text-shadow: 0 0 6px #4a90e2;
-  margin-bottom: 6px;
-  user-select: none;
-}
-
-/* Descrição do pet */
-.pet-card .pet-desc {
-  font-size: 0.9rem;
-  color: #a0b0d9;
-  text-align: center;
-  user-select: none;
-}
-
-/* Barra de progresso estilizada */
-.progress-bar {
-  position: relative;
-  width: 100%;
-  height: 20px;
-  background: #222c3a;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: inset 0 0 8px #4a90e2aa;
-  margin: 15px 0;
-  user-select: none;
-}
-
-.progress-bar .progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #4a90e2, #357abd);
-  border-radius: 12px 0 0 12px;
-  transition: width 0.4s ease;
-}
-
-/* Tooltip para progresso */
-.progress-bar[title]:hover::after {
-  content: attr(title);
-  position: absolute;
-  top: -28px;
-  right: 0;
-  background: #357abdcc;
-  color: white;
-  padding: 6px 14px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  box-shadow: 0 0 10px #4a90e2cc;
-  pointer-events: none;
-  user-select: none;
-  opacity: 1;
-  transition: opacity 0.3s ease;
-}
-
-/* Tabela de ranking */
-#rankingList {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #a8c0ff;
-  margin-top: 12px;
-  max-height: 280px;
-  overflow-y: auto;
-  border-radius: 12px;
-  padding: 12px 18px;
-  background: #1a2238cc;
-  box-shadow: inset 0 0 12px #4a90e2bb;
-  user-select: none;
-}
-
-#rankingList > div {
-  padding: 6px 10px;
-  border-bottom: 1px solid #357abd44;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#rankingList > div:last-child {
-  border-bottom: none;
-}
-
-#rankingList > div span {
-  flex: 1 1 auto;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-#rankingList > div span.score {
-  text-align: right;
-  font-weight: 800;
-  color: #4a90e2;
-}
-
-/* Tabela ranking scroll */
-#rankingList::-webkit-scrollbar {
+/* Scrollbar estilizada */
+.upgrades::-webkit-scrollbar,
+.shopList::-webkit-scrollbar,
+.pets::-webkit-scrollbar,
+.missions::-webkit-scrollbar,
+.achievementsList::-webkit-scrollbar,
+.detailedRankingList::-webkit-scrollbar,
+#chatMessages::-webkit-scrollbar {
   width: 8px;
 }
 
-#rankingList::-webkit-scrollbar-track {
-  background: #111;
-  border-radius: 10px;
+.upgrades::-webkit-scrollbar-thumb,
+.shopList::-webkit-scrollbar-thumb,
+.pets::-webkit-scrollbar-thumb,
+.missions::-webkit-scrollbar-thumb,
+.achievementsList::-webkit-scrollbar-thumb,
+.detailedRankingList::-webkit-scrollbar-thumb,
+#chatMessages::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: 6px;
 }
 
-#rankingList::-webkit-scrollbar-thumb {
-  background: #4a90e2aa;
-  border-radius: 10px;
-  transition: background-color 0.3s ease;
-}
-
-#rankingList::-webkit-scrollbar-thumb:hover {
-  background: #357abdcc;
-}
-
-/* Chat global e área de mensagens */
-#chatBox {
-  width: 100%;
-  max-width: 600px;
-  background: #1e1e1ecc;
-  border-radius: 20px;
-  padding: 18px 22px;
-  box-shadow:
-    0 0 20px #357abd88 inset;
-  color: #cbd5e1;
-  user-select: none;
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto 50px;
-}
-
-#chatList {
-  flex: 1 1 auto;
-  background: #222c3a;
-  border-radius: 12px;
-  padding: 15px 20px;
-  color: #b0c7ff;
-  font-size: 0.9rem;
-  overflow-y: auto;
-  max-height: 280px;
-  box-shadow: inset 0 0 10px #4a90e2cc;
-  margin-bottom: 15px;
-  user-select: text;
-  scroll-behavior: smooth;
-}
-
-#chatList .chat-message {
-  margin-bottom: 8px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid #357abd44;
-  word-wrap: break-word;
-}
-
-#chatList .chat-message .username {
-  font-weight: 700;
-  color: #4a90e2;
-  margin-right: 8px;
-  user-select: text;
-}
-
-#chatInputWrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-
-#chatInput {
-  flex-grow: 1;
-  background: #1e1e1e;
-  border: 2px solid #4a90e2;
-  border-radius: 25px;
-  padding: 10px 20px;
-  font-weight: 600;
-  color: #d3e0ff;
-  font-size: 1rem;
-  user-select: text;
-  transition: border-color 0.3s ease;
-}
-
-#chatInput::placeholder {
-  color: #7ea0f7cc;
-  font-style: italic;
-}
-
-#chatInput:focus {
-  outline: none;
-  border-color: #7cb9ff;
-  box-shadow: 0 0 12px #7cb9ffcc;
-}
-
-#chatSendBtn {
-  background: linear-gradient(45deg, #4a90e2, #357abd);
-  border: none;
-  padding: 12px 28px;
-  border-radius: 30px;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  user-select: none;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  box-shadow:
-    0 0 20px #4a90e2cc;
-  min-width: 90px;
-}
-
-#chatSendBtn:hover {
-  background: linear-gradient(45deg, #357abd, #4a90e2);
-  box-shadow:
-    0 0 30px #5ea1ffcc;
-}
-
-#chatSendBtn:active {
-  transform: scale(0.95);
-  box-shadow:
-    0 0 15px #4a90e2cc;
-}
-
-/* Sistema de tooltip para mensagens */
-.chat-message[title]:hover::after {
-  content: attr(title);
-  position: absolute;
-  background: #357abdcc;
-  color: white;
-  padding: 6px 14px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  box-shadow: 0 0 10px #4a90e2cc;
-  pointer-events: none;
-  user-select: none;
-  transform: translateY(-30px);
-}
-
-/* Sistema de botões extras - reiniciar jogo, configs, etc */
-
-.extra-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  margin-top: 10px;
-  flex-wrap: wrap;
-}
-
-.extra-buttons button {
-  background: linear-gradient(45deg, #4a90e2, #357abd);
-  border: none;
-  padding: 12px 25px;
-  border-radius: 30px;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 0 15px #4a90e2cc;
-  user-select: none;
-}
-
-.extra-buttons button:hover {
-  background: linear-gradient(45deg, #357abd, #4a90e2);
-  box-shadow: 0 0 25px #5ea1ffcc;
-}
-
-.extra-buttons button:active {
-  transform: scale(0.95);
-  box-shadow: 0 0 10px #4a90e2cc;
-}
-
-/* Sistema de tooltips customizados para esses botões */
-.extra-buttons button[title]:hover::after {
-  content: attr(title);
-  position: absolute;
-  background: #4a90e2cc;
-  color: white;
-  padding: 6px 14px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  user-select: none;
-  pointer-events: none;
-  box-shadow: 0 0 12px #4a90e2cc;
-  transform: translateY(-35px);
-}
-
-/* Fundo animado e sutil para container */
-
-@keyframes backgroundGradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-#container {
-  background: linear-gradient(270deg, #1b2735, #357abd, #1b2735);
-  background-size: 600% 600%;
-  animation: backgroundGradient 30s ease infinite;
-}
-
-/* Scroll suave para a página */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Header fixo com sombra para título */
-header {
+/* Notificações */
+.notification {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: #121a28;
-  padding: 15px 0;
-  text-align: center;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.8);
-  color: #4a90e2;
-  font-weight: 900;
-  font-size: 2rem;
-  letter-spacing: 3px;
-  z-index: 10000;
-  user-select: none;
-}
-
-/* Subheader para descrição do jogo */
-.subheader {
-  margin: 80px auto 30px;
-  font-size: 1.25rem;
-  text-align: center;
-  font-weight: 600;
-  color: #a0b0d9;
-  user-select: none;
-  max-width: 700px;
-}
-
-/* Sistema de loading */
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(10, 10, 10, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 20000;
-  user-select: none;
+  top: 1rem;
+  right: 1rem;
+  background-color: var(--success);
+  color: var(--bg);
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.35);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 9999;
 }
 
-.loading-overlay.active {
+.notification.show {
   opacity: 1;
-  pointer-events: all;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
-/* Spinner animado para loading */
-.loading-spinner-large {
-  border: 10px solid #222;
-  border-top: 10px solid #4a90e2;
-  border-radius: 50%;
-  width: 90px;
-  height: 90px;
-  animation: spin 1.2s linear infinite;
+.notification.success {
+  background-color: var(--success);
 }
 
-/* Texto animado para loading */
-.loading-text {
-  margin-top: 15px;
-  color: #4a90e2;
-  font-weight: 700;
-  font-size: 1.3rem;
-  user-select: none;
-  text-align: center;
-  letter-spacing: 3px;
-  animation: pulse 2s ease infinite;
+.notification.error {
+  background-color: var(--error);
 }
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
+.notification.info {
+  background-color: var(--info);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  #gameContainer {
+    padding: 1rem;
   }
-  50% {
-    opacity: 0.4;
+
+  .sections {
+    flex-direction: column;
   }
-}
 
-/* Sistema de botões de controle do jogo (reset, salvar, tema, etc) */
-
-#controlPanel {
-  position: fixed;
-  top: 70px;
-  right: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  z-index: 10001;
-}
-
-.control-btn {
-  background: #4a90e2cc;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 20px;
-  font-weight: 700;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 0 18px #4a90e2cc;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  user-select: none;
-  text-transform: uppercase;
-}
-
-.control-btn:hover {
-  background: #357abdcc;
-  box-shadow: 0 0 25px #5ea1ffcc;
-}
-
-.control-btn:active {
-  transform: scale(0.95);
-  box-shadow: 0 0 12px #357abdcc;
-}
-
-/* Botão flutuante para abrir chat global */
-#openChatBtn {
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
-  background: linear-gradient(45deg, #4a90e2, #357abd);
-  border: none;
-  padding: 18px 22px;
-  border-radius: 50%;
-  color: white;
-  font-weight: 900;
-  font-size: 1.7rem;
-  cursor: pointer;
-  box-shadow:
-    0 0 25px #4a90e2cc;
-  transition: background 0.3s ease;
-  user-select: none;
-  z-index: 15000;
-}
-
-#openChatBtn:hover {
-  background: linear-gradient(45deg, #357abd, #4a90e2);
-  box-shadow:
-    0 0 40px #5ea1ffcc;
-}
-
-#openChatBtn:active {
-  transform: scale(0.9);
-}
-
-/* Modal de chat global */
-
-#chatModal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(12, 16, 26, 0.95);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  z-index: 20000;
-  user-select: none;
-}
-
-#chatModal.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-#chatModalContent {
-  background: #18223a;
-  width: 90%;
-  max-width: 700px;
-  border-radius: 20px;
-  box-shadow: 0 0 30px #4a90e2cc;
-  display: flex;
-  flex-direction: column;
-  padding: 20px 30px;
-  max-height: 85vh;
-}
-
-#chatModalHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-#chatModalHeader h3 {
-  color: #4a90e2;
-  font-weight: 900;
-  font-size: 1.6rem;
-  user-select: none;
-}
-
-#chatModalClose {
-  background: #357abd;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  color: white;
-  font-weight: 700;
-  font-size: 1.25rem;
-  cursor: pointer;
-  box-shadow: 0 0 15px #357abdcc;
-  transition: background 0.3s ease;
-  user-select: none;
-}
-
-#chatModalClose:hover {
-  background: #4a90e2cc;
-}
-
-/* Campo para digitar mensagens no chat global */
-
-#chatModalInputWrapper {
-  display: flex;
-  gap: 12px;
-  margin-top: auto;
-}
-
-#chatModalInput {
-  flex-grow: 1;
-  background: #1e1e1e;
-  border: 2px solid #4a90e2;
-  border-radius: 25px;
-  padding: 12px 20px;
-  font-weight: 700;
-  color: #d3e0ff;
-  font-size: 1rem;
-  user-select: text;
-  transition: border-color 0.3s ease;
-}
-
-#chatModalInput::placeholder {
-  color: #7ea0f7cc;
-  font-style: italic;
-}
-
-#chatModalInput:focus {
-  outline: none;
-  border-color: #7cb9ff;
-  box-shadow: 0 0 12px #7cb9ffcc;
-}
-
-/* Botão para enviar mensagem no chat global */
-
-#chatModalSendBtn {
-  background: linear-gradient(45deg, #4a90e2, #357abd);
-  border: none;
-  padding: 14px 28px;
-  border-radius: 30px;
-  color: white;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 0 20px #4a90e2cc;
-  user-select: none;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-}
-
-#chatModalSendBtn:hover {
-  background: linear-gradient(45deg, #357abd, #4a90e2);
-  box-shadow: 0 0 30px #5ea1ffcc;
-}
-
-#chatModalSendBtn:active {
-  transform: scale(0.95);
-  box-shadow: 0 0 15px #4a90e2cc;
-}
-
-/* Mensagens do chat global */
-
-#chatModalMessages {
-  flex-grow: 1;
-  overflow-y: auto;
-  background: #222c3a;
-  border-radius: 18px;
-  padding: 18px 22px;
-  color: #b0c7ff;
-  font-size: 0.9rem;
-  box-shadow: inset 0 0 15px #4a90e2cc;
-  margin-bottom: 18px;
-  user-select: text;
-}
-
-/* Estilo das mensagens de chat */
-
-.chat-msg {
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #357abd44;
-  word-wrap: break-word;
-  user-select: text;
-}
-
-.chat-msg .username {
-  font-weight: 800;
-  color: #4a90e2;
-  margin-right: 6px;
-  user-select: text;
-}
-
-.chat-msg .message-text {
-  color: #b0c7ff;
-  user-select: text;
-}
-
-/* Scrollbar customizada para chat modal */
-
-#chatModalMessages::-webkit-scrollbar {
-  width: 9px;
-}
-
-#chatModalMessages::-webkit-scrollbar-track {
-  background: #111;
-  border-radius: 10px;
-}
-
-#chatModalMessages::-webkit-scrollbar-thumb {
-  background: #4a90e2cc;
-  border-radius: 10px;
-  transition: background-color 0.3s ease;
-}
-
-#chatModalMessages::-webkit-scrollbar-thumb:hover {
-  background: #357abdcc;
-}
-
-/* Mensagens de sistema no chat */
-
-.chat-msg.system {
-  color: #7ea0f7cc;
-  font-style: italic;
-  font-weight: 600;
-  user-select: none;
-}
-
-/* Responsividade para chat modal */
-
-@media (max-width: 650px) {
-  #chatModalContent {
-    width: 95%;
-    padding: 15px 20px;
+  .main-column,
+  .side-column {
+    flex: 1 1 100%;
   }
-  #chatModalSendBtn {
-    padding: 12px 20px;
-    font-size: 0.9rem;
+
+  #clicksDisplay {
+    font-size: 3rem;
+  }
+
+  #clickBtn {
+    font-size: 2rem;
+    padding: 1rem;
   }
 }
-
-/* Botões e efeitos para confirmar ações - como reset, salvar, etc */
-
-.confirm-dialog {
-  background: #1b2735cc;
-  border-radius: 20px;
-  padding: 30px 40px;
-  max-width: 480px;
-  color: #d3e0ff;
-  box-shadow: 0 0 20px #4a90e2cc;
-  text-align: center;
-  user-select: none;
-}
-
-.confirm-dialog h2 {
-  margin-bottom: 18px;
-  font-weight: 900;
-  font-size: 1.8rem;
-  color: #4a90e2;
-}
-
-.confirm-dialog .btn-group {
-  display: flex;
-  justify-content: center;
-  gap: 28px;
-  margin-top: 25px;
-}
-
-.confirm-dialog button {
-  background: linear-gradient(45deg, #4a90e2, #357abd);
-  border: none;
-  padding: 12px 30px;
-  border-radius: 35px;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 0 18px #4a90e2cc;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  user-select: none;
-  text-transform: uppercase;
-}
-
-.confirm-dialog button:hover {
-  background: linear-gradient(45deg, #357abd, #4a90e2);
-  box-shadow: 0 0 25px #5ea1ffcc;
-}
-
-.confirm-dialog button:active {
-  transform: scale(0.95);
-  box-shadow: 0 0 12px #357abdcc;
-}
-
-/* Mensagens de erro ou aviso importantes */
-
-.alert-message {
-  background: #b03a3a;
-  color: white;
-  padding: 14px 25px;
-  border-radius: 20px;
-  font-weight: 700;
-  margin: 20px auto;
-  max-width: 480px;
-  box-shadow: 0 0 20px #b03a3aaa;
-  user-select: none;
-  text-align: center;
-  letter-spacing: 1.3px;
-  text-transform: uppercase;
-}
-
-/* =================== FIM da Parte 2 =================== */
