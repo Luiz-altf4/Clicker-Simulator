@@ -1,4 +1,4 @@
-/* Reset básico */
+//* Reset básico */
 * {
   margin: 0;
   padding: 0;
@@ -6,242 +6,202 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-body.dark-theme {
+body {
   background: #121212;
-  color: #e0e0e0;
+  color: #eee;
+  min-height: 100vh;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.light-theme {
+  background: #fafafa;
+  color: #222;
 }
 
 header {
-  background: #1f1f1f;
-  padding: 20px;
-  text-align: center;
-  border-bottom: 2px solid #333;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
-header h1 {
-  font-size: 2.5rem;
+h1 {
+  font-size: 2rem;
   font-weight: bold;
-  color: #fff;
-  text-shadow: 0 0 5px #0ff;
 }
 
-.notification {
-  position: fixed;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #0ff;
-  color: #000;
-  padding: 10px 25px;
-  border-radius: 25px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-  font-weight: 600;
-  box-shadow: 0 0 15px #0ffaa;
-  z-index: 1000;
-}
-
-.notification.success {
-  background: #4caf50;
-  color: #fff;
-  box-shadow: 0 0 15px #4caf50aa;
-}
-
-.notification.error {
-  background: #f44336;
-  color: #fff;
-  box-shadow: 0 0 15px #f44336aa;
-}
-
-.notification.info {
-  background: #2196f3;
-  color: #fff;
-  box-shadow: 0 0 15px #2196f3aa;
+#toggleTheme {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: inherit;
 }
 
 main {
-  max-width: 900px;
-  margin: 30px auto;
-  padding: 0 20px;
+  width: 100%;
+  max-width: 960px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
 }
 
 section {
-  background: #1e1e1e;
-  border-radius: 12px;
-  padding: 15px 20px;
-  box-shadow: 0 0 15px #0ff3;
+  background: #222;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 6px #000;
+  min-height: 120px;
+  overflow-y: auto;
 }
 
-h2 {
-  margin-bottom: 12px;
-  font-size: 1.6rem;
-  color: #0ff;
-  text-shadow: 0 0 7px #0ff;
-  border-bottom: 2px solid #0ff;
-  padding-bottom: 6px;
+.light-theme section {
+  background: #fff;
+  box-shadow: 0 0 6px #ccc;
 }
 
-#mainClicker {
-  grid-column: 1 / -1;
-  text-align: center;
+#gameInfo p {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
 }
 
 #clickBtn {
-  background: linear-gradient(145deg, #0ff, #00aaff);
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
   border: none;
-  color: #000;
-  font-size: 2.5rem;
-  font-weight: bold;
-  padding: 25px 50px;
-  border-radius: 40px;
+  background: #0f62fe;
+  color: white;
   cursor: pointer;
-  box-shadow: 0 0 15px #0ff;
-  transition: background 0.3s ease;
-  user-select: none;
-  outline-offset: 4px;
+  transition: background-color 0.3s ease;
 }
 
-#clickBtn:hover,
-#clickBtn:focus {
-  background: linear-gradient(145deg, #00aaff, #0ff);
-  outline: none;
-  box-shadow: 0 0 25px #0ff;
+#clickBtn:hover {
+  background: #0353e9;
 }
 
-.stats p {
-  margin: 8px 0;
-  font-size: 1.1rem;
+button {
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  padding: 0.5rem 1rem;
+  background: #0f62fe;
+  color: white;
+  transition: background-color 0.3s ease;
 }
 
-.items-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  max-height: 400px;
-  overflow-y: auto;
-  padding-right: 10px;
+button:disabled {
+  background: #555;
+  cursor: not-allowed;
 }
 
-.upgrade-item, .shop-item, .pet-item {
-  background: #262626;
-  border-radius: 12px;
-  padding: 12px;
-  width: calc(50% - 15px);
-  box-shadow: 0 0 10px #0ff6;
-  transition: transform 0.3s ease;
+button:hover:not(:disabled) {
+  background: #0353e9;
 }
 
-.upgrade-item:hover, .shop-item:hover, .pet-item:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px #0ff9;
+#upgrades .upgrade-item,
+#shopList .shop-item,
+#pets .pet-item {
+  border: 1px solid #444;
+  margin-bottom: 0.6rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+  background: #1a1a1a;
+}
+
+.light-theme #upgrades .upgrade-item,
+.light-theme #shopList .shop-item,
+.light-theme #pets .pet-item {
+  background: #e5e5e5;
+  border-color: #ccc;
+  color: #222;
 }
 
 .upgrade-item h4,
 .shop-item h4,
 .pet-item h4 {
-  font-size: 1.25rem;
-  margin-bottom: 6px;
-  color: #0ff;
-  text-shadow: 0 0 5px #0ff;
+  margin-bottom: 0.3rem;
 }
 
-.upgrade-item p,
-.shop-item p,
-.pet-item p {
-  font-size: 0.95rem;
-  margin-bottom: 6px;
-  color: #cceeff;
-}
-
-.buy-btn,
-.select-btn,
-#sendNameBtn {
-  background: #00aaff;
-  border: none;
-  color: #fff;
-  font-weight: 600;
-  padding: 8px 15px;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  user-select: none;
-}
-
-.buy-btn:disabled,
-.select-btn:disabled {
-  background: #555;
-  cursor: not-allowed;
-  color: #999;
-}
-
-.buy-btn:hover:not(:disabled),
-.select-btn:hover:not(:disabled),
-#sendNameBtn:hover {
-  background: #0ff;
-  color: #000;
-}
-
-#playerName {
-  width: 70%;
-  padding: 8px 15px;
-  margin-top: 15px;
-  border-radius: 25px;
-  border: 1px solid #00aaff;
-  background: #111;
-  color: #e0e0e0;
-  font-size: 1rem;
-  outline-offset: 3px;
-}
-
-#missions, #achievementsList, #rankingList {
-  list-style: none;
-  max-height: 200px;
+#missions,
+#achievementsList {
+  list-style-type: none;
+  max-height: 150px;
   overflow-y: auto;
-  padding-right: 10px;
 }
 
-.mission-item, .achievement-item {
-  padding: 8px 10px;
-  margin-bottom: 6px;
-  border-radius: 10px;
-  background: #333;
-  color: #ddd;
-  font-weight: 600;
-  cursor: default;
+.mission-item,
+.achievement-item {
+  padding: 0.3rem 0;
+  border-bottom: 1px solid #333;
 }
 
-.mission-item.completed {
-  background: #4caf50;
-  color: #fff;
+.light-theme .mission-item,
+.light-theme .achievement-item {
+  border-color: #ccc;
+}
+
+.completed {
   text-decoration: line-through;
+  opacity: 0.6;
 }
 
-.achievement-item.achieved {
-  background: #2196f3;
-  color: #fff;
-  text-decoration: underline;
+.ranking-item {
+  padding: 0.2rem 0;
+  border-bottom: 1px solid #333;
 }
 
-/* Responsividade para telas pequenas */
-@media (max-width: 700px) {
-  main {
-    grid-template-columns: 1fr;
-  }
-  .upgrade-item, .shop-item, .pet-item {
-    width: 100%;
-  }
-  #playerName {
-    width: 100%;
-  }
-  #clickBtn {
-    width: 100%;
-    padding: 30px 0;
-  }
+.light-theme .ranking-item {
+  border-color: #ccc;
+}
+
+#chatSection {
+  display: flex;
+  flex-direction: column;
+  height: 250px;
+}
+
+#chatMessages {
+  flex-grow: 1;
+  background: #1a1a1a;
+  border-radius: 5px;
+  padding: 0.5rem;
+  overflow-y: auto;
+  margin-bottom: 0.5rem;
+  color: #eee;
+  font-size: 0.9rem;
+}
+
+.light-theme #chatMessages {
+  background: #f0f0f0;
+  color: #222;
+}
+
+#chatInput {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 0.3rem;
+}
+
+#notification {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f62fe;
+  color: white;
+  padding: 0.7rem 1rem;
+  border-radius: 20px;
+  display: none;
+  z-index: 1000;
+  font-weight: bold;
+  box-shadow: 0 0 10px #0f62feaa;
 }
