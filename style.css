@@ -1,426 +1,221 @@
-/* ===== Reset básico ===== */
+/* Reset básico */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-  background: #121212;
-  color: #eee;
-  line-height: 1.4;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem;
+  background-color: #121212;
+  color: #ffffff;
+  padding: 20px;
   transition: background-color 0.3s, color 0.3s;
 }
 
-.light-theme {
-  background: #f0f0f0;
+body.light-theme {
+  background-color: #f2f2f2;
   color: #222;
 }
 
-/* ===== Layout geral ===== */
 header {
-  margin-bottom: 1rem;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 header h1 {
-  font-size: 2.4rem;
-  margin-bottom: 0.25rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  user-select: none;
+  font-size: 2rem;
 }
 
-#currentWorldDisplay {
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #ff9800;
+#toggleTheme {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
 main {
-  max-width: 900px;
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.2rem;
-}
-
-/* ===== Sections ===== */
-section {
-  background: #1e1e1e;
-  border-radius: 10px;
-  padding: 1rem 1.2rem;
-  box-shadow: 0 0 10px #000000aa;
-  user-select: none;
   display: flex;
   flex-direction: column;
+  gap: 30px;
 }
 
-.light-theme section {
-  background: #ffffffdd;
-  box-shadow: 0 0 10px #aaa;
+section {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
 }
 
-/* ===== Estatísticas ===== */
-#stats > div {
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  font-size: 1.1rem;
+section h2 {
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  border-bottom: 2px solid #555;
+  padding-bottom: 5px;
 }
 
-/* ===== Botão principal e buyAmount ===== */
-#clicker {
-  align-items: center;
-  justify-content: center;
-  gap: 0.8rem;
-  display: flex;
-  flex-wrap: wrap;
+.stats p {
+  margin: 5px 0;
 }
 
 #clickBtn {
-  flex-grow: 1;
-  font-size: 1.6rem;
-  padding: 1rem 2rem;
-  background: #ff5722;
+  font-size: 1.5rem;
+  padding: 20px 40px;
+  background-color: #00c853;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   color: white;
   cursor: pointer;
-  font-weight: 700;
-  box-shadow: 0 4px 8px #ff5722aa;
-  transition: background-color 0.3s ease;
-  user-select: none;
+  transition: transform 0.2s, background-color 0.3s;
 }
 
 #clickBtn:hover {
-  background: #e64a19;
+  background-color: #00e676;
+  transform: scale(1.05);
 }
 
-#buyAmountButtons {
-  display: flex;
-  gap: 0.5rem;
+.painel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
 }
 
-.buyAmountBtn {
-  background: #333;
-  border: none;
-  border-radius: 6px;
-  color: #ccc;
-  padding: 0.4rem 1rem;
-  cursor: pointer;
-  font-weight: 600;
-  user-select: none;
-  transition: background-color 0.3s;
-}
-
-.buyAmountBtn.active,
-.buyAmountBtn:hover {
-  background: #ff5722;
-  color: white;
-}
-
-.buyAmountBtn:focus-visible {
-  outline: 2px solid #ff5722;
-  outline-offset: 2px;
-}
-
-#rebirthBtn {
-  background: #009688;
-  border: none;
-  border-radius: 10px;
-  padding: 0.8rem 1.5rem;
-  color: white;
-  cursor: pointer;
-  font-weight: 700;
-  box-shadow: 0 4px 8px #009688aa;
-  user-select: none;
-  transition: background-color 0.3s ease;
-}
-
-#rebirthBtn:hover {
-  background: #00796b;
-}
-
-#rebirthBtn:disabled {
-  background: #555;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-/* ===== Lists: upgrades, pets, shop ===== */
-#upgrades, #pets, #shop {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-height: 300px;
-  overflow-y: auto;
-  padding-right: 0.25rem;
-}
-
-.upgrade-item, .pet-item, .shop-item {
-  background: #292929;
-  padding: 0.8rem 1rem;
+.upgrade-item,
+.shop-item,
+.pet-item {
+  background: rgba(255, 255, 255, 0.07);
+  padding: 12px;
   border-radius: 8px;
-  box-shadow: 0 0 5px #000000cc inset;
-  display: flex;
-  flex-direction: column;
-  user-select: none;
-}
-
-.light-theme .upgrade-item,
-.light-theme .pet-item,
-.light-theme .shop-item {
-  background: #fafafa;
-  box-shadow: 0 0 5px #bbb inset;
-  color: #222;
-}
-
-.upgrade-item h4,
-.pet-item h4,
-.shop-item h4 {
-  font-size: 1.1rem;
-  margin-bottom: 0.25rem;
-  font-weight: 700;
-}
-
-.upgrade-item p,
-.pet-item p,
-.shop-item p {
-  font-size: 0.9rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 10px;
 }
 
 .buy-btn,
-.select-pet-btn {
-  align-self: flex-start;
-  background: #ff5722;
+.select-pet-btn,
+#saveScoreBtn,
+#rebirthBtn,
+#saveBtn,
+#clearSaveBtn {
+  padding: 10px 15px;
+  margin-top: 8px;
+  background-color: #2962ff;
   border: none;
   border-radius: 6px;
-  padding: 0.5rem 1rem;
   color: white;
-  font-weight: 600;
   cursor: pointer;
-  user-select: none;
-  transition: background-color 0.3s ease;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.buy-btn:hover,
+.select-pet-btn:hover,
+#saveScoreBtn:hover,
+#rebirthBtn:hover,
+#saveBtn:hover,
+#clearSaveBtn:hover {
+  background-color: #448aff;
+  transform: translateY(-2px);
 }
 
 .buy-btn:disabled,
 .select-pet-btn:disabled {
-  background: #555;
+  background-color: #999;
   cursor: not-allowed;
 }
 
-.buy-btn:hover:not(:disabled),
-.select-pet-btn:hover:not(:disabled) {
-  background: #e64a19;
-}
-
-/* ===== Missões e conquistas ===== */
-#missions, #achievementsList {
+ul {
   list-style: none;
-  max-height: 250px;
-  overflow-y: auto;
-  padding-right: 0.25rem;
+  padding: 0;
 }
 
-.mission-item,
-.achievement-item {
-  padding: 0.4rem 0.6rem;
-  margin-bottom: 0.3rem;
-  border-radius: 6px;
-  background: #222;
-  font-size: 0.95rem;
-  font-weight: 600;
-  user-select: none;
-  color: #ccc;
-  transition: background-color 0.3s ease;
+.achievement-item,
+.mission-item {
+  padding: 6px;
+  margin: 5px 0;
+  border-left: 4px solid #00c853;
 }
 
-.light-theme .mission-item,
-.light-theme .achievement-item {
-  background: #eee;
-  color: #222;
-}
-
-.mission-item.completed,
 .achievement-item.achieved {
-  background: #4caf50;
-  color: white;
+  background-color: rgba(0, 200, 83, 0.1);
 }
 
-/* ===== Ranking ===== */
-#rankingSection input[type="text"] {
-  padding: 0.5rem;
+.mission-item.completed {
+  background-color: rgba(0, 200, 83, 0.1);
+}
+
+#detailedRankingList {
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.08);
   border-radius: 6px;
-  border: 1px solid #555;
-  margin-bottom: 0.5rem;
+  margin-bottom: 10px;
+}
+
+.ranking-item {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+#playerNameInput {
   width: 100%;
-  max-width: 300px;
-  color: #eee;
-  background: #222;
-  user-select: text;
-  font-weight: 600;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #1e1e1e;
+  color: white;
 }
 
-.light-theme #rankingSection input[type="text"] {
+body.light-theme #playerNameInput {
   background: #fff;
-  color: #222;
+  color: #000;
   border: 1px solid #ccc;
 }
 
-#sendScoreBtn {
-  background: #ff5722;
-  border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  color: white;
-  cursor: pointer;
-  font-weight: 600;
-  user-select: none;
-  transition: background-color 0.3s ease;
-}
-
-#sendScoreBtn:hover {
-  background: #e64a19;
-}
-
-#rankingList {
-  max-height: 200px;
-  overflow-y: auto;
-  padding-left: 1.2rem;
-  color: #eee;
-  font-weight: 600;
-}
-
-.light-theme #rankingList {
-  color: #222;
-}
-
-/* ===== Chat ===== */
-#chatSection {
+.acoes {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-#chatMessages {
-  background: #222;
-  border-radius: 8px;
-  height: 200px;
-  overflow-y: auto;
-  padding: 0.8rem 1rem;
-  font-size: 0.9rem;
-  color: #ddd;
-  user-select: text;
-  font-weight: 500;
-}
-
-.light-theme #chatMessages {
-  background: #fafafa;
-  color: #222;
-}
-
-#chatInput {
-  border-radius: 6px;
-  border: 1px solid #555;
-  padding: 0.5rem;
-  font-size: 1rem;
-  color: #eee;
-  background: #222;
-  font-weight: 600;
-}
-
-.light-theme #chatInput {
-  background: #fff;
-  color: #222;
-  border: 1px solid #ccc;
-}
-
-#sendChatBtn {
-  align-self: flex-end;
-  background: #ff5722;
-  border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  color: white;
-  cursor: pointer;
-  font-weight: 600;
-  user-select: none;
-  transition: background-color 0.3s ease;
-}
-
-#sendChatBtn:hover {
-  background: #e64a19;
-}
-
-/* ===== Notificações ===== */
-#notificationContainer {
-  font-weight: 700;
-  font-size: 1rem;
-  pointer-events: none;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
 }
 
 .notification {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   background-color: #333;
-  color: #fff;
-  padding: 0.8rem 1.2rem;
-  margin-bottom: 0.5rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px #0009;
-  user-select: none;
-  opacity: 0;
-  animation: fadeinout 3s forwards;
+  padding: 15px 25px;
+  border-radius: 10px;
+  font-weight: bold;
+  opacity: 0.95;
+  display: none;
+  z-index: 999;
 }
 
 .notification.success {
-  background-color: #4caf50;
+  background-color: #00c853;
 }
 
 .notification.error {
-  background-color: #e53935;
+  background-color: #d50000;
 }
 
 .notification.info {
-  background-color: #2196f3;
+  background-color: #2962ff;
 }
 
-@keyframes fadeinout {
-  0% {
-    opacity: 0;
-    transform: translateY(-15px);
-  }
-  10% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  90% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-15px);
-  }
+.notification.show {
+  display: block;
 }
 
-/* ===== Responsividade ===== */
-@media (max-width: 700px) {
-  main {
+/* Responsivo */
+@media (max-width: 768px) {
+  .painel {
     grid-template-columns: 1fr;
   }
-  
-  #clicker {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  #buyAmountButtons {
-    justify-content: center;
+
+  #clickBtn {
+    width: 100%;
   }
 }
