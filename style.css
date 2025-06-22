@@ -4,303 +4,530 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
 }
 
-/* Fundo escuro padrão */
 body {
-  background: #121212;
+  background: #111;
   color: #eee;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
-  user-select: none;
+  padding: 20px;
+  transition: background 0.5s, color 0.5s;
 }
 
-/* Header */
-header {
-  width: 100%;
+/* Tema claro */
+body.light-theme {
+  background: #f2f2f2;
+  color: #222;
+}
+
+/* Container principal */
+#gameContainer {
+  width: 95vw;
   max-width: 1200px;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-header h1 {
-  font-size: 3rem;
-  margin-bottom: 10px;
-  letter-spacing: 4px;
-  color: #00ffff;
-  text-shadow:
-    0 0 5px #00ffff,
-    0 0 15px #00ffff,
-    0 0 30px #00ffff;
-}
-
-/* Barra de stats */
-#statsBar {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  font-weight: 600;
-  font-size: 1.1rem;
-  gap: 12px;
-  color: #a0f0f0;
-  text-shadow: 0 0 3px #0ff;
-  user-select: text;
-}
-
-/* Main conteúdo */
-main {
-  width: 100%;
-  max-width: 1200px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 30px;
-}
-
-/* Seção do clique */
-#clickSection {
-  grid-column: span 2;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-#clickButton {
-  background: linear-gradient(270deg, #00ffff, #ff00ff, #00ffff);
-  background-size: 600% 600%;
-  animation: rgbPulse 5s ease infinite;
-  border: none;
+  background: #222;
   border-radius: 15px;
-  padding: 25px 60px;
-  font-size: 2.4rem;
+  padding: 25px;
+  box-shadow:
+    0 0 15px rgba(0, 255, 255, 0.3),
+    inset 0 0 20px rgba(255, 0, 255, 0.2);
+  transition: background 0.5s;
+}
+
+body.light-theme #gameContainer {
+  background: #fff;
+  box-shadow:
+    0 0 15px rgba(0, 150, 255, 0.3),
+    inset 0 0 20px rgba(255, 150, 0, 0.2);
+}
+
+/* Título */
+h1 {
+  text-align: center;
+  font-weight: 900;
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: #0ff;
+  text-shadow:
+    0 0 8px #0ff,
+    0 0 20px #0ff,
+    0 0 40px #0ff;
+}
+
+/* Botão principal de clicar */
+#clickButton {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #00ffff, #ff00ff);
+  border: 5px solid #00ffff;
+  font-size: 2.5rem;
+  color: #000;
   font-weight: 700;
-  color: white;
   cursor: pointer;
   box-shadow:
-    0 0 10px #00ffff,
-    0 0 30px #ff00ff;
-  transition: transform 0.15s ease;
+    0 0 15px #00ffff,
+    inset 0 0 20px #ff00ff;
+  transition: box-shadow 0.3s, transform 0.1s;
   user-select: none;
-}
-
-#clickButton:hover {
-  transform: scale(1.1);
-  box-shadow:
-    0 0 20px #00ffff,
-    0 0 50px #ff00ff;
+  margin: 20px auto;
+  display: block;
+  animation: pulseColors 5s infinite alternate;
 }
 
 #clickButton:active {
   transform: scale(0.95);
-}
-
-/* Select compra quantidade */
-#buyAmountSection {
-  grid-column: span 2;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-#buyAmountSelect {
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: none;
-  font-size: 1.1rem;
-  font-weight: 600;
-  background: #222;
-  color: #0ff;
   box-shadow:
-    inset 0 0 8px #00ffff,
-    0 0 12px #00ffff;
-  cursor: pointer;
-  transition: background 0.3s ease;
+    0 0 30px #ff00ff,
+    inset 0 0 40px #00ffff;
 }
 
-#buyAmountSelect:hover {
-  background: #111;
+/* Animação pulsante de cores RGB */
+@keyframes pulseColors {
+  0% {
+    box-shadow:
+      0 0 15px #ff0000,
+      inset 0 0 20px #0000ff;
+    background: linear-gradient(45deg, #ff0000, #0000ff);
+  }
+  33% {
+    box-shadow:
+      0 0 15px #00ff00,
+      inset 0 0 20px #ff0000;
+    background: linear-gradient(45deg, #00ff00, #ff0000);
+  }
+  66% {
+    box-shadow:
+      0 0 15px #0000ff,
+      inset 0 0 20px #00ff00;
+    background: linear-gradient(45deg, #0000ff, #00ff00);
+  }
+  100% {
+    box-shadow:
+      0 0 15px #ff0000,
+      inset 0 0 20px #0000ff;
+    background: linear-gradient(45deg, #ff0000, #0000ff);
+  }
 }
 
-/* Containers para listas */
-.itemsContainer {
-  background: #1e1e1e;
-  border-radius: 15px;
-  padding: 15px;
-  box-shadow:
-    0 0 15px #00ffff;
-  max-height: 400px;
-  overflow-y: auto;
-  color: #c0f0f0;
-}
-
-/* Itens (upgrade, shop, pets, achievements) */
-.upgrade-item,
-.shop-item,
-.pet-item,
-.achievement-item {
-  background: #222;
-  border-radius: 12px;
-  margin-bottom: 12px;
-  padding: 12px 15px;
-  box-shadow:
-    inset 0 0 10px #00ffffaa;
-  transition: background 0.3s ease;
+/* Display dos números principais */
+#stats {
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+  color: #0ff;
+  text-shadow:
+    0 0 6px #0ff,
+    0 0 12px #0ff;
 }
 
-.upgrade-item:hover,
-.shop-item:hover,
-.pet-item:hover,
-.achievement-item:hover {
-  background: #333;
-}
-
-.upgrade-item h4,
-.shop-item h4,
-.pet-item h4,
-.achievement-item {
+.stat-box {
+  background: rgba(0, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 15px;
+  min-width: 120px;
+  text-align: center;
   font-weight: 700;
-  font-size: 1.2rem;
-  margin-bottom: 6px;
-  color: #00ffff;
-  text-shadow: 0 0 4px #0ff;
-}
-
-.upgrade-item p,
-.shop-item p,
-.pet-item p {
-  font-size: 0.95rem;
-  margin-bottom: 6px;
-  color: #a0f0f0;
+  font-size: 1.1rem;
+  box-shadow: 0 0 10px #0ff;
   user-select: text;
 }
 
-/* Botões para compra/ativar */
-.upgrade-item button,
-.shop-item button,
-.pet-item button {
-  align-self: flex-start;
-  padding: 7px 18px;
-  font-weight: 700;
-  font-size: 1rem;
-  color: white;
-  background: linear-gradient(270deg, #ff00ff, #00ffff, #ff00ff);
-  background-size: 600% 600%;
-  animation: rgbPulse 5s ease infinite;
+body.light-theme #stats {
+  color: #008080;
+  text-shadow: none;
+}
+
+body.light-theme .stat-box {
+  background: rgba(0, 128, 128, 0.1);
+  box-shadow: 0 0 10px #008080;
+}
+
+/* Seletor compra quantidade */
+#buyAmountSelect {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border-radius: 8px;
   border: none;
-  border-radius: 12px;
+  font-weight: 600;
   cursor: pointer;
+  transition: background 0.3s;
+}
+
+#buyAmountSelect:hover {
+  background: #0ff;
+  color: #000;
+}
+
+body.light-theme #buyAmountSelect:hover {
+  background: #008080;
+  color: #fff;
+}
+
+/* Seção upgrades, loja, pets, missões, conquistas */
+.section-container {
+  margin-top: 30px;
+  background: #111;
+  border-radius: 12px;
+  padding: 15px 20px;
   box-shadow:
-    0 0 8px #ff00ff,
-    0 0 25px #00ffff;
-  transition: background 0.3s ease, transform 0.15s ease;
+    0 0 12px #f0f,
+    inset 0 0 15px #0ff;
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #0ff transparent;
+  transition: background 0.5s;
+}
+
+body.light-theme .section-container {
+  background: #ddd;
+  box-shadow:
+    0 0 12px #a0a,
+    inset 0 0 15px #088;
+  color: #222;
+}
+
+.section-container h3 {
+  margin-bottom: 10px;
+  color: #ff69b4;
+  text-shadow:
+    0 0 6px #ff69b4;
+}
+
+.section-container div.upgrade-item,
+.section-container div.shop-item,
+.section-container div.pet-item {
+  background: rgba(0, 255, 255, 0.1);
+  margin-bottom: 10px;
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 0 10px #0ff;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   user-select: none;
 }
 
-.upgrade-item button:disabled,
-.shop-item button:disabled,
-.pet-item button:disabled {
+body.light-theme .section-container div.upgrade-item,
+body.light-theme .section-container div.shop-item,
+body.light-theme .section-container div.pet-item {
+  background: rgba(0, 128, 128, 0.15);
+  box-shadow: 0 0 10px #088;
+  color: #222;
+}
+
+/* Botões dentro das listas */
+.section-container button {
+  width: fit-content;
+  align-self: flex-start;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: none;
+  background: #0ff;
+  color: #000;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow:
+    0 0 12px #0ff;
+  transition: background 0.3s, box-shadow 0.3s;
+  user-select: none;
+}
+
+.section-container button:disabled {
   background: #555;
+  color: #aaa;
   cursor: not-allowed;
   box-shadow: none;
-  color: #bbb;
 }
 
-.upgrade-item button:hover:not(:disabled),
-.shop-item button:hover:not(:disabled),
-.pet-item button:hover:not(:disabled) {
-  transform: scale(1.05);
+.section-container button:hover:not(:disabled) {
+  background: #0cffff;
+  box-shadow:
+    0 0 18px #0cffff,
+    0 0 20px #0ff;
+}
+
+/* Lista de missões e conquistas */
+#missions, #achievementsList {
+  list-style: none;
+  max-height: 230px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+#missions li, #achievementsList li {
+  margin-bottom: 8px;
+  padding: 5px 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  transition: background 0.3s;
+  user-select: none;
+}
+
+#missions li.mission-completed {
+  background: #0f0a0f;
+  color: #0f0;
+  font-weight: 700;
+  text-decoration: line-through;
+}
+
+#achievementsList li.achieved {
+  background: #222;
+  color: #ff0;
+  font-weight: 700;
+  text-shadow:
+    0 0 6px #ff0,
+    0 0 12px #ff0;
+}
+
+/* Ranking */
+#ranking, #detailedRankingList {
+  margin-top: 10px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 10px;
+  background: rgba(0, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 0 12px #0ff;
+  user-select: none;
+}
+
+.ranking-entry {
+  padding: 6px 4px;
+  border-bottom: 1px solid #0ff;
+  color: #0ff;
+  font-weight: 700;
+}
+
+body.light-theme .ranking-entry {
+  border-color: #088;
+  color: #088;
+}
+
+/* Chat */
+#chatContainer {
+  margin-top: 20px;
+  max-width: 100%;
+  background: #111;
+  border-radius: 12px;
+  padding: 10px 15px;
+  box-shadow: 0 0 10px #0ff inset;
+  display: flex;
+  flex-direction: column;
+  height: 250px;
+}
+
+body.light-theme #chatContainer {
+  background: #eee;
+  box-shadow: 0 0 10px #088 inset;
+  color: #222;
+}
+
+#chatMessages {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  line-height: 1.3;
+  user-select: text;
+  color: #0ff;
+}
+
+body.light-theme #chatMessages {
+  color: #088;
+}
+
+#chatInput, #playerNameInput {
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+  width: 100%;
+  margin-bottom: 6px;
+  box-shadow: 0 0 10px #0ff inset;
+  transition: box-shadow 0.3s;
+}
+
+body.light-theme #chatInput, body.light-theme #playerNameInput {
+  box-shadow: 0 0 10px #088 inset;
+}
+
+#chatInput:focus, #playerNameInput:focus {
+  box-shadow: 0 0 18px #0ff inset;
+}
+
+#chatSendBtn {
+  align-self: flex-end;
+  padding: 8px 20px;
+  border-radius: 30px;
+  background: linear-gradient(45deg, #00ffff, #ff00ff);
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  color: #000;
+  box-shadow:
+    0 0 12px #ff00ff,
+    inset 0 0 20px #00ffff;
+  transition: box-shadow 0.3s, transform 0.1s;
+  user-select: none;
+}
+
+#chatSendBtn:hover {
   box-shadow:
     0 0 20px #ff00ff,
-    0 0 40px #00ffff;
+    inset 0 0 30px #00ffff;
 }
 
-.upgrade-item button:active:not(:disabled),
-.shop-item button:active:not(:disabled),
-.pet-item button:active:not(:disabled) {
-  transform: scale(0.9);
+#chatSendBtn:active {
+  transform: scale(0.95);
 }
 
-/* Missões */
-#missions {
-  list-style-type: none;
-  color: #a0f0f0;
-  max-height: 250px;
-  overflow-y: auto;
-  padding-left: 12px;
-}
-
-.mission-item {
-  background: #222;
-  margin-bottom: 10px;
-  padding: 10px 15px;
-  border-radius: 12px;
-  box-shadow: inset 0 0 10px #0ff;
-  font-weight: 600;
-  font-size: 1rem;
-}
-
-/* Notificação */
+/* Notificação fixa */
 #notification {
   position: fixed;
-  top: 20px;
+  bottom: 25px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #0f62fe;
-  color: white;
-  padding: 14px 28px;
-  border-radius: 25px;
+  color: #fff;
+  padding: 14px 25px;
+  border-radius: 30px;
   font-weight: 700;
-  font-size: 1.2rem;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
+  font-size: 1.1rem;
+  display: none;
+  box-shadow:
+    0 0 12px #0f62fe,
+    0 0 25px #0f62fe;
   z-index: 9999;
-  text-shadow: 0 0 8px #0f62fe;
+  user-select: none;
+  pointer-events: none;
+  text-align: center;
 }
 
-/* Scrollbar customizado */
-.itemsContainer::-webkit-scrollbar,
-#missions::-webkit-scrollbar {
+/* Scrollbars estilizados */
+.section-container::-webkit-scrollbar,
+#ranking::-webkit-scrollbar,
+#detailedRankingList::-webkit-scrollbar,
+#missions::-webkit-scrollbar,
+#achievementsList::-webkit-scrollbar,
+#chatMessages::-webkit-scrollbar {
   width: 8px;
 }
 
-.itemsContainer::-webkit-scrollbar-track,
-#missions::-webkit-scrollbar-track {
-  background: #111;
-  border-radius: 12px;
+.section-container::-webkit-scrollbar-thumb,
+#ranking::-webkit-scrollbar-thumb,
+#detailedRankingList::-webkit-scrollbar-thumb,
+#missions::-webkit-scrollbar-thumb,
+#achievementsList::-webkit-scrollbar-thumb,
+#chatMessages::-webkit-scrollbar-thumb {
+  background-color: #0ff;
+  border-radius: 10px;
 }
 
-.itemsContainer::-webkit-scrollbar-thumb,
-#missions::-webkit-scrollbar-thumb {
-  background: #00ffffaa;
-  border-radius: 12px;
+body.light-theme .section-container::-webkit-scrollbar-thumb,
+body.light-theme #ranking::-webkit-scrollbar-thumb,
+body.light-theme #detailedRankingList::-webkit-scrollbar-thumb,
+body.light-theme #missions::-webkit-scrollbar-thumb,
+body.light-theme #achievementsList::-webkit-scrollbar-thumb,
+body.light-theme #chatMessages::-webkit-scrollbar-thumb {
+  background-color: #088;
 }
 
-/* Animação RGB pulsante */
-@keyframes rgbPulse {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-/* Responsividade */
-@media (max-width: 900px) {
-  main {
-    grid-template-columns: 1fr !important;
-  }
-
+/* Responsividade básica */
+@media (max-width: 768px) {
   #clickButton {
-    width: 100%;
-    padding: 20px 0;
+    width: 160px;
+    height: 160px;
+    font-size: 1.8rem;
   }
+  #gameContainer {
+    padding: 15px;
+  }
+  .stat-box {
+    min-width: 90px;
+    font-size: 1rem;
+  }
+  .section-container {
+    max-height: 220px;
+    padding: 12px 15px;
+  }
+}
+
+/* Botões e inputs do topo */
+#controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+#controls button {
+  padding: 10px 20px;
+  border-radius: 25px;
+  border: none;
+  background: linear-gradient(45deg, #0ff, #f0f);
+  color: #000;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow:
+    0 0 10px #f0f,
+    inset 0 0 15px #0ff;
+  transition: box-shadow 0.3s;
+  user-select: none;
+}
+
+#controls button:hover {
+  box-shadow:
+    0 0 20px #f0f,
+    inset 0 0 25px #0ff;
+}
+
+#controls button:active {
+  transform: scale(0.95);
+}
+
+/* Toggle tema */
+#toggleTheme {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(45deg, #0ff, #f0f);
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 1.8rem;
+  cursor: pointer;
+  box-shadow:
+    0 0 15px #0ff,
+    inset 0 0 15px #f0f;
+  color: #000;
+  user-select: none;
+  transition: box-shadow 0.3s;
+  z-index: 999;
+}
+
+#toggleTheme:hover {
+  box-shadow:
+    0 0 30px #f0f,
+    inset 0 0 30px #0ff;
+}
+
+/* Inputs para nome e chat */
+#chatInput, #playerNameInput {
+  width: 100%;
+}
+
+/* Título menores em seções */
+.section-container h3 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
 }
