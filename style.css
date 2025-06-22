@@ -25,16 +25,14 @@ body {
   user-select: none;
 }
 
-/* Luz pulsante nos cantos */
-body::before,
-body::after {
+body::before, body::after {
   content: "";
   position: fixed;
   width: 120px;
   height: 120px;
   background: radial-gradient(circle, var(--color-accent), transparent 70%);
-  opacity: 0.4;
-  animation: pulse 3s infinite ease-in-out;
+  opacity: 0.3;
+  animation: pulse 2.5s infinite ease-in-out;
   pointer-events: none;
   z-index: 1;
   filter: drop-shadow(0 0 8px var(--color-accent));
@@ -48,16 +46,16 @@ body::before {
 body::after {
   bottom: 0;
   right: 0;
-  animation-delay: 1.5s;
+  animation-delay: 1.25s;
 }
 
 @keyframes pulse {
   0%, 100% {
-    opacity: 0.4;
+    opacity: 0.3;
     transform: scale(1);
   }
   50% {
-    opacity: 0.85;
+    opacity: 0.8;
     transform: scale(1.3);
   }
 }
@@ -65,32 +63,59 @@ body::after {
 /* Botão tema */
 .theme-btn {
   position: fixed;
-  top: 15px;
-  right: 15px;
+  top: 12px;
+  right: 12px;
   background-color: var(--color-btn-bg);
   border: none;
-  padding: 12px 18px;
+  padding: 10px 16px;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 8px;
   color: var(--color-btn-text);
-  font-size: 24px;
+  font-size: 22px;
   z-index: 10;
-  transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-  box-shadow: 0 0 12px transparent;
+  transition: background-color var(--transition-speed);
+  box-shadow: 0 0 10px var(--color-accent);
 }
 
 .theme-btn:hover {
   background-color: var(--color-btn-hover);
-  box-shadow: 0 0 25px var(--color-accent);
+  box-shadow: 0 0 20px var(--color-accent);
 }
 
-/* Container geral */
+/* Header */
+header {
+  text-align: center;
+  padding: 20px 10px 10px;
+  border-bottom: 3px solid var(--color-accent);
+  margin-bottom: 20px;
+  user-select: none;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.8rem;
+  letter-spacing: 2px;
+  color: var(--color-accent);
+}
+
+#statsPanel {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--color-btn-text);
+}
+
+/* Main container */
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 30px;
-  padding: 110px 32px 32px 32px;
-  max-width: 1440px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 0 24px 48px;
+  max-width: 1400px;
   margin: 0 auto;
   z-index: 2;
 }
@@ -98,90 +123,98 @@ body::after {
 /* Painéis */
 .panel {
   background-color: var(--color-panel-bg);
-  border-radius: 20px;
-  padding: 28px;
-  box-shadow: 0 0 30px var(--color-shadow);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 0 25px var(--color-shadow);
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 18px;
   transition: box-shadow var(--transition-speed);
   user-select: none;
 }
 
 .panel:hover {
-  box-shadow: 0 0 48px var(--color-accent);
+  box-shadow: 0 0 40px var(--color-accent);
 }
 
 /* Títulos */
 .panel h2 {
-  margin: 0 0 16px 0;
+  margin: 0 0 12px 0;
   font-weight: 900;
   font-size: 1.8rem;
-  border-bottom: 4px solid var(--color-accent);
-  padding-bottom: 10px;
-  letter-spacing: 2px;
+  border-bottom: 3px solid var(--color-accent);
+  padding-bottom: 8px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--color-accent);
-  user-select: none;
 }
 
-/* Botões gerais */
+/* Botões */
 .btn {
   background-color: var(--color-btn-bg);
   border: none;
-  border-radius: 14px;
-  padding: 16px 28px;
-  font-size: 1.2rem;
+  border-radius: 12px;
+  padding: 14px 22px;
+  font-size: 1.1rem;
   cursor: pointer;
   color: var(--color-btn-text);
   font-weight: 900;
   transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-  box-shadow: 0 0 16px transparent;
-  letter-spacing: 1.5px;
   user-select: none;
-  text-transform: uppercase;
+  box-shadow: 0 0 12px transparent;
+  letter-spacing: 1.2px;
 }
 
-.btn:hover,
-.btn:focus {
+.btn:hover, .btn:focus {
   background-color: var(--color-btn-hover);
   outline: none;
-  box-shadow: 0 0 28px var(--color-accent);
+  box-shadow: 0 0 18px var(--color-accent);
 }
 
-/* Botão maior para click */
+/* Botão grande para click */
 .click-btn {
-  font-size: 2rem;
-  padding: 36px;
+  font-size: 2.2rem;
+  padding: 38px;
   letter-spacing: 4px;
+  text-transform: uppercase;
   font-weight: 900;
   user-select: none;
-  transition: transform 0.12s ease;
-  box-shadow: 0 0 32px var(--color-accent);
+  transition: transform 0.15s ease;
+  box-shadow: 0 0 25px var(--color-accent);
+  border-radius: 24px;
 }
 
 .click-btn:active {
-  transform: scale(0.9);
-  box-shadow: 0 0 48px var(--color-accent);
+  transform: scale(0.92);
+  box-shadow: 0 0 40px var(--color-accent);
 }
 
 /* Upgrade rows */
 .upgrade-row {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
+  border-bottom: 1px solid #333;
+  padding: 12px 0;
 }
 
-/* Botões comprar múltiplos */
+/* Botões de comprar múltiplos */
+.upgradeAmountBtnsContainer {
+  margin-top: 12px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .upgradeAmountBtn {
   background-color: var(--color-btn-bg);
-  border-radius: 14px;
-  padding: 12px 20px;
-  margin-left: 8px;
-  font-size: 1.1rem;
-  font-weight: 800;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 1rem;
+  font-weight: 900;
   cursor: pointer;
   color: var(--color-btn-text);
   border: 2px solid transparent;
@@ -189,98 +222,196 @@ body::after {
   min-width: 70px;
   text-align: center;
   user-select: none;
-  text-transform: uppercase;
 }
 
 .upgradeAmountBtn.active {
   background-color: var(--color-accent);
   color: var(--color-bg);
   border-color: var(--color-btn-text);
+  box-shadow: 0 0 18px var(--color-accent);
+}
+
+/* Loja */
+#shopPanel .shop-item {
+  margin-bottom: 16px;
+  border: 1px solid #333;
+  border-radius: 14px;
+  padding: 14px;
+  background-color: #222;
+  box-shadow: 0 0 12px rgba(79, 195, 247, 0.2);
+  transition: box-shadow 0.3s ease;
+  user-select: none;
+}
+
+#shopPanel .shop-item:hover {
   box-shadow: 0 0 28px var(--color-accent);
 }
 
-/* Barra de XP */
-#xpBarContainer {
-  background-color: var(--color-xp-bar-bg);
-  border-radius: 14px;
-  height: 22px;
-  width: 100%;
-  overflow: hidden;
-  box-shadow: inset 0 0 10px #0009;
-  user-select: none;
+.shop-item h3 {
+  margin: 0 0 6px 0;
+  font-weight: 900;
+  color: var(--color-accent);
 }
 
-#xpBar {
-  background-color: var(--color-xp-bar-fill);
-  height: 100%;
-  width: 0%;
-  transition: width 0.4s ease-in-out;
-  box-shadow: 0 0 14px var(--color-accent);
-  border-radius: 14px;
-}
-
-/* Informações extras do jogo */
-#clicksDisplay, #cps, #levelDisplay, #gemsCount, #rebirthCount, #worldName, #currentWorld, #activePet {
-  font-weight: 700;
-  font-size: 1.2rem;
-  letter-spacing: 1.2px;
+.shop-item p {
+  margin: 0 0 10px 0;
+  font-size: 0.95rem;
   color: var(--color-btn-text);
+}
+
+.shop-buy-btn {
+  width: 100%;
+  padding: 10px;
+  font-weight: 700;
+  border-radius: 10px;
+  background-color: var(--color-btn-bg);
+  border: none;
+  color: var(--color-btn-text);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
   user-select: none;
 }
 
-/* Pets list */
-#petsList {
+.shop-buy-btn:hover:not(:disabled) {
+  background-color: var(--color-btn-hover);
+  box-shadow: 0 0 20px var(--color-accent);
+}
+
+.shop-buy-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Pets */
+.flex-row-wrap {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 16px;
+  justify-content: center;
 }
 
 .pet-card {
   background-color: #222;
   border-radius: 16px;
   padding: 16px;
-  width: 130px;
+  width: 150px;
   text-align: center;
-  box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+  box-shadow: 0 0 12px rgba(79, 195, 247, 0.3);
   cursor: pointer;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
   user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
-.pet-card:hover {
-  box-shadow: 0 0 20px var(--color-accent);
+.pet-card:hover:not(.disabled) {
+  box-shadow: 0 0 28px var(--color-accent);
+  transform: translateY(-6px);
 }
 
 .pet-card.active {
-  border: 2px solid var(--color-accent);
-  box-shadow: 0 0 25px var(--color-accent);
+  border: 3px solid var(--color-accent);
+  box-shadow: 0 0 40px var(--color-accent);
+}
+
+.pet-card.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pet-emoji {
+  font-size: 48px;
+  user-select: none;
 }
 
 .pet-name {
-  margin: 8px 0 4px 0;
   font-weight: 900;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  color: var(--color-accent);
+}
+
+.pet-bonus, .pet-price {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-btn-text);
+}
+
+.pet-btn {
+  margin-top: 10px;
+  padding: 10px;
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  background-color: var(--color-btn-bg);
+  color: var(--color-btn-text);
+  box-shadow: 0 0 12px transparent;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.pet-btn:hover:not(:disabled) {
+  background-color: var(--color-btn-hover);
+  box-shadow: 0 0 18px var(--color-accent);
+}
+
+.pet-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Rebirth */
+#rebirthBtn {
+  width: 100%;
+  font-size: 1.2rem;
+  padding: 18px;
+  border-radius: 18px;
+  box-shadow: 0 0 20px var(--color-accent);
+  font-weight: 900;
+}
+
+#rebirthInfo {
+  font-size: 1rem;
+  color: var(--color-btn-text);
+}
+
+/* Worlds */
+#worldsList .world-card {
+  background-color: #222;
+  padding: 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  width: 200px;
+  box-shadow: 0 0 12px rgba(79,195,247,0.3);
+  text-align: center;
+  user-select: none;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  font-weight: 700;
+  color: var(--color-btn-text);
+}
+
+#worldsList .world-card:hover {
+  box-shadow: 0 0 30px var(--color-accent);
+  transform: translateY(-5px);
+}
+
+#worldsList .world-card.active {
+  border: 3px solid var(--color-accent);
+  box-shadow: 0 0 40px var(--color-accent);
   color: var(--color-accent);
 }
 
 /* Responsividade */
-@media (max-width: 720px) {
+@media (max-width: 700px) {
   .container {
-    grid-template-columns: 1fr;
-    padding: 90px 20px 20px 20px;
+    grid-template-columns: 1fr !important;
   }
-
-  .btn {
-    font-size: 1.1rem;
-    padding: 14px 22px;
+  #statsPanel {
+    flex-direction: column;
+    gap: 10px;
   }
-
-  .click-btn {
-    padding: 26px;
-    font-size: 1.6rem;
-  }
-
-  #petsList {
-    justify-content: center;
+  .upgradeAmountBtnsContainer {
+    justify-content: flex-start;
   }
 }
