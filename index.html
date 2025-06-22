@@ -1,65 +1,75 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator Deluxe</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Clicker Simulator - Versão Completa</title>
+<link rel="stylesheet" href="style.css" />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <button class="theme-btn" id="toggleTheme">🌙</button>
 
-  <div class="container">
+<button class="theme-btn" id="toggleTheme" title="Alternar tema">🌙</button>
 
-    <!-- Painel Principal - Click -->
-    <section class="panel" id="mainPanel">
-      <h2>Clicker</h2>
-      <button class="click-btn" id="clickBtn">CLIQUE AQUI!</button>
-      <div class="upgrade-row">
-        <span>Quantidade para comprar:</span>
-        <button class="upgradeAmountBtn active" data-amount="1">1</button>
-        <button class="upgradeAmountBtn" data-amount="10">10</button>
-        <button class="upgradeAmountBtn" data-amount="100">100</button>
-        <button class="upgradeAmountBtn" data-amount="1000">1000</button>
-        <button class="upgradeAmountBtn" data-amount="max">Máximo</button>
-      </div>
-      <div id="clicksDisplay">Cliques: 0</div>
-      <div id="cps">Clicks por segundo: 0</div>
-      <div id="xpBarContainer">
-        <div id="xpBar"></div>
-      </div>
-      <div id="levelDisplay">Nível: 1</div>
-    </section>
-
-    <!-- Painel Upgrades -->
-    <section class="panel" id="upgradesPanel">
-      <h2>Melhorias</h2>
-      <div id="upgradesList"></div>
-    </section>
-
-    <!-- Painel Pets -->
-    <section class="panel" id="petsPanel">
-      <h2>Pets</h2>
-      <div id="petsList" class="flex-row-wrap"></div>
-      <div id="activePet">Pet ativo: Nenhum</div>
-    </section>
-
-    <!-- Painel Mundo -->
-    <section class="panel" id="worldPanel">
-      <h2>Mundos</h2>
-      <div id="currentWorld">Mundo Atual: Terra</div>
-      <div id="worldBonuses">Bônus: +0% clicks</div>
-      <button class="btn" id="changeWorldBtn">Trocar Mundo</button>
-    </section>
-
-    <!-- Painel Loja -->
-    <section class="panel" id="shopPanel">
-      <h2>Loja</h2>
-      <div id="shopList"></div>
-    </section>
-
+<header>
+  <h1>Clicker Simulator</h1>
+  <div id="statsPanel">
+    <div><strong>Clique:</strong> <span id="clicksDisplay">0</span></div>
+    <div><strong>Clicks por Segundo:</strong> <span id="cpsDisplay">0</span></div>
+    <div><strong>Nível:</strong> <span id="levelDisplay">1</span></div>
+    <div><strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
+    <div><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
+    <div><strong>Mundo:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
   </div>
+</header>
 
-  <script src="script.js"></script>
+<main class="container">
+
+  <section id="clickPanel" class="panel">
+    <h2>Clique Aqui!</h2>
+    <button id="clickBtn" class="btn click-btn">CLIQUE</button>
+  </section>
+
+  <section id="upgradesPanel" class="panel">
+    <h2>Melhorias</h2>
+    <div id="upgradesList"></div>
+    <div class="upgradeAmountBtnsContainer">
+      <button class="upgradeAmountBtn active" data-amount="1">1</button>
+      <button class="upgradeAmountBtn" data-amount="10">10</button>
+      <button class="upgradeAmountBtn" data-amount="100">100</button>
+      <button class="upgradeAmountBtn" data-amount="1000">1000</button>
+      <button class="upgradeAmountBtn" data-amount="max">Máximo</button>
+    </div>
+  </section>
+
+  <section id="shopPanel" class="panel">
+    <h2>Loja</h2>
+    <div id="shopItemsList"></div>
+  </section>
+
+  <section id="petsPanel" class="panel">
+    <h2>Pets</h2>
+    <div id="petsList" class="flex-row-wrap"></div>
+    <div id="activePet" style="margin-top:12px; font-weight:700; color: var(--color-accent);"></div>
+  </section>
+
+  <section id="rebirthPanel" class="panel">
+    <h2>Rebirth</h2>
+    <button id="rebirthBtn" class="btn">Fazer Rebirth</button>
+    <div id="rebirthInfo" style="margin-top: 10px;"></div>
+  </section>
+
+  <section id="worldsPanel" class="panel">
+    <h2>Mundos</h2>
+    <div id="worldsList" class="flex-row-wrap"></div>
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2025 Clicker Simulator - Criado por Luiz</p>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
