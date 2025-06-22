@@ -1,621 +1,1254 @@
-/* === RESET CSS === */
+/* ===== Reset básico ===== */
 *,
 *::before,
 *::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
+html, body {
+  height: 100%;
   font-family: 'Roboto', sans-serif;
-  line-height: 1.5;
   background-color: #121212;
   color: #eee;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 2rem 1rem;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  user-select: none;
+  overflow-x: hidden;
 }
 
-/* === CONTAINER PRINCIPAL === */
+/* ===== Variáveis CSS para temas ===== */
+:root {
+  --color-primary: #00ffff;
+  --color-primary-dark: #00cccc;
+  --color-primary-light: #33ffff;
+  --color-bg-dark: #121212;
+  --color-bg-light: #f0f0f0;
+  --color-text-dark: #eeeeee;
+  --color-text-light: #222222;
+
+  --font-main: 'Roboto', sans-serif;
+
+  --btn-radius: 50px;
+  --box-radius: 15px;
+  --shadow-glow: 0 0 15px var(--color-primary);
+  --transition-speed: 0.3s;
+}
+
+/* ===== Tema Light (quando .light-theme está no body) ===== */
+body.light-theme {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-light);
+}
+body.light-theme #container {
+  background-color: #fff;
+  box-shadow: 0 0 20px var(--color-primary-light);
+}
+body.light-theme button,
+body.light-theme .box {
+  background-color: #e6f7ff;
+  color: var(--color-text-light);
+  box-shadow: inset 0 0 10px var(--color-primary-light);
+}
+body.light-theme .box button {
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
+  color: #000;
+  box-shadow: 0 0 12px var(--color-primary-light);
+}
+body.light-theme #toggleTheme {
+  color: var(--color-text-light);
+}
+
+/* ===== Container principal ===== */
 #container {
-  max-width: 1400px;
-  width: 100%;
-  background: #1e1e1e;
-  border-radius: 12px;
-  padding: 2rem 2.5rem;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8);
+  max-width: 1200px;
+  margin: 50px auto 80px auto;
+  padding: 30px;
+  background-color: #222;
+  border-radius: var(--box-radius);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.15);
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 25px;
   user-select: none;
 }
 
-/* === HEADER === */
+/* ===== Botão de tema ===== */
+#toggleTheme {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  font-size: 2.4rem;
+  cursor: pointer;
+  color: var(--color-primary);
+  transition: color var(--transition-speed);
+  z-index: 10000;
+}
+#toggleTheme:hover {
+  color: var(--color-primary-light);
+}
+
+/* ===== Cabeçalho ===== */
 header {
   text-align: center;
-  margin-bottom: 1rem;
+  user-select: none;
 }
-
 header h1 {
   font-weight: 900;
-  font-size: 2.8rem;
-  color: #50c878;
-  letter-spacing: 0.12em;
+  font-size: 3.2rem;
+  color: var(--color-primary);
+  letter-spacing: 3px;
   text-shadow:
-    0 0 10px #50c878,
-    0 0 30px #50c878;
+    0 0 8px var(--color-primary-light),
+    0 0 20px var(--color-primary);
+}
+header p {
+  margin-top: 5px;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: #a0f0ffcc;
+}
+
+/* ===== Estatísticas principais ===== */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+.stat-item {
+  background-color: #0a1f2a;
+  padding: 18px 22px;
+  border-radius: var(--box-radius);
+  box-shadow: inset 0 0 18px var(--color-primary-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  transition: background-color var(--transition-speed);
+}
+.stat-item strong {
+  font-weight: 900;
+  font-size: 1.2rem;
+  color: var(--color-primary-light);
+  margin-bottom: 8px;
+  text-shadow: 0 0 8px var(--color-primary);
+}
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #e0ffffcc;
+  text-shadow: 0 0 15px var(--color-primary-light);
   user-select: text;
 }
 
-.subtitle {
-  font-weight: 400;
-  font-size: 1.2rem;
-  color: #ccc;
-  font-style: italic;
-  display: block;
-  margin-top: 0.3rem;
-}
-
-.description {
-  font-size: 1rem;
-  color: #bbb;
-  margin-top: 0.6rem;
-  font-weight: 500;
-}
-
-/* === BOTÃO TEMA CLARO/ESC URO === */
-.theme-toggle {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background: #222;
+/* ===== Botão principal de clique ===== */
+#clickBtn {
+  margin: 25px auto 15px auto;
+  background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
   border: none;
   border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
-  font-size: 1.6rem;
-  cursor: pointer;
-  color: #50c878;
-  box-shadow: 0 0 10px #50c878;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  z-index: 1000;
-}
-
-.theme-toggle:hover,
-.theme-toggle:focus {
-  background: #50c878;
-  color: #121212;
-  outline: none;
-  box-shadow: 0 0 20px #50c878;
-}
-
-/* === SEÇÕES DE ESTATÍSTICAS === */
-#stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 1rem 2rem;
-  background: #292929;
-  padding: 1.5rem 2rem;
-  border-radius: 12px;
-  box-shadow: inset 0 0 8px #3b8e65;
-}
-
-.stat-item {
-  background: #1c1c1c;
-  padding: 1rem 1.3rem;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 1.15rem;
-  color: #eee;
-  text-align: center;
-  user-select: none;
-  box-shadow:
-    0 2px 5px rgba(0,0,0,0.8),
-    inset 0 -1px 0 rgba(255,255,255,0.07);
-  transition: background-color 0.3s ease;
-}
-
-.stat-item:focus {
-  outline: 2px solid #50c878;
-  background-color: #264d33;
-}
-
-/* === PROGRESS BAR XP === */
-progress#xpBar {
-  width: 100%;
-  height: 1.1rem;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-top: 0.4rem;
-  background-color: #444;
-  box-shadow: inset 0 1px 2px #333;
-  appearance: none;
-}
-
-progress#xpBar::-webkit-progress-bar {
-  background-color: #444;
-}
-
-progress#xpBar::-webkit-progress-value {
-  background: linear-gradient(90deg, #50c878, #3aaf65);
-  border-radius: 8px;
-  box-shadow:
-    0 0 10px #50c878,
-    inset 0 2px 3px rgba(255,255,255,0.3);
-}
-
-progress#xpBar::-moz-progress-bar {
-  background: linear-gradient(90deg, #50c878, #3aaf65);
-  border-radius: 8px;
-  box-shadow:
-    0 0 10px #50c878,
-    inset 0 2px 3px rgba(255,255,255,0.3);
-}
-
-/* === BOTÃO PRINCIPAL CLIQUE === */
-#click-section {
-  text-align: center;
-}
-
-#clickBtn {
-  background: #50c878;
-  border: none;
-  padding: 1.7rem 3.5rem;
-  font-size: 2.8rem;
+  width: 170px;
+  height: 170px;
+  font-size: 3.2rem;
   font-weight: 900;
-  color: #121212;
-  text-transform: uppercase;
-  border-radius: 18px;
+  color: #000;
   cursor: pointer;
+  box-shadow:
+    0 0 25px var(--color-primary),
+    0 0 45px var(--color-primary-light),
+    inset 0 0 40px var(--color-primary-light);
   user-select: none;
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+#clickBtn:active {
+  transform: scale(0.92);
   box-shadow:
-    0 0 20px #50c878,
-    inset 0 3px 8px #66d494;
-  transition: background-color 0.25s ease, transform 0.1s ease;
+    0 0 20px var(--color-primary-light),
+    inset 0 0 30px var(--color-primary-light);
 }
 
-#clickBtn:hover,
-#clickBtn:focus {
-  background: #67d495;
-  outline: none;
-  transform: scale(1.05);
-  box-shadow:
-    0 0 25px #67d495,
-    inset 0 3px 12px #8ff0b0;
-}
-
-#clickBtn:active,
-#clickBtn.clicked {
-  background: #3da95a;
-  transform: scale(0.95);
-  box-shadow:
-    0 0 10px #3da95a,
-    inset 0 1px 5px #5eb779;
-}
-
-/* === FLEX ROW === */
+/* ===== Layout flexível para painéis ===== */
 .flex-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
+  gap: 20px;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-/* === BOXES SEÇÕES === */
+/* ===== Boxes (painéis) ===== */
 .box {
-  background: #222;
-  border-radius: 16px;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.8);
-  padding: 1.6rem 1.8rem;
+  background-color: #111;
   flex: 1 1 320px;
-  min-width: 280px;
-  max-height: 560px;
+  border-radius: var(--box-radius);
+  box-shadow: inset 0 0 18px var(--color-primary-light);
+  padding: 25px;
+  max-height: 480px;
   overflow-y: auto;
-  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) #111;
   display: flex;
   flex-direction: column;
 }
-
 .box h2 {
-  color: #50c878;
-  font-weight: 700;
-  margin-bottom: 1.2rem;
-  font-size: 1.5rem;
-  user-select: text;
-}
-
-/* === LISTAS INTERATIVAS === */
-.upgrade-item,
-.shop-item,
-.pet-item,
-.achievement-item,
-.mission-item,
-.ranking-item {
-  background: #1b1b1b;
-  border-radius: 10px;
-  padding: 1rem 1.2rem;
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  font-weight: 900;
+  color: var(--color-primary);
+  font-size: 1.9rem;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px var(--color-primary-light);
   user-select: none;
-  box-shadow:
-    0 1px 5px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07);
-  transition: background-color 0.3s ease;
 }
 
-.upgrade-item:hover,
-.shop-item:hover,
-.pet-item:hover,
-.achievement-item:hover,
-.mission-item:hover {
-  background: #264d33;
-  cursor: pointer;
+/* ===== Scrollbar customizada para Chrome/Edge/Safari ===== */
+.box::-webkit-scrollbar {
+  width: 10px;
+}
+.box::-webkit-scrollbar-track {
+  background: #111;
+}
+.box::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 15px;
 }
 
-.upgrade-info,
-.shop-info,
-.pet-info {
-  flex: 1 1 auto;
-  color: #d6f5d6;
-  font-weight: 600;
-  font-size: 1rem;
-  user-select: text;
-}
-
-/* === BOTÕES DE COMPRA === */
-.btn-buy {
-  background-color: #50c878;
-  color: #121212;
+/* ===== Botões dentro dos boxes ===== */
+.box button {
+  margin-top: 10px;
+  padding: 11px 18px;
+  border-radius: var(--btn-radius);
   border: none;
-  border-radius: 14px;
-  padding: 0.5rem 1.2rem;
-  font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.1s ease;
+  font-weight: 700;
+  font-size: 1.1rem;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-dark));
+  color: #000;
+  box-shadow: 0 0 15px var(--color-primary);
+  transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
   user-select: none;
-  box-shadow:
-    0 0 12px #50c878;
+  align-self: flex-start;
 }
-
-.btn-buy:disabled,
-.btn-buy[disabled] {
-  background-color: #3a3a3a;
+.box button:disabled {
+  background: #444;
   color: #888;
   cursor: not-allowed;
   box-shadow: none;
 }
-
-.btn-buy:hover:not(:disabled),
-.btn-buy:focus:not(:disabled) {
-  background-color: #67d495;
-  outline: none;
-  transform: scale(1.05);
-  box-shadow: 0 0 18px #67d495;
+.box button:hover:not(:disabled) {
+  background: linear-gradient(90deg, var(--color-primary-dark), var(--color-primary-light));
+  box-shadow: 0 0 22px var(--color-primary-light);
 }
 
-.btn-buy:active:not(:disabled) {
-  background-color: #3da95a;
-  transform: scale(0.95);
-  box-shadow: 0 0 10px #3da95a;
+/* ===== Item individual (upgrade, pet, mission, achievement, shop item, world) ===== */
+.upgrade, .pet, .mission, .achievement, .shop-item, .world {
+  background-color: #0a2533;
+  margin-bottom: 14px;
+  padding: 16px 20px;
+  border-radius: var(--box-radius);
+  box-shadow: inset 0 0 18px #00ffff88;
+  user-select: none;
+  cursor: pointer;
+  transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+  display: flex;
+  flex-direction: column;
+}
+.upgrade strong, .pet strong, .mission strong, .achievement strong, .shop-item strong, .world strong {
+  color: var(--color-primary);
+  font-weight: 900;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  text-shadow: 0 0 7px var(--color-primary);
 }
 
-/* === ACHIEVEMENTS E MISSÕES === */
-.achievement-item.locked,
-.mission-item.active {
-  opacity: 0.8;
-  background-color: #272727;
-  cursor: default;
-  color: #bbb;
+/* ===== Item ativo selecionado ===== */
+.active {
+  border: 3px solid var(--color-primary);
+  box-shadow: 0 0 25px var(--color-primary);
+  background-color: #00404d;
 }
 
-.achievement-item.done,
-.mission-item.done {
-  background-color: #4caf50;
-  color: #121212;
-  font-weight: 700;
-  cursor: default;
-  box-shadow: 0 0 20px #4caf50;
+/* ===== Inputs no ranking ===== */
+#playerNameInput {
+  width: calc(100% - 130px);
+  padding: 11px 14px;
+  font-size: 1.15rem;
+  border-radius: var(--btn-radius);
+  border: none;
+  margin-right: 10px;
+  box-shadow: inset 0 0 15px var(--color-primary-light);
+  background-color: #222;
+  color: #eee;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+#playerNameInput::placeholder {
+  color: #555;
 }
 
-/* === PROGRESS BARRAS MISSÕES === */
-.mission-item progress {
-  width: 100%;
-  height: 1rem;
-  border-radius: 10px;
-  margin: 0.3rem 0;
-  background-color: #333;
-  appearance: none;
-}
-
-.mission-item progress::-webkit-progress-bar {
-  background-color: #333;
-}
-
-.mission-item progress::-webkit-progress-value {
-  background: linear-gradient(90deg, #50c878, #3aaf65);
-  border-radius: 10px;
-  box-shadow:
-    0 0 10px #50c878,
-    inset 0 2px 3px rgba(255,255,255,0.3);
-}
-
-.mission-item progress::-moz-progress-bar {
-  background: linear-gradient(90deg, #50c878, #3aaf65);
-  border-radius: 10px;
-  box-shadow:
-    0 0 10px #50c878,
-    inset 0 2px 3px rgba(255,255,255,0.3);
-}
-
-/* === RANKING LISTA === */
-.ranking-list {
-  margin-top: 0.5rem;
+/* ===== Lista de ranking ===== */
+#rankingList {
+  margin-top: 12px;
+  font-size: 1.1rem;
   max-height: 270px;
   overflow-y: auto;
+  padding-right: 8px;
+  user-select: text;
 }
 
-.ranking-item {
-  font-weight: 600;
-  font-size: 1.05rem;
-  color: #d6f5d6;
-  user-select: none;
-  padding: 0.3rem 0.6rem;
-  border-bottom: 1px solid #3a6d3a;
-}
-
-/* === FORMULÁRIO RANKING === */
-#rankingForm {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem;
-  align-items: center;
-}
-
-#playerNameInput {
-  flex: 1 1 180px;
-  padding: 0.6rem 1rem;
-  border-radius: 12px;
-  border: none;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #121212;
-  box-shadow: inset 0 0 8px #50c878;
-  transition: box-shadow 0.3s ease;
-}
-
-#playerNameInput:focus {
-  outline: none;
-  box-shadow: 0 0 14px #50c878;
-}
-
-#saveScoreBtn {
-  background-color: #50c878;
-  color: #121212;
-  border: none;
-  padding: 0.6rem 1.8rem;
-  border-radius: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 0 14px #50c878;
-  transition: background-color 0.3s ease, transform 0.1s ease;
-  user-select: none;
-}
-
-#saveScoreBtn:disabled {
-  background-color: #3a3a3a;
-  color: #888;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-#saveScoreBtn:hover:not(:disabled),
-#saveScoreBtn:focus:not(:disabled) {
-  background-color: #67d495;
-  outline: none;
-  transform: scale(1.05);
-  box-shadow: 0 0 18px #67d495;
-}
-
-#saveScoreBtn:active:not(:disabled) {
-  background-color: #3da95a;
-  transform: scale(0.95);
-  box-shadow: 0 0 10px #3da95a;
-}
-
-/* === NOTIFICAÇÕES === */
-#notifications {
+/* ===== Notificações ===== */
+#notificationContainer {
   position: fixed;
-  top: 3.8rem;
-  right: 1rem;
+  top: 85px;
+  right: 25px;
   width: 320px;
-  max-width: 90vw;
-  z-index: 1500;
-  pointer-events: none;
-}
-
-.notification {
-  background-color: #50c878;
-  color: #121212;
-  font-weight: 700;
-  padding: 1rem 1.3rem;
-  margin-bottom: 0.9rem;
-  border-radius: 12px;
-  box-shadow: 0 0 20px #50c878;
-  opacity: 1;
-  transform: translateX(0);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-  pointer-events: auto;
+  max-width: 95vw;
+  z-index: 11000;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
   user-select: none;
 }
-
-.notification.fade-out {
-  opacity: 0;
-  transform: translateX(120%);
-  pointer-events: none;
+.notification {
+  background: linear-gradient(135deg, #00ffffcc, #00aaffcc);
+  color: #000;
+  padding: 16px 22px;
+  border-radius: var(--box-radius);
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 0 25px #00ffffaa;
+  animation: slideInRight 0.4s ease forwards;
+  user-select: none;
+  cursor: default;
 }
-
-/* === RESPONSIVIDADE === */
-@media (max-width: 1080px) {
-  #container {
-    padding: 1.4rem 1.6rem;
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(120%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
-@media (max-width: 900px) {
+/* ===== Efeito de clique flutuante ===== */
+.click-effect {
+  position: fixed;
+  font-weight: 900;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ffccf;
+  pointer-events: none;
+  user-select: none;
+  animation: floatUp 1s ease forwards;
+  z-index: 12000;
+  font-size: 1.4rem;
+  user-select: none;
+}
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-70px);
+  }
+}
+
+/* ===== Rodapé ===== */
+footer {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 0.95rem;
+  color: #555;
+  user-select: none;
+}
+
+/* ===== Responsividade ===== */
+@media (max-width: 800px) {
   .flex-row {
     flex-direction: column;
   }
-  
   .box {
     max-height: none;
+    flex-basis: 100%;
   }
-  
   #clickBtn {
-    width: 100%;
+    width: 140px;
+    height: 140px;
+    font-size: 2.6rem;
   }
 }
 
-/* === TEMA CLARO === */
-body.light-theme {
-  background-color: #f0f0f0;
-  color: #222;
+/* ===== Transições globais ===== */
+*, button, input {
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-body.light-theme #container {
-  background: #fff;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
-}
-
-body.light-theme .stat-item {
-  background: #e4e4e4;
-  color: #222;
-  box-shadow: inset 0 0 8px #b6e4c1;
-}
-
-body.light-theme #clickBtn {
-  background: #3aaf65;
-  color: #f0f0f0;
-  box-shadow: 0 0 18px #3aaf65;
-}
-
-body.light-theme #clickBtn:hover,
-body.light-theme #clickBtn:focus {
-  background: #55c774;
-  box-shadow: 0 0 24px #55c774;
-}
-
-body.light-theme #clickBtn:active,
-body.light-theme #clickBtn.clicked {
-  background: #2d8d4a;
-  box-shadow: 0 0 14px #2d8d4a;
-}
-
-body.light-theme .box {
-  background: #fefefe;
-  color: #222;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
-}
-
-body.light-theme .theme-toggle {
-  background: #e0e0e0;
-  color: #3aaf65;
-  box-shadow: 0 0 10px #3aaf65;
-}
-
-body.light-theme .theme-toggle:hover,
-body.light-theme .theme-toggle:focus {
-  background: #3aaf65;
-  color: #f0f0f0;
-  box-shadow: 0 0 22px #3aaf65;
-}
-
-body.light-theme #saveScoreBtn {
-  background-color: #3aaf65;
-  color: #f0f0f0;
-  box-shadow: 0 0 18px #3aaf65;
-}
-
-body.light-theme #saveScoreBtn:hover:not(:disabled),
-body.light-theme #saveScoreBtn:focus:not(:disabled) {
-  background-color: #55c774;
-  box-shadow: 0 0 22px #55c774;
-}
-
-body.light-theme #saveScoreBtn:active:not(:disabled) {
-  background-color: #2d8d4a;
-  box-shadow: 0 0 14px #2d8d4a;
-}
-
-/* === SCROLLBAR PERSONALIZADO === */
-.box::-webkit-scrollbar,
-.ranking-list::-webkit-scrollbar {
-  width: 10px;
-}
-
-.box::-webkit-scrollbar-track,
-.ranking-list::-webkit-scrollbar-track {
-  background: #181818;
-  border-radius: 8px;
-}
-
-.box::-webkit-scrollbar-thumb,
-.ranking-list::-webkit-scrollbar-thumb {
-  background: #50c878;
-  border-radius: 8px;
-  box-shadow: inset 0 0 5px #3a7f50;
-}
-
-body.light-theme .box::-webkit-scrollbar-thumb,
-body.light-theme .ranking-list::-webkit-scrollbar-thumb {
-  background: #3aaf65;
-  box-shadow: inset 0 0 5px #2a683a;
-}
-
-/* === OUTROS PEQUENOS AJUSTES === */
-input:focus,
-button:focus {
+/* ===== Foco acessível ===== */
+button:focus, input:focus, .upgrade:focus, .pet:focus, .mission:focus, .achievement:focus, .shop-item:focus, .world:focus {
+  outline: 3px solid var(--color-primary);
   outline-offset: 3px;
+  box-shadow: 0 0 25px var(--color-primary);
 }
 
-input::placeholder {
-  color: #777;
-  opacity: 1;
+/* ===== Tooltip simples para itens ===== */
+.tooltip {
+  position: relative;
+  cursor: help;
+}
+.tooltip:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-primary);
+  color: #000;
+  padding: 6px 12px;
+  border-radius: var(--btn-radius);
+  white-space: nowrap;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 0 20px var(--color-primary-light);
+  opacity: 0.95;
+  pointer-events: none;
+  user-select: none;
+  z-index: 15000;
+  transition: opacity 0.2s ease;
+}
+.tooltip:hover::before {
+  content: '';
+  position: absolute;
+  bottom: 115%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--color-primary);
+  pointer-events: none;
+  z-index: 15001;
+  opacity: 0.95;
 }
 
-button,
-input {
-  transition: all 0.3s ease;
+/* ===== Formatação para inputs e botões do modal ===== */
+.modal-content input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  vertical-align: middle;
 }
 
-a {
-  color: inherit;
+/* ==== Animations for modal buttons ==== */
+.modal-content button:hover {
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
+  box-shadow: 0 0 25px var(--color-primary);
+  color: #000;
+}
+
+/* ===== Link estilo botão ===== */
+a.button-link {
+  display: inline-block;
+  padding: 10px 25px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-dark));
+  color: #000;
+  font-weight: 700;
+  border-radius: var(--btn-radius);
   text-decoration: none;
+  box-shadow: 0 0 15px var(--color-primary);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+a.button-link:hover {
+  background: linear-gradient(90deg, var(--color-primary-dark), var(--color-primary-light));
+  box-shadow: 0 0 25px var(--color-primary-light);
+}
+
+/* ===== Estilização para inputs em geral ===== */
+input, select, textarea {
+  background-color: #222;
+  border: none;
+  border-radius: var(--btn-radius);
+  color: #eee;
+  padding: 10px 14px;
+  font-size: 1rem;
+  box-shadow: inset 0 0 18px var(--color-primary-light);
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  user-select: text;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  box-shadow: 0 0 25px var(--color-primary);
+  background-color: #00404d;
+}
+
+/* ===== Estilização para botões desabilitados ===== */
+button:disabled, input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none !important;
+}
+
+/* ===== Menu suspenso (dropdown) ===== */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #0a2533;
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0,255,255,0.3);
+  border-radius: var(--box-radius);
+  padding: 10px 0;
+  z-index: 10000;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-content a {
+  color: var(--color-primary);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-weight: 700;
+  transition: background-color 0.3s ease;
+}
+.dropdown-content a:hover {
+  background-color: #00404d;
+}
+
+/* ===== Barras de progresso para XP ===== */
+.progress-bar-container {
+  width: 100%;
+  background-color: #111;
+  border-radius: var(--box-radius);
+  overflow: hidden;
+  box-shadow: inset 0 0 18px var(--color-primary);
+  margin-top: 12px;
+}
+.progress-bar-fill {
+  height: 18px;
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
+  width: 0%;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 15px var(--color-primary);
+  border-radius: var(--box-radius);
+}
+
+/* ===== Tooltips extras para botões ===== */
+button[aria-label]:hover::after {
+  content: attr(aria-label);
+  position: absolute;
+  background: var(--color-primary);
+  color: #000;
+  padding: 6px 10px;
+  border-radius: var(--btn-radius);
+  top: -40px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  box-shadow: 0 0 15px var(--color-primary);
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+  z-index: 16000;
+}
+
+/* ===== Animação de pulso para botões ===== */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 8px var(--color-primary);
+  }
+  50% {
+    box-shadow: 0 0 22px var(--color-primary-light);
+  }
+  100% {
+    box-shadow: 0 0 8px var(--color-primary);
+  }
+}
+button.pulse {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* ===== Parte 2 - continuação ===== */
+
+/* ===== Cards detalhados para upgrades, pets, missões etc ===== */
+.upgrade, .pet, .mission, .achievement, .shop-item, .world {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  padding: 18px 22px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.upgrade:hover, .pet:hover, .mission:hover, .achievement:hover, .shop-item:hover, .world:hover {
+  background-color: #005a72;
+  box-shadow: 0 0 25px var(--color-primary-light);
+}
+.upgrade img, .pet img {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--color-primary);
+  user-select: none;
+  pointer-events: none;
+}
+.upgrade-info, .pet-info, .mission-info, .achievement-info, .shop-item-info, .world-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.upgrade-info strong, .pet-info strong, .mission-info strong, .achievement-info strong, .shop-item-info strong, .world-info strong {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--color-primary);
+  text-shadow: 0 0 7px var(--color-primary);
+  user-select: text;
+  margin-bottom: 6px;
+}
+.upgrade-info span, .pet-info span, .mission-info span, .achievement-info span, .shop-item-info span, .world-info span {
+  font-size: 0.9rem;
+  color: #b0f0ffcc;
+  user-select: text;
+}
+
+/* ===== Barra de progresso animada para níveis e XP ===== */
+.progress-bar-animated {
+  position: relative;
+  background: linear-gradient(90deg, #003340, #006680);
+  border-radius: var(--box-radius);
+  overflow: hidden;
+  box-shadow: inset 0 0 15px var(--color-primary);
+  height: 22px;
+  margin-top: 8px;
+}
+.progress-bar-animated::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 100%;
+  background: linear-gradient(90deg, #00ffffaa, #33ffffaa, #00ffffaa);
+  animation: progressGlow 2.5s linear infinite;
+  filter: blur(6px);
+  opacity: 0.75;
+  pointer-events: none;
+  border-radius: var(--box-radius);
+  z-index: 1;
+}
+.progress-bar-fill {
+  position: relative;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
+  border-radius: var(--box-radius);
+  box-shadow: 0 0 20px var(--color-primary);
+  z-index: 2;
+  transition: width 0.6s ease;
+}
+@keyframes progressGlow {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ===== Animação leve para os números de clicks ===== */
+.number-flicker {
+  animation: flickerAnim 1.2s ease infinite;
+  color: var(--color-primary);
+  text-shadow: 0 0 15px var(--color-primary-light);
+  user-select: text;
+}
+@keyframes flickerAnim {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ===== Modal padrão para mensagens ou configurações ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20000;
+  user-select: none;
+}
+.modal-content {
+  background: #003344;
+  padding: 28px 36px;
+  border-radius: var(--box-radius);
+  box-shadow: 0 0 30px var(--color-primary);
+  width: 380px;
+  max-width: 95vw;
+  color: #ccf7ff;
+  font-weight: 700;
+  text-align: center;
+  position: relative;
+  user-select: none;
+  transition: transform 0.25s ease;
+}
+.modal-content h3 {
+  margin-bottom: 15px;
+  font-size: 1.8rem;
+  text-shadow: 0 0 15px var(--color-primary-light);
+}
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--color-primary-light);
+  transition: color 0.3s ease;
+}
+.modal-close:hover {
+  color: var(--color-primary);
+}
+.modal-content button {
+  margin-top: 22px;
+  padding: 14px 26px;
+  border-radius: var(--btn-radius);
+  border: none;
+  font-weight: 900;
+  font-size: 1.1rem;
+  cursor: pointer;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-dark));
+  color: #000;
+  box-shadow: 0 0 20px var(--color-primary);
+  transition: background 0.3s ease;
+}
+.modal-content button:hover {
+  background: linear-gradient(90deg, var(--color-primary-dark), var(--color-primary-light));
+  box-shadow: 0 0 28px var(--color-primary-light);
+}
+
+/* ===== Responsividade aprimorada para modais e botões ===== */
+@media (max-width: 480px) {
+  .modal-content {
+    width: 90vw;
+    padding: 20px 25px;
+  }
+  #clickBtn {
+    width: 120px !important;
+    height: 120px !important;
+    font-size: 2.4rem !important;
+  }
+  .box {
+    flex-basis: 100% !important;
+    max-height: 400px !important;
+  }
+}
+
+/* ===== Animação de brilho pulsante para o botão clique ===== */
+@keyframes clickGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 25px var(--color-primary),
+      inset 0 0 40px var(--color-primary-light);
+  }
+  50% {
+    box-shadow:
+      0 0 45px var(--color-primary-light),
+      inset 0 0 60px var(--color-primary);
+  }
+}
+#clickBtn {
+  animation: clickGlow 3.5s ease-in-out infinite;
+}
+
+/* ===== Efeito hover para itens selecionáveis ===== */
+.upgrade.selected, .pet.selected, .mission.selected, .achievement.selected, .shop-item.selected, .world.selected {
+  background-color: #007788 !important;
+  box-shadow: 0 0 35px var(--color-primary-light) !important;
+  border: 2.8px solid var(--color-primary);
+  cursor: default;
+}
+
+/* ===== Pet e upgrade thumbnails ===== */
+.pet img, .upgrade img {
+  object-fit: contain;
+  filter: drop-shadow(0 0 2px var(--color-primary));
+  user-select: none;
+}
+
+/* ===== Barras animadas para progresso de missões e conquistas ===== */
+.mission-progress, .achievement-progress {
+  width: 100%;
+  height: 16px;
+  background: #00262e;
+  border-radius: 15px;
+  margin-top: 6px;
+  overflow: hidden;
+  box-shadow: inset 0 0 15px var(--color-primary);
+  user-select: none;
+}
+.mission-progress-fill, .achievement-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
+  width: 0%;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 12px var(--color-primary);
+  border-radius: 15px;
+}
+
+/* ===== Avisos e mensagens ===== */
+.toast {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-primary);
+  color: #000;
+  padding: 14px 30px;
+  font-weight: 700;
+  border-radius: var(--btn-radius);
+  box-shadow: 0 0 25px var(--color-primary-light);
+  user-select: none;
+  animation: fadeInOut 3s ease forwards;
+  z-index: 20000;
+}
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; }
+  10%, 90% { opacity: 1; }
+}
+
+/* ===== Botão grande para resetar jogo ===== */
+#resetBtn {
+  margin: 20px auto 50px auto;
+  padding: 18px 32px;
+  font-size: 1.5rem;
+  font-weight: 900;
+  border-radius: var(--btn-radius);
+  border: none;
+  background: linear-gradient(45deg, #ff0055, #ff3399);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 40px #ff3366;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+}
+#resetBtn:hover {
+  background: linear-gradient(45deg, #ff3399, #ff0055);
+  box-shadow: 0 0 60px #ff5599;
+}
+
+/* ===== Efeito visual para ranking ===== */
+#rankingList div {
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  background: #003d4d;
+  box-shadow: 0 0 20px var(--color-primary-light);
+  font-weight: 700;
+  color: var(--color-primary);
+  user-select: text;
+  transition: background-color 0.3s ease;
+}
+#rankingList div:nth-child(odd) {
+  background: #004d66;
+}
+#rankingList div:hover {
+  background: var(--color-primary);
+  color: #000;
+  box-shadow: 0 0 40px var(--color-primary-light);
+}
+
+/* ===== Animação partículas simples para cliques ===== */
+.particles-container {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  top: 0; left: 0; width: 100%; height: 100%;
+  overflow: visible;
+  user-select: none;
+}
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  opacity: 0.8;
+  pointer-events: none;
+  user-select: none;
+  animation: particle-float 1s forwards ease-out;
+  box-shadow: 0 0 8px var(--color-primary);
+}
+@keyframes particle-float {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-70px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* ===== Footer estilizado ===== */
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #444;
+  user-select: none;
+  letter-spacing: 0.5px;
+}
+
+/* ===== Tooltips para sistema de upgrades ===== */
+.upgrade[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-primary);
+  color: #000;
+  padding: 8px 14px;
+  border-radius: var(--btn-radius);
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: 0.9rem;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  box-shadow: 0 0 20px var(--color-primary-light);
+  transition: opacity 0.3s ease;
+  z-index: 16000;
+}
+.upgrade:hover[data-tooltip]::after {
+  opacity: 0.95;
+}
+
+/* ===== Indicadores e badges para conquistas e pets ===== */
+.badge {
+  background-color: var(--color-primary);
+  color: #000;
+  font-weight: 900;
+  padding: 5px 11px;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  box-shadow: 0 0 12px var(--color-primary-light);
+  user-select: none;
+  align-self: flex-start;
+  margin-top: 8px;
+}
+
+/* ===== Animations para badges ===== */
+@keyframes badgePulse {
+  0%, 100% {
+    box-shadow: 0 0 10px var(--color-primary);
+  }
+  50% {
+    box-shadow: 0 0 25px var(--color-primary-light);
+  }
+}
+.badge.pulse {
+  animation: badgePulse 2.8s ease-in-out infinite;
+}
+
+/* ===== Barra fixa inferior para ações rápidas ===== */
+#quickActions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #001a26;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding: 14px 0;
+  box-shadow: 0 -3px 15px rgba(0, 255, 255, 0.25);
+  user-select: none;
+  z-index: 15000;
+}
+#quickActions button {
+  background: linear-gradient(45deg, var(--color-primary), var(--color-primary-dark));
+  border: none;
+  padding: 12px 28px;
+  border-radius: var(--btn-radius);
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #000;
+  cursor: pointer;
+  box-shadow: 0 0 22px var(--color-primary);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+#quickActions button:hover {
+  background: linear-gradient(45deg, var(--color-primary-dark), var(--color-primary-light));
+  box-shadow: 0 0 40px var(--color-primary-light);
+}
+
+/* ===== Loading spinner ===== */
+.loading-spinner {
+  border: 5px solid #003344;
+  border-top: 5px solid var(--color-primary);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  animation: spin 1.2s linear infinite;
+  margin: 30px auto;
+  user-select: none;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ===== Layout para mensagens de erro ===== */
+.error-message {
+  background-color: #aa0000cc;
+  color: #fff;
+  padding: 14px 22px;
+  border-radius: var(--btn-radius);
+  font-weight: 700;
+  box-shadow: 0 0 25px #ff0000cc;
+  user-select: none;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* ===== Barra de progresso para carregamento de níveis ===== */
+.level-progress-container {
+  width: 100%;
+  height: 20px;
+  background: #002a3c;
+  border-radius: 15px;
+  box-shadow: inset 0 0 15px var(--color-primary);
+  overflow: hidden;
+  margin-top: 15px;
+}
+.level-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
+  width: 0%;
+  transition: width 0.6s ease;
+  box-shadow: 0 0 15px var(--color-primary);
+  border-radius: 15px;
+}
+
+/* ===== Visual para botões de compra ===== */
+.buy-button {
+  background: linear-gradient(90deg, #00ffdd, #00ccaa);
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--btn-radius);
+  color: #000;
+  font-weight: 900;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 0 20px #00ffcc;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+}
+.buy-button:hover {
+  background: linear-gradient(90deg, #00ccaa, #00ffdd);
+  box-shadow: 0 0 30px #00ffdd;
+}
+
+/* ===== Sombras e bordas para inputs de texto ===== */
+input[type="text"], input[type="number"], select {
+  box-shadow: inset 0 0 15px var(--color-primary-light);
+  border: none;
+  border-radius: var(--btn-radius);
+  background-color: #001f2a;
+  color: #eee;
+  padding: 11px 15px;
+  font-size: 1rem;
+  user-select: text;
+  transition: box-shadow 0.3s ease;
+}
+input[type="text"]:focus, input[type="number"]:focus, select:focus {
+  box-shadow: 0 0 25px var(--color-primary);
+  outline: none;
+  background-color: #00404d;
+}
+
+/* ===== Tooltips para upgrades e pets detalhados ===== */
+.tooltip-detail {
+  position: relative;
+  cursor: help;
+}
+.tooltip-detail:hover::after {
+  content: attr(data-detail);
+  position: absolute;
+  top: -130%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-primary);
+  color: #000;
+  padding: 10px 20px;
+  border-radius: 18px;
+  white-space: normal;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 0 20px var(--color-primary-light);
+  pointer-events: none;
+  user-select: none;
+  z-index: 16000;
+  max-width: 250px;
+  text-align: center;
+}
+
+/* ===== Efeitos visuais para sistema de rebirths ===== */
+.rebirth-badge {
+  background: linear-gradient(45deg, #aa00ff, #dd33ff);
+  color: #000;
+  font-weight: 900;
+  padding: 8px 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px #cc33ff;
+  user-select: none;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: 12px;
+}
+
+/* ===== Animação de partículas para rebirth ===== */
+@keyframes rebirthParticles {
+  0% { opacity: 1; transform: scale(1) translateY(0); }
+  100% { opacity: 0; transform: scale(1.3) translateY(-50px); }
+}
+.rebirth-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: #dd33ffaa;
+  box-shadow: 0 0 15px #cc33ff;
+  animation: rebirthParticles 1.5s ease forwards;
+}
+
+/* ===== Botão para mudar o mundo ===== */
+#changeWorldBtn {
+  margin: 25px auto 45px auto;
+  padding: 15px 38px;
+  font-weight: 800;
+  font-size: 1.3rem;
+  background: linear-gradient(45deg, #0044ff, #00ccff);
+  color: #000;
+  border: none;
+  border-radius: var(--btn-radius);
+  cursor: pointer;
+  box-shadow: 0 0 40px #00ccff;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+}
+#changeWorldBtn:hover {
+  background: linear-gradient(45deg, #00ccff, #0044ff);
+  box-shadow: 0 0 60px #00eeff;
+}
+
+/* ===== Ajustes para múltiplos temas ===== */
+body.light-theme {
+  --color-primary: #1db9e0;
+  --color-primary-light: #5fddff;
+  --color-primary-dark: #0083b8;
+  background-color: #e6f7ff;
+  color: #003344;
+}
+body.light-theme button, body.light-theme input, body.light-theme select, body.light-theme textarea {
+  background-color: #cceeff;
+  color: #003344;
+  box-shadow: inset 0 0 18px #5fddff;
+}
+body.light-theme .box {
+  background-color: #b3e0ffcc;
+  box-shadow: 0 0 18px #5fddff;
+}
+
+/* ===== Animação suave para troca de temas ===== */
+body, button, input, select, textarea {
+  transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* ===== Zoom e fontes responsivos ===== */
+@media (max-width: 900px) {
+  body {
+    font-size: 0.92rem;
+  }
+}
+@media (max-width: 600px) {
+  body {
+    font-size: 0.88rem;
+  }
+}
+
+/* ===== Créditos no footer ===== */
+footer {
+  margin-top: 50px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--color-primary-light);
+  user-select: none;
+  letter-spacing: 0.8px;
+}
+
+/* ===== Animações extras e polimento visual (opcional) ===== */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 18px var(--color-primary);
+  }
+  50% {
+    box-shadow: 0 0 32px var(--color-primary-light);
+  }
+}
+.pulse-glow {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* ===== Efeito hover para links ===== */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+a:hover {
+  color: var(--color-primary-light);
+}
+
+/* ===== Cursor customizado para elementos clicáveis ===== */
+.clickable {
   cursor: pointer;
 }
 
-a:hover,
-a:focus {
-  text-decoration: underline;
+/* ===== Espaçamentos e alinhamentos para botões e inputs ===== */
+button, input, select {
+  margin: 8px 0;
+  box-sizing: border-box;
 }
 
-/* === UTILITÁRIOS === */
-.text-center {
-  text-align: center !important;
+/* ===== Estilos para notificações personalizadas ===== */
+.notification {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  background: var(--color-primary);
+  color: #000;
+  padding: 12px 26px;
+  border-radius: var(--btn-radius);
+  font-weight: 900;
+  box-shadow: 0 0 25px var(--color-primary-light);
+  user-select: none;
+  z-index: 30000;
+  opacity: 0;
+  animation: notifFadeIn 0.8s forwards;
+}
+@keyframes notifFadeIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
-.hidden {
-  display: none !important;
-}
+/* ===== Classes utilitárias para margem ===== */
+.m-0 { margin: 0 !important; }
+.mb-12 { margin-bottom: 12px !important; }
+.mb-24 { margin-bottom: 24px !important; }
+.p-12 { padding: 12px !important; }
+.p-24 { padding: 24px !important; }
+
+/* ===== Finalizando parte 2 ===== */
