@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clicker Simulator</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="script.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Clicker Simulator</h1>
-    <button id="toggleTheme" title="Alternar tema">🌙</button>
-  </header>
+  <div id="gameContainer">
+    <header>
+      <h1>⚡ Clicker Simulator</h1>
+      <button id="toggleTheme">☀️</button>
+    </header>
 
-  <main>
-    <section id="gameStats">
+    <section id="mainStats">
       <p>Clicks: <span id="clicksDisplay">0</span></p>
-      <p>Total Clicks: <span id="totalClicksStat">0</span></p>
+      <p>Clicks Totais: <span id="totalClicksStat">0</span></p>
       <p>CPS: <span id="cpsDisplay">0</span></p>
       <p>Nível: <span id="levelDisplay">1</span></p>
       <p>XP: <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></p>
@@ -23,56 +24,51 @@
       <p>Mundo: <span id="currentWorld">1 - Jardim Inicial</span></p>
     </section>
 
-    <button id="clickBtn">Click me!</button>
-    <button id="rebirthBtn">Rebirth</button>
-
-    <section id="upgradesContainer">
-      <h2>Upgrades</h2>
-      <div id="upgrades"></div>
+    <section id="actions">
+      <button id="clickBtn">👆 CLICAR</button>
+      <button id="rebirthBtn">🔁 Rebirth</button>
+      <button id="saveBtn">💾 Salvar</button>
+      <button id="clearSaveBtn">🗑️ Reset</button>
     </section>
 
-    <section id="shopContainer">
-      <h2>Loja</h2>
-      <div id="shopList"></div>
+    <section class="store">
+      <h2>🛠️ Upgrades</h2>
+      <div id="upgrades" class="scroll-section"></div>
+
+      <h2>🛍️ Loja</h2>
+      <div id="shopList" class="scroll-section"></div>
     </section>
 
-    <section id="petsContainer">
-      <h2>Pets</h2>
-      <div id="pets"></div>
+    <section class="pets">
+      <h2>🐾 Pets</h2>
+      <div id="pets" class="scroll-section"></div>
     </section>
 
-    <section id="missionsContainer">
-      <h2>Missões</h2>
+    <section class="missions">
+      <h2>🎯 Missões</h2>
       <ul id="missions"></ul>
     </section>
 
-    <section id="achievementsContainer">
-      <h2>Conquistas</h2>
+    <section class="achievements">
+      <h2>🏆 Conquistas</h2>
       <ul id="achievementsList"></ul>
     </section>
 
-    <section id="rankingContainer">
-      <h2>Ranking Top 10</h2>
-      <div id="detailedRankingList">Carregando ranking...</div>
-      <input type="text" id="playerNameInput" placeholder="Seu nome" />
-      <button id="saveScoreBtn">Salvar Ranking</button>
+    <section class="ranking">
+      <h2>🌐 Ranking</h2>
+      <input type="text" id="playerNameInput" placeholder="Seu nome">
+      <button id="saveScoreBtn">📊 Enviar Score</button>
+      <div id="rankingList" class="scroll-section"></div>
     </section>
 
-    <section id="chatContainer">
-      <h2>Chat Global</h2>
-      <div id="chatMessages" class="chatMessages">Nenhuma mensagem ainda.</div>
-      <input type="text" id="chatInput" placeholder="Digite sua mensagem" />
-      <button id="chatSendBtn">Enviar</button>
+    <section class="chat">
+      <h2>💬 Chat Global</h2>
+      <div id="chatMessages" class="chat-box"></div>
+      <input type="text" id="chatInput" placeholder="Digite uma mensagem">
+      <button id="chatSendBtn">📨 Enviar</button>
     </section>
 
-    <section id="saveLoadContainer">
-      <button id="saveBtn">Salvar Progresso</button>
-      <button id="clearSaveBtn">Limpar Progresso</button>
-    </section>
-  </main>
-
-  <div id="notification" class="notification"></div>
-
-  <script type="module" src="script.js"></script>
+    <div id="notification" class="notification"></div>
+  </div>
 </body>
 </html>
