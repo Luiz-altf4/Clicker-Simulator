@@ -3,144 +3,77 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator Supreme Edition</title>
-  
-  <!-- Fonte Google Fonts Montserrat -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;900&display=swap" rel="stylesheet" />
+  <title>Clicker Simulator - Supremo</title>
+
+  <!-- Fonte Roboto Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+
   <!-- CSS principal -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Botão de tema claro/escuro -->
-  <button id="toggleTheme" title="Alternar tema">🌙</button>
+  <button id="toggleTheme" title="Alternar tema" aria-label="Alternar tema">🌙</button>
 
-  <div id="container">
-    <!-- Cabeçalho com título e descrição -->
+  <main id="container">
     <header>
-      <h1>Clicker Simulator Supreme Edition</h1>
-      <p class="subtitle">Clique, evolua, conquiste e domine todos os mundos!</p>
+      <h1>Clicker Simulator</h1>
     </header>
 
-    <!-- Seção de estatísticas principais -->
-    <section class="stats" aria-label="Estatísticas do jogador">
+    <section class="stats" aria-label="Estatísticas do jogo">
       <div><strong>Clicks:</strong> <span id="clicksDisplay">0</span></div>
       <div><strong>CPS (Clicks por segundo):</strong> <span id="cpsDisplay">0</span></div>
       <div><strong>Level:</strong> <span id="levelDisplay">1</span></div>
-      <div>
-        <strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span>
-      </div>
+      <div><strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
       <div><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
       <div><strong>Mundo Atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
     </section>
 
-    <!-- Botão principal de clique -->
-    <button id="clickBtn" class="btn-main" aria-label="Clique aqui para ganhar clicks">Clique aqui!</button>
+    <button id="clickBtn" aria-label="Botão principal de clique">Clique aqui!</button>
 
-    <!-- Container flexível para painéis principais -->
-    <section class="panels-row" aria-label="Painéis principais do jogo">
-      <!-- Upgrades -->
-      <article class="panel" id="upgrades" role="region" aria-labelledby="upgradesTitle">
-        <h2 id="upgradesTitle">Upgrades</h2>
-        <div class="list-container" aria-live="polite" aria-relevant="additions removals">
-          <!-- Upgrades list dynamically inserted aqui -->
-        </div>
-      </article>
+    <section class="flex-row" aria-label="Áreas principais do jogo">
+      <div class="box" id="upgrades">
+        <h2>Upgrades</h2>
+        <ul id="upgradesList" class="list-container" role="list"></ul>
+      </div>
 
-      <!-- Loja -->
-      <article class="panel" id="shop" role="region" aria-labelledby="shopTitle">
-        <h2 id="shopTitle">Loja</h2>
-        <div class="list-container" aria-live="polite" aria-relevant="additions removals">
-          <!-- Itens da loja -->
-        </div>
-      </article>
+      <div class="box" id="shop">
+        <h2>Loja</h2>
+        <ul id="shopList" class="list-container" role="list"></ul>
+      </div>
 
-      <!-- Pets -->
-      <article class="panel" id="pets" role="region" aria-labelledby="petsTitle">
-        <h2 id="petsTitle">Pets</h2>
-        <div class="list-container" aria-live="polite" aria-relevant="additions removals">
-          <!-- Pets list -->
-        </div>
-      </article>
+      <div class="box" id="pets">
+        <h2>Pets</h2>
+        <ul id="petsList" class="list-container" role="list"></ul>
+      </div>
     </section>
 
-    <!-- Espaço para futuras seções de conteúdo abaixo -->
+    <section class="flex-row" aria-label="Missões e conquistas">
+      <div class="box" id="missions">
+        <h2>Missões</h2>
+        <ul id="missionsList" class="list-container" role="list"></ul>
+      </div>
 
-    <!-- Segunda linha de painéis com missões, conquistas e ranking -->
-    <section class="panels-row" aria-label="Painéis adicionais do jogo" style="margin-top: 25px;">
-      <!-- Missões -->
-      <article class="panel" id="missions" role="region" aria-labelledby="missionsTitle">
-        <h2 id="missionsTitle">Missões</h2>
-        <div class="list-container" aria-live="polite" aria-relevant="additions removals">
-          <!-- Missões aparecem aqui -->
-        </div>
-      </article>
+      <div class="box" id="achievements">
+        <h2>Conquistas</h2>
+        <ul id="achievementsList" class="list-container" role="list"></ul>
+      </div>
 
-      <!-- Conquistas -->
-      <article class="panel" id="achievements" role="region" aria-labelledby="achievementsTitle">
-        <h2 id="achievementsTitle">Conquistas</h2>
-        <div class="list-container" aria-live="polite" aria-relevant="additions removals">
-          <!-- Conquistas aparecem aqui -->
-        </div>
-      </article>
-
-      <!-- Ranking Online -->
-      <article class="panel ranking-panel" role="region" aria-labelledby="rankingTitle">
-        <h2 id="rankingTitle">Ranking Online</h2>
-        <input
-          id="playerNameInput"
-          type="text"
-          aria-label="Digite seu nome para salvar no ranking"
-          placeholder="Seu nome"
-          maxlength="20"
-          autocomplete="off"
-          spellcheck="false"
-        />
-        <button id="saveScoreBtn" aria-label="Salvar pontuação">Salvar Score</button>
-        <div id="rankingList" style="margin-top:10px;" aria-live="polite" aria-relevant="additions removals"></div>
-      </article>
+      <div class="box" id="rankingBox">
+        <h2>Ranking Online</h2>
+        <label for="playerNameInput">Seu nome:</label>
+        <input id="playerNameInput" type="text" maxlength="20" placeholder="Digite seu nome (mín 3 chars)" aria-required="true" />
+        <button id="saveScoreBtn" class="btn-special" aria-label="Salvar seu score">Salvar Score</button>
+        <div id="rankingList" class="list-container" role="list" aria-live="polite" aria-atomic="true" style="margin-top:10px;"></div>
+      </div>
     </section>
 
-    <!-- Sistema de chat simples (exemplo) -->
-    <section id="chatSection" class="panel" role="region" aria-labelledby="chatTitle" style="margin-top: 30px;">
-      <h2 id="chatTitle">Chat Global</h2>
-      <div id="chatMessages" style="height: 200px; overflow-y: auto; background: #333; padding: 10px; border-radius: 12px; color: #eee; font-size: 0.9rem;"></div>
-      <form id="chatForm" aria-label="Enviar mensagem no chat" style="margin-top: 10px; display: flex; gap: 10px;">
-        <input
-          type="text"
-          id="chatInput"
-          placeholder="Digite sua mensagem..."
-          autocomplete="off"
-          spellcheck="false"
-          aria-required="true"
-          aria-label="Campo para digitar mensagem"
-          style="flex-grow: 1; padding: 8px 12px; border-radius: 10px; border: none;"
-        />
-        <button type="submit" style="padding: 8px 15px; border-radius: 10px; background: #0099ff; color: white; border: none; cursor: pointer;">Enviar</button>
-      </form>
-    </section>
+    <button id="resetBtn" title="Resetar jogo" aria-label="Resetar jogo">Resetar Progresso</button>
+  </main>
 
-    <!-- Notificações -->
-    <div id="notification" class="notification" aria-live="assertive" role="alert" style="display:none;"></div>
+  <footer>
+    <p>© 2025 Clicker Simulator - Desenvolvido por Luiz Felipe</p>
+  </footer>
 
-        <!-- Rodapé com créditos -->
-    <footer style="margin-top: 40px; text-align: center; font-size: 0.9rem; color: #666; user-select: none;">
-      Desenvolvido por Luiz Felipe - Versão Suprema 2025<br />
-      &copy; 2025 Clicker Simulator. Todos os direitos reservados.
-    </footer>
-  </div>
-
-  <!-- Modal de confirmação (exemplo) -->
-  <div id="modalBg" class="modal-bg" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
-    <div class="modal">
-      <h3 id="modalTitle">Confirmação</h3>
-      <p id="modalDesc">Você tem certeza que deseja resetar seu progresso?</p>
-      <button id="confirmResetBtn" class="list-button" aria-label="Confirmar reset">Confirmar</button>
-      <button id="cancelResetBtn" class="list-button" aria-label="Cancelar reset" style="margin-left: 10px;">Cancelar</button>
-      <span class="close-btn" id="modalCloseBtn" role="button" tabindex="0" aria-label="Fechar modal">&times;</span>
-    </div>
-  </div>
-
-  <!-- Scripts -->
   <script type="module" src="script.js"></script>
 </body>
 </html>
