@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Clicker Simulator</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -58,20 +61,13 @@
     <p id="rebirthInfo" style="margin-top:10px;"></p>
   </section>
 
-  <!-- Ranking Online -->
-  <section class="ranking" aria-label="Ranking dos jogadores">
-    <h2>Ranking Online</h2>
+  <!-- Ranking fixo no canto direito -->
+  <section id="rankingPanel" aria-label="Ranking dos jogadores">
+    <h3>Ranking Online</h3>
     <ol id="rankingList"></ol>
-    <div style="margin-top: 10px;">
-      <input type="text" id="playerNameInput" placeholder="Digite seu nome" maxlength="20" />
-      <button id="saveScoreBtn" class="btn">Salvar Pontuação</button>
-    </div>
+    <input id="playerNameInput" type="text" placeholder="Seu nome..." maxlength="20" />
+    <button id="saveScoreBtn" class="btn">Salvar Pontuação</button>
   </section>
-
-  <!-- Firebase SDK (compat) -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 
   <script src="script.js"></script>
 </body>
