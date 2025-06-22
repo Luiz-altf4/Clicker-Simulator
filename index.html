@@ -4,85 +4,141 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Clicker Simulator</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: #eee;
+      margin: 0; padding: 20px;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.light-theme {
+      background: #f5f5f5;
+      color: #222;
+    }
+    button {
+      padding: 5px 10px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    #container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    h1, h2 {
+      margin-top: 0;
+    }
+    .stats, .section {
+      background: #222;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+    }
+    body.light-theme .stats, body.light-theme .section {
+      background: #ddd;
+    }
+    #clickBtn {
+      font-size: 1.5em;
+      padding: 15px 30px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 10px;
+      background: #1e90ff;
+      color: white;
+      transition: background 0.2s;
+    }
+    #clickBtn:hover {
+      background: #0c65d0;
+    }
+    .flex-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .box {
+      flex: 1 1 250px;
+      background: #333;
+      padding: 10px;
+      border-radius: 6px;
+    }
+    body.light-theme .box {
+      background: #eee;
+      color: #111;
+    }
+    input[type="text"] {
+      padding: 5px;
+      font-size: 1em;
+      width: 150px;
+    }
+    #toggleTheme {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #1e90ff;
+      transition: color 0.3s;
+    }
+    #toggleTheme:hover {
+      color: #0c65d0;
+    }
+  </style>
 </head>
 <body>
+  <button id="toggleTheme" title="Alternar tema">🌙</button>
 
-  <button id="toggleTheme" title="Alternar Tema">☀️</button>
-
-  <header>
+  <div id="container">
     <h1>Clicker Simulator</h1>
-    <p class="subtitle">Clique, evolua, desbloqueie mundos e suba no ranking!</p>
-    <button id="clickBtn">👆 Clique Aqui!</button>
-  </header>
 
-  <main>
-    <section class="stats" aria-label="Estatísticas">
-      <h2>Estatísticas</h2>
-      <div><strong>Cliques:</strong> <span id="clicksDisplay">0</span></div>
-      <div><strong>CPS (Cliques por segundo):</strong> <span id="cpsDisplay">0</span></div>
-      <div><strong>Nível:</strong> <span id="levelDisplay">1</span></div>
+    <div class="stats">
+      <div><strong>Clicks:</strong> <span id="clicksDisplay">0</span></div>
+      <div><strong>CPS (Clicks por segundo):</strong> <span id="cpsDisplay">0</span></div>
+      <div><strong>Level:</strong> <span id="levelDisplay">1</span></div>
       <div><strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
       <div><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
       <div><strong>Mundo Atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
-    </section>
+    </div>
 
-    <section class="buy-amounts" aria-label="Quantidade de compra">
-      <strong>Quantidade:</strong>
-      <button class="upgradeAmountBtn active" data-amount="1">1</button>
-      <button class="upgradeAmountBtn" data-amount="10">10</button>
-      <button class="upgradeAmountBtn" data-amount="100">100</button>
-      <button class="upgradeAmountBtn" data-amount="max">Max</button>
-    </section>
+    <button id="clickBtn">Clique aqui!</button>
 
-    <section class="upgrades" aria-label="Upgrades">
-      <h2>Upgrades</h2>
-      <div id="upgradesList"></div>
-    </section>
+    <div class="flex-row">
+      <div class="box" id="upgrades">
+        <h2>Upgrades</h2>
+        <!-- Lista de upgrades aparece aqui -->
+      </div>
 
-    <section class="shop" aria-label="Loja">
-      <h2>Loja</h2>
-      <div id="shopItemsList"></div>
-    </section>
+      <div class="box" id="shop">
+        <h2>Loja</h2>
+        <!-- Itens da loja aparecem aqui -->
+      </div>
 
-    <section class="pets" aria-label="Pets">
-      <h2>Pets</h2>
-      <div id="petsList"></div>
-      <p id="activePet">Pet ativo: Nenhum</p>
-    </section>
+      <div class="box" id="pets">
+        <h2>Pets</h2>
+        <!-- Pets aparecem aqui -->
+      </div>
+    </div>
 
-    <section class="missions" aria-label="Missões">
-      <h2>Missões</h2>
-      <div id="missionsList"></div>
-    </section>
+    <div class="flex-row">
+      <div class="box" id="missions">
+        <h2>Missões</h2>
+        <!-- Missões aparecem aqui -->
+      </div>
 
-    <section class="achievements" aria-label="Conquistas">
-      <h2>Conquistas</h2>
-      <div id="achievementsList"></div>
-    </section>
+      <div class="box" id="achievements">
+        <h2>Conquistas</h2>
+        <!-- Conquistas aparecem aqui -->
+      </div>
 
-    <section class="worlds" aria-label="Mundos desbloqueáveis">
-      <h2>Mundos</h2>
-      <div id="worldsList"></div>
-    </section>
-
-    <section class="rebirth-section" aria-label="Rebirth">
-      <h2>Prestígio (Rebirth)</h2>
-      <button id="rebirthBtn" class="btn">🔁 Fazer Rebirth</button>
-      <p id="rebirthInfo"></p>
-    </section>
-
-    <section class="ranking" aria-label="Ranking Global">
-      <h2>🏆 Ranking Global</h2>
-      <div id="rankingList">Carregando ranking...</div>
-      <input type="text" id="playerNameInput" placeholder="Seu nome no ranking" maxlength="20">
-      <button id="saveScoreBtn">Salvar Pontuação</button>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Clicker Simulator by Luiz</p>
-  </footer>
+      <div class="box">
+        <h2>Ranking Online</h2>
+        <input id="playerNameInput" type="text" placeholder="Seu nome" />
+        <button id="saveScoreBtn">Salvar Score</button>
+        <div id="rankingList" style="margin-top:10px; max-height: 200px; overflow-y: auto; background: #111; padding: 5px; border-radius: 4px;"></div>
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="script.js"></script>
 </body>
