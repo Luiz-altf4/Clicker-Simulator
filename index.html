@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator</title>
+  <title>Clicker Simulator - Completo</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -21,6 +21,7 @@
     <div><strong>Nível:</strong> <span id="levelDisplay">1</span></div>
     <div><strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
     <div><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
+    <div><strong>Prestígio:</strong> <span id="prestigeCount">0</span></div>
     <div><strong>Mundo atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
   </section>
 
@@ -48,12 +49,12 @@
     <p id="activePet" style="margin-top:10px; font-weight:bold;">Pet ativo: Nenhum</p>
   </section>
 
-  <section class="missions" aria-label="Missões">
+  <section class="missions" aria-label="Missões diárias e permanentes">
     <h2>Missões</h2>
     <div id="missionsList"></div>
   </section>
 
-  <section class="achievements" aria-label="Conquistas">
+  <section class="achievements" aria-label="Conquistas do jogador">
     <h2>Conquistas</h2>
     <div id="achievementsList"></div>
   </section>
@@ -63,24 +64,21 @@
     <div id="worldsList"></div>
   </section>
 
-  <section class="rebirth-section" aria-label="Seção de rebirth">
+  <section class="rebirth-section" aria-label="Seção de rebirth e prestígio">
     <button id="rebirthBtn" class="btn" style="width: 100%;">Fazer Rebirth</button>
     <p id="rebirthInfo" style="margin-top:10px;"></p>
   </section>
 
-  <section class="ranking" aria-label="Ranking online">
-    <h2>Ranking - Top 10 Jogadores</h2>
-    <ul id="rankingList"></ul>
-    <div class="rank-inputs">
-      <input type="text" id="playerNameInput" placeholder="Seu nome (3+ chars)" maxlength="15" />
-      <button id="saveRankBtn" class="btn">Salvar Pontuação</button>
-    </div>
-    <p id="rankMessage" style="color: red; margin-top: 8px;"></p>
+  <section class="ranking" aria-label="Ranking dos melhores jogadores">
+    <h2>Ranking Top 10</h2>
+    <div id="rankingList"></div>
+    <input type="text" id="playerNameInput" placeholder="Seu nome para ranking" maxlength="12" />
+    <button id="saveScoreBtn">Salvar Pontuação</button>
+    <p id="rankMessage"></p>
   </section>
 
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
-  <script src="firebase-config.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
