@@ -1,177 +1,197 @@
-/* Reset básico */
+/* === Reset === */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #121212;
-  color: #e0e0e0;
-  padding: 1rem;
-  transition: background-color 0.3s, color 0.3s;
+  background: #0f0f0f;
+  color: #fff;
+  overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
 }
 
-.light-theme {
-  background-color: #f5f5f5;
+body.light-theme {
+  background: #f0f0f0;
   color: #222;
 }
 
+/* === Container === */
+#gameContainer {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  animation: rgbPulse 10s infinite alternate;
+}
+
+@keyframes rgbPulse {
+  0%   { box-shadow: 0 0 20px red; }
+  25%  { box-shadow: 0 0 20px orange; }
+  50%  { box-shadow: 0 0 20px lime; }
+  75%  { box-shadow: 0 0 20px blue; }
+  100% { box-shadow: 0 0 20px violet; }
+}
+
+/* === Header === */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  border-bottom: 2px solid rgba(255,255,255,0.1);
+  padding-bottom: 1rem;
 }
 
-button {
-  cursor: pointer;
-  background-color: #0f62fe;
-  color: white;
+header h1 {
+  font-size: 2.2rem;
+  color: #00ffe1;
+  text-shadow: 0 0 10px #00ffe1;
+}
+
+#toggleTheme {
+  background: transparent;
+  color: inherit;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: 600;
-  transition: background-color 0.3s;
-}
-
-button:hover:not(:disabled) {
-  background-color: #0043ce;
-}
-
-button:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-
-main {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-section {
-  margin-bottom: 1.5rem;
-  background-color: #222;
-  padding: 1rem;
-  border-radius: 8px;
-}
-
-.light-theme section {
-  background-color: #e0e0e0;
-}
-
-h2 {
-  margin-bottom: 0.75rem;
-  color: #0f62fe;
-}
-
-#clickBtn {
-  width: 100%;
-  padding: 1rem;
   font-size: 1.5rem;
-  margin-bottom: 1rem;
-  background-color: #27ae60;
+  cursor: pointer;
 }
 
-#rebirthBtn {
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1.2rem;
-  background-color: #e67e22;
-  margin-bottom: 1rem;
+/* === Seções === */
+section {
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  transition: all 0.2s;
 }
 
-.upgrade-item, .shop-item, .pet-item {
-  background-color: #333;
-  border-radius: 6px;
-  padding: 0.75rem;
+section h2 {
   margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+  color: #fff;
+  text-shadow: 0 0 5px cyan;
 }
 
-.light-theme .upgrade-item,
-.light-theme .shop-item,
-.light-theme .pet-item {
-  background-color: #ddd;
-  color: #222;
-}
-
-.upgrade-item h4,
-.shop-item h4,
-.pet-item h4 {
-  margin-bottom: 0.3rem;
-}
-
-.upgrade-item p,
-.shop-item p,
-.pet-item p {
-  margin: 0.2rem 0;
-  color: #eee;
-  font-weight: 600;
-}
-
-.light-theme .upgrade-item p,
-.light-theme .shop-item p,
-.light-theme .pet-item p {
-  color: #222;
-}
-
-.ranking-item {
-  background-color: #1f1f1f;
-  padding: 0.4rem;
-  margin-bottom: 0.3rem;
-  border-radius: 4px;
-  color: #a0a0a0;
-}
-
-.light-theme .ranking-item {
-  background-color: #ccc;
-  color: #444;
-}
-
-.chatMessages {
-  height: 150px;
-  overflow-y: auto;
-  background-color: #1e1e1e;
-  padding: 0.5rem;
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
-  color: #ddd;
-  font-size: 0.9rem;
-}
-
-.light-theme .chatMessages {
-  background-color: #fafafa;
-  color: #222;
-}
-
-.notification {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #0f62fe;
-  color: white;
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
-  display: none;
-  font-weight: 700;
-  box-shadow: 0 0 10px rgba(15, 98, 254, 0.6);
-  z-index: 999;
-}
-
-/* Inputs */
-input[type=text] {
-  width: 70%;
-  padding: 0.5rem;
-  border-radius: 6px;
+/* === Botões === */
+button {
+  padding: 0.5rem 1rem;
+  margin: 0.3rem;
   border: none;
-  margin-right: 0.5rem;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #00f, #0ff);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 10px #0ff;
+  transition: transform 0.2s, background 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #f0f, #0ff);
+}
+
+/* === Texto e Entradas === */
+input[type="text"] {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 6px;
+  width: 100%;
+  margin: 0.3rem 0;
   font-size: 1rem;
 }
 
-@media (max-width: 600px) {
-  button, input[type=text] {
+p, li {
+  font-size: 1rem;
+  margin: 0.2rem 0;
+}
+
+.scroll-section {
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.scroll-section::-webkit-scrollbar {
+  width: 6px;
+}
+.scroll-section::-webkit-scrollbar-thumb {
+  background: #0ff;
+  border-radius: 6px;
+}
+
+/* === Itens === */
+.upgrade-item, .shop-item, .pet-item, .ranking-item {
+  background: rgba(0,0,0,0.2);
+  border: 1px solid #0ff;
+  border-radius: 8px;
+  padding: 0.7rem;
+  margin: 0.5rem 0;
+}
+
+.mission-item, .achievement-item {
+  margin-bottom: 0.4rem;
+}
+
+.achievement-item.completed {
+  text-decoration: line-through;
+  color: #aaa;
+}
+
+/* === Chat === */
+.chat-box {
+  height: 150px;
+  overflow-y: auto;
+  background: rgba(0,0,0,0.2);
+  padding: 0.5rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.chat-box::-webkit-scrollbar {
+  width: 5px;
+}
+.chat-box::-webkit-scrollbar-thumb {
+  background: cyan;
+}
+
+/* === Notificação === */
+.notification {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0ff;
+  color: #000;
+  padding: 0.7rem 1.2rem;
+  border-radius: 10px;
+  font-weight: bold;
+  box-shadow: 0 0 15px #0ff;
+  display: none;
+  z-index: 999;
+  animation: flashRGB 2s infinite alternate;
+}
+
+@keyframes flashRGB {
+  0%   { background: red;   color: white; }
+  25%  { background: orange; color: black; }
+  50%  { background: lime;  color: black; }
+  75%  { background: blue;  color: white; }
+  100% { background: violet; color: white; }
+}
+
+/* === Responsivo === */
+@media (max-width: 768px) {
+  #gameContainer {
+    padding: 1rem;
+  }
+  button {
     width: 100%;
-    margin-bottom: 0.5rem;
+    margin: 0.5rem 0;
   }
 }
