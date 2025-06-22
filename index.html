@@ -1,80 +1,76 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator - Dark Gamer</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Clicker Simulator - Dark Gamer</title>
+<link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <h1>Clicker Simulator 🖱️</h1>
-  
-  <div id="notification" style="display:none; position:fixed; top:10px; left:50%; transform:translateX(-50%);
-    padding:10px 20px; border-radius: 8px; color:#fff; font-weight:bold; z-index:1000;"></div>
-  
-  <section id="stats">
-    <p><strong>Clicks:</strong> <span id="clicksDisplay">0</span></p>
-    <p><strong>Total Clicks:</strong> <span id="totalClicksStat">0</span></p>
-    <p><strong>Clicks por Segundo (CPS):</strong> <span id="cpsDisplay">0</span></p>
-    <p><strong>Nível:</strong> <span id="levelDisplay">1</span></p>
-    <p><strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></p>
-    <p><strong>Rebirths:</strong> <span id="rebirthCount">0</span></p>
-    <p><strong>Mundo Atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></p>
-  </section>
-  
-  <section id="clickArea" style="user-select:none; cursor:pointer;">
-    <button id="clickBtn" style="width:150px; height:150px; border-radius:50%; font-size:2em;
-      background: radial-gradient(circle, #555, #222); color: #fff; border:none; box-shadow: 0 0 20px #0f62fe;">
-      Clique aqui!
-    </button>
-  </section>
-  
-  <section id="upgradesSection">
-    <h2>🛠️ Upgrades</h2>
-    <div id="upgrades" style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px;"></div>
+<body class="dark">
+
+  <h1>Clicker Simulator 🕹️</h1>
+  <button id="toggleTheme" title="Alternar tema">☀️</button>
+
+  <section id="clickAreaSection" style="margin-bottom:30px;">
+    <button id="clickBtn" title="Clique aqui!">Clique!</button>
+    <p>Clicks: <span id="clicksDisplay">0</span></p>
+    <p>Total de Clicks: <span id="totalClicksStat">0</span></p>
+    <p>Clicks por segundo (CPS): <span id="cpsDisplay">0</span></p>
+    <p>Nível: <span id="levelDisplay">1</span></p>
+    <p>XP: <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></p>
+    <p>Rebirths: <span id="rebirthCount">0</span></p>
+    <p>Mundo Atual: <span id="currentWorld">1 - Jardim Inicial</span></p>
   </section>
 
-  <section id="petsSection">
-    <h2>🐾 Pets</h2>
-    <div id="pets" style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px;"></div>
+  <section id="upgradesSection">
+    <h2>🛠️ Upgrades</h2>
+    <div id="upgrades"></div>
   </section>
 
   <section id="shopSection">
     <h2>🛍️ Loja</h2>
-    <div id="shopList" style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px;"></div>
+    <div id="shopList"></div>
+  </section>
+
+  <section id="petsSection">
+    <h2>🐾 Pets</h2>
+    <div id="pets"></div>
   </section>
 
   <section id="missionsSection">
     <h2>🎯 Missões</h2>
-    <ul id="missions" style="list-style:none; padding-left:0; max-width:500px; margin:auto;"></ul>
+    <ul id="missions"></ul>
   </section>
 
   <section id="achievementsSection">
     <h2>🏆 Conquistas</h2>
-    <ul id="achievementsList" style="list-style:none; padding-left:0; max-width:500px; margin:auto;"></ul>
-  </section>
-  
-  <section id="rankingSection">
-    <h2>📊 Ranking</h2>
-    <input id="playerNameInput" type="text" placeholder="Seu nome" style="padding:5px; width:200px;"/>
-    <button id="saveScoreBtn" style="padding:5px 10px; margin-left:5px;">Salvar Ranking</button>
-    <div id="detailedRankingList" style="max-width:400px; margin:auto; margin-top:10px; text-align:left;"></div>
-  </section>
-  
-  <section id="chatSection" style="max-width: 400px; margin: 20px auto; text-align:left;">
-    <h2>💬 Chat Global</h2>
-    <div id="chatMessages" style="height:150px; overflow-y:auto; border:1px solid #444; padding:5px; background:#111; color:#ddd;"></div>
-    <input id="chatInput" type="text" placeholder="Digite sua mensagem..." style="width:75%; padding:5px;" />
-    <button id="chatSendBtn" style="width:20%; padding:5px;">Enviar</button>
+    <ul id="achievementsList"></ul>
   </section>
 
-  <section id="controls" style="margin: 20px;">
-    <button id="rebirthBtn">🔄 Rebirth</button>
-    <button id="saveBtn">💾 Salvar Manual</button>
-    <button id="clearSaveBtn">🗑️ Limpar Save</button>
-    <button id="toggleTheme">☀️</button>
+  <section id="rankingSection">
+    <h2>📊 Ranking</h2>
+    <input type="text" id="playerNameInput" placeholder="Seu nome para ranking" maxlength="15" />
+    <button id="saveScoreBtn">Salvar no Ranking</button>
+    <div id="detailedRankingList"></div>
   </section>
-  
+
+  <section id="chatSection">
+    <h2>💬 Chat Global</h2>
+    <div id="chat">
+      <div id="chatMessages"></div>
+      <input type="text" id="chatInput" placeholder="Digite sua mensagem..." maxlength="100" />
+      <button id="chatSendBtn">Enviar</button>
+    </div>
+  </section>
+
+  <section id="controls">
+    <button id="saveBtn">Salvar Progresso</button>
+    <button id="clearSaveBtn">Apagar Progresso</button>
+    <button id="rebirthBtn">Rebirth (10k clicks)</button>
+  </section>
+
+  <div id="notification"></div>
+
   <script type="module" src="script.js"></script>
 </body>
 </html>
