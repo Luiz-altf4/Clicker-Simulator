@@ -1,710 +1,355 @@
 /* Reset básico */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+* {
   margin: 0;
   padding: 0;
-}
-
-html {
-  font-size: 16px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--bg);
-  color: var(--text);
-  scroll-behavior: smooth;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  padding: 1rem;
-  transition: background-color 0.4s ease, color 0.4s ease;
-}
-
-/* Variáveis para tema claro e escuro */
-:root {
-  --bg: #121212;
-  --text: #eee;
-  --primary: #4caf50;
-  --secondary: #81c784;
-  --accent: #ffca28;
-  --error: #e53935;
-  --info: #2196f3;
-  --success: #43a047;
-  --button-bg: #333;
-  --button-hover-bg: #555;
-  --button-disabled-bg: #666;
-  --border-radius: 8px;
-  --shadow: rgba(0,0,0,0.7);
-}
-
-body.light-theme {
-  --bg: #f5f5f5;
-  --text: #222;
-  --primary: #388e3c;
-  --secondary: #a5d6a7;
-  --accent: #fbc02d;
-  --error: #d32f2f;
-  --info: #1976d2;
-  --success: #2e7d32;
-  --button-bg: #ddd;
-  --button-hover-bg: #ccc;
-  --button-disabled-bg: #aaa;
-  --shadow: rgba(0,0,0,0.2);
-}
-
-/* Container principal */
-#gameContainer {
-  width: 100%;
-  max-width: 960px;
-  background-color: var(--button-bg);
-  border-radius: var(--border-radius);
-  box-shadow: 0 0 20px var(--shadow);
-  padding: 1.5rem 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-/* Header */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-header h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--primary);
-}
-
-#toggleTheme {
-  background: none;
-  border: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-  color: var(--accent);
-  transition: transform 0.3s ease;
-}
-
-#toggleTheme:hover,
-#toggleTheme:focus {
-  transform: rotate(20deg);
-  outline: none;
-}
-
-/* Display de cliques */
-#clicksDisplay {
-  font-size: 4rem;
-  font-weight: 900;
-  text-align: center;
-  color: var(--accent);
-  user-select: none;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 0 10px var(--accent);
-}
-
-/* Botão principal */
-#clickBtn {
-  width: 100%;
-  padding: 1.5rem;
-  font-size: 2.5rem;
-  font-weight: 700;
-  background-color: var(--primary);
-  color: var(--bg);
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  box-shadow: 0 5px 10px rgba(72, 180, 97, 0.6);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  user-select: none;
-}
-
-#clickBtn:hover:not(:disabled) {
-  background-color: var(--secondary);
-  transform: scale(1.05);
-}
-
-#clickBtn:active:not(:disabled) {
-  transform: scale(0.95);
-}
-
-#clickBtn:disabled {
-  background-color: var(--button-disabled-bg);
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-/* Status e estatísticas */
-.status-bar {
-  display: flex;
-  justify-content: space-around;
-  gap: 1rem;
-  flex-wrap: wrap;
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
-.status-bar div {
-  background-color: var(--button-bg);
-  padding: 0.5rem 1rem;
-  border-radius: var(--border-radius);
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
-  min-width: 120px;
-  text-align: center;
-  user-select: none;
-}
-
-/* Seção principal de conteúdos */
-.sections {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-/* Coluna maior para upgrades, pets, loja */
-.main-column {
-  flex: 1 1 600px;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-/* Coluna menor para ranking, chat e missões */
-.side-column {
-  flex: 0 1 320px;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-/* Listas estilos */
-.upgrade-item,
-.shop-item,
-.pet-item,
-.mission-item,
-.achievement-item,
-.ranking-item,
-.chat-message {
-  background-color: var(--button-bg);
-  border-radius: var(--border-radius);
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.5rem;
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.25);
-  user-select: none;
-  transition: background-color 0.3s ease;
-}
-
-.upgrade-item:hover,
-.shop-item:hover,
-.pet-item:hover,
-.mission-item:hover,
-.achievement-item:hover,
-.ranking-item:hover {
-  background-color: var(--secondary);
-  cursor: pointer;
-}
-
-/* Botões dentro das listas */
-.buy-btn,
-.select-pet-btn,
-#saveBtn,
-#rebirthBtn,
-#clearSaveBtn,
-#saveScoreBtn {
-  background-color: var(--primary);
-  border: none;
-  border-radius: var(--border-radius);
-  color: var(--bg);
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  font-weight: 600;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-  transition: background-color 0.3s ease;
-  user-select: none;
-}
-
-.buy-btn:disabled,
-.select-pet-btn:disabled {
-  background-color: var(--button-disabled-bg);
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.buy-btn:hover:not(:disabled),
-.select-pet-btn:hover:not(:disabled),
-#saveBtn:hover,
-#rebirthBtn:hover,
-#clearSaveBtn:hover,
-#saveScoreBtn:hover {
-  background-color: var(--accent);
-  color: var(--bg);
-}
-
-/* Inputs */
-input[type="text"] {
-  padding: 0.4rem 0.6rem;
-  border-radius: var(--border-radius);
-  border: 1.5px solid var(--button-disabled-bg);
-  font-size: 1rem;
-  width: 100%;
   box-sizing: border-box;
-  margin-bottom: 0.5rem;
-  transition: border-color 0.3s ease;
-}
-
-input[type="text"]:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-
-/* Scroll customizado para listas grandes */
-.upgrades,
-.shopList,
-.pets,
-.missions,
-.achievementsList,
-.detailedRankingList,
-#chatMessages {
-  max-height: 280px;
-  overflow-y: auto;
-  padding-right: 6px;
-}
-
-/* Scrollbar estilizada */
-.upgrades::-webkit-scrollbar,
-.shopList::-webkit-scrollbar,
-.pets::-webkit-scrollbar,
-.missions::-webkit-scrollbar,
-.achievementsList::-webkit-scrollbar,
-.detailedRankingList::-webkit-scrollbar,
-#chatMessages::-webkit-scrollbar {
-  width: 8px;
-}
-
-.upgrades::-webkit-scrollbar-thumb,
-.shopList::-webkit-scrollbar-thumb,
-.pets::-webkit-scrollbar-thumb,
-.missions::-webkit-scrollbar-thumb,
-.achievementsList::-webkit-scrollbar-thumb,
-.detailedRankingList::-webkit-scrollbar-thumb,
-#chatMessages::-webkit-scrollbar-thumb {
-  background-color: var(--primary);
-  border-radius: 6px;
-}
-
-/* Notificações */
-.notification {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background-color: var(--success);
-  color: var(--bg);
-  padding: 0.8rem 1.2rem;
-  border-radius: var(--border-radius);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.35);
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-20px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  z-index: 9999;
-}
-
-.notification.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-.notification.success {
-  background-color: var(--success);
-}
-
-.notification.error {
-  background-color: var(--error);
-}
-
-.notification.info {
-  background-color: var(--info);
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-  #gameContainer {
-    padding: 1rem;
-  }
-
-  .sections {
-    flex-direction: column;
-  }
-
-  .main-column,
-  .side-column {
-    flex: 1 1 100%;
-  }
-
-  #clicksDisplay {
-    font-size: 3rem;
-  }
-
-  #clickBtn {
-    font-size: 2rem;
-    padding: 1rem;
-  }
-}
-
-/* === style.css - Estilos do Clicker Simulator Supreme === */
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-
-:root {
-  --color-bg-dark: #121212;
-  --color-bg-light: #f5f5f5;
-  --color-text-dark: #eee;
-  --color-text-light: #222;
-  --color-primary: #4caf50;
-  --color-primary-dark: #388e3c;
-  --color-secondary: #03a9f4;
-  --color-error: #e53935;
-  --color-success: #43a047;
-  --color-info: #2196f3;
-  --color-muted: #888;
-  --transition-time: 0.3s;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-  margin: 0;
-  font-family: 'Montserrat', sans-serif;
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-dark);
+  background: #121212;
+  color: #eee;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  transition: background-color var(--transition-time), color var(--transition-time);
+}
+
+header, footer {
+  background: #1f1f1f;
+  text-align: center;
+  padding: 1rem;
   user-select: none;
 }
 
-body.light-theme {
-  background-color: var(--color-bg-light);
-  color: var(--color-text-light);
-}
-
-#gameContainer {
-  max-width: 1100px;
-  width: 95%;
-  margin: 1rem auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px solid var(--color-primary);
-  padding-bottom: 0.5rem;
-}
-
 header h1 {
-  font-weight: 700;
   font-size: 2rem;
-  margin: 0;
+  margin-bottom: 0.5rem;
 }
 
-#toggleTheme {
+#toggleThemeButton {
   background: none;
   border: none;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   cursor: pointer;
-  color: var(--color-primary);
-  transition: color var(--transition-time);
+  color: #eee;
+  transition: color 0.3s;
 }
 
-#toggleTheme:hover,
-#toggleTheme:focus {
-  color: var(--color-primary-dark);
-  outline: none;
+#toggleThemeButton:hover {
+  color: #4caf50;
 }
 
 main {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-#clickSection {
-  text-align: center;
-  border: 2px solid var(--color-primary);
-  padding: 1rem;
-  border-radius: 10px;
-  background-color: rgba(76, 175, 80, 0.1);
-  user-select: none;
-}
-
-#clicksDisplay {
-  font-size: 4rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-#clickBtn {
-  font-size: 1.5rem;
+  flex-grow: 1;
   padding: 1rem 2rem;
-  border-radius: 8px;
-  border: none;
-  background-color: var(--color-primary);
-  color: white;
-  cursor: pointer;
-  transition: background-color var(--transition-time), transform 0.1s ease;
-  user-select: none;
-}
-
-#clickBtn:hover,
-#clickBtn:focus {
-  background-color: var(--color-primary-dark);
-  outline: none;
-  transform: scale(1.05);
-}
-
-.status-bar {
-  display: flex;
-  justify-content: space-around;
-  background-color: rgba(255 255 255 / 0.05);
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  font-weight: 600;
-  user-select: none;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.sections {
-  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
+}
+
+/* Seção de info principal */
+#gameInfo {
+  grid-column: 1 / -1;
+  display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.main-column {
-  flex: 1 1 60%;
-  display: flex;
-  flex-direction: column;
   gap: 1rem;
-}
-
-.side-column {
-  flex: 1 1 35%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-/* Seções internas */
-#upgrades,
-#shopList,
-#pets,
-#missions,
-#achievementsList,
-#detailedRankingList {
-  background-color: rgba(255 255 255 / 0.05);
+  justify-content: center;
+  background: #222;
   border-radius: 10px;
   padding: 1rem;
-  max-height: 300px;
-  overflow-y: auto;
-  box-shadow: 0 0 5px rgba(0,0,0,0.3);
-  user-select: none;
 }
 
-/* Scroll customizado */
-#upgrades::-webkit-scrollbar,
-#shopList::-webkit-scrollbar,
-#pets::-webkit-scrollbar,
-#missions::-webkit-scrollbar,
-#achievementsList::-webkit-scrollbar,
-#detailedRankingList::-webkit-scrollbar {
-  width: 8px;
-}
-
-#upgrades::-webkit-scrollbar-thumb,
-#shopList::-webkit-scrollbar-thumb,
-#pets::-webkit-scrollbar-thumb,
-#missions::-webkit-scrollbar-thumb,
-#achievementsList::-webkit-scrollbar-thumb,
-#detailedRankingList::-webkit-scrollbar-thumb {
-  background-color: var(--color-primary);
-  border-radius: 10px;
-}
-
-/* Itens Upgrade, Shop, Pets */
-.upgrade-item,
-.shop-item,
-.pet-item,
-.ranking-item,
-.mission-item,
-.achievement-item {
-  background-color: rgba(255 255 255 / 0.1);
-  margin-bottom: 0.6rem;
-  padding: 0.6rem;
+#gameInfo > div {
+  flex: 1 1 140px;
+  background: #333;
   border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  user-select: none;
-  font-size: 0.95rem;
+  padding: 0.75rem 1rem;
+  text-align: center;
 }
 
-.buy-btn,
-.select-pet-btn,
-#saveScoreBtn,
-#saveBtn,
-#rebirthBtn,
-#clearSaveBtn,
-#sendChatBtn {
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  border: none;
+#gameInfo h2 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
   font-weight: 600;
-  background-color: var(--color-secondary);
+  color: #81c784;
+}
+
+#gameInfo p {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #a5d6a7;
+}
+
+/* Botão principal de clique */
+#clickButton {
+  grid-column: 1 / -1;
+  background: #4caf50;
+  border: none;
+  border-radius: 12px;
+  padding: 1.5rem;
+  font-size: 2rem;
+  font-weight: 700;
   color: white;
-  transition: background-color var(--transition-time), transform 0.1s ease;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
   user-select: none;
 }
 
-.buy-btn:disabled,
-.select-pet-btn:disabled {
-  background-color: var(--color-muted);
-  cursor: not-allowed;
-  color: #aaa;
+#clickButton:hover {
+  background: #66bb6a;
 }
 
-.buy-btn:hover:not(:disabled),
-.select-pet-btn:hover:not(:disabled),
-#saveScoreBtn:hover,
-#saveBtn:hover,
-#rebirthBtn:hover,
-#clearSaveBtn:hover,
-#sendChatBtn:hover {
-  background-color: #0288d1;
-  transform: scale(1.05);
-  outline: none;
-}
-
-#playerNameInput,
-#chatInput {
-  width: 100%;
-  padding: 0.5rem;
+#buyAmountSelect {
+  grid-column: 1 / -1;
+  padding: 0.5rem 1rem;
   font-size: 1rem;
   border-radius: 6px;
-  border: 1px solid var(--color-muted);
-  margin-bottom: 0.5rem;
-  box-sizing: border-box;
-  user-select: text;
-  transition: border-color var(--transition-time);
+  border: none;
+  background: #333;
+  color: #eee;
+  cursor: pointer;
+  max-width: 200px;
+  justify-self: center;
 }
 
-#playerNameInput:focus,
-#chatInput:focus {
-  outline: none;
-  border-color: var(--color-primary);
+/* Sections comuns (upgrades, pets, loja, missões, conquistas, ranking, chat) */
+section {
+  background: #222;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+section h2 {
+  margin-bottom: 1rem;
+  color: #81c784;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* Containers para listas */
+#upgrades, #shopList, #pets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.upgrade-item, .shop-item, .pet-item {
+  background: #333;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  width: 240px;
+  box-shadow: inset 0 0 10px #1b5e20;
+  color: #c8e6c9;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.upgrade-item h4, .shop-item h4, .pet-item h4 {
+  margin-bottom: 0.25rem;
+  font-weight: 700;
+  color: #a5d6a7;
+}
+
+.buy-btn, .select-pet-btn {
+  margin-top: auto;
+  padding: 0.5rem;
+  background: #4caf50;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.buy-btn:disabled, .select-pet-btn:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+.buy-btn:hover:not(:disabled), .select-pet-btn:hover:not(:disabled) {
+  background: #66bb6a;
+}
+
+/* Lista de missões e conquistas */
+#missions, #achievementsList {
+  list-style: none;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.mission-item, .achievement-item {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #4caf50;
+  color: #b9f6ca;
+  cursor: default;
+  user-select: none;
+}
+
+.mission-item.completed, .achievement-item.achieved {
+  text-decoration: line-through;
+  color: #4caf50;
+  font-weight: 700;
+}
+
+/* Botões gerais */
+button {
+  user-select: none;
+}
+
+/* Botões salve/load/rebirth */
+#rebirthButton, #saveButton, #loadButton, #clearSaveBtn, #sendScoreButton {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0.3rem 0.5rem;
+  user-select: none;
+  display: inline-block;
+}
+
+#rebirthButton:hover,
+#saveButton:hover,
+#loadButton:hover,
+#clearSaveBtn:hover,
+#sendScoreButton:hover {
+  background: #4caf50;
+}
+
+/* Ranking */
+#rankingContainer {
+  max-height: 200px;
+  overflow-y: auto;
+  background: #333;
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: #b9f6ca;
+  font-weight: 600;
 }
 
 /* Chat */
 #chatSection {
-  background-color: rgba(255 255 255 / 0.05);
-  border-radius: 10px;
+  grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
-  max-height: 300px;
-  user-select: none;
+  gap: 0.75rem;
+  background: #222;
+  border-radius: 10px;
+  padding: 1rem;
 }
 
 #chatMessages {
-  flex: 1 1 auto;
-  overflow-y: auto;
-  padding: 0.6rem;
-  background-color: rgba(0,0,0,0.15);
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--color-text-dark);
-  user-select: text;
-}
-
-body.light-theme #chatMessages {
-  background-color: rgba(0,0,0,0.07);
-  color: var(--color-text-light);
-}
-
-#chatMessages div {
-  margin-bottom: 0.3rem;
-  word-wrap: break-word;
-}
-
-#controls {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  margin-top: 0.5rem;
-  user-select: none;
-}
-
-/* Notification */
-.notification {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background-color: var(--color-primary);
-  color: white;
-  padding: 0.8rem 1.2rem;
+  background: #333;
+  color: #c8e6c9;
   border-radius: 8px;
-  font-weight: 600;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-  z-index: 1000;
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.3;
   user-select: none;
 }
 
-.notification.show {
-  opacity: 1;
-  pointer-events: auto;
+.chat-message {
+  margin-bottom: 0.5rem;
 }
 
-/* Missões e conquistas: */
-.mission-item.completed,
-.achievement-item.achieved {
-  background-color: var(--color-success);
+#chatInput {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+  background: #444;
+  color: #eee;
+  font-size: 1rem;
+}
+
+#chatInput::placeholder {
+  color: #aaa;
+}
+
+#chatSendButton {
+  background: #4caf50;
   color: white;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
   font-weight: 700;
+  user-select: none;
+  transition: background-color 0.3s ease;
 }
 
-/* Responsividade */
-@media (max-width: 900px) {
-  .sections {
-    flex-direction: column;
-  }
-
-  .main-column, .side-column {
-    flex: 1 1 100%;
-  }
+#chatSendButton:hover {
+  background: #66bb6a;
 }
 
-@media (max-width: 480px) {
-  #clicksDisplay {
-    font-size: 3rem;
-  }
-
-  #clickBtn {
-    font-size: 1.2rem;
-    padding: 0.8rem 1.5rem;
-  }
+/* Input nome usuário chat e ranking */
+#usernameInput {
+  width: 100%;
+  max-width: 250px;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+  background: #333;
+  color: #eee;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  user-select: none;
 }
+
+/* Tema claro */
+body.light-theme {
+  background: #f5f5f5;
+  color: #222;
+}
+
+body.light-theme header,
+body.light-theme footer,
+body.light-theme section,
+body.light-theme #gameInfo > div,
+body.light-theme .upgrade-item,
+body.light-theme .shop-item,
+body.light-theme .pet-item,
+body.light-theme #rankingContainer,
+body.light-theme #chatMessages {
+  background: #fff;
+  color: #222;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+body.light-theme button.buy-btn,
+body.light-theme button.select-pet-btn,
+body.light-theme #clickButton,
+body.light-theme #chatSendButton,
+body.light-theme #rebirthButton,
+body.light-theme #saveButton,
+body.light-theme #loadButton,
+body.light-theme #clearSaveBtn,
+body.light-theme #sendScoreButton {
+  background: #4caf50;
+  color: white;
+}
+
+body.light-theme button.buy-btn:disabled,
+body.light-theme button.select-pet-btn:disabled {
+  background: #ccc;
+  color: #666;
+}
+
+body.light-theme #toggleThemeButton {
+  color: #222;
+}
+
