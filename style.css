@@ -16,13 +16,11 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Tema claro */
 body.light-theme {
   background-color: #f0f0f0;
   color: #222;
 }
 
-/* Container principal */
 #container {
   max-width: 960px;
   width: 100%;
@@ -38,7 +36,6 @@ body.light-theme #container {
   box-shadow: 0 0 25px rgba(0,0,0,0.1);
 }
 
-/* Título */
 h1 {
   text-align: center;
   margin-bottom: 25px;
@@ -47,7 +44,6 @@ h1 {
   user-select: none;
 }
 
-/* Stats */
 .stats {
   display: flex;
   flex-wrap: wrap;
@@ -72,7 +68,6 @@ body.light-theme .stats > div {
   color: #111;
 }
 
-/* Botão principal */
 #clickBtn {
   display: block;
   width: 100%;
@@ -98,7 +93,6 @@ body.light-theme .stats > div {
   transform: scale(0.95);
 }
 
-/* Animação do clique */
 #clickBtn.clicked {
   animation: clickAnim 0.15s ease;
 }
@@ -109,7 +103,6 @@ body.light-theme .stats > div {
   100% { transform: scale(1); }
 }
 
-/* Botão toggle tema */
 #toggleTheme {
   position: fixed;
   top: 20px;
@@ -128,7 +121,6 @@ body.light-theme #toggleTheme {
   color: #222;
 }
 
-/* Flex containers para as caixas */
 .flex-row {
   display: flex;
   gap: 20px;
@@ -137,7 +129,6 @@ body.light-theme #toggleTheme {
   justify-content: center;
 }
 
-/* Caixas com sombra */
 .box {
   background: rgba(40, 40, 40, 0.85);
   padding: 15px 20px;
@@ -156,7 +147,6 @@ body.light-theme .box {
   box-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
 
-/* Scrollbar customizada */
 .box::-webkit-scrollbar {
   width: 8px;
 }
@@ -174,7 +164,6 @@ body.light-theme .box::-webkit-scrollbar-thumb {
   background: #019f7a;
 }
 
-/* Cabeçalhos das caixas */
 .box h2 {
   margin-bottom: 15px;
   font-weight: 700;
@@ -182,7 +171,6 @@ body.light-theme .box::-webkit-scrollbar-thumb {
   user-select: none;
 }
 
-/* Itens dentro das caixas */
 .upgrade-item, .shop-item, .pet-item, .mission-item, .achievement-item {
   margin-bottom: 12px;
   font-weight: 600;
@@ -191,7 +179,6 @@ body.light-theme .box::-webkit-scrollbar-thumb {
   align-items: center;
 }
 
-/* Botões dentro das listas */
 .upgrade-item button,
 .shop-item button,
 .pet-item button {
@@ -222,7 +209,6 @@ body.light-theme .box::-webkit-scrollbar-thumb {
   color: #ccc;
 }
 
-/* Inputs e botões no ranking */
 #playerNameInput {
   width: 100%;
   padding: 10px 15px;
@@ -263,7 +249,6 @@ body.light-theme #playerNameInput {
   cursor: not-allowed;
 }
 
-/* Ranking lista */
 #rankingList {
   max-height: 220px;
   overflow-y: auto;
@@ -279,7 +264,6 @@ body.light-theme #rankingList {
   color: #222;
 }
 
-/* Responsividade */
 @media (max-width: 720px) {
   #container {
     padding: 15px 20px;
@@ -293,7 +277,6 @@ body.light-theme #rankingList {
   }
 }
 
-/* Texto user-select none para evitar seleção indesejada na UI */
 h1, .stats > div, .box h2 {
   user-select: none;
 }
