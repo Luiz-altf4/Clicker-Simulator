@@ -3,878 +3,144 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator - Supremacia</title>
-
-  <!-- Fonte Google -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <title>Clicker Simulator Supreme Edition</title>
   
+  <!-- Fonte Google Fonts Montserrat -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;900&display=swap" rel="stylesheet" />
   <!-- CSS principal -->
   <link rel="stylesheet" href="style.css" />
-  
-  <!-- Ícone -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  
-  <!-- Meta SEO -->
-  <meta name="description" content="Clicker Simulator lendário com upgrades, pets, missões, conquistas, mundos e ranking online!" />
-  <meta name="keywords" content="clicker, jogo, incremental, upgrades, pets, simulação, ranking, firebase" />
-  <meta name="author" content="ChatGPT & Luiz Felipe" />
 </head>
 <body>
-  <!-- Botão tema claro/escuro -->
+  <!-- Botão de tema claro/escuro -->
   <button id="toggleTheme" title="Alternar tema">🌙</button>
-  
-  <!-- Container principal -->
-  <div id="container" class="container-main">
-    <header class="header-main">
-      <h1>Clicker Simulator Supreme</h1>
-      <p class="subtitle">Clique, evolua e conquiste o ranking mundial!</p>
+
+  <div id="container">
+    <!-- Cabeçalho com título e descrição -->
+    <header>
+      <h1>Clicker Simulator Supreme Edition</h1>
+      <p class="subtitle">Clique, evolua, conquiste e domine todos os mundos!</p>
     </header>
-    
-    <!-- Seção de Estatísticas principais -->
-    <section class="stats-section" aria-label="Estatísticas do jogador">
-      <div class="stats-row">
-        <div class="stat-item" tabindex="0" data-tooltip="Número total de clicks que você fez">
-          <strong>Clicks:</strong> <span id="clicksDisplay">0</span>
-        </div>
-        <div class="stat-item" tabindex="0" data-tooltip="Clicks por segundo (CPS)">
-          <strong>CPS:</strong> <span id="cpsDisplay">0</span>
-        </div>
-        <div class="stat-item" tabindex="0" data-tooltip="Seu nível atual">
-          <strong>Level:</strong> <span id="levelDisplay">1</span>
-        </div>
-        <div class="stat-item" tabindex="0" data-tooltip="XP atual">
-          <strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span>
-        </div>
-        <div class="stat-item" tabindex="0" data-tooltip="Número de rebirths realizados">
-          <strong>Rebirths:</strong> <span id="rebirthCount">0</span>
-        </div>
-        <div class="stat-item" tabindex="0" data-tooltip="Mundo atual onde você está jogando">
-          <strong>Mundo Atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span>
-        </div>
+
+    <!-- Seção de estatísticas principais -->
+    <section class="stats" aria-label="Estatísticas do jogador">
+      <div><strong>Clicks:</strong> <span id="clicksDisplay">0</span></div>
+      <div><strong>CPS (Clicks por segundo):</strong> <span id="cpsDisplay">0</span></div>
+      <div><strong>Level:</strong> <span id="levelDisplay">1</span></div>
+      <div>
+        <strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span>
       </div>
-    </section>
-    
-    <!-- Botão principal para clicar -->
-    <section class="click-section" aria-label="Botão principal para clicar">
-      <button id="clickBtn" class="btn-main" aria-pressed="false" aria-label="Clique aqui para ganhar clicks!">Clique aqui!</button>
-    </section>
-    
-    <!-- Seção de Upgrades, Loja e Pets -->
-    <section class="flex-row">
-      <article class="box upgrades-box" aria-label="Upgrades">
-        <h2>Upgrades</h2>
-        <div id="upgrades" class="list-container" tabindex="0" aria-live="polite" aria-relevant="additions removals"></div>
-      </article>
-      
-      <article class="box shop-box" aria-label="Loja de buffs e itens">
-        <h2>Loja</h2>
-        <div id="shop" class="list-container" tabindex="0" aria-live="polite" aria-relevant="additions removals"></div>
-      </article>
-      
-      <article class="box pets-box" aria-label="Pets">
-        <h2>Pets</h2>
-        <div id="pets" class="list-container" tabindex="0" aria-live="polite" aria-relevant="additions removals"></div>
-      </article>
-    </section>
-    
-    <!-- Seção de Missões, Conquistas e Ranking -->
-    <section class="flex-row">
-      <article class="box missions-box" aria-label="Missões">
-        <h2>Missões</h2>
-        <div id="missions" class="list-container" tabindex="0" aria-live="polite" aria-relevant="additions removals"></div>
-      </article>
-      
-      <article class="box achievements-box" aria-label="Conquistas">
-        <h2>Conquistas</h2>
-        <div id="achievements" class="list-container" tabindex="0" aria-live="polite" aria-relevant="additions removals"></div>
-      </article>
-      
-      <article class="box ranking-box" aria-label="Ranking online">
-        <h2>Ranking Online</h2>
-        <input id="playerNameInput" type="text" placeholder="Seu nome" aria-label="Digite seu nome para salvar o score" maxlength="15" autocomplete="off" />
-        <button id="saveScoreBtn" class="btn-secondary" aria-label="Salvar score">Salvar Score</button>
-        <div id="rankingList" class="ranking-list" tabindex="0" aria-live="polite" aria-relevant="additions removals"></div>
-      </article>
-    </section>
-    
-    <!-- Seção FAQ detalhada para ajudar o usuário -->
-    <section class="faq-section" aria-label="Perguntas Frequentes">
-      <h2>FAQ - Perguntas Frequentes</h2>
-      <dl>
-        <dt tabindex="0">Como faço para ganhar clicks?</dt>
-        <dd>Você ganha clicks clicando no botão "Clique aqui!" e adquirindo upgrades para aumentar seu CPS.</dd>
-        
-        <dt tabindex="0">O que são rebirths?</dt>
-        <dd>Rebirths são resets que aumentam seus ganhos futuros, adicionando mais profundidade ao jogo.</dd>
-        
-        <dt tabindex="0">Como funciona a loja?</dt>
-        <dd>A loja oferece buffs temporários que multiplicam seus ganhos por tempo limitado.</dd>
-        
-        <dt tabindex="0">Posso jogar em diferentes mundos?</dt>
-        <dd>Sim! Cada mundo tem características únicas e desafios especiais.</dd>
-        
-        <dt tabindex="0">Como salvo meu progresso?</dt>
-        <dd>O jogo salva automaticamente e você também pode salvar seu score no ranking online.</dd>
-      </dl>
-    </section>
-    
-    <!-- Seção de Lore / História do jogo -->
-    <section class="lore-section" aria-label="Lore do jogo">
-      <h2>História do Clicker Simulator</h2>
-      <p>Em um mundo onde cada click conta, você é o herói que deve evoluir clicando, comprando upgrades e explorando mundos incríveis.</p>
-      <p>Prepare-se para uma jornada épica cheia de desafios, missões, pets incríveis e uma comunidade global para competir no ranking.</p>
-      <p>Será que você alcançará o topo e se tornará o melhor clicker do mundo?</p>
-    </section>
-    
-    <!-- Seção Créditos -->
-    <footer class="footer-main" aria-label="Créditos">
-      <p>Desenvolvido por Luiz Felipe e ChatGPT - Todos os direitos reservados © 2025</p>
-      <p><a href="https://github.com/Luiz-altf4/Clicker-Simulator" target="_blank" rel="noopener noreferrer">Repositório no GitHub</a></p>
-    </footer>
-    
-    <!-- Seção extra para dicas rápidas -->
-    <aside class="tips-section" aria-label="Dicas rápidas">
-      <h3>Dicas Rápidas</h3>
-      <ul>
-        <li>Use pets para acelerar o ganho de clicks.</li>
-        <li>Ative buffs da loja para multiplicar seu progresso temporariamente.</li>
-        <li>Complete missões para ganhar recompensas extras.</li>
-        <li>Salve seu score para competir no ranking mundial.</li>
-        <li>Explore mundos diferentes para desbloquear novos desafios.</li>
-      </ul>
-    </aside>
-    
-    <!-- Seção de notificações dinâmicas -->
-    <div id="notificationContainer" aria-live="assertive" aria-atomic="true"></div>
-    
-    <!-- Modal exemplo para upgrades detalhados -->
-    <div id="modalUpgrade" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalUpgradeTitle" hidden>
-      <div class="modal-content">
-        <h2 id="modalUpgradeTitle">Detalhes do Upgrade</h2>
-        <p id="modalUpgradeDesc">Descrição aqui</p>
-        <button id="modalUpgradeBuyBtn">Comprar</button>
-        <button id="modalUpgradeCloseBtn">Fechar</button>
-      </div>
-    </div>
-    
-    <!-- Modal exemplo para pets -->
-    <div id="modalPet" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalPetTitle" hidden>
-      <div class="modal-content">
-        <h2 id="modalPetTitle">Detalhes do Pet</h2>
-        <p id="modalPetDesc">Descrição do pet aqui</p>
-        <button id="modalPetActivateBtn">Ativar</button>
-        <button id="modalPetCloseBtn">Fechar</button>
-      </div>
-    </div>
-    
-    <!-- Modal exemplo para missões -->
-    <div id="modalMission" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalMissionTitle" hidden>
-      <div class="modal-content">
-        <h2 id="modalMissionTitle">Detalhes da Missão</h2>
-        <p id="modalMissionDesc">Descrição da missão aqui</p>
-        <button id="modalMissionClaimBtn">Reivindicar Recompensa</button>
-        <button id="modalMissionCloseBtn">Fechar</button>
-      </div>
-    </div>
-    
-    <!-- Modal exemplo para conquistas -->
-    <div id="modalAchievement" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalAchievementTitle" hidden>
-      <div class="modal-content">
-        <h2 id="modalAchievementTitle">Detalhes da Conquista</h2>
-        <p id="modalAchievementDesc">Descrição da conquista aqui</p>
-        <button id="modalAchievementCloseBtn">Fechar</button>
-      </div>
-    </div>
-    
-    <!-- Exemplos de elementos repetidos para aumentar linhas -->
-    <section class="dummy-section">
-      <h3>Seção Extra 1</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin euismod metus nec velit dignissim, sed posuere magna viverra.</p>
-      <ul>
-        <li>Item extra A</li>
-        <li>Item extra B</li>
-        <li>Item extra C</li>
-        <li>Item extra D</li>
-        <li>Item extra E</li>
-      </ul>
-    </section>
-    
-    <section class="dummy-section">
-      <h3>Seção Extra 2</h3>
-      <p>Praesent in efficitur est, vitae pulvinar lectus. Vestibulum at nulla sed neque lobortis dapibus.</p>
-      <ol>
-        <li>Passo 1</li>
-        <li>Passo 2</li>
-        <li>Passo 3</li>
-        <li>Passo 4</li>
-        <li>Passo 5</li>
-      </ol>
+      <div><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
+      <div><strong>Mundo Atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
     </section>
 
-    <!-- Gerador de lista gigante para preencher mais linhas -->
-    <section class="massive-list" aria-label="Lista gigante">
-      <h2>Lista Gigante</h2>
-      <ul>
-        <!-- Repetindo muitos itens -->
-        <!-- Usando JS para renderizar depois para não travar no HTML puro -->
-      </ul>
+    <!-- Botão principal de clique -->
+    <button id="clickBtn" class="btn-main" aria-label="Clique aqui para ganhar clicks">Clique aqui!</button>
+
+    <!-- Container flexível para painéis principais -->
+    <section class="panels-row" aria-label="Painéis principais do jogo">
+      <!-- Upgrades -->
+      <article class="panel" id="upgrades" role="region" aria-labelledby="upgradesTitle">
+        <h2 id="upgradesTitle">Upgrades</h2>
+        <div class="list-container" aria-live="polite" aria-relevant="additions removals">
+          <!-- Upgrades list dynamically inserted aqui -->
+        </div>
+      </article>
+
+      <!-- Loja -->
+      <article class="panel" id="shop" role="region" aria-labelledby="shopTitle">
+        <h2 id="shopTitle">Loja</h2>
+        <div class="list-container" aria-live="polite" aria-relevant="additions removals">
+          <!-- Itens da loja -->
+        </div>
+      </article>
+
+      <!-- Pets -->
+      <article class="panel" id="pets" role="region" aria-labelledby="petsTitle">
+        <h2 id="petsTitle">Pets</h2>
+        <div class="list-container" aria-live="polite" aria-relevant="additions removals">
+          <!-- Pets list -->
+        </div>
+      </article>
     </section>
-    
+
+    <!-- Espaço para futuras seções de conteúdo abaixo -->
+
+    <!-- Segunda linha de painéis com missões, conquistas e ranking -->
+    <section class="panels-row" aria-label="Painéis adicionais do jogo" style="margin-top: 25px;">
+      <!-- Missões -->
+      <article class="panel" id="missions" role="region" aria-labelledby="missionsTitle">
+        <h2 id="missionsTitle">Missões</h2>
+        <div class="list-container" aria-live="polite" aria-relevant="additions removals">
+          <!-- Missões aparecem aqui -->
+        </div>
+      </article>
+
+      <!-- Conquistas -->
+      <article class="panel" id="achievements" role="region" aria-labelledby="achievementsTitle">
+        <h2 id="achievementsTitle">Conquistas</h2>
+        <div class="list-container" aria-live="polite" aria-relevant="additions removals">
+          <!-- Conquistas aparecem aqui -->
+        </div>
+      </article>
+
+      <!-- Ranking Online -->
+      <article class="panel ranking-panel" role="region" aria-labelledby="rankingTitle">
+        <h2 id="rankingTitle">Ranking Online</h2>
+        <input
+          id="playerNameInput"
+          type="text"
+          aria-label="Digite seu nome para salvar no ranking"
+          placeholder="Seu nome"
+          maxlength="20"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button id="saveScoreBtn" aria-label="Salvar pontuação">Salvar Score</button>
+        <div id="rankingList" style="margin-top:10px;" aria-live="polite" aria-relevant="additions removals"></div>
+      </article>
+    </section>
+
+    <!-- Sistema de chat simples (exemplo) -->
+    <section id="chatSection" class="panel" role="region" aria-labelledby="chatTitle" style="margin-top: 30px;">
+      <h2 id="chatTitle">Chat Global</h2>
+      <div id="chatMessages" style="height: 200px; overflow-y: auto; background: #333; padding: 10px; border-radius: 12px; color: #eee; font-size: 0.9rem;"></div>
+      <form id="chatForm" aria-label="Enviar mensagem no chat" style="margin-top: 10px; display: flex; gap: 10px;">
+        <input
+          type="text"
+          id="chatInput"
+          placeholder="Digite sua mensagem..."
+          autocomplete="off"
+          spellcheck="false"
+          aria-required="true"
+          aria-label="Campo para digitar mensagem"
+          style="flex-grow: 1; padding: 8px 12px; border-radius: 10px; border: none;"
+        />
+        <button type="submit" style="padding: 8px 15px; border-radius: 10px; background: #0099ff; color: white; border: none; cursor: pointer;">Enviar</button>
+      </form>
+    </section>
+
+    <!-- Notificações -->
+    <div id="notification" class="notification" aria-live="assertive" role="alert" style="display:none;"></div>
+
+        <!-- Rodapé com créditos -->
+    <footer style="margin-top: 40px; text-align: center; font-size: 0.9rem; color: #666; user-select: none;">
+      Desenvolvido por Luiz Felipe - Versão Suprema 2025<br />
+      &copy; 2025 Clicker Simulator. Todos os direitos reservados.
+    </footer>
   </div>
-  
-  <script>
-    // Gerador de lista gigante para preencher o HTML e chegar em mais linhas
-    const massiveList = document.querySelector(".massive-list ul");
-    for (let i = 1; i <= 300; i++) {
-      const li = document.createElement("li");
-      li.textContent = `Item gigante número ${i}`;
-      massiveList.appendChild(li);
-    }
-  </script>
-  
+
+  <!-- Modal de confirmação (exemplo) -->
+  <div id="modalBg" class="modal-bg" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+    <div class="modal">
+      <h3 id="modalTitle">Confirmação</h3>
+      <p id="modalDesc">Você tem certeza que deseja resetar seu progresso?</p>
+      <button id="confirmResetBtn" class="list-button" aria-label="Confirmar reset">Confirmar</button>
+      <button id="cancelResetBtn" class="list-button" aria-label="Cancelar reset" style="margin-left: 10px;">Cancelar</button>
+      <span class="close-btn" id="modalCloseBtn" role="button" tabindex="0" aria-label="Fechar modal">&times;</span>
+    </div>
+  </div>
+
+  <!-- Scripts -->
   <script type="module" src="script.js"></script>
 </body>
 </html>
-
-<!-- Continuação da estrutura principal do Clicker Simulator -->
-
-<section class="extra-content" aria-label="Conteúdo extra e tabelas">
-  <h2>Tabela de Upgrades Detalhada</h2>
-  <table class="upgrades-table" aria-describedby="descUpgradesTable">
-    <caption id="descUpgradesTable">Lista detalhada de upgrades disponíveis com preços e bônus</caption>
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>Descrição</th>
-        <th>Preço</th>
-        <th>CPS Bônus</th>
-        <th>Quantidade</th>
-        <th>Ação</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Gerar linhas com JS para não travar no HTML puro -->
-    </tbody>
-  </table>
-
-  <h2>Tabela de Pets</h2>
-  <table class="pets-table" aria-describedby="descPetsTable">
-    <caption id="descPetsTable">Pets disponíveis, bônus e status</caption>
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>Descrição</th>
-        <th>Bônus (%)</th>
-        <th>Ativado</th>
-        <th>Ação</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Gerar linhas com JS -->
-    </tbody>
-  </table>
-
-  <h2>Tabela de Missões</h2>
-  <table class="missions-table" aria-describedby="descMissionsTable">
-    <caption id="descMissionsTable">Missões e seus status</caption>
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>Descrição</th>
-        <th>Status</th>
-        <th>Recompensa</th>
-        <th>Ação</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Gerar linhas com JS -->
-    </tbody>
-  </table>
-</section>
-
-<section class="logs-section" aria-label="Logs do jogador">
-  <h2>Histórico de ações</h2>
-  <div class="logs-container" tabindex="0" aria-live="polite" aria-relevant="additions">
-    <ul id="actionLogs">
-      <!-- Logs dinâmicos gerados por JS -->
-    </ul>
-  </div>
-</section>
-
-<section class="settings-section" aria-label="Configurações do jogo">
-  <h2>Configurações</h2>
-  <form id="settingsForm">
-    <fieldset>
-      <legend>Preferências</legend>
-
-      <label for="soundToggle">
-        <input type="checkbox" id="soundToggle" checked />
-        Ativar sons
-      </label>
-
-      <label for="autoSaveToggle">
-        <input type="checkbox" id="autoSaveToggle" checked />
-        Salvar automaticamente
-      </label>
-
-      <label for="themeSelect">Tema:</label>
-      <select id="themeSelect" name="themeSelect" aria-label="Selecionar tema do jogo">
-        <option value="dark">Escuro</option>
-        <option value="light">Claro</option>
-        <option value="retro">Retrô</option>
-      </select>
-    </fieldset>
-  </form>
-</section>
-
-<section class="community-section" aria-label="Comunidade e redes sociais">
-  <h2>Comunidade</h2>
-  <p>Junte-se a nossa comunidade para dicas, suporte e novidades!</p>
-  <ul>
-    <li><a href="https://discord.gg/exemplo" target="_blank" rel="noopener noreferrer">Discord Oficial</a></li>
-    <li><a href="https://twitter.com/exemplo" target="_blank" rel="noopener noreferrer">Twitter</a></li>
-    <li><a href="https://www.facebook.com/exemplo" target="_blank" rel="noopener noreferrer">Facebook</a></li>
-  </ul>
-</section>
-
-<section class="news-section" aria-label="Novidades e atualizações">
-  <h2>Novidades</h2>
-  <article class="news-item">
-    <h3>Atualização 1.1 - Novos Pets e Missões</h3>
-    <p>Lançamos novos pets incríveis com bônus especiais e missões desafiadoras para você completar.</p>
-    <time datetime="2025-06-22">22 de Junho de 2025</time>
-  </article>
-  <article class="news-item">
-    <h3>Evento especial - Dobro de XP</h3>
-    <p>Durante esta semana, todos os jogadores ganham o dobro de XP para avançar mais rápido!</p>
-    <time datetime="2025-07-01">01 de Julho de 2025</time>
-  </article>
-  <article class="news-item">
-    <h3>Ranking Online</h3>
-    <p>Agora você pode salvar seu score e competir com jogadores do mundo todo!</p>
-    <time datetime="2025-05-28">28 de Maio de 2025</time>
-  </article>
-</section>
-
-<section class="feedback-section" aria-label="Feedback dos jogadores">
-  <h2>O que dizem os jogadores</h2>
-  <blockquote>
-    <p>"Esse jogo mudou meu conceito de clickers! Muito viciante e divertido."</p>
-    <footer>– <cite>Jogador123</cite></footer>
-  </blockquote>
-  <blockquote>
-    <p>"Adoro os pets e o sistema de missões. Excelente trabalho!"</p>
-    <footer>– <cite>PlayerX</cite></footer>
-  </blockquote>
-  <blockquote>
-    <p>"O ranking online é perfeito para competir com meus amigos."</p>
-    <footer>– <cite>GamerPro</cite></footer>
-  </blockquote>
-</section>
-
-<section class="gallery-section" aria-label="Galeria de imagens do jogo">
-  <h2>Galeria</h2>
-  <div class="gallery-grid">
-    <!-- Galeria de imagens simuladas -->
-    <figure tabindex="0">
-      <img src="images/screenshot1.jpg" alt="Screenshot do jogo Clicker Simulator" loading="lazy" />
-      <figcaption>Gameplay - Jardim Inicial</figcaption>
-    </figure>
-    <figure tabindex="0">
-      <img src="images/screenshot2.jpg" alt="Screenshot do mundo Cidade Neon" loading="lazy" />
-      <figcaption>Cidade Neon à noite</figcaption>
-    </figure>
-    <figure tabindex="0">
-      <img src="images/screenshot3.jpg" alt="Pets incríveis do jogo" loading="lazy" />
-      <figcaption>Pets colecionáveis</figcaption>
-    </figure>
-    <!-- Repetir figuras para encher conteúdo -->
-  </div>
-</section>
-
-<!-- Expandindo conteúdo para linhas -->
-
-<section class="massive-lists" aria-label="Listas gigantes e repetidas">
-
-  <h2>Lista Gigante de Upgrades</h2>
-  <ul class="massive-list" aria-live="polite" aria-relevant="additions removals">
-    <!-- JS irá gerar muitos itens -->
-  </ul>
-
-  <h2>Lista Gigante de Pets</h2>
-  <ul class="massive-list" aria-live="polite" aria-relevant="additions removals">
-    <!-- JS irá gerar muitos itens -->
-  </ul>
-
-  <h2>Lista Gigante de Missões</h2>
-  <ul class="massive-list" aria-live="polite" aria-relevant="additions removals">
-    <!-- JS irá gerar muitos itens -->
-  </ul>
-
-</section>
-
-<script>
-  // Preenche as tabelas com dados fictícios para aumentar linhas
-  const upgradesData = [
-    { id: 1, name: "Upgrade Básico", desc: "Aumenta seu CPS em 1", price: 100, cps: 1, quantity: 0 },
-    { id: 2, name: "Upgrade Médio", desc: "Aumenta seu CPS em 5", price: 500, cps: 5, quantity: 0 },
-    { id: 3, name: "Upgrade Avançado", desc: "Aumenta seu CPS em 20", price: 2000, cps: 20, quantity: 0 },
-    { id: 4, name: "Upgrade Supremo", desc: "Aumenta seu CPS em 100", price: 10000, cps: 100, quantity: 0 },
-    // Repetir para aumentar
-  ];
-
-  const petsData = [
-    { id: 1, name: "Pet Foguete", desc: "Bônus de 10%", bonus: 10, active: false },
-    { id: 2, name: "Pet Dragão", desc: "Bônus de 25%", bonus: 25, active: false },
-    { id: 3, name: "Pet Fênix", desc: "Bônus de 50%", bonus: 50, active: false },
-    // Repetir para aumentar
-  ];
-
-  const missionsData = [
-    { id: 1, name: "Primeiro Click", desc: "Faça 100 clicks", status: "Pendente", reward: "50 XP" },
-    { id: 2, name: "Veterano", desc: "Alcance nível 10", status: "Pendente", reward: "100 XP" },
-    { id: 3, name: "Colecionador", desc: "Adquira 5 pets", status: "Pendente", reward: "200 XP" },
-    // Repetir para aumentar
-  ];
-
-  // Função para popular tabelas
-  function populateTable(tableClass, data, columns) {
-    const tableBody = document.querySelector(`.${tableClass} tbody`);
-    if (!tableBody) return;
-    tableBody.innerHTML = "";
-    for (let item of data) {
-      const tr = document.createElement("tr");
-      columns.forEach(col => {
-        const td = document.createElement("td");
-        td.textContent = item[col] !== undefined ? item[col] : "";
-        tr.appendChild(td);
-      });
-      // Última coluna ação - botão genérico
-      const actionTd = document.createElement("td");
-      const btn = document.createElement("button");
-      btn.textContent = "Ação";
-      btn.className = "btn-secondary";
-      actionTd.appendChild(btn);
-      tr.appendChild(actionTd);
-
-      tableBody.appendChild(tr);
-    }
-  }
-
-  populateTable("upgrades-table", upgradesData, ["name", "desc", "price", "cps", "quantity"]);
-  populateTable("pets-table", petsData, ["name", "desc", "bonus", "active"]);
-  populateTable("missions-table", missionsData, ["name", "desc", "status", "reward"]);
-
-  // Preenche listas gigantes para dar volume
-  function fillMassiveList(selector, prefix, count) {
-    const ul = document.querySelector(selector);
-    if (!ul) return;
-    for (let i = 1; i <= count; i++) {
-      const li = document.createElement("li");
-      li.textContent = `${prefix} nº ${i}`;
-      ul.appendChild(li);
-    }
-  }
-
-  fillMassiveList(".massive-lists ul:nth-child(2)", "Upgrade Gigante", 200);
-  fillMassiveList(".massive-lists ul:nth-child(4)", "Pet Gigante", 200);
-  fillMassiveList(".massive-lists ul:nth-child(6)", "Missão Gigante", 200);
-
-</script>
-
-<!-- Parte 3 do HTML super avançado para Clicker Simulator -->
-
-<section class="modal-section" aria-label="Modais e popups interativos">
-  <button id="openSettingsModal" class="btn-primary" aria-haspopup="dialog" aria-controls="settingsModal">
-    Abrir Configurações Avançadas
-  </button>
-  <button id="openHelpModal" class="btn-primary" aria-haspopup="dialog" aria-controls="helpModal">
-    Ajuda & Tutorial
-  </button>
-
-  <!-- Modal Settings -->
-  <dialog id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle" aria-describedby="settingsModalDesc">
-    <h2 id="settingsModalTitle">Configurações Avançadas</h2>
-    <p id="settingsModalDesc">Personalize sua experiência com o jogo</p>
-
-    <form id="advancedSettingsForm">
-      <fieldset>
-        <legend>Gráficos</legend>
-        <label for="animationToggle">
-          <input type="checkbox" id="animationToggle" checked />
-          Ativar animações CSS
-        </label>
-        <label for="particlesToggle">
-          <input type="checkbox" id="particlesToggle" checked />
-          Partículas ao clicar
-        </label>
-      </fieldset>
-
-      <fieldset>
-        <legend>Notificações</legend>
-        <label for="notifSound">
-          <input type="checkbox" id="notifSound" checked />
-          Sons de notificação
-        </label>
-        <label for="notifPopups">
-          <input type="checkbox" id="notifPopups" />
-          Mostrar popups
-        </label>
-      </fieldset>
-
-      <fieldset>
-        <legend>Controles</legend>
-        <label for="autoClickerSpeed">Velocidade do Auto Clicker (ms):</label>
-        <input type="number" id="autoClickerSpeed" name="autoClickerSpeed" min="50" max="5000" value="1000" step="50" />
-      </fieldset>
-
-      <div class="modal-buttons">
-        <button type="submit" class="btn-success">Salvar</button>
-        <button type="button" id="closeSettingsModal" class="btn-danger">Cancelar</button>
-      </div>
-    </form>
-  </dialog>
-
-  <!-- Modal Help -->
-  <dialog id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpModalTitle" aria-describedby="helpModalDesc">
-    <h2 id="helpModalTitle">Ajuda & Tutorial</h2>
-    <p id="helpModalDesc">Como jogar e aproveitar o Clicker Simulator ao máximo</p>
-
-    <section class="tutorial-steps">
-      <article>
-        <h3>Passo 1: Clique no botão</h3>
-        <p>Clique no botão principal para ganhar clicks. Use upgrades para aumentar o ganho.</p>
-      </article>
-      <article>
-        <h3>Passo 2: Compre Upgrades</h3>
-        <p>Use seus clicks para comprar upgrades que aumentam seus clicks por segundo (CPS).</p>
-      </article>
-      <article>
-        <h3>Passo 3: Colete Pets</h3>
-        <p>Pets dão bônus adicionais e ajudam no progresso.</p>
-      </article>
-      <article>
-        <h3>Passo 4: Complete Missões e Conquistas</h3>
-        <p>Ganhe XP extra e desbloqueie recompensas especiais.</p>
-      </article>
-      <article>
-        <h3>Passo 5: Use o Ranking Online</h3>
-        <p>Salve seu score e compita com outros jogadores do mundo todo.</p>
-      </article>
-    </section>
-
-    <div class="modal-buttons">
-      <button type="button" id="closeHelpModal" class="btn-primary">Fechar</button>
-    </div>
-  </dialog>
-</section>
-
-<section class="progress-bars-section" aria-label="Barras de progresso avançadas">
-  <h2>Progresso detalhado</h2>
-
-  <div class="progress-group">
-    <label for="xpProgressBar">XP para o próximo nível</label>
-    <progress id="xpProgressBar" max="100" value="0">0%</progress>
-    <span id="xpProgressText">0 / 100 XP</span>
-  </div>
-
-  <div class="progress-group">
-    <label for="rebirthProgressBar">Progresso de Rebirth</label>
-    <progress id="rebirthProgressBar" max="10" value="0">0/10</progress>
-    <span id="rebirthProgressText">0 / 10 Rebirths</span>
-  </div>
-
-  <div class="progress-group">
-    <label for="worldProgressBar">Progresso Mundo Atual</label>
-    <progress id="worldProgressBar" max="1000" value="0">0/1000</progress>
-    <span id="worldProgressText">0 / 1000 Clicks para Próximo Mundo</span>
-  </div>
-</section>
-
-<section class="notifications-section" aria-live="polite" aria-atomic="true" aria-relevant="additions">
-  <div id="notificationsContainer" role="region" aria-label="Notificações do jogo">
-    <!-- Notificações dinâmicas aparecem aqui -->
-  </div>
-</section>
-
-<section class="animated-effects-section" aria-label="Efeitos animados visuais">
-  <h2>Efeitos Visuais</h2>
-  <div id="clickParticlesContainer" aria-hidden="true"></div>
-</section>
-
-<section class="detailed-stats-section" aria-label="Estatísticas detalhadas do jogador">
-  <h2>Estatísticas detalhadas</h2>
-  <ul class="stats-list">
-    <li>Total de Clicks: <span id="statTotalClicks">0</span></li>
-    <li>Total de Upgrades Comprados: <span id="statTotalUpgrades">0</span></li>
-    <li>Total de Pets Ativados: <span id="statTotalPets">0</span></li>
-    <li>Total de Missões Completadas: <span id="statTotalMissions">0</span></li>
-    <li>Total de Conquistas Desbloqueadas: <span id="statTotalAchievements">0</span></li>
-    <li>Tempo Jogando: <span id="statPlayTime">00:00:00</span></li>
-  </ul>
-</section>
-
-<section class="feedback-form-section" aria-label="Formulário para feedback dos jogadores">
-  <h2>Deixe seu feedback</h2>
-  <form id="feedbackForm" novalidate>
-    <label for="feedbackName">Nome:</label>
-    <input type="text" id="feedbackName" name="feedbackName" placeholder="Seu nome" required minlength="3" maxlength="30" />
-
-    <label for="feedbackEmail">Email:</label>
-    <input type="email" id="feedbackEmail" name="feedbackEmail" placeholder="seu@email.com" required />
-
-    <label for="feedbackMessage">Mensagem:</label>
-    <textarea id="feedbackMessage" name="feedbackMessage" rows="5" placeholder="Escreva aqui seu comentário..." required></textarea>
-
-    <button type="submit" class="btn-primary">Enviar Feedback</button>
-  </form>
-</section>
-
-<section class="faq-section" aria-label="Perguntas frequentes">
-  <h2>Perguntas Frequentes</h2>
-  <dl>
-    <dt tabindex="0">Como salvar meu progresso?</dt>
-    <dd>O jogo salva automaticamente seu progresso no armazenamento local do navegador. Você também pode salvar manualmente no ranking online.</dd>
-
-    <dt tabindex="0">Posso jogar offline?</dt>
-    <dd>Sim! O jogo funciona offline com os dados salvos localmente.</dd>
-
-    <dt tabindex="0">O que são pets?</dt>
-    <dd>Pets são companheiros que dão bônus extras de clicks por segundo e outras vantagens.</dd>
-
-    <dt tabindex="0">Como funciona o sistema de rebirth?</dt>
-    <dd>Rebirth reseta parte do progresso em troca de bônus permanentes, acelerando seu avanço.</dd>
-
-    <dt tabindex="0">O que acontece se eu perder a conexão?</dt>
-    <dd>Se perder a conexão, seu progresso offline será salvo e sincronizado quando voltar.</dd>
-  </dl>
-</section>
-
-<section class="game-controls-section" aria-label="Controles do jogo">
-  <h2>Controles rápidos</h2>
-  <button id="autoClickerToggle" class="btn-secondary" aria-pressed="false" aria-label="Ativar/Desativar Auto Clicker">
-    Auto Clicker: OFF
-  </button>
-  <button id="resetGameBtn" class="btn-danger" aria-label="Reiniciar jogo e resetar progresso">
-    Resetar Jogo
-  </button>
-  <button id="exportSaveBtn" class="btn-primary" aria-label="Exportar progresso para arquivo JSON">
-    Exportar Save
-  </button>
-  <button id="importSaveBtn" class="btn-primary" aria-label="Importar progresso de arquivo JSON">
-    Importar Save
-  </button>
-  <input type="file" id="importFileInput" accept=".json" style="display:none" />
-</section>
-
-<section class="leaderboard-section" aria-label="Leaderboard detalhado">
-  <h2>Leaderboard Detalhado</h2>
-  <div id="detailedLeaderboard" role="table" aria-live="polite" aria-relevant="additions">
-    <!-- JS popula a tabela com dados do Firebase -->
-  </div>
-</section>
-
-<section class="footer-section" aria-label="Rodapé do jogo">
-  <footer>
-    <p>&copy; 2025 Clicker Simulator - Todos os direitos reservados.</p>
-    <p>Desenvolvido por Luiz Felipe.</p>
-  </footer>
-</section>
-
-<script>
-  // Scripts para controle dos modais nativos, acessibilidade e botões
-
-  const settingsModal = document.getElementById("settingsModal");
-  const openSettingsBtn = document.getElementById("openSettingsModal");
-  const closeSettingsBtn = document.getElementById("closeSettingsModal");
-
-  const helpModal = document.getElementById("helpModal");
-  const openHelpBtn = document.getElementById("openHelpModal");
-  const closeHelpBtn = document.getElementById("closeHelpModal");
-
-  // Abrir e fechar modais
-  openSettingsBtn.addEventListener("click", () => settingsModal.showModal());
-  closeSettingsBtn.addEventListener("click", () => settingsModal.close());
-
-  openHelpBtn.addEventListener("click", () => helpModal.showModal());
-  closeHelpBtn.addEventListener("click", () => helpModal.close());
-
-  // Fechar modais com Esc
-  [settingsModal, helpModal].forEach(modal => {
-    modal.addEventListener("keydown", e => {
-      if (e.key === "Escape") modal.close();
-    });
-  });
-
-  // Feedback do formulário
-  const feedbackForm = document.getElementById("feedbackForm");
-  feedbackForm.addEventListener("submit", e => {
-    e.preventDefault();
-    const name = feedbackForm.feedbackName.value.trim();
-    const email = feedbackForm.feedbackEmail.value.trim();
-    const message = feedbackForm.feedbackMessage.value.trim();
-
-    if (name.length < 3) {
-      alert("Por favor, insira um nome com pelo menos 3 caracteres.");
-      return;
-    }
-    if (!email.includes("@")) {
-      alert("Por favor, insira um email válido.");
-      return;
-    }
-    if (message.length < 10) {
-      alert("Por favor, insira uma mensagem com pelo menos 10 caracteres.");
-      return;
-    }
-
-    alert("Obrigado pelo seu feedback!");
-    feedbackForm.reset();
-  });
-
-  // Auto Clicker Toggle
-  const autoClickerBtn = document.getElementById("autoClickerToggle");
-  let autoClickerActive = false;
-  let autoClickerInterval = null;
-
-  autoClickerBtn.addEventListener("click", () => {
-    autoClickerActive = !autoClickerActive;
-    autoClickerBtn.textContent = `Auto Clicker: ${autoClickerActive ? "ON" : "OFF"}`;
-    autoClickerBtn.setAttribute("aria-pressed", autoClickerActive);
-    if (autoClickerActive) {
-      autoClickerInterval = setInterval(() => {
-        document.getElementById("clickBtn").click();
-      }, 1000);
-    } else {
-      clearInterval(autoClickerInterval);
-    }
-  });
-
-  // Exportar Save
-  document.getElementById("exportSaveBtn").addEventListener("click", () => {
-    const saveData = JSON.stringify(localStorage.getItem("clickerSave"));
-    const blob = new Blob([saveData], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "clicker_save.json";
-    a.click();
-    URL.revokeObjectURL(url);
-  });
-
-  // Importar Save
-  const importFileInput = document.getElementById("importFileInput");
-  document.getElementById("importSaveBtn").addEventListener("click", () => {
-    importFileInput.click();
-  });
-
-  importFileInput.addEventListener("change", e => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = e => {
-      try {
-        const data = JSON.parse(e.target.result);
-        localStorage.setItem("clickerSave", data);
-        alert("Progresso importado com sucesso! Recarregue a página.");
-      } catch {
-        alert("Arquivo inválido.");
-      }
-    };
-    reader.readAsText(file);
-  });
-
-  // Atualizar barras de progresso
-  function updateProgressBars(xp, xpMax, rebirths, rebirthMax, worldClicks, worldMax) {
-    const xpBar = document.getElementById("xpProgressBar");
-    const rebirthBar = document.getElementById("rebirthProgressBar");
-    const worldBar = document.getElementById("worldProgressBar");
-
-    xpBar.max = xpMax;
-    xpBar.value = xp;
-    document.getElementById("xpProgressText").textContent = `${xp} / ${xpMax} XP`;
-
-    rebirthBar.max = rebirthMax;
-    rebirthBar.value = rebirths;
-    document.getElementById("rebirthProgressText").textContent = `${rebirths} / ${rebirthMax} Rebirths`;
-
-    worldBar.max = worldMax;
-    worldBar.value = worldClicks;
-    document.getElementById("worldProgressText").textContent = `${worldClicks} / ${worldMax} Clicks para Próximo Mundo`;
-  }
-
-  // Atualizar estatísticas detalhadas
-  function updateStats(stats) {
-    document.getElementById("statTotalClicks").textContent = stats.totalClicks.toLocaleString();
-    document.getElementById("statTotalUpgrades").textContent = stats.totalUpgrades;
-    document.getElementById("statTotalPets").textContent = stats.totalPets;
-    document.getElementById("statTotalMissions").textContent = stats.totalMissions;
-    document.getElementById("statTotalAchievements").textContent = stats.totalAchievements;
-    document.getElementById("statPlayTime").textContent = stats.playTime;
-  }
-</script>
-
-<style>
-  /* Estilos internos para modais e controles adicionais */
-  dialog {
-    border: none;
-    border-radius: 8px;
-    padding: 1.5rem;
-    max-width: 600px;
-    width: 90%;
-    box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  }
-  dialog::backdrop {
-    background: rgba(0,0,0,0.6);
-  }
-  .modal-buttons {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-  }
-  .btn-primary {
-    background: #2979ff;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .btn-primary:hover {
-    background: #1c54b2;
-  }
-  .btn-success {
-    background: #00c853;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .btn-success:hover {
-    background: #008b3e;
-  }
-  .btn-danger {
-    background: #d50000;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .btn-danger:hover {
-    background: #a30000;
-  }
-  .btn-secondary {
-    background: #757575;
-    color: white;
-    border: none;
-    padding: 0.4rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .btn-secondary:hover {
-    background: #494949;
-  }
-</style>
