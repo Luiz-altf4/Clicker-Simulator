@@ -1,270 +1,252 @@
-// === VARIÁVEIS DO JOGO ===
-let score = 0;
-let clickPower = 1;
-let autoClickers = 0;
-let multiplier = 1;
-let multiplierCount = 0;
+// Variáveis iniciais
+let clicks = 0;
 let cps = 0;
 let level = 1;
 let xp = 0;
+let xpToNextLevel = 100;
 let gems = 0;
 let rebirths = 0;
-let world = 1;
+let currentWorldIndex = 0;
+const worlds = [
+  { name: "Terra", bonus: 0 },
+  { name: "Marte", bonus: 10 },
+  { name: "Saturno", bonus: 25 },
+  { name: "Netuno", bonus: 50 },
+];
+const upgrades = [
+  { id: 1, name: "Auto Clicker", cost: 10, cps: 1, level: 0 },
+  { id: 2, name: "Click Booster", cost: 100, cps: 5, level: 0 },
+  { id: 3, name: "Mega Click", cost: 1000, cps: 25, level: 0 },
+  { id: 4, name: "Ultra Click", cost: 10000, cps: 100, level: 0 },
+  { id: 5, name: "Hyper Click", cost: 100000, cps: 500, level: 0 },
+];
+const pets = [
+  { id: 1, name: "Robozinho", bonus: 5, owned: false },
+  { id: 2, name: "Gatinho", bonus: 12, owned: false },
+  { id: 3, name: "Dragão", bonus: 30, owned: false },
+];
+let activePetId = null;
 
-const clickSound = document.getElementById("clickSound");
-const buySound = document.getElementById("buySound");
-const boostSound = document.getElementById("boostSound");
-
-let upgradeAmount = 1;
-
-// === FORMATAÇÃO DE NÚMEROS ===
-function formatarNumero(num) {
-  if (num < 1000) return num.toFixed(0);
-  const unidades = ["K", "M", "B", "T", "Q", "Qi", "Sx", "Sp", "Oc", "N", "Dc"];
-  let ordem = Math.floor(Math.log10(num) / 3);
-  ordem = Math.min(ordem, unidades.length - 1);
-  return (num / Math.pow(1000, ordem)).toFixed(2) + unidades[ordem];
-}
-
-// === ELEMENTOS DOM ===
-const scoreDisplay = document.getElementById("score");
 const clickBtn = document.getElementById("clickBtn");
-const clickPowerSpan = document.getElementById("clickPower");
-
-const upgradeClickPowerBtn = document.getElementById("upgradeClickPowerBtn");
-const upgradeClickPowerCostSpan = document.getElementById("upgradeClickPowerCost");
-
-const autoClickersSpan = document.getElementById("autoClickers");
-const autoClickerCostSpan = document.getElementById("autoClickerCost");
-const buyAutoClickerBtn = document.getElementById("buyAutoClickerBtn");
-
-const multiplierCountSpan = document.getElementById("multiplierCount");
-const multiplierCostSpan = document.getElementById("multiplierCost");
-const buyMultiplierBtn = document.getElementById("buyMultiplierBtn");
-
+const clicksDisplay = document.getElementById("clicksDisplay");
 const cpsDisplay = document.getElementById("cps");
 const levelDisplay = document.getElementById("levelDisplay");
 const xpBar = document.getElementById("xpBar");
-const gemsDisplay = document.getElementById("gemsCount");
-const rebirthCountSpan = document.getElementById("rebirthCount");
-
-const speedBoostBtn = document.getElementById("speedBoostBtn");
-const multiplierBoostBtn = document.getElementById("multiplierBoostBtn");
-const buyGemsBtn = document.getElementById("buyGemsBtn");
-
-const rebirthBtn = document.getElementById("rebirthBtn");
-const resetBtn = document.getElementById("resetBtn");
-
+const gemsCount = document.createElement("div");
+const rebirthCount = document.createElement("div");
+const upgradesList = document.getElementById("upgradesList");
+const petsList = document.getElementById("petsList");
+const activePetDisplay = document.getElementById("activePet");
+const currentWorldDisplay = document.getElementById("currentWorld");
+const worldBonusesDisplay = document.getElementById("worldBonuses");
+const changeWorldBtn = document.getElementById("changeWorldBtn");
 const upgradeAmountBtns = document.querySelectorAll(".upgradeAmountBtn");
 
-const worldDisplay = document.getElementById("currentWorld");
-const changeWorldBtn = document.getElementById("changeWorldBtn");
+let upgradeBuyAmount = 1;
 
-// === FUNÇÕES DE CUSTO ===
-function custoUpgradeClickPower() {
-  return Math.floor(10 * Math.pow(1.5, clickPower - 1)) * upgradeAmount;
-}
+// Mostrar gems e rebirths no painel principal
+gemsCount.id = "gemsCount";
+rebirthCount.id = "rebirthCount";
+document.getElementById("mainPanel").appendChild(gemsCount);
+document.getElementById("mainPanel").appendChild(rebirthCount);
+updateGemsRebirthDisplay();
 
-function custoAutoClicker() {
-  return 50 * (autoClickers + 1) * upgradeAmount;
-}
-
-function custoMultiplicador() {
-  let total = 0;
-  for (let i = 0; i < upgradeAmount; i++) {
-    total += 100 * (multiplierCount + i + 1);
-  }
-  return total;
-}
-
-function custoRebirth() {
-  return Math.pow(10, rebirths + 3);
-}
-
-// === ATUALIZAR INTERFACE ===
-function atualizar() {
-  scoreDisplay.textContent = formatarNumero(score);
-  clickPowerSpan.textContent = formatarNumero(clickPower);
-  upgradeClickPowerCostSpan.textContent = formatarNumero(custoUpgradeClickPower());
-  autoClickersSpan.textContent = autoClickers;
-  autoClickerCostSpan.textContent = formatarNumero(custoAutoClicker());
-  multiplierCountSpan.textContent = multiplierCount;
-  multiplierCostSpan.textContent = formatarNumero(custoMultiplicador());
-  cpsDisplay.textContent = `CPS: ${formatarNumero(cps)}`;
+// Função para atualizar o display principal
+function updateDisplay() {
+  clicksDisplay.textContent = `Cliques: ${formatNumber(clicks)}`;
+  cpsDisplay.textContent = `Clicks por segundo: ${formatNumber(cps)}`;
   levelDisplay.textContent = `Nível: ${level}`;
-  xpBar.style.width = `${Math.min((xp / (level * 100)) * 100, 100)}%`;
-  gemsDisplay.textContent = gems;
-  rebirthCountSpan.textContent = rebirths;
-  worldDisplay.textContent = `Mundo: ${world}`;
-
-  salvarEstado();
+  xpBar.style.width = `${(xp / xpToNextLevel) * 100}%`;
+  currentWorldDisplay.textContent = `Mundo Atual: ${worlds[currentWorldIndex].name}`;
+  worldBonusesDisplay.textContent = `Bônus: +${worlds[currentWorldIndex].bonus}% clicks`;
+  activePetDisplay.textContent = `Pet ativo: ${getActivePetName()}`;
 }
 
-// === LEVEL UP ===
-function verificarLevelUp() {
-  while (xp >= level * 100) {
-    xp -= level * 100;
-    level++;
-    gems += 10;
-    buySound.play();
+function updateGemsRebirthDisplay() {
+  gemsCount.textContent = `Gemas: ${formatNumber(gems)}`;
+  rebirthCount.textContent = `Rebirths: ${formatNumber(rebirths)}`;
+}
+
+// Formatação de números grandes
+function formatNumber(num) {
+  if (num < 1000) return num.toString();
+  const units = ["k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "De"];
+  let unitIndex = -1;
+  let n = num;
+  while (n >= 1000 && unitIndex < units.length - 1) {
+    n /= 1000;
+    unitIndex++;
+  }
+  return n.toFixed(2) + units[unitIndex];
+}
+
+// Atualiza o valor de CPS somando bônus de upgrades, pet e mundo
+function calculateCPS() {
+  let baseCPS = 0;
+  for (const upg of upgrades) {
+    baseCPS += upg.cps * upg.level;
+  }
+  const petBonus = activePetId ? pets.find(p => p.id === activePetId).bonus : 0;
+  const worldBonusPercent = worlds[currentWorldIndex].bonus;
+  return baseCPS * (1 + petBonus / 100) * (1 + worldBonusPercent / 100);
+}
+
+// Criar upgrades na tela
+function renderUpgrades() {
+  upgradesList.innerHTML = "";
+  upgrades.forEach(upg => {
+    const div = document.createElement("div");
+    div.className = "upgrade-row";
+
+    const name = document.createElement("span");
+    name.textContent = `${upg.name} (Lvl ${upg.level})`;
+
+    const cost = document.createElement("span");
+    cost.textContent = `Custo: ${formatNumber(upg.cost)}`;
+
+    const buyBtn = document.createElement("button");
+    buyBtn.className = "btn";
+    buyBtn.textContent = "Comprar";
+    buyBtn.onclick = () => buyUpgrade(upg.id);
+
+    div.appendChild(name);
+    div.appendChild(cost);
+    div.appendChild(buyBtn);
+
+    upgradesList.appendChild(div);
+  });
+}
+
+// Comprar upgrade com base na quantidade selecionada
+function buyUpgrade(id) {
+  const upg = upgrades.find(u => u.id === id);
+  if (!upg) return;
+
+  let amount = upgradeBuyAmount;
+  if (amount === "max") {
+    amount = Math.floor(clicks / upg.cost);
+  }
+
+  let totalCost = 0;
+  for (let i = 0; i < amount; i++) {
+    totalCost += upg.cost * Math.pow(1.15, upg.level + i);
+  }
+  totalCost = Math.floor(totalCost);
+
+  if (clicks >= totalCost && amount > 0) {
+    clicks -= totalCost;
+    upg.level += amount;
+    upg.cost = Math.floor(upg.cost * Math.pow(1.15, amount));
+    updateDisplay();
+    renderUpgrades();
   }
 }
 
-// === ESTADO (SALVAR/CARREGAR) ===
-function salvarEstado() {
-  const estado = { score, clickPower, autoClickers, multiplier, multiplierCount, cps, level, xp, gems, rebirths, world };
-  localStorage.setItem("clickerSave", JSON.stringify(estado));
+// Renderizar pets
+function renderPets() {
+  petsList.innerHTML = "";
+  pets.forEach(pet => {
+    const div = document.createElement("div");
+    div.className = "pet-card";
+    if (pet.owned) div.classList.add("owned");
+    if (pet.id === activePetId) div.classList.add("active");
+
+    const name = document.createElement("div");
+    name.className = "pet-name";
+    name.textContent = pet.name;
+
+    const bonus = document.createElement("div");
+    bonus.textContent = `+${pet.bonus}% clicks`;
+
+    const btn = document.createElement("button");
+    btn.className = "btn";
+    btn.textContent = pet.owned ? (pet.id === activePetId ? "Ativo" : "Ativar") : "Comprar";
+    btn.disabled = (pet.id === activePetId);
+
+    btn.onclick = () => {
+      if (pet.owned) {
+        activePetId = pet.id;
+        updateDisplay();
+        renderPets();
+      } else {
+        buyPet(pet.id);
+      }
+    };
+
+    div.appendChild(name);
+    div.appendChild(bonus);
+    div.appendChild(btn);
+
+    petsList.appendChild(div);
+  });
 }
 
-function carregarEstado() {
-  const estado = JSON.parse(localStorage.getItem("clickerSave"));
-  if (estado) {
-    score = estado.score ?? 0;
-    clickPower = estado.clickPower ?? 1;
-    autoClickers = estado.autoClickers ?? 0;
-    multiplierCount = estado.multiplierCount ?? 0;
-    multiplier = (multiplierCount + 1) * (rebirths * 2 || 1);
-    cps = estado.cps ?? 0;
-    level = estado.level ?? 1;
-    xp = estado.xp ?? 0;
-    gems = estado.gems ?? 0;
-    rebirths = estado.rebirths ?? 0;
-    world = estado.world ?? 1;
+// Comprar pet
+function buyPet(id) {
+  const pet = pets.find(p => p.id === id);
+  if (!pet) return;
+  const cost = 5000 * (pet.id); // exemplo custo escalonado
+  if (clicks >= cost) {
+    clicks -= cost;
+    pet.owned = true;
+    activePetId = pet.id;
+    updateDisplay();
+    renderPets();
+  } else {
+    alert(`Você precisa de ${formatNumber(cost)} cliques para comprar este pet.`);
   }
 }
 
-// === BOTÕES DE UPGRADE ===
-clickBtn.addEventListener("click", () => {
-  score += clickPower * multiplier;
-  xp++;
-  clickSound.play();
-  verificarLevelUp();
-  atualizar();
-});
+// Pet ativo nome
+function getActivePetName() {
+  if (!activePetId) return "Nenhum";
+  const pet = pets.find(p => p.id === activePetId);
+  return pet ? pet.name : "Nenhum";
+}
 
-upgradeClickPowerBtn.addEventListener("click", () => {
-  const custo = custoUpgradeClickPower();
-  if (score >= custo) {
-    score -= custo;
-    clickPower += upgradeAmount;
-    buySound.play();
-    atualizar();
-  }
-});
+// Trocar mundo
+changeWorldBtn.onclick = () => {
+  currentWorldIndex++;
+  if (currentWorldIndex >= worlds.length) currentWorldIndex = 0;
+  updateDisplay();
+};
 
-buyAutoClickerBtn.addEventListener("click", () => {
-  const custo = custoAutoClicker();
-  if (score >= custo) {
-    score -= custo;
-    autoClickers += upgradeAmount;
-    buySound.play();
-    atualizar();
-  }
-});
+// Atualiza display e upgrades inicial
+renderUpgrades();
+renderPets();
+updateDisplay();
 
-buyMultiplierBtn.addEventListener("click", () => {
-  const custo = custoMultiplicador();
-  if (score >= custo) {
-    score -= custo;
-    multiplierCount += upgradeAmount;
-    multiplier = (multiplierCount + 1) * (rebirths * 2 || 1);
-    buySound.play();
-    atualizar();
-  }
-});
+// Clique manual
+clickBtn.onclick = () => {
+  clicks += 1 * (1 + (worlds[currentWorldIndex].bonus / 100));
+  xp += 10;
+  checkLevelUp();
+  updateDisplay();
+};
 
-// BOOSTS
-speedBoostBtn.addEventListener("click", () => {
-  if (gems >= 20) {
-    gems -= 20;
-    boostSound.play();
-    const interval = setInterval(() => {
-      score += clickPower * multiplier;
-      atualizar();
-    }, 100);
-    setTimeout(() => clearInterval(interval), 30000);
-    atualizar();
-  }
-});
-
-multiplierBoostBtn.addEventListener("click", () => {
-  if (gems >= 50) {
-    gems -= 50;
-    multiplier *= 5;
-    boostSound.play();
-    setTimeout(() => {
-      multiplier /= 5;
-      atualizar();
-    }, 30000);
-    atualizar();
-  }
-});
-
-buyGemsBtn.addEventListener("click", () => {
-  gems += 100;
-  buySound.play();
-  atualizar();
-});
-
-// REBIRTH
-rebirthBtn.addEventListener("click", () => {
-  const custo = custoRebirth();
-  if (score >= custo) {
-    score = 0;
-    clickPower = 1;
-    autoClickers = 0;
-    multiplier = 1;
-    multiplierCount = 0;
-    level = 1;
-    xp = 0;
-    rebirths++;
-    multiplier = (multiplierCount + 1) * (rebirths * 2 || 1);
-    buySound.play();
-    atualizar();
-  }
-});
-
-// RESET
-resetBtn.addEventListener("click", () => {
-  if (confirm("Tem certeza que deseja resetar o jogo?")) {
-    localStorage.clear();
-    location.reload();
-  }
-});
-
-// TROCA DE MUNDO
-changeWorldBtn?.addEventListener("click", () => {
-  world++;
-  score = 0;
-  autoClickers = 0;
-  clickPower = 1;
-  multiplier = 1;
-  multiplierCount = 0;
-  level = 1;
-  xp = 0;
-  gems = 0;
-  atualizar();
-});
-
-// QUANTIDADE DE UPGRADE
+// Seleção quantidade compra upgrade
 upgradeAmountBtns.forEach(btn => {
-  btn.addEventListener("click", () => {
-    upgradeAmount = btn.dataset.amount === "max" ? "max" : parseInt(btn.dataset.amount);
+  btn.onclick = () => {
     upgradeAmountBtns.forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-  });
+    upgradeBuyAmount = btn.dataset.amount === "max" ? "max" : parseInt(btn.dataset.amount);
+  };
 });
 
-// AUTOCLICKER AUTOMÁTICO
+// Calcula CPS a cada segundo e adiciona clicks
 setInterval(() => {
-  const ganho = autoClickers * multiplier;
-  score += ganho;
-  cps = ganho;
-  atualizar();
+  cps = calculateCPS();
+  clicks += cps;
+  xp += cps * 10;
+  checkLevelUp();
+  updateDisplay();
 }, 1000);
 
-// === INICIALIZAÇÃO ===
-window.addEventListener("load", () => {
-  carregarEstado();
-  atualizar();
-});
+// Level up
+function checkLevelUp() {
+  while (xp >= xpToNextLevel) {
+    xp -= xpToNextLevel;
+    level++;
+    xpToNextLevel = Math.floor(xpToNextLevel * 1.25);
+  }
+}
