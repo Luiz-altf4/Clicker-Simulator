@@ -3,105 +3,615 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator - Supremo Lendário</title>
+  <title>Clicker Simulator Supremo</title>
 
-  <!-- Fonte Google Fonts (Roboto) -->
+  <!-- Fonte Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
 
-  <!-- CSS Profissional -->
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Ícones (FontAwesome CDN) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Script principal -->
+  <script type="module" src="script.js" defer></script>
+
+  <style>
+    /* Fallback básico */
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #121212;
+      color: #eee;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px 10px;
+      overflow-x: hidden;
+    }
+
+    #toggleTheme {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #eee;
+      z-index: 9999;
+      transition: color 0.3s ease;
+    }
+    #toggleTheme:hover {
+      color: #0ff;
+    }
+
+    #container {
+      max-width: 1200px;
+      width: 100%;
+      background-color: #222;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 0 30px rgba(0,255,255,0.15);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    header {
+      text-align: center;
+      user-select: none;
+    }
+    header h1 {
+      font-weight: 700;
+      font-size: 3rem;
+      margin-bottom: 5px;
+      letter-spacing: 2px;
+      color: #0ff;
+      text-shadow: 0 0 8px #0ff, 0 0 15px #0ffcc;
+    }
+    header p {
+      font-weight: 400;
+      font-size: 1.2rem;
+      color: #bbb;
+      margin-top: 0;
+    }
+
+    /* Estatísticas principais */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+      gap: 15px;
+      font-size: 1.1rem;
+      user-select: none;
+    }
+    .stat-item {
+      background-color: #0a1f2a;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: inset 0 0 15px #0ff8;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .stat-item strong {
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #0ff;
+      text-shadow: 0 0 5px #0ff;
+    }
+    .stat-value {
+      font-weight: 500;
+      font-size: 1.6rem;
+      color: #eee;
+      text-shadow: 0 0 8px #0ffcc;
+    }
+
+    /* Botão principal de clicar */
+    #clickBtn {
+      margin: 25px auto 15px auto;
+      display: block;
+      background: linear-gradient(135deg,#0ff,#00ccff);
+      border: none;
+      border-radius: 50%;
+      width: 160px;
+      height: 160px;
+      font-size: 2.8rem;
+      color: #000;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow:
+        0 0 20px #0ff,
+        0 0 40px #00ccff,
+        inset 0 0 30px #00ccff;
+      transition: transform 0.1s ease-in-out;
+      user-select: none;
+      text-shadow: 0 0 6px #0ff;
+    }
+    #clickBtn:active {
+      transform: scale(0.95);
+      box-shadow:
+        0 0 15px #0ff,
+        inset 0 0 20px #00ccff;
+    }
+
+    /* Layout principal dos painéis */
+    .flex-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .box {
+      background-color: #111;
+      flex: 1 1 300px;
+      border-radius: 14px;
+      box-shadow: 0 0 12px #0ff8 inset;
+      padding: 20px;
+      max-height: 450px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #0ff #111;
+    }
+    .box h2 {
+      margin-top: 0;
+      font-weight: 700;
+      color: #0ff;
+      font-size: 1.7rem;
+      margin-bottom: 10px;
+      user-select: none;
+      text-shadow: 0 0 8px #0ffcc;
+    }
+
+    /* Scrollbar customizada */
+    .box::-webkit-scrollbar {
+      width: 8px;
+    }
+    .box::-webkit-scrollbar-track {
+      background: #111;
+    }
+    .box::-webkit-scrollbar-thumb {
+      background: #0ff;
+      border-radius: 8px;
+    }
+
+    /* Botões dentro dos boxes */
+    .box button {
+      margin-top: 8px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      background: linear-gradient(90deg, #0ff, #00ccff);
+      color: #000;
+      box-shadow: 0 0 8px #00ccff;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+    .box button:disabled {
+      background: #444;
+      color: #888;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    .box button:hover:not(:disabled) {
+      background: linear-gradient(90deg, #00ccff, #0ff);
+      box-shadow: 0 0 15px #0ff;
+    }
+
+    /* Upgrade, Pet, Mission, Achievement Items */
+    .upgrade, .pet, .mission, .achievement, .shop-item, .world {
+      background-color: #0a2533;
+      margin-bottom: 10px;
+      padding: 12px;
+      border-radius: 12px;
+      box-shadow: inset 0 0 15px #00ffff55;
+      user-select: none;
+    }
+
+    .upgrade strong, .pet strong, .mission strong, .achievement strong, .shop-item strong, .world strong {
+      color: #0ff;
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 6px;
+      text-shadow: 0 0 5px #0ff;
+    }
+
+    /* Item ativo (selecionado) */
+    .active {
+      border: 2px solid #0ff;
+      box-shadow: 0 0 18px #0ff;
+    }
+
+    /* Inputs no ranking */
+    #playerNameInput {
+      width: calc(100% - 110px);
+      padding: 8px 10px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: none;
+      margin-right: 10px;
+      box-shadow: inset 0 0 10px #0ff;
+      background-color: #222;
+      color: #eee;
+    }
+    #playerNameInput::placeholder {
+      color: #666;
+    }
+
+    /* Ranking lista */
+    #rankingList {
+      margin-top: 10px;
+      font-size: 1rem;
+      max-height: 250px;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+
+    /* Notification container */
+    #notificationContainer {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      width: 300px;
+      max-width: 90vw;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      user-select: none;
+    }
+    .notification {
+      background: linear-gradient(135deg,#0ffccf,#00aaff);
+      color: #000;
+      padding: 14px 18px;
+      border-radius: 15px;
+      font-weight: 700;
+      text-align: center;
+      box-shadow: 0 0 20px #0ffccf;
+      animation: slideInRight 0.4s ease forwards;
+    }
+    @keyframes slideInRight {
+      from {opacity: 0; transform: translateX(100%);}
+      to {opacity: 1; transform: translateX(0);}
+    }
+
+    /* Click effect */
+    .click-effect {
+      position: fixed;
+      font-weight: 700;
+      color: #0ff;
+      text-shadow: 0 0 6px #0ffccf;
+      pointer-events: none;
+      user-select: none;
+      animation: floatUp 1s ease forwards;
+      z-index: 100000;
+    }
+    @keyframes floatUp {
+      0% {opacity: 1; transform: translateY(0);}
+      100% {opacity: 0; transform: translateY(-60px);}
+    }
+
+    /* Scroll da página para dispositivos móveis */
+    @media (max-width: 600px) {
+      #container {
+        padding: 20px 10px;
+      }
+      #clickBtn {
+        width: 130px;
+        height: 130px;
+        font-size: 2rem;
+      }
+      .flex-row {
+        flex-direction: column;
+      }
+      .box {
+        max-height: none;
+      }
+    }
+
+  </style>
 </head>
 <body>
+  <button id="toggleTheme" title="Alternar tema">🌙</button>
 
-  <!-- Botão tema claro/escuro -->
-  <button id="toggleTheme" class="theme-toggle" title="Alternar tema">🌙</button>
-
-  <!-- Container principal -->
-  <main id="container">
+  <div id="container">
 
     <header>
-      <h1>Clicker Simulator <small class="subtitle">Supremo Lendário</small></h1>
-      <p class="description">Clique, compre upgrades, ganhe pets, complete missões e conquistas!</p>
+      <h1>Clicker Simulator Supremo</h1>
+      <p>O jogo de clicker definitivo, cheio de upgrades, pets, mundos e rebirths!</p>
     </header>
 
-    <!-- Estatísticas -->
-    <section id="stats" aria-label="Estatísticas do jogador" role="region">
-      <div class="stat-item" tabindex="0"><strong>Clicks:</strong> <span id="clicksDisplay">0</span></div>
-      <div class="stat-item" tabindex="0"><strong>CPS (Clicks por segundo):</strong> <span id="cpsDisplay">0</span></div>
-      <div class="stat-item" tabindex="0"><strong>Level:</strong> <span id="levelDisplay">1</span></div>
-      <div class="stat-item" tabindex="0">
-        <strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span>
-        <progress id="xpBar" value="0" max="100" aria-label="Barra de experiência"></progress>
+    <!-- Estatísticas principais -->
+    <section class="stats" aria-label="Estatísticas do jogador">
+      <div class="stat-item" role="region" aria-live="polite">
+        <strong>Clicks</strong>
+        <span id="clicksDisplay" class="stat-value">0</span>
       </div>
-      <div class="stat-item" tabindex="0"><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
-      <div class="stat-item" tabindex="0"><strong>Mundo Atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
+      <div class="stat-item" role="region" aria-live="polite">
+        <strong>CPS (Clicks por segundo)</strong>
+        <span id="cpsDisplay" class="stat-value">0</span>
+      </div>
+      <div class="stat-item" role="region" aria-live="polite">
+        <strong>Level</strong>
+        <span id="levelDisplay" class="stat-value">1</span>
+      </div>
+      <div class="stat-item" role="region" aria-live="polite">
+        <strong>XP</strong>
+        <span id="xpDisplay" class="stat-value">0</span> /
+        <span id="xpToNextLevel" class="stat-value">100</span>
+      </div>
+      <div class="stat-item" role="region" aria-live="polite">
+        <strong>Rebirths</strong>
+        <span id="rebirthCount" class="stat-value">0</span>
+      </div>
+      <div class="stat-item" role="region" aria-live="polite">
+        <strong>Mundo Atual</strong>
+        <span id="currentWorld" class="stat-value">1 - Jardim Inicial</span>
+      </div>
+      <div class="stat-item" role="region" aria-live="polite">
+        <strong>Prestígio</strong>
+        <span id="prestigeCount" class="stat-value">0</span>
+      </div>
     </section>
 
-    <!-- Botão principal de clique -->
-    <section id="click-section" aria-label="Clique principal" role="region">
-      <button id="clickBtn" aria-pressed="false" aria-label="Clique aqui para ganhar clicks">Clique aqui!</button>
-    </section>
+    <!-- Botão principal -->
+    <button id="clickBtn" aria-label="Clique aqui para ganhar clicks">Clique aqui!</button>
 
-    <!-- Seções flexíveis: upgrades, loja e pets -->
-    <section class="flex-row" aria-label="Seção de upgrades, loja e pets">
-      
-      <article class="box" id="upgrades" aria-label="Upgrades disponíveis">
+    <!-- Linha principal de painéis -->
+    <section class="flex-row" aria-label="Painéis principais">
+
+      <!-- Upgrades -->
+      <div class="box" id="upgrades" tabindex="0" aria-label="Painel de upgrades">
         <h2>Upgrades</h2>
-        <div id="upgrades-list" role="list" aria-live="polite"></div>
-      </article>
+        <!-- Upgrades são carregados via JS -->
+      </div>
 
-      <article class="box" id="shop" aria-label="Loja">
+      <!-- Loja -->
+      <div class="box" id="shop" tabindex="0" aria-label="Painel da loja">
         <h2>Loja</h2>
-        <div id="shop-list" role="list" aria-live="polite"></div>
-      </article>
+        <!-- Itens da loja -->
+      </div>
 
-      <article class="box" id="pets" aria-label="Pets">
+      <!-- Pets -->
+      <div class="box" id="pets" tabindex="0" aria-label="Painel de pets">
         <h2>Pets</h2>
-        <div id="pets-list" role="list" aria-live="polite"></div>
-      </article>
+        <!-- Pets são carregados aqui -->
+      </div>
     </section>
 
-    <!-- Seções: missões, conquistas e ranking -->
-    <section class="flex-row" aria-label="Missões, conquistas e ranking">
+    <!-- Segunda linha de painéis -->
+    <section class="flex-row" aria-label="Painéis secundários">
 
-      <article class="box" id="missions" aria-label="Missões do jogador">
+      <!-- Missões -->
+      <div class="box" id="missions" tabindex="0" aria-label="Painel de missões">
         <h2>Missões</h2>
-        <div id="missions-list" role="list" aria-live="polite"></div>
-      </article>
+        <!-- Missões aparecem aqui -->
+      </div>
 
-      <article class="box" id="achievements" aria-label="Conquistas">
+      <!-- Conquistas -->
+      <div class="box" id="achievements" tabindex="0" aria-label="Painel de conquistas">
         <h2>Conquistas</h2>
-        <div id="achievements-list" role="list" aria-live="polite"></div>
-      </article>
+        <!-- Conquistas carregadas via JS -->
+      </div>
 
-      <article class="box" id="ranking" aria-label="Ranking online">
+      <!-- Ranking -->
+      <div class="box" id="ranking" tabindex="0" aria-label="Painel de ranking online">
         <h2>Ranking Online</h2>
-        <form id="rankingForm" aria-label="Formulário para salvar seu score" onsubmit="return false;">
-          <input
-            id="playerNameInput"
-            type="text"
-            maxlength="16"
-            minlength="3"
-            placeholder="Seu nome (3 a 16 chars)"
-            aria-required="true"
-            aria-describedby="nameHelp"
-          />
-          <small id="nameHelp">Digite seu nome para salvar seu score.</small>
-          <button id="saveScoreBtn" type="submit" disabled>Salvar Score</button>
-        </form>
-        <div id="rankingList" aria-live="polite" class="ranking-list"></div>
-      </article>
+        <input id="playerNameInput" type="text" placeholder="Seu nome" aria-label="Digite seu nome para salvar score" minlength="3" maxlength="15" />
+        <button id="saveScoreBtn" aria-label="Salvar seu score no ranking">Salvar Score</button>
+        <div id="rankingList" role="list" aria-live="polite"></div>
+      </div>
+
     </section>
 
-  </main>
+    <!-- Terceira linha: Mundos e Rebirth -->
+    <section class="flex-row" aria-label="Mundos e renascimentos">
 
-  <!-- Container de notificações -->
-  <div id="notifications" aria-live="assertive" aria-atomic="true"></div>
+      <div class="box" id="worlds" tabindex="0" aria-label="Painel de mundos">
+        <h2>Mundos</h2>
+        <!-- Lista de mundos -->
+      </div>
 
-  <!-- Script JS (modular) -->
-  <script type="module" src="script.js"></script>
+      <div class="box" id="rebirth" tabindex="0" aria-label="Painel de renascimentos">
+        <h2>Renascimentos</h2>
+        <p>Renascimentos aumentam seu prestígio e resetam seu progresso para ganhar bônus.</p>
+        <button id="rebirthBtn" aria-label="Renascimento">Renascimentar</button>
+      </div>
+
+      <div class="box" id="settings" tabindex="0" aria-label="Painel de configurações">
+        <h2>Configurações</h2>
+        <button id="toggleParticlesBtn">Partículas: ON</button>
+        <button id="toggleAnimationsBtn">Animações: ON</button>
+        <button id="toggleSoundsBtn">Sons: ON</button>
+        <button id="toggleMusicBtn">Música: ON</button>
+        <button id="toggleAutoSaveBtn">Auto Save: ON</button>
+        <button id="saveBtn" aria-label="Salvar jogo manualmente">Salvar Jogo</button>
+        <button id="loadBtn" aria-label="Carregar jogo manualmente">Carregar Jogo</button>
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- Container para notificações -->
+  <div id="notificationContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Música de fundo (oculta) -->
+  <audio id="bgMusic" src="assets/bg-music.mp3" loop preload="auto"></audio>
+
 </body>
 </html>
+
+<!-- Continuação do HTML - Parte 2 -->
+
+<!-- Dentro da mesma estrutura, complementando os painéis com exemplos e mais detalhes -->
+
+<!-- Exemplo de Upgrade -->
+<script type="text/template" id="upgrade-template">
+  <div class="upgrade" data-id="{{id}}" tabindex="0" role="button" aria-pressed="false" aria-label="Upgrade {{name}}. Custa {{cost}} clicks.">
+    <strong>{{name}}</strong>
+    <div>Produção: +{{cps}} CPS</div>
+    <div>Custo: {{cost}} clicks</div>
+    <button class="buy-upgrade-btn" aria-label="Comprar upgrade {{name}}">Comprar</button>
+  </div>
+</script>
+
+<!-- Exemplo de Pet -->
+<script type="text/template" id="pet-template">
+  <div class="pet" data-id="{{id}}" tabindex="0" role="button" aria-pressed="false" aria-label="Pet {{name}}. Bônus: {{bonusPercent}}%">
+    <strong>{{name}}</strong>
+    <div>Bônus: +{{bonusPercent}}% clicks e CPS</div>
+    <button class="select-pet-btn" aria-label="Selecionar pet {{name}}">Selecionar</button>
+  </div>
+</script>
+
+<!-- Exemplo de Missão -->
+<script type="text/template" id="mission-template">
+  <div class="mission" data-id="{{id}}" tabindex="0" role="region" aria-label="Missão {{title}}">
+    <strong>{{title}}</strong>
+    <div>Descrição: {{description}}</div>
+    <div>Status: <span class="mission-status">{{status}}</span></div>
+    <button class="claim-mission-btn" aria-label="Reivindicar recompensa da missão {{title}}" {{#if completed}}enabled{{else}}disabled{{/if}}>Reivindicar</button>
+  </div>
+</script>
+
+<!-- Exemplo de Conquista -->
+<script type="text/template" id="achievement-template">
+  <div class="achievement" data-id="{{id}}" tabindex="0" role="region" aria-label="Conquista {{title}}">
+    <strong>{{title}}</strong>
+    <div>Descrição: {{description}}</div>
+    <div>Status: <span class="achievement-status">{{status}}</span></div>
+  </div>
+</script>
+
+<!-- Exemplo de Item da Loja -->
+<script type="text/template" id="shop-item-template">
+  <div class="shop-item" data-id="{{id}}" tabindex="0" role="button" aria-pressed="false" aria-label="Item da loja {{name}}. Custa {{cost}} clicks.">
+    <strong>{{name}}</strong>
+    <div>Descrição: {{description}}</div>
+    <div>Custo: {{cost}} clicks</div>
+    <button class="buy-shop-item-btn" aria-label="Comprar item da loja {{name}}">Comprar</button>
+  </div>
+</script>
+
+<!-- Exemplo de Mundo -->
+<script type="text/template" id="world-template">
+  <div class="world" data-id="{{id}}" tabindex="0" role="button" aria-pressed="false" aria-label="Mundo {{name}}. Requer nível {{requiredLevel}}.">
+    <strong>{{name}}</strong>
+    <div>Requer nível: {{requiredLevel}}</div>
+    <button class="select-world-btn" aria-label="Selecionar mundo {{name}}">Entrar</button>
+  </div>
+</script>
+
+<!-- Modal de tutorial (instruções básicas) -->
+<div id="tutorialModal" role="dialog" aria-modal="true" aria-labelledby="tutorialTitle" hidden>
+  <div class="modal-content">
+    <h2 id="tutorialTitle">Tutorial - Como Jogar</h2>
+    <p>Bem-vindo ao Clicker Simulator Supremo!</p>
+    <ol>
+      <li>Clique no botão grande para ganhar clicks.</li>
+      <li>Use clicks para comprar upgrades que aumentam seus clicks por segundo.</li>
+      <li>Compre pets para ganhar bônus extras.</li>
+      <li>Complete missões para ganhar recompensas especiais.</li>
+      <li>Renascimentos aumentam seu prestígio e desbloqueiam benefícios.</li>
+      <li>Explore mundos diferentes para novos desafios.</li>
+      <li>Salve seu progresso no ranking online e mostre quem é o melhor!</li>
+    </ol>
+    <button id="closeTutorialBtn" aria-label="Fechar tutorial">Fechar</button>
+  </div>
+</div>
+
+<!-- Modal para configurações avançadas -->
+<div id="advancedSettingsModal" role="dialog" aria-modal="true" aria-labelledby="advancedSettingsTitle" hidden>
+  <div class="modal-content">
+    <h2 id="advancedSettingsTitle">Configurações Avançadas</h2>
+    <form id="settingsForm">
+      <fieldset>
+        <legend>Preferências visuais</legend>
+        <label><input type="checkbox" id="settingParticles" checked /> Mostrar partículas</label><br />
+        <label><input type="checkbox" id="settingAnimations" checked /> Mostrar animações</label>
+      </fieldset>
+      <fieldset>
+        <legend>Áudio</legend>
+        <label><input type="checkbox" id="settingSounds" checked /> Sons ativados</label><br />
+        <label><input type="checkbox" id="settingMusic" checked /> Música de fundo ativada</label>
+      </fieldset>
+      <fieldset>
+        <legend>Salvar & Carregar</legend>
+        <button type="button" id="manualSaveBtn">Salvar manualmente</button>
+        <button type="button" id="manualLoadBtn">Carregar manualmente</button>
+      </fieldset>
+      <button type="button" id="closeSettingsBtn">Fechar</button>
+    </form>
+  </div>
+</div>
+
+<!-- Container para feedback de cliques -->
+<div id="clickEffectContainer" aria-hidden="true"></div>
+
+<!-- Rodapé com créditos e versão -->
+<footer style="text-align:center; margin-top:30px; font-size:0.9rem; color:#555;">
+  <p>Clicker Simulator Supremo &copy; 2025 - Desenvolvido por Luiz Felipe</p>
+  <p>Versão 3.5.7 - Última atualização: Junho 2025</p>
+</footer>
+
+<!-- Estilo extra para modais (coloque no CSS final) -->
+<style>
+  #tutorialModal, #advancedSettingsModal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100000;
+  }
+  .modal-content {
+    background: #111;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 0 25px #0ff;
+    color: #eee;
+    user-select: text;
+  }
+  .modal-content h2 {
+    margin-top: 0;
+    color: #0ff;
+    text-shadow: 0 0 10px #0ffccf;
+  }
+  .modal-content button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(90deg, #0ff, #00ccff);
+    color: #000;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 0 15px #0ff;
+    transition: background 0.3s ease;
+  }
+  .modal-content button:hover {
+    background: linear-gradient(90deg, #00ccff, #0ff);
+  }
+  .modal-content form fieldset {
+    border: 1px solid #0ff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+  }
+  .modal-content form legend {
+    font-weight: 700;
+    color: #0ff;
+    margin-bottom: 10px;
+  }
+  .modal-content label {
+    cursor: pointer;
+  }
+</style>
