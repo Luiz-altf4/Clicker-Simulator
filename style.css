@@ -1,319 +1,229 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+/* Fonte personalizada do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
-:root {
-  --color-bg: #121212;
-  --color-panel-bg: #1f1f1f;
-  --color-text: #eee;
-  --color-accent: #4fc3f7;
-  --color-btn-bg: #222;
-  --color-btn-hover: #4fc3f7;
-  --color-btn-text: #eee;
-  --color-xp-bar-bg: #333;
-  --color-xp-bar-fill: #4fc3f7;
-  --color-shadow: rgba(79, 195, 247, 0.5);
-  --transition-speed: 0.3s;
-}
-
-body {
+/* Reset básico */
+* {
   margin: 0;
-  font-family: 'Orbitron', monospace, sans-serif;
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  overflow-x: hidden;
-  position: relative;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Corpo e fundo */
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(135deg, #1f1f2e, #151520);
+  color: #e0e0e0;
   min-height: 100vh;
-  user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  transition: background 0.5s, color 0.5s;
 }
 
-body::before, body::after {
-  content: "";
-  position: fixed;
-  width: 120px;
-  height: 120px;
-  background: radial-gradient(circle, var(--color-accent), transparent 70%);
-  opacity: 0.3;
-  animation: pulse 2.5s infinite ease-in-out;
-  pointer-events: none;
-  z-index: 1;
-  filter: drop-shadow(0 0 8px var(--color-accent));
+/* Tema claro */
+body.light-theme {
+  background: linear-gradient(135deg, #d6e3f0, #f0f4f8);
+  color: #222;
 }
 
-body::before {
-  top: 0;
-  left: 0;
-}
-
-body::after {
-  bottom: 0;
-  right: 0;
-  animation-delay: 1.25s;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.3);
-  }
-}
-
-/* Botão tema */
-.theme-btn {
-  position: fixed;
-  top: 12px;
-  right: 12px;
-  background-color: var(--color-btn-bg);
-  border: none;
-  padding: 10px 16px;
-  cursor: pointer;
-  border-radius: 8px;
-  color: var(--color-btn-text);
-  font-size: 22px;
-  z-index: 10;
-  transition: background-color var(--transition-speed);
-  box-shadow: 0 0 10px var(--color-accent);
-}
-
-.theme-btn:hover {
-  background-color: var(--color-btn-hover);
-  box-shadow: 0 0 20px var(--color-accent);
-}
-
-/* Header */
+/* Cabeçalho */
 header {
   text-align: center;
-  padding: 20px 10px 10px;
-  border-bottom: 3px solid var(--color-accent);
   margin-bottom: 20px;
   user-select: none;
 }
 
 header h1 {
-  margin: 0;
-  font-size: 2.8rem;
-  letter-spacing: 2px;
-  color: var(--color-accent);
-}
-
-#statsPanel {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 18px;
-  margin-top: 12px;
   font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--color-btn-text);
+  font-size: 3rem;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px #0a84ffaa;
 }
 
-/* Main container */
-.container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-  padding: 0 24px 48px;
-  max-width: 1400px;
-  margin: 0 auto;
-  z-index: 2;
-}
-
-/* Painéis */
-.panel {
-  background-color: var(--color-panel-bg);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 0 25px var(--color-shadow);
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  transition: box-shadow var(--transition-speed);
-  user-select: none;
-}
-
-.panel:hover {
-  box-shadow: 0 0 40px var(--color-accent);
-}
-
-/* Títulos */
-.panel h2 {
-  margin: 0 0 12px 0;
-  font-weight: 900;
-  font-size: 1.8rem;
-  border-bottom: 3px solid var(--color-accent);
-  padding-bottom: 8px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--color-accent);
-}
-
-/* Botões */
-.btn {
-  background-color: var(--color-btn-bg);
+/* Botão grande do clique */
+#clickBtn {
+  background: #0a84ff;
+  color: white;
+  border-radius: 50px;
   border: none;
-  border-radius: 12px;
-  padding: 14px 22px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  color: var(--color-btn-text);
-  font-weight: 900;
-  transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-  user-select: none;
-  box-shadow: 0 0 12px transparent;
-  letter-spacing: 1.2px;
-}
-
-.btn:hover, .btn:focus {
-  background-color: var(--color-btn-hover);
-  outline: none;
-  box-shadow: 0 0 18px var(--color-accent);
-}
-
-/* Botão grande para click */
-.click-btn {
+  padding: 25px 60px;
   font-size: 2.2rem;
-  padding: 38px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  font-weight: 900;
-  user-select: none;
-  transition: transform 0.15s ease;
-  box-shadow: 0 0 25px var(--color-accent);
-  border-radius: 24px;
+  font-weight: 700;
+  box-shadow: 0 6px 15px #0a84ffbb;
+  transition: background 0.3s, box-shadow 0.3s;
+  cursor: pointer;
 }
 
-.click-btn:active {
-  transform: scale(0.92);
-  box-shadow: 0 0 40px var(--color-accent);
+#clickBtn:hover {
+  background: #006ddb;
+  box-shadow: 0 8px 20px #006ddbcc;
 }
 
-/* Upgrade rows */
-.upgrade-row {
+#clickBtn:active {
+  transform: scale(0.97);
+  box-shadow: 0 4px 10px #004b9acc;
+}
+
+/* Seções principais */
+section {
+  background: #222239;
+  border-radius: 15px;
+  padding: 20px 25px;
+  margin-bottom: 25px;
+  max-width: 620px;
+  width: 100%;
+  box-shadow: 0 0 15px #0a84ff33;
+  transition: background 0.5s, color 0.5s;
+}
+
+body.light-theme section {
+  background: #f9f9fc;
+  color: #222;
+  box-shadow: 0 0 15px #007aff33;
+}
+
+/* Títulos das seções */
+h2 {
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #0a84ff;
+  text-shadow: 0 0 6px #0a84ffcc;
+  transition: color 0.5s;
+}
+
+body.light-theme h2 {
+  color: #007aff;
+  text-shadow: none;
+}
+
+/* Estatísticas */
+.stats div {
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+  letter-spacing: 0.02em;
+}
+
+.stats strong {
+  color: #0a84ff;
+}
+
+/* Lista de upgrades, loja, pets, mundos */
+.upgrade-row, .shop-item, .pet-card, .world-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  border-bottom: 1px solid #333;
-  padding: 12px 0;
-}
-
-/* Botões de comprar múltiplos */
-.upgradeAmountBtnsContainer {
-  margin-top: 12px;
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.upgradeAmountBtn {
-  background-color: var(--color-btn-bg);
+  background: #1f1f35;
   border-radius: 10px;
-  padding: 12px 18px;
-  font-size: 1rem;
-  font-weight: 900;
+  padding: 10px 15px;
+  margin-bottom: 12px;
+  box-shadow: 0 0 8px #0008;
+  transition: background 0.3s, box-shadow 0.3s;
   cursor: pointer;
-  color: var(--color-btn-text);
-  border: 2px solid transparent;
-  transition: all var(--transition-speed);
-  min-width: 70px;
-  text-align: center;
+}
+
+.upgrade-row:hover, .shop-item:hover, .pet-card:hover, .world-card:hover {
+  background: #0a84ff22;
+  box-shadow: 0 0 12px #0a84ffcc;
+}
+
+body.light-theme .upgrade-row, 
+body.light-theme .shop-item, 
+body.light-theme .pet-card, 
+body.light-theme .world-card {
+  background: #fff;
+  box-shadow: 0 0 10px #007aff33;
+  color: #222;
+}
+
+body.light-theme .upgrade-row:hover, 
+body.light-theme .shop-item:hover, 
+body.light-theme .pet-card:hover, 
+body.light-theme .world-card:hover {
+  background: #007aff22;
+  box-shadow: 0 0 14px #007affcc;
+}
+
+/* Upgrade e Shop nomes e preços */
+.upgrade-row div, .shop-item h3, .pet-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: 1rem;
   user-select: none;
-}
-
-.upgradeAmountBtn.active {
-  background-color: var(--color-accent);
-  color: var(--color-bg);
-  border-color: var(--color-btn-text);
-  box-shadow: 0 0 18px var(--color-accent);
-}
-
-/* Loja */
-#shopPanel .shop-item {
-  margin-bottom: 16px;
-  border: 1px solid #333;
-  border-radius: 14px;
-  padding: 14px;
-  background-color: #222;
-  box-shadow: 0 0 12px rgba(79, 195, 247, 0.2);
-  transition: box-shadow 0.3s ease;
-  user-select: none;
-}
-
-#shopPanel .shop-item:hover {
-  box-shadow: 0 0 28px var(--color-accent);
-}
-
-.shop-item h3 {
-  margin: 0 0 6px 0;
-  font-weight: 900;
-  color: var(--color-accent);
 }
 
 .shop-item p {
-  margin: 0 0 10px 0;
-  font-size: 0.95rem;
-  color: var(--color-btn-text);
-}
-
-.shop-buy-btn {
-  width: 100%;
-  padding: 10px;
-  font-weight: 700;
-  border-radius: 10px;
-  background-color: var(--color-btn-bg);
-  border: none;
-  color: var(--color-btn-text);
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  flex: 2;
+  font-size: 0.9rem;
+  color: #a0a0a0;
   user-select: none;
 }
 
-.shop-buy-btn:hover:not(:disabled) {
-  background-color: var(--color-btn-hover);
-  box-shadow: 0 0 20px var(--color-accent);
+body.light-theme .shop-item p {
+  color: #555;
 }
 
-.shop-buy-btn:disabled {
+/* Botões */
+.btn, .shop-buy-btn {
+  background: #0a84ff;
+  border: none;
+  color: white;
+  font-weight: 700;
+  padding: 8px 20px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  min-width: 110px;
+  user-select: none;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.btn:hover:not(:disabled), .shop-buy-btn:hover:not(:disabled) {
+  background: #006ddb;
+  box-shadow: 0 0 12px #006ddbcc;
+}
+
+.btn:disabled, .shop-buy-btn:disabled {
+  background: #444a5a;
   cursor: not-allowed;
-  opacity: 0.5;
+  box-shadow: none;
 }
 
 /* Pets */
-.flex-row-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
-}
-
 .pet-card {
-  background-color: #222;
-  border-radius: 16px;
-  padding: 16px;
-  width: 150px;
-  text-align: center;
-  box-shadow: 0 0 12px rgba(79, 195, 247, 0.3);
-  cursor: pointer;
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
-  user-select: none;
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  align-items: flex-start;
+  padding: 15px 20px;
+  gap: 6px;
+  min-height: 110px;
+  position: relative;
 }
 
-.pet-card:hover:not(.disabled) {
-  box-shadow: 0 0 28px var(--color-accent);
-  transform: translateY(-6px);
+.pet-emoji {
+  font-size: 3rem;
+  user-select: none;
+}
+
+.pet-name {
+  font-size: 1.25rem;
+  color: #0a84ff;
+  user-select: none;
+}
+
+.pet-bonus, .pet-price {
+  font-size: 0.9rem;
+  color: #a0a0a0;
+  user-select: none;
+}
+
+body.light-theme .pet-name {
+  color: #007aff;
 }
 
 .pet-card.active {
-  border: 3px solid var(--color-accent);
-  box-shadow: 0 0 40px var(--color-accent);
+  border: 3px solid #0a84ff;
+  box-shadow: 0 0 20px #0a84ffcc;
 }
 
 .pet-card.disabled {
@@ -321,97 +231,131 @@ header h1 {
   cursor: not-allowed;
 }
 
-.pet-emoji {
-  font-size: 48px;
+/* Mundos */
+.world-card {
+  font-weight: 600;
+  font-size: 1rem;
   user-select: none;
-}
-
-.pet-name {
-  font-weight: 900;
-  font-size: 1.2rem;
-  color: var(--color-accent);
-}
-
-.pet-bonus, .pet-price {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--color-btn-text);
-}
-
-.pet-btn {
-  margin-top: 10px;
-  padding: 10px;
-  font-weight: 700;
   border-radius: 12px;
-  border: none;
-  background-color: var(--color-btn-bg);
-  color: var(--color-btn-text);
-  box-shadow: 0 0 12px transparent;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  padding: 15px 0;
+}
+
+.world-card.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  text-shadow: none;
+}
+
+.world-card.active {
+  background: #0a84ff;
+  color: white;
+  box-shadow: 0 0 16px #0a84ffcc;
+  cursor: default;
+}
+
+/* Seção comprar quantidades */
+.buy-amounts {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.buy-amounts strong {
+  margin-right: 10px;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.buy-amounts button {
+  background: #444a5a;
+  color: #ddd;
+  font-weight: 700;
+  padding: 8px 18px;
+  margin: 0 5px;
+  border-radius: 12px;
+  font-size: 1rem;
+  user-select: none;
+  transition: background 0.3s, color 0.3s;
+}
+
+.buy-amounts button:hover {
+  background: #0a84ff;
+  color: white;
+  box-shadow: 0 0 10px #0a84ffcc;
   cursor: pointer;
 }
 
-.pet-btn:hover:not(:disabled) {
-  background-color: var(--color-btn-hover);
-  box-shadow: 0 0 18px var(--color-accent);
-}
-
-.pet-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
+.buy-amounts button.active {
+  background: #0a84ff;
+  color: white;
+  box-shadow: 0 0 14px #0a84ffcc;
 }
 
 /* Rebirth */
+.rebirth-section {
+  text-align: center;
+}
+
 #rebirthBtn {
-  width: 100%;
   font-size: 1.2rem;
-  padding: 18px;
-  border-radius: 18px;
-  box-shadow: 0 0 20px var(--color-accent);
-  font-weight: 900;
+  font-weight: 700;
+  padding: 15px 0;
+  width: 100%;
+  border-radius: 25px;
+  background: linear-gradient(90deg, #ff416c, #ff4b2b);
+  box-shadow: 0 0 15px #ff4b2bcc;
+  color: white;
+  user-select: none;
+  transition: background 0.4s ease-in-out;
+  border: none;
+}
+
+#rebirthBtn:hover {
+  background: linear-gradient(90deg, #ff4b2b, #ff416c);
+  box-shadow: 0 0 25px #ff416ccc;
+  cursor: pointer;
+}
+
+#rebirthBtn:disabled {
+  background: #666;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 #rebirthInfo {
+  margin-top: 12px;
+  font-weight: 600;
   font-size: 1rem;
-  color: var(--color-btn-text);
-}
-
-/* Worlds */
-#worldsList .world-card {
-  background-color: #222;
-  padding: 16px;
-  border-radius: 16px;
-  cursor: pointer;
-  width: 200px;
-  box-shadow: 0 0 12px rgba(79,195,247,0.3);
-  text-align: center;
   user-select: none;
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
-  font-weight: 700;
-  color: var(--color-btn-text);
 }
 
-#worldsList .world-card:hover {
-  box-shadow: 0 0 30px var(--color-accent);
-  transform: translateY(-5px);
+/* Botão de alternar tema */
+#toggleTheme {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  font-size: 1.8rem;
+  background: transparent;
+  border: none;
+  color: #0a84ff;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.3s;
 }
 
-#worldsList .world-card.active {
-  border: 3px solid var(--color-accent);
-  box-shadow: 0 0 40px var(--color-accent);
-  color: var(--color-accent);
+#toggleTheme:hover {
+  color: #006ddb;
 }
 
 /* Responsividade */
 @media (max-width: 700px) {
-  .container {
-    grid-template-columns: 1fr !important;
+  #clickBtn {
+    padding: 18px 40px;
+    font-size: 1.8rem;
   }
-  #statsPanel {
-    flex-direction: column;
-    gap: 10px;
+  section {
+    max-width: 100%;
   }
-  .upgradeAmountBtnsContainer {
-    justify-content: flex-start;
+  .pet-card {
+    min-height: 140px;
   }
 }
