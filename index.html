@@ -1,72 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clicker Simulator</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="script.js" defer></script>
 </head>
 <body>
-  <h1>Clicker Simulator 🖱️</h1>
+  <h1>💥 Clicker Simulator</h1>
+  <div id="clickArea">Clique!</div>
 
   <div id="stats">
     <p>Clicks: <span id="clicksDisplay">0</span></p>
     <p>Total Clicks: <span id="totalClicksStat">0</span></p>
-    <p>CPS (Clicks por segundo): <span id="cpsDisplay">0</span></p>
+    <p>CPS: <span id="cpsDisplay">0</span></p>
     <p>Nível: <span id="levelDisplay">1</span></p>
     <p>XP: <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></p>
     <p>Rebirths: <span id="rebirthCount">0</span></p>
     <p>Mundo atual: <span id="currentWorld">1 - Jardim Inicial</span></p>
   </div>
 
-  <button id="clickBtn" title="Clique aqui!">Clique!</button>
-
-  <div id="upgradesSection">
-    <h2>🛠️ Upgrades</h2>
-    <div id="upgrades"></div>
+  <div>
+    <button id="rebirthBtn">♻️ Rebirth</button>
+    <button id="saveBtn">💾 Salvar</button>
+    <button id="clearSaveBtn">🗑️ Resetar</button>
+    <button id="toggleTheme">🌙</button>
   </div>
 
-  <div id="petsSection">
-    <h2>🐾 Pets</h2>
-    <div id="pets"></div>
-  </div>
+  <hr>
 
-  <div id="shopSection">
-    <h2>🛍️ Loja</h2>
-    <div id="shopList"></div>
-  </div>
+  <h2>🛠️ Upgrades</h2>
+  <div id="upgrades"></div>
 
-  <div id="missionsSection">
-    <h2>🎯 Missões</h2>
-    <ul id="missions"></ul>
-  </div>
+  <h2>🐾 Pets</h2>
+  <div id="pets"></div>
 
-  <div id="achievementsSection">
-    <h2>🏆 Conquistas</h2>
-    <ul id="achievementsList"></ul>
-  </div>
+  <h2>🛍️ Loja</h2>
+  <div id="shopList"></div>
 
-  <div id="rankingSection">
-    <h2>📊 Ranking</h2>
-    <input type="text" id="playerNameInput" placeholder="Digite seu nome" maxlength="15" />
-    <button id="saveScoreBtn">Salvar no Ranking</button>
-    <div id="detailedRankingList">Carregando ranking...</div>
-  </div>
+  <h2>🎯 Missões</h2>
+  <ul id="missions"></ul>
 
-  <div id="chatSection">
-    <h2>💬 Chat Global</h2>
-    <div id="chatMessages" style="height: 150px; overflow-y: auto; background:#111; padding:5px; border-radius:8px; margin-bottom: 10px;"></div>
-    <input type="text" id="chatInput" placeholder="Digite mensagem" maxlength="100" />
-    <button id="chatSendBtn">Enviar</button>
-  </div>
+  <h2>🏆 Conquistas</h2>
+  <ul id="achievementsList"></ul>
 
-  <div id="notification" style="display:none; position: fixed; top: 10px; left: 50%; transform: translateX(-50%); padding: 10px 20px; border-radius: 8px; font-weight: bold; z-index: 999;"></div>
+  <h2>📊 Ranking</h2>
+  <input type="text" id="playerNameInput" placeholder="Seu nome">
+  <button id="saveScoreBtn">Salvar Score</button>
+  <div id="detailedRankingList">Carregando ranking...</div>
 
-  <button id="rebirthBtn" title="Fazer rebirth">Rebirth</button>
-  <button id="saveBtn" title="Salvar progresso">Salvar</button>
-  <button id="clearSaveBtn" title="Limpar progresso">Limpar Save</button>
-  <button id="toggleTheme" title="Alternar tema">🌙</button>
+  <h2>💬 Chat Global</h2>
+  <div id="chatMessages" style="max-height: 200px; overflow-y: auto; border: 1px solid white; padding: 10px; background: rgba(255,255,255,0.05);"></div>
+  <input type="text" id="chatInput" placeholder="Digite sua mensagem">
+  <button id="chatSendBtn">Enviar</button>
 
-  <script type="module" src="script.js"></script>
+  <div id="notification" style="display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#0f62fe; color:white; padding:10px 20px; border-radius:10px; font-weight:bold; z-index:9999;">Notificação</div>
 </body>
 </html>
