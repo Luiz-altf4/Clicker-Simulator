@@ -1,62 +1,125 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
 :root {
-  --bg: #121212;
-  --panel: #1e1e2e;
-  --text: #eee;
-  --accent: #45c3f7;
-  --btn: #2a2a3a;
-  --btn-hover: #45c3f7;
-  --btn-text: #eee;
-  --xp-bg: #333;
-  --xp-fill: #45c3f7;
+  --bg: #0d0f14;
+  --panel: #1b1e28;
+  --text: #e0e0e0;
+  --accent: #4fc3f7;
+  --accent-dark: #397fa1;
+  --btn: #2e303e;
+  --btn-hover: #5fbdf7;
+  --xp-bg: #2a2d3a;
+  --xp-fill: #4fc3f7;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif; }
 body {
-  font-family:'Orbitron', sans-serif;
-  background:var(--bg); color:var(--text);
-  display:flex; justify-content:center; padding:20px;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 .container {
-  width:100%; max-width:480px; padding:20px;
-  background:var(--panel); border-radius:12px;
-  box-shadow:0 0 20px rgba(0,0,0,0.5);
+  width: 100%;
+  max-width: 500px;
+  padding: 25px;
+  background: var(--panel);
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.7);
+  position: relative;
+  overflow: hidden;
 }
-h1 { text-align:center; margin-bottom:15px; color:var(--accent); }
-.button-main, .btn,panel-btn, .upgradeAmountBtn, .shop-buy {
-  cursor:pointer; border:none; border-radius:8px;
-  font-weight:700; transition:all .2s;
+.container::before {
+  content: "";
+  position: absolute;
+  background: radial-gradient(circle at top left, var(--accent), transparent);
+  width: 200px;
+  height: 200px;
+  opacity: 0.3;
+  top: -60px;
+  left: -60px;
+  pointer-events: none;
 }
-#clickBtn {
-  width:100%; padding:18px; font-size:1.5rem;
-  background:linear-gradient(45deg,#45c3f7,#0d3b68);
-  color:#fff; margin-bottom:15px;
+.container::after {
+  content: "";
+  position: absolute;
+  background: radial-gradient(circle at bottom right, var(--accent), transparent);
+  width: 200px;
+  height: 200px;
+  opacity: 0.3;
+  bottom: -60px;
+  right: -60px;
+  pointer-events: none;
 }
-#clickBtn:hover { background:linear-gradient(45deg,#0d3b68,#45c3f7); }
-.stats, .shop, .boosts, .rebirth-reset { margin-bottom:20px; }
-.stats span, .shop span, .boosts span { display:block; margin-bottom:6px; }
-.btn-buy {
-  background:var(--btn); color:var(--btn-text);
-  margin-right:8px; margin-bottom:8px; padding:8px 12px;
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--accent);
+  text-shadow: 0 0 10px var(--accent-dark);
 }
-.btn-buy:hover { background:var(--btn-hover); color:#000; }
+.button-main {
+  width: 100%;
+  padding: 18px;
+  font-size: 1.4rem;
+  background: linear-gradient(45deg, var(--accent), var(--accent-dark));
+  border: none;
+  color: #fff;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 15px var(--accent);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.button-main:hover { transform: scale(1.02); }
+.stats {
+  margin-bottom: 20px;
+}
+.stats span { display: block; margin-bottom: 8px; font-size: 0.9rem; }
+.shop, .boosts, .rebirth-reset, .world-switcher {
+  margin-bottom: 20px;
+}
+.btn-buy, .world-switch-btn {
+  background: var(--btn);
+  color: var(--text);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  transition: background 0.2s;
+}
+.btn-buy:hover, .world-switch-btn:hover { background: var(--btn-hover); color: #000; }
 .upgradeAmountBtn {
-  background:var(--btn); color:var(--btn-text); margin-left:6px;
-  padding:6px 10px;
+  background: var(--btn);
+  color: var(--text);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin-left: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 .upgradeAmountBtn.active, .upgradeAmountBtn:hover {
-  background:var(--accent); color:#000;
+  background: var(--accent);
+  color: #000;
 }
 .xp-bar-container {
-  width:100%; height:14px; background:var(--xp-bg);
-  border-radius:7px; overflow:hidden; margin-top:10px;
+  width: 100%;
+  height: 16px;
+  background: var(--xp-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 10px;
+  box-shadow: inset 0 0 5px var(--accent-dark);
 }
 .xp-bar-fill {
-  height:100%; background:var(--xp-fill);
-  width:0%; transition:width .3s;
+  height: 100%;
+  background: var(--xp-fill);
+  width: 0%;
+  transition: width 0.3s ease-in-out;
 }
-footer {
-  text-align:center; margin-top:10px; font-size:.8rem;
-  color:#777;
-}
+footer { text-align: center; color: #555; font-size: 0.8rem; }
