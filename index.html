@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Clicker Simulator - jogo de clique com ranking online e upgrades." />
   <title>Clicker Simulator</title>
+  <!-- Link CSS profissional -->
   <link rel="stylesheet" href="style.css" />
+  <!-- Favicon opcional -->
+  <link rel="icon" href="favicon.ico" />
 </head>
 <body>
+  <!-- Botão alternar tema (fixo no topo direito) -->
   <button id="toggleTheme" title="Alternar tema">🌙</button>
 
-  <div id="container">
+  <main id="container" role="main" aria-label="Clicker Simulator">
     <h1>Clicker Simulator</h1>
 
-    <section id="stats" aria-labelledby="statsTitle" class="stats">
-      <h2 id="statsTitle" class="sr-only">Estatísticas do jogador</h2>
+    <!-- Estatísticas principais -->
+    <section class="stats" aria-label="Estatísticas do jogador">
       <div><strong>Clicks:</strong> <span id="clicksDisplay">0</span></div>
       <div><strong>CPS (Clicks por segundo):</strong> <span id="cpsDisplay">0</span></div>
       <div><strong>Level:</strong> <span id="levelDisplay">1</span></div>
@@ -23,62 +26,62 @@
       <div><strong>Mundo Atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
     </section>
 
-    <button id="clickBtn" aria-label="Botão para clicar e ganhar clicks">Clique aqui!</button>
+    <!-- Botão principal para clicar -->
+    <button id="clickBtn" aria-label="Clique para ganhar clicks">Clique aqui!</button>
 
-    <div class="flex-row">
-      <section class="box" id="upgrades" aria-labelledby="upgradesTitle">
-        <h2 id="upgradesTitle">Upgrades</h2>
-        <!-- Aqui o JavaScript vai inserir os upgrades -->
-      </section>
+    <!-- Linhas flexíveis para upgrades, loja e pets -->
+    <section class="flex-row" aria-label="Seções do jogo">
+      <!-- Upgrades -->
+      <article class="box" id="upgrades" tabindex="0" aria-live="polite" aria-label="Upgrades disponíveis">
+        <h2>Upgrades</h2>
+        <!-- Lista de upgrades gerada pelo JS -->
+      </article>
 
-      <section class="box" id="shop" aria-labelledby="shopTitle">
-        <h2 id="shopTitle">Loja</h2>
-        <!-- Aqui o JavaScript vai inserir os itens da loja -->
-      </section>
+      <!-- Loja -->
+      <article class="box" id="shop" tabindex="0" aria-live="polite" aria-label="Loja de multiplicadores e itens">
+        <h2>Loja</h2>
+        <!-- Itens da loja gerados pelo JS -->
+      </article>
 
-      <section class="box" id="pets" aria-labelledby="petsTitle">
-        <h2 id="petsTitle">Pets</h2>
-        <!-- Aqui o JavaScript vai inserir os pets -->
-      </section>
-    </div>
+      <!-- Pets -->
+      <article class="box" id="pets" tabindex="0" aria-live="polite" aria-label="Pets disponíveis">
+        <h2>Pets</h2>
+        <!-- Pets gerados pelo JS -->
+      </article>
+    </section>
 
-    <div class="flex-row">
-      <section class="box" id="missions" aria-labelledby="missionsTitle">
-        <h2 id="missionsTitle">Missões</h2>
-        <!-- Aqui o JavaScript vai inserir as missões -->
-      </section>
+    <!-- Segunda linha para missões, conquistas e ranking -->
+    <section class="flex-row" aria-label="Missões, conquistas e ranking">
+      <!-- Missões -->
+      <article class="box" id="missions" tabindex="0" aria-live="polite" aria-label="Missões atuais">
+        <h2>Missões</h2>
+        <!-- Missões geradas pelo JS -->
+      </article>
 
-      <section class="box" id="achievements" aria-labelledby="achievementsTitle">
-        <h2 id="achievementsTitle">Conquistas</h2>
-        <!-- Aqui o JavaScript vai inserir as conquistas -->
-      </section>
+      <!-- Conquistas -->
+      <article class="box" id="achievements" tabindex="0" aria-live="polite" aria-label="Conquistas do jogador">
+        <h2>Conquistas</h2>
+        <!-- Conquistas geradas pelo JS -->
+      </article>
 
-      <section class="box" aria-labelledby="rankingTitle">
-        <h2 id="rankingTitle">Ranking Online</h2>
-        <label for="playerNameInput" class="sr-only">Nome do jogador</label>
-        <input id="playerNameInput" type="text" placeholder="Seu nome" autocomplete="off" />
-        <button id="saveScoreBtn">Salvar Score</button>
-        <div id="rankingList" class="ranking-list"></div>
-      </section>
-    </div>
-  </div>
+      <!-- Ranking Online -->
+      <article class="box" aria-label="Ranking Online e salvar score">
+        <h2>Ranking Online</h2>
+        <input
+          id="playerNameInput"
+          type="text"
+          placeholder="Digite seu nome (mín. 3 caracteres)"
+          aria-label="Nome do jogador para salvar score"
+          autocomplete="off"
+          maxlength="20"
+        />
+        <button id="saveScoreBtn" aria-live="polite" aria-atomic="true">Salvar Score</button>
+        <div id="rankingList" style="margin-top:10px;" aria-live="polite" aria-atomic="true"></div>
+      </article>
+    </section>
+  </main>
 
+  <!-- Script JS principal (módulo) -->
   <script type="module" src="script.js"></script>
-
-  <style>
-    /* CSS para o sr-only (acessibilidade) */
-    .sr-only {
-      position: absolute;
-      width: 1px; height: 1px;
-      padding: 0; margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      border: 0;
-    }
-    /* Remove margin top inline do rankingList */
-    #rankingList {
-      margin-top: 10px;
-    }
-  </style>
 </body>
 </html>
