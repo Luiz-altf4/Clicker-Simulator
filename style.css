@@ -10,6 +10,8 @@
   --color-btn-text: #eee;
   --color-xp-bar-bg: #333;
   --color-xp-bar-fill: #4fc3f7;
+  --color-shadow: rgba(79, 195, 247, 0.5);
+  --transition-speed: 0.3s;
 }
 
 body {
@@ -18,68 +20,77 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   overflow-x: hidden;
-  min-height: 100vh;
   position: relative;
+  min-height: 100vh;
+  user-select: none;
 }
 
-/* Luz piscando */
+/* Luz piscando nos cantos */
 body::before,
 body::after {
   content: "";
   position: fixed;
   width: 100px;
   height: 100px;
-  background: radial-gradient(circle, #4fc3f7, transparent 70%);
+  background: radial-gradient(circle, var(--color-accent), transparent 70%);
   opacity: 0.4;
-  animation: pulse 3s infinite ease-in-out;
+  animation: pulse 2.5s infinite ease-in-out;
   pointer-events: none;
   z-index: 1;
+  filter: drop-shadow(0 0 6px var(--color-accent));
 }
+
 body::before {
   top: 0;
   left: 0;
 }
+
 body::after {
   bottom: 0;
   right: 0;
-  animation-delay: 1.5s;
+  animation-delay: 1.25s;
 }
+
 @keyframes pulse {
   0%, 100% {
     opacity: 0.4;
     transform: scale(1);
   }
   50% {
-    opacity: 0.9;
-    transform: scale(1.15);
+    opacity: 0.85;
+    transform: scale(1.2);
   }
 }
 
+/* Botão tema */
 .theme-btn {
   position: fixed;
   top: 12px;
   right: 12px;
   background-color: var(--color-btn-bg);
   border: none;
-  padding: 8px 12px;
+  padding: 10px 16px;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 8px;
   color: var(--color-btn-text);
-  font-size: 20px;
+  font-size: 22px;
   z-index: 10;
-  transition: background-color 0.3s;
+  transition: background-color var(--transition-speed);
+  box-shadow: 0 0 10px var(--color-accent);
 }
+
 .theme-btn:hover {
   background-color: var(--color-btn-hover);
+  box-shadow: 0 0 20px var(--color-accent);
 }
 
 /* Container geral */
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-  padding: 80px 16px 16px 16px;
-  max-width: 1200px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 100px 24px 24px 24px;
+  max-width: 1400px;
   margin: 0 auto;
   z-index: 2;
 }
@@ -87,105 +98,155 @@ body::after {
 /* Painéis */
 .panel {
   background-color: var(--color-panel-bg);
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 0 20px #0b4f6c44;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 0 25px var(--color-shadow);
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  z-index: 2;
+  gap: 18px;
+  transition: box-shadow var(--transition-speed);
 }
 
+.panel:hover {
+  box-shadow: 0 0 40px var(--color-accent);
+}
+
+/* Títulos */
 .panel h2 {
-  margin: 0 0 8px 0;
-  font-weight: 700;
-  font-size: 1.3rem;
-  border-bottom: 2px solid var(--color-accent);
-  padding-bottom: 6px;
+  margin: 0 0 12px 0;
+  font-weight: 800;
+  font-size: 1.6rem;
+  border-bottom: 3px solid var(--color-accent);
+  padding-bottom: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-accent);
 }
 
 /* Botões */
 .btn {
   background-color: var(--color-btn-bg);
   border: none;
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 1rem;
+  border-radius: 12px;
+  padding: 14px 22px;
+  font-size: 1.1rem;
   cursor: pointer;
   color: var(--color-btn-text);
-  font-weight: 700;
-  transition: background-color 0.3s;
+  font-weight: 800;
+  transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
   user-select: none;
+  box-shadow: 0 0 12px transparent;
+  letter-spacing: 1.2px;
 }
+
 .btn:hover,
 .btn:focus {
   background-color: var(--color-btn-hover);
   outline: none;
+  box-shadow: 0 0 18px var(--color-accent);
 }
 
-/* Botão principal */
+/* Botão maior para click */
 .click-btn {
-  font-size: 1.4rem;
-  padding: 20px;
-  letter-spacing: 2px;
+  font-size: 1.7rem;
+  padding: 28px;
+  letter-spacing: 3px;
   text-transform: uppercase;
   font-weight: 900;
+  user-select: none;
+  transition: transform 0.15s ease;
+  box-shadow: 0 0 25px var(--color-accent);
 }
 
-/* Upgrade Rows */
+.click-btn:active {
+  transform: scale(0.92);
+  box-shadow: 0 0 40px var(--color-accent);
+}
+
+/* Upgrade rows */
 .upgrade-row {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-/* XP Bar */
-#xpBarContainer {
-  background-color: var(--color-xp-bar-bg);
-  height: 20px;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-#xpBar {
-  height: 100%;
-  width: 0%;
-  background-color: var(--color-xp-bar-fill);
-  transition: width 0.3s ease;
-}
-
-/* Upgrade Amount Buttons */
+/* Botões de comprar múltiplos */
 .upgradeAmountBtn {
-  padding: 8px 12px;
-  font-size: 0.9rem;
+  background-color: var(--color-btn-bg);
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-left: 6px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--color-btn-text);
+  border: 2px solid transparent;
+  transition: all var(--transition-speed);
+  min-width: 60px;
+  text-align: center;
+  user-select: none;
 }
+
 .upgradeAmountBtn.active {
   background-color: var(--color-accent);
-  color: #000;
+  color: var(--color-bg);
+  border-color: var(--color-btn-text);
+  box-shadow: 0 0 18px var(--color-accent);
 }
 
-/* Mundo Atual */
-#worldPanel {
+/* Barra de XP */
+#xpBarContainer {
+  background-color: var(--color-xp-bar-bg);
+  border-radius: 12px;
+  height: 18px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: inset 0 0 8px #0009;
+}
+
+#xpBar {
+  background-color: var(--color-xp-bar-fill);
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease-in-out;
+  box-shadow: 0 0 10px var(--color-accent);
+  border-radius: 12px;
+}
+
+/* Informações extras do jogo */
+#cps, #levelDisplay, #gemsCount, #rebirthCount, #worldName, #currentWorld {
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  color: var(--color-btn-text);
+}
+
+/* Painel Loja */
+#shopPanel .shop-item {
+  margin-bottom: 14px;
+}
+
+.shop-buy {
+  width: 100%;
   text-align: center;
-  font-size: 1.2rem;
-  padding: 10px;
-  border-top: 2px solid var(--color-accent);
-  margin-top: 12px;
 }
 
-@media (max-width: 500px) {
-  .click-btn {
-    font-size: 1.1rem;
-    padding: 14px;
+/* Responsividade */
+@media (max-width: 600px) {
+  .container {
+    grid-template-columns: 1fr;
+    padding: 80px 16px 16px 16px;
   }
+
   .btn {
-    font-size: 0.9rem;
-    padding: 10px 12px;
+    font-size: 1rem;
+    padding: 12px 18px;
   }
-  .panel h2 {
-    font-size: 1.1rem;
+
+  .click-btn {
+    padding: 18px;
+    font-size: 1.4rem;
   }
 }
-
