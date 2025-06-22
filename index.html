@@ -268,3 +268,129 @@
     });
   });
 </script>
+
+<!-- ================== PARTE 3 DO HTML ================== -->
+
+<!-- Tela de Loading -->
+<div id="loadingScreen" class="loading-screen" role="alert" aria-live="assertive" aria-busy="true" aria-label="Carregando jogo, aguarde...">
+  <div class="loader"></div>
+  <p>Carregando jogo, por favor aguarde...</p>
+</div>
+
+<!-- Notificações -->
+<div id="notificationContainer" class="notification-container" aria-live="polite" aria-atomic="true" role="region">
+  <!-- Notificações via JS -->
+</div>
+
+<!-- Painel de Configurações Avançadas -->
+<section id="advancedSettings" class="panel advanced-settings" aria-label="Configurações avançadas do jogo" hidden>
+  <h2>Configurações Avançadas</h2>
+
+  <fieldset>
+    <legend>Preferências Visuais</legend>
+
+    <label for="fontSizeRange">Tamanho da Fonte: <span id="fontSizeValue">16</span>px</label>
+    <input type="range" id="fontSizeRange" min="12" max="24" value="16" aria-valuemin="12" aria-valuemax="24" aria-valuenow="16" aria-label="Ajustar tamanho da fonte" />
+
+    <label for="colorSchemeSelect">Esquema de Cores:</label>
+    <select id="colorSchemeSelect" aria-label="Selecionar esquema de cores">
+      <option value="default">Padrão</option>
+      <option value="highContrast">Alto Contraste</option>
+      <option value="pastel">Pastel</option>
+      <option value="neon">Neon</option>
+    </select>
+  </fieldset>
+
+  <fieldset>
+    <legend>Preferências de Áudio</legend>
+    <label for="musicVolumeRange">Volume da Música: <span id="musicVolumeValue">50</span>%</label>
+    <input type="range" id="musicVolumeRange" min="0" max="100" value="50" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-label="Ajustar volume da música" />
+
+    <label for="effectsVolumeRange">Volume dos Efeitos: <span id="effectsVolumeValue">70</span>%</label>
+    <input type="range" id="effectsVolumeRange" min="0" max="100" value="70" aria-valuemin="0" aria-valuemax="100" aria-valuenow="70" aria-label="Ajustar volume dos efeitos" />
+  </fieldset>
+
+  <fieldset>
+    <legend>Redes Sociais</legend>
+    <p>Siga-nos para novidades e eventos:</p>
+    <ul class="social-links">
+      <li><a href="https://twitter.com/ClickerSupremo" target="_blank" rel="noopener noreferrer" aria-label="Twitter">Twitter</a></li>
+      <li><a href="https://discord.gg/clickersupremo" target="_blank" rel="noopener noreferrer" aria-label="Discord">Discord</a></li>
+      <li><a href="https://www.youtube.com/channel/clickersupremo" target="_blank" rel="noopener noreferrer" aria-label="YouTube">YouTube</a></li>
+    </ul>
+  </fieldset>
+
+  <button id="closeAdvancedSettingsBtn" class="control-btn" aria-label="Fechar configurações avançadas">Fechar</button>
+</section>
+
+<!-- Painel para Créditos Detalhados -->
+<section id="creditsPanel" class="panel credits-panel" aria-label="Créditos do projeto" hidden>
+  <h2>Créditos</h2>
+  <p>Desenvolvedor: Luiz Felipe</p>
+  <p>Design e UI: Equipe Clicker Supremo</p>
+  <p>APIs e Serviços: Firebase, Google Fonts</p>
+  <p>Testes e QA: Time Clicker</p>
+  <p>Inspiração: Jogos Clicker clássicos e simuladores populares</p>
+
+  <button id="closeCreditsBtn" class="control-btn" aria-label="Fechar créditos">Fechar</button>
+</section>
+
+<!-- Modal para confirmações gerais -->
+<div id="genericConfirmModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="genericConfirmTitle" aria-describedby="genericConfirmDesc" hidden>
+  <div class="modal-content">
+    <h3 id="genericConfirmTitle">Confirmação</h3>
+    <p id="genericConfirmDesc">Tem certeza que deseja continuar?</p>
+    <div class="btn-group">
+      <button id="genericConfirmYes" class="control-btn">Sim</button>
+      <button id="genericConfirmNo" class="control-btn">Não</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de erros -->
+<div id="errorModal" class="modal error-modal" role="alertdialog" aria-modal="true" aria-labelledby="errorModalTitle" aria-describedby="errorModalDesc" hidden>
+  <div class="modal-content">
+    <h3 id="errorModalTitle">Erro</h3>
+    <p id="errorModalDesc">Ocorreu um erro inesperado. Tente novamente mais tarde.</p>
+    <button id="errorModalCloseBtn" class="control-btn" aria-label="Fechar mensagem de erro">Fechar</button>
+  </div>
+</div>
+
+<!-- Aviso de manutenção -->
+<div id="maintenanceNotice" class="maintenance-notice" role="alert" aria-live="polite" aria-atomic="true" hidden>
+  <p>🚧 O jogo está em manutenção. Alguns recursos podem estar temporariamente indisponíveis.</p>
+</div>
+
+<!-- Botão para voltar ao topo -->
+<button id="scrollTopBtn" class="scroll-top-btn" aria-label="Voltar ao topo">⬆️</button>
+
+<!-- Scripts para modais e scroll -->
+<script>
+  // Fechar modal de erros
+  document.getElementById('errorModalCloseBtn').addEventListener('click', () => {
+    document.getElementById('errorModal').hidden = true;
+  });
+
+  // Fechar configurações avançadas
+  document.getElementById('closeAdvancedSettingsBtn').addEventListener('click', () => {
+    document.getElementById('advancedSettings').hidden = true;
+  });
+
+  // Fechar créditos
+  document.getElementById('closeCreditsBtn').addEventListener('click', () => {
+    document.getElementById('creditsPanel').hidden = true;
+  });
+
+  // Scroll para topo
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 200) {
+      scrollTopBtn.style.display = 'block';
+    } else {
+      scrollTopBtn.style.display = 'none';
+    }
+  });
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
