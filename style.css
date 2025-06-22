@@ -1,210 +1,239 @@
-/* === RESET === */
+/* Reset básico */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #121212;
   color: #eee;
-  padding: 20px;
+  line-height: 1.5;
   min-height: 100vh;
-  transition: background 0.3s, color 0.3s;
+  transition: background 0.3s ease, color 0.3s ease;
+  padding: 20px;
 }
+
 body.light-theme {
-  background: #f5f5f5;
+  background: #f0f0f3;
   color: #222;
 }
-button {
-  cursor: pointer;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-weight: bold;
-  background: #333;
-  color: #eee;
-  transition: background 0.3s, transform 0.1s;
-}
-button:hover:not(:disabled) {
-  background: #555;
-  transform: scale(1.03);
-}
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+
+/* Container central */
+#container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 15px;
 }
 
-/* === CABEÇALHO === */
-header {
+/* Títulos */
+h1 {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+  font-weight: 700;
   text-align: center;
+  letter-spacing: 1px;
+  color: #1e90ff;
+}
+
+h2 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #1e90ff;
+  padding-bottom: 6px;
+}
+
+/* Estatísticas */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px 20px;
+  background: #222;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 10px rgba(30,144,255,0.3);
+}
+
+body.light-theme .stats {
+  background: #e0e7f7;
+  color: #333;
+  box-shadow: 0 3px 15px rgba(30,144,255,0.2);
+}
+
+.stats div {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Botão principal de click */
+#clickBtn {
+  width: 100%;
+  padding: 18px 0;
+  font-size: 2.2rem;
+  background: linear-gradient(135deg, #1e90ff 0%, #0a63cc 100%);
+  border: none;
+  border-radius: 16px;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(30,144,255,0.6);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 30px;
+  user-select: none;
+}
+
+#clickBtn:hover,
+#clickBtn:focus {
+  background: linear-gradient(135deg, #0a63cc 0%, #1e90ff 100%);
+  box-shadow: 0 8px 22px rgba(30,144,255,0.8);
+  outline: none;
+}
+
+/* Layout flexível para seções */
+.flex-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
   margin-bottom: 30px;
 }
-header h1 {
-  font-size: 2.2rem;
-}
-.subtitle {
-  font-size: 1rem;
-  color: #999;
-  margin: 8px 0;
-}
-#clickBtn {
-  font-size: 1.4rem;
-  padding: 20px 40px;
-  background: #0a84ff;
-  border-radius: 12px;
-  margin-top: 20px;
-  color: white;
+
+/* Caixas de conteúdo */
+.box {
+  background: #222;
+  border-radius: 14px;
+  padding: 20px;
+  flex: 1 1 280px;
+  min-width: 280px;
+  max-width: 100%;
+  box-shadow: 0 4px 15px rgba(30,144,255,0.3);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* === SEÇÕES === */
-section {
-  background: #1e1e1e;
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 20px;
-  box-shadow: 0 0 10px #000;
-}
-body.light-theme section {
-  background: #fff;
-  box-shadow: 0 0 10px #ccc;
-}
-h2 {
-  margin-bottom: 10px;
-  font-size: 1.2rem;
-  border-bottom: 1px solid #444;
-  padding-bottom: 5px;
-}
-.stats div {
-  margin: 6px 0;
-  font-size: 1.05rem;
+body.light-theme .box {
+  background: #f5f8ff;
+  color: #222;
+  box-shadow: 0 4px 15px rgba(30,144,255,0.15);
 }
 
-/* === UPGRADE LIST === */
-#upgradesList .upgrade-row,
-#shopItemsList .shop-item,
-.pet-card,
-.world-card,
-.mission-item,
-.achievement-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #2a2a2a;
-  padding: 10px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-}
-body.light-theme .upgrade-row,
-body.light-theme .shop-item,
-body.light-theme .pet-card,
-body.light-theme .world-card,
-body.light-theme .mission-item,
-body.light-theme .achievement-item {
-  background: #f0f0f0;
-}
-
-#upgradesList button,
-#shopItemsList button,
-.pet-btn {
-  min-width: 100px;
-}
-
-/* === PETS === */
-.pet-card {
-  flex-direction: column;
-  align-items: flex-start;
-  cursor: pointer;
-}
-.pet-card.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-.pet-card.active {
-  border: 2px solid #0a84ff;
-}
-.pet-emoji {
-  font-size: 2rem;
-}
-.pet-name {
-  font-weight: bold;
-}
-.pet-bonus,
-.pet-price {
-  font-size: 0.9rem;
-  color: #aaa;
-}
-
-/* === MUNDOS === */
-.world-card {
-  text-align: center;
-  cursor: pointer;
-}
-.world-card.disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-.world-card.active {
-  background: #0a84ff;
-  font-weight: bold;
-  color: white;
-}
-
-/* === REBIRTH === */
-.rebirth-section .btn {
-  width: 100%;
-  margin-top: 10px;
-}
-
-/* === RANKING === */
-.ranking input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 8px;
-  border-radius: 6px;
+/* Botões internos */
+.box button {
+  background: #1e90ff;
   border: none;
-}
-#rankingList {
-  margin-top: 10px;
-  font-size: 0.95rem;
-}
-#rankingList div {
-  margin-bottom: 6px;
-  background: #333;
-  padding: 6px 10px;
-  border-radius: 6px;
-}
-body.light-theme #rankingList div {
-  background: #ddd;
-}
-
-/* === QUANTIDADE DE COMPRA === */
-.buy-amounts {
-  text-align: center;
-  margin-bottom: 15px;
-}
-.buy-amounts button {
-  margin: 5px;
-}
-.buy-amounts .active {
-  background: #0a84ff;
   color: white;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: background 0.25s ease;
+  font-size: 0.9rem;
+  user-select: none;
 }
 
-/* === TEMA === */
+.box button:disabled,
+.box button[disabled] {
+  background: #555 !important;
+  cursor: not-allowed;
+  color: #ccc;
+}
+
+.box button:hover:not(:disabled),
+.box button:focus:not(:disabled) {
+  background: #0c65d0;
+  outline: none;
+}
+
+/* List items simples dentro das caixas */
+.box div {
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+/* Input do nome para ranking */
+#playerNameInput {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 2px solid #1e90ff;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  transition: border-color 0.3s ease;
+}
+
+#playerNameInput:focus {
+  outline: none;
+  border-color: #0c65d0;
+}
+
+/* Ranking List */
+#rankingList {
+  max-height: 220px;
+  overflow-y: auto;
+  background: #111;
+  padding: 12px 15px;
+  border-radius: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+  color: #a1cfff;
+  box-shadow: inset 0 0 8px #0a3e87;
+}
+
+body.light-theme #rankingList {
+  background: #dbe6ff;
+  color: #0a3e87;
+  box-shadow: inset 0 0 8px #5a85e0;
+}
+
+/* Tema toggle botão fixo no topo direito */
 #toggleTheme {
   position: fixed;
-  top: 15px;
-  right: 15px;
-  font-size: 1.5rem;
+  top: 20px;
+  right: 20px;
   background: transparent;
-  color: #0a84ff;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #1e90ff;
+  transition: color 0.3s ease;
+  user-select: none;
+  z-index: 9999;
 }
 
-/* === FOOTER === */
-footer {
-  text-align: center;
-  font-size: 0.85rem;
-  margin-top: 40px;
-  color: #999;
+#toggleTheme:hover {
+  color: #0c65d0;
+}
+
+/* Scrollbar customizada para ranking (Chrome/Edge/Firefox) */
+#rankingList::-webkit-scrollbar {
+  width: 8px;
+}
+#rankingList::-webkit-scrollbar-track {
+  background: transparent;
+}
+#rankingList::-webkit-scrollbar-thumb {
+  background-color: #1e90ff;
+  border-radius: 4px;
+}
+#rankingList {
+  scrollbar-width: thin;
+  scrollbar-color: #1e90ff transparent;
+}
+
+/* Responsividade */
+@media (max-width: 720px) {
+  .flex-row {
+    flex-direction: column;
+  }
+
+  #clickBtn {
+    font-size: 1.8rem;
+    padding: 14px 0;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
 }
