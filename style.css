@@ -1,1306 +1,1080 @@
-/* =============================== */
-/*   Clicker Simulator CSS Lendário   */
-/*       Parte 1 de 3 (700 linhas)     */
-/* =============================== */
+/* Parte 1/2 - CSS Supremo Clicker Simulator */
 
-/* --- Reset e Normalização --- */
+/* RESET e BASE */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', Arial, sans-serif;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
-  height: 100%;
-  background-color: var(--bg);
-  color: var(--text-primary);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
+html {
   font-size: 16px;
-  line-height: 1.4;
-  overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  scroll-behavior: smooth;
+  background-color: #121212;
+  color: #e0e0e0;
 }
 
-/* --- Variáveis CSS --- */
-:root {
-  --bg: #121212;
-  --bg-alt: #1e1e1e;
-  --text-primary: #eee;
-  --text-secondary: #aaa;
-  --primary: #ff9800;
-  --primary-dark: #e65100;
-  --secondary: #757575;
-  --accent: #fbc02d;
-  --error: #d32f2f;
-  --success: #388e3c;
-  --border-radius: 8px;
-  --transition: 0.3s ease;
-  --shadow: 0 4px 8px rgba(0,0,0,0.3);
-  --button-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  --font-family: 'Roboto', Arial, sans-serif;
-  --font-weight-normal: 400;
-  --font-weight-bold: 700;
-}
-
-/* Tema Claro */
-body.light-theme {
-  --bg: #fefefe;
-  --bg-alt: #ededed;
-  --text-primary: #212121;
-  --text-secondary: #555;
-  --primary: #ff6f00;
-  --primary-dark: #bf360c;
-  --secondary: #999;
-  --accent: #ffca28;
-  --shadow: 0 4px 10px rgba(0,0,0,0.1);
-  --button-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-
-/* --- Scrollbars personalizados --- */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-alt);
-  border-radius: var(--border-radius);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: var(--border-radius);
-  border: 2px solid var(--bg-alt);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-dark);
-}
-
-/* --- Layout Container --- */
-#container {
-  max-width: 1280px;
-  margin: 1.5rem auto 3rem auto;
-  padding: 1rem 1.5rem 2rem 1.5rem;
-  background-color: var(--bg-alt);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
+body {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  user-select: none;
+  align-items: center;
+  padding: 20px;
 }
 
-/* --- Cabeçalho --- */
+/* CONTÊINER PRINCIPAL */
+#container {
+  background-color: rgba(30, 30, 30, 0.9);
+  max-width: 1280px;
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 0 40px rgba(0, 255, 150, 0.2);
+  padding: 30px 40px;
+  margin-bottom: 40px;
+}
+
+/* TÍTULO PRINCIPAL */
 h1 {
-  font-size: 3rem;
-  font-weight: var(--font-weight-bold);
-  color: var(--primary);
+  font-size: 3.2rem;
   text-align: center;
-  text-shadow: 0 0 8px var(--accent);
+  font-weight: 900;
+  margin-bottom: 25px;
   letter-spacing: 2px;
-  user-select: text;
-  margin-bottom: 1rem;
-  transition: color 0.4s ease;
+  color: #00ff99;
+  text-shadow:
+    0 0 5px #00ff99,
+    0 0 15px #00ff99,
+    0 0 30px #00ff99;
 }
 
-body.light-theme h1 {
-  color: var(--primary-dark);
-  text-shadow: 0 0 6px var(--accent);
-}
-
-/* --- Estatísticas do jogador --- */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1.25rem;
-  background: var(--bg);
-  border-radius: var(--border-radius);
-  padding: 1.25rem 1.5rem;
-  box-shadow: inset 0 0 8px rgba(0,0,0,0.4);
-  color: var(--text-primary);
-  font-weight: var(--font-weight-bold);
+/* BOTOES GERAIS */
+button {
+  cursor: pointer;
+  background: linear-gradient(45deg, #00ff99, #006644);
+  border: none;
+  border-radius: 12px;
+  color: #0f2027;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 12px 28px;
+  box-shadow:
+    0 4px 8px rgba(0, 255, 153, 0.5),
+    inset 0 -3px 8px rgba(0, 120, 68, 0.6);
+  transition: all 0.3s ease;
   user-select: none;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
-.stats > div {
-  font-size: 1.25rem;
-  text-align: center;
-  border-radius: var(--border-radius);
-  padding: 0.5rem 1rem;
-  background: linear-gradient(45deg, var(--primary), var(--accent));
-  box-shadow: 0 2px 6px var(--button-shadow);
-  transition: background 0.3s ease;
-  cursor: default;
-  user-select: none;
+button:hover,
+button:focus {
+  background: linear-gradient(45deg, #00ffcc, #009955);
+  box-shadow:
+    0 6px 14px rgba(0, 255, 204, 0.8),
+    inset 0 -3px 10px rgba(0, 153, 85, 0.8);
+  outline: none;
+  color: #e0e0e0;
 }
 
-body.light-theme .stats > div {
-  background: linear-gradient(45deg, var(--primary-dark), var(--primary));
-  color: var(--text-primary);
-}
-
-/* --- Botão principal de click --- */
+/* BOTÃO DE CLIQUE PRINCIPAL */
 #clickBtn {
   display: block;
-  width: 100%;
-  padding: 1.5rem 0;
+  margin: 30px auto;
+  width: 260px;
+  height: 80px;
   font-size: 2rem;
-  font-weight: var(--font-weight-bold);
-  color: var(--bg);
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  border: none;
-  border-radius: var(--border-radius);
-  box-shadow: var(--button-shadow);
-  cursor: pointer;
+  font-weight: 900;
+  background: linear-gradient(135deg, #22ff77, #11aa55);
+  box-shadow:
+    0 0 20px #00ff99,
+    0 5px 10px rgba(0, 255, 153, 0.6);
+  border-radius: 50px;
+  text-shadow: 0 0 6px #00ff99;
   user-select: none;
-  transition: background 0.3s ease, transform 0.1s ease;
-  text-align: center;
-  text-shadow: 0 0 3px rgba(0,0,0,0.25);
-  margin-bottom: 1rem;
-}
-
-#clickBtn:hover,
-#clickBtn:focus {
-  background: linear-gradient(135deg, var(--accent), var(--primary));
-  outline: none;
-  transform: scale(1.05);
-  box-shadow: 0 6px 15px var(--accent);
+  transition: background 0.2s ease-in-out;
 }
 
 #clickBtn:active {
+  background: linear-gradient(135deg, #11aa55, #007733);
+  box-shadow: inset 0 0 10px #004422;
   transform: scale(0.95);
-  box-shadow: 0 2px 8px var(--primary-dark);
 }
 
-/* --- Botão tema claro/escuro --- */
+/* BOTÃO DE TOGGLE TEMA */
 #toggleTheme {
   position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background: var(--bg-alt);
-  color: var(--primary);
-  border: none;
+  top: 20px;
+  right: 20px;
+  font-size: 1.8rem;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  padding: 0.5rem 0.6rem;
-  cursor: pointer;
-  font-size: 1.5rem;
-  box-shadow: var(--button-shadow);
-  transition: background 0.3s ease, color 0.3s ease;
-  user-select: none;
+  background: #222;
+  color: #00ff99;
+  border: 2px solid #00ff99;
+  box-shadow:
+    0 0 8px #00ff99;
+  transition: background 0.3s ease;
   z-index: 1000;
 }
 
-#toggleTheme:hover,
-#toggleTheme:focus {
-  background: var(--primary);
-  color: var(--bg);
-  outline: none;
-  box-shadow: 0 0 12px var(--primary);
+#toggleTheme:hover {
+  background: #00ff99;
+  color: #121212;
+  box-shadow:
+    0 0 12px #00ffcc,
+    0 0 20px #00ffcc;
 }
 
-/* --- Layout flexível para as caixas --- */
+/* ESTILO DE ESTATÍSTICAS */
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-bottom: 25px;
+}
+
+.stats > div {
+  background: rgba(0, 255, 153, 0.15);
+  padding: 14px 20px;
+  margin: 8px 12px;
+  border-radius: 14px;
+  min-width: 180px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  box-shadow:
+    0 0 10px rgba(0, 255, 153, 0.3);
+  user-select: none;
+}
+
+/* FLEX CONTAINERS */
 .flex-row {
   display: flex;
-  gap: 1rem;
+  justify-content: space-between;
+  margin: 25px 0;
+  gap: 25px;
   flex-wrap: wrap;
-  justify-content: center;
-  user-select: none;
 }
 
-/* --- Caixas principais: upgrades, loja, pets, missões, conquistas, ranking --- */
+/* CAIXAS PRINCIPAIS */
 .box {
-  background: var(--bg);
-  border-radius: var(--border-radius);
-  padding: 1rem 1.25rem;
-  box-shadow: var(--shadow);
-  min-width: 280px;
-  flex: 1 1 300px;
-  max-width: 350px;
-  color: var(--text-primary);
-  display: flex;
-  flex-direction: column;
-  user-select: none;
-  transition: box-shadow 0.3s ease;
-}
-
-.box:hover,
-.box:focus-within {
-  box-shadow: 0 0 15px var(--primary);
-  outline: none;
-}
-
-/* --- Títulos das caixas --- */
-.box h2 {
-  font-weight: var(--font-weight-bold);
-  color: var(--accent);
-  margin-bottom: 0.8rem;
-  user-select: text;
-  text-align: center;
-  letter-spacing: 1px;
-  text-shadow: 0 0 3px var(--primary);
-}
-
-/* --- Inputs e botões dentro das caixas --- */
-.box input[type="text"],
-.box button,
-.box input[type="number"] {
-  width: 100%;
-  padding: 0.5rem 1rem;
-  margin-bottom: 0.7rem;
-  border: none;
-  border-radius: var(--border-radius);
-  font-size: 1rem;
-  font-weight: var(--font-weight-normal);
-  background: var(--bg-alt);
-  color: var(--text-primary);
-  box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
-  transition: background 0.3s ease, color 0.3s ease;
-  user-select: text;
-}
-
-.box input[type="text"]:focus,
-.box button:focus,
-.box input[type="number"]:focus {
-  outline: 2px solid var(--primary);
-  background: var(--bg);
-  color: var(--accent);
-}
-
-/* --- Botões dentro das caixas --- */
-.box button {
-  background: var(--primary);
-  color: var(--bg);
-  cursor: pointer;
-  font-weight: var(--font-weight-bold);
-  box-shadow: var(--button-shadow);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  user-select: none;
-}
-
-.box button:hover,
-.box button:focus {
-  background: var(--accent);
-  color: var(--bg-alt);
-  box-shadow: 0 4px 15px var(--accent);
-  outline: none;
-}
-
-/* --- Listas dentro das caixas (ex: ranking, upgrades, pets) --- */
-.box > div,
-.box > ul {
+  background: rgba(40, 40, 40, 0.85);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow:
+    0 0 25px rgba(0, 255, 153, 0.15);
+  flex: 1 1 30%;
+  min-width: 320px;
+  max-height: 700px;
   overflow-y: auto;
-  max-height: 280px;
-  padding-right: 0.5rem;
+  scroll-behavior: smooth;
   user-select: none;
-  font-size: 0.95rem;
 }
 
-.box > div::-webkit-scrollbar,
-.box > ul::-webkit-scrollbar {
-  width: 7px;
+/* TÍTULOS DAS CAIXAS */
+.box h2 {
+  font-weight: 900;
+  color: #00ffcc;
+  font-size: 1.8rem;
+  margin-bottom: 18px;
+  text-shadow: 0 0 5px #00ffcc;
+  user-select: none;
 }
 
-.box > div::-webkit-scrollbar-thumb,
-.box > ul::-webkit-scrollbar-thumb {
-  background: var(--primary);
+/* LISTAS DENTRO DAS CAIXAS */
+.box ul, .box ol {
+  list-style: none;
+  max-height: 580px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.box ul li, .box ol li {
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  background: rgba(0, 255, 153, 0.1);
+  border-radius: 12px;
+  box-shadow:
+    0 0 6px rgba(0, 255, 153, 0.15);
+  font-weight: 600;
+  user-select: none;
+  transition: background 0.3s ease;
+}
+
+.box ul li:hover, .box ol li:hover {
+  background: rgba(0, 255, 153, 0.3);
+  cursor: pointer;
+}
+
+/* INPUTS E TEXTAREAS */
+input[type="text"], input[type="email"], textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: none;
+  font-size: 1.1rem;
+  background: #222;
+  color: #00ffcc;
+  box-shadow: inset 0 0 8px #00ffcc;
+  margin-bottom: 16px;
+  user-select: text;
+  transition: background 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+  background: #333;
+  outline: none;
+  box-shadow: 0 0 12px #00ffcc;
+}
+
+/* PROGRESS BARS PERSONALIZADOS */
+progress {
+  width: 100%;
+  height: 16px;
+  appearance: none;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #111;
+  box-shadow: inset 0 0 6px rgba(0, 255, 153, 0.6);
+  margin-top: 8px;
+  user-select: none;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #111;
   border-radius: 10px;
 }
 
-.box > div > div,
-.box > ul > li {
-  padding: 0.5rem 0.7rem;
-  border-bottom: 1px solid var(--bg-alt);
-  cursor: pointer;
-  user-select: none;
-  transition: background 0.2s ease;
+progress::-webkit-progress-value {
+  background: linear-gradient(90deg, #00ff99, #00cc66);
+  border-radius: 10px;
+  box-shadow: 0 0 8px #00ff99;
 }
 
-.box > div > div:hover,
-.box > ul > li:hover {
-  background: var(--primary-dark);
-  color: var(--accent);
-  font-weight: var(--font-weight-bold);
-}
-
-/* --- Flex para botões de modal --- */
-#modalOpeners {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 1.2rem;
-  user-select: none;
-}
-
-.open-modal-btn {
-  background: var(--primary);
-  color: var(--bg);
-  border: none;
-  padding: 0.5rem 1rem;
-  font-weight: var(--font-weight-bold);
-  border-radius: var(--border-radius);
-  box-shadow: var(--button-shadow);
-  cursor: pointer;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  user-select: none;
-}
-
-.open-modal-btn:hover,
-.open-modal-btn:focus {
-  background: var(--accent);
-  color: var(--bg-alt);
-  outline: none;
-  box-shadow: 0 0 18px var(--accent);
-}
-
-/* --- Modais gerais --- */
-.modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.8);
-  background: var(--bg-alt);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  padding: 2rem 2.5rem;
-  width: 90%;
-  max-width: 480px;
-  max-height: 90vh;
-  overflow-y: auto;
-  z-index: 1500;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.3s ease;
-  user-select: none;
-}
-
-.modal.active {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.modal-content {
-  position: relative;
-  user-select: none;
-}
-
-.modal-close {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  background: transparent;
-  border: none;
-  font-size: 2rem;
-  color: var(--accent);
-  cursor: pointer;
-  user-select: none;
-  transition: color 0.3s ease;
-}
-
-.modal-close:hover,
-.modal-close:focus {
-  color: var(--primary);
-  outline: none;
-}
-
-/* --- Inputs e botões em modais --- */
-.modal button,
-.modal input[type="text"],
-.modal input[type="number"] {
+/* TABELAS */
+table {
   width: 100%;
-  padding: 0.6rem 1rem;
-  margin: 0.5rem 0 1rem 0;
-  font-size: 1rem;
-  border-radius: var(--border-radius);
-  border: none;
-  background: var(--bg);
-  color: var(--text-primary);
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
-  transition: background 0.3s ease, color 0.3s ease;
-  user-select: text;
-}
-
-.modal button {
-  background: var(--primary);
-  color: var(--bg);
-  font-weight: var(--font-weight-bold);
-  cursor: pointer;
-  box-shadow: var(--button-shadow);
+  border-collapse: collapse;
+  font-size: 1.1rem;
   user-select: none;
+  margin-bottom: 20px;
 }
 
-.modal button:hover,
-.modal button:focus {
-  background: var(--accent);
-  color: var(--bg-alt);
-  outline: none;
-  box-shadow: 0 0 20px var(--accent);
+table thead tr {
+  background: linear-gradient(90deg, #00ffcc, #009944);
+  color: #121212;
+  font-weight: 900;
 }
 
-/* --- Barras e progressos --- */
-#xpBar {
-  background: var(--bg);
-  border-radius: var(--border-radius);
-  height: 18px;
-  margin-top: 6px;
-  box-shadow: inset 0 0 8px rgba(0,0,0,0.4);
-  overflow: hidden;
-}
-
-#xpProgressFill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  transition: width 0.4s ease;
-  border-radius: var(--border-radius);
-  user-select: none;
-}
-
-/* --- Notificações --- */
-#notificationArea {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 380px;
-  width: 90vw;
-  pointer-events: none;
-  user-select: none;
-  z-index: 2000;
-  font-weight: var(--font-weight-bold);
-  color: var(--bg);
-  text-shadow: 0 0 8px var(--primary);
+table th, table td {
+  padding: 14px 18px;
+  border: 1px solid #006633;
   text-align: center;
 }
 
-/* --- Animações para notificações --- */
-@keyframes slideInUp {
-  0% {
-    transform: translateY(30px);
-    opacity: 0;
+table tbody tr:nth-child(even) {
+  background: rgba(0, 255, 153, 0.1);
+}
+
+table tbody tr:hover {
+  background: rgba(0, 255, 153, 0.3);
+  cursor: pointer;
+}
+
+/* ACHIEVEMENTS STYLE */
+.achievement {
+  display: inline-block;
+  margin: 8px;
+  padding: 10px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #00ffcc, #006633);
+  box-shadow:
+    0 0 15px #00ffcc;
+  color: #121212;
+  width: 120px;
+  text-align: center;
+  font-weight: 900;
+  user-select: none;
+  cursor: default;
+  transition: transform 0.3s ease;
+}
+
+.achievement.locked {
+  filter: grayscale(100%);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.achievement img {
+  max-width: 64px;
+  margin-bottom: 8px;
+}
+
+.achievement:hover:not(.locked) {
+  transform: scale(1.1);
+  box-shadow:
+    0 0 30px #00ffcc;
+}
+
+/* NOTIFICAÇÕES */
+#notificationsList {
+  max-height: 180px;
+  overflow-y: auto;
+  background: rgba(0, 255, 153, 0.15);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: inset 0 0 15px rgba(0, 255, 153, 0.3);
+  user-select: none;
+}
+
+.notification {
+  background: linear-gradient(135deg, #00ffcc, #004422);
+  margin-bottom: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  box-shadow:
+    0 0 10px #00ffcc;
+  font-weight: 700;
+  color: #121212;
+  user-select: none;
+  transition: transform 0.2s ease;
+}
+
+.notification:hover {
+  transform: scale(1.05);
+}
+
+/* FORMULÁRIOS */
+form {
+  max-width: 400px;
+  margin: 0 auto 30px;
+  user-select: none;
+}
+
+form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: #00ff99;
+}
+
+form input, form textarea {
+  margin-bottom: 20px;
+}
+
+form button {
+  width: 100%;
+  padding: 14px 0;
+  background: linear-gradient(45deg, #00ff99, #007733);
+  font-weight: 900;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  box-shadow: 0 0 20px #00ff99;
+}
+
+form button:hover {
+  background: linear-gradient(45deg, #00cc66, #005522);
+}
+
+/* RODAPÉ */
+footer {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #00ff99;
+  padding: 20px 10px;
+  user-select: none;
+  letter-spacing: 1.5px;
+}
+
+/* SCROLLBAR CUSTOMIZADA */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00ff99;
+  border-radius: 8px;
+  box-shadow: inset 0 0 6px #00cc66;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 1200px) {
+  #container {
+    padding: 25px 20px;
   }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
+
+  .box {
+    min-width: 100%;
+    max-height: 500px;
+  }
+
+  .flex-row {
+    flex-direction: column;
+    gap: 20px;
   }
 }
 
-/* --- Feedbacks visuais no click --- */
-#clickBtn:active {
-  animation: clickPress 0.1s ease forwards;
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2.4rem;
+  }
+
+  #clickBtn {
+    width: 100%;
+    height: 60px;
+    font-size: 1.6rem;
+  }
+
+  button {
+    padding: 10px 18px;
+    font-size: 1rem;
+  }
+
+  .stats > div {
+    min-width: 140px;
+    font-size: 1rem;
+  }
 }
 
-@keyframes clickPress {
-  0% {
-    transform: scale(1);
-    box-shadow: var(--button-shadow);
+/* ANIMAÇÕES SIMPLES */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 10px #00ff99,
+      0 0 30px #00ff99;
   }
   50% {
-    transform: scale(0.9);
-    box-shadow: 0 0 25px var(--accent);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: var(--button-shadow);
+    box-shadow:
+      0 0 20px #00ffcc,
+      0 0 50px #00ffcc;
   }
 }
 
-/* --- Responsividade base --- */
-@media (max-width: 980px) {
+#clickBtn {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* BOTOES SECUNDÁRIOS */
+button.secondary {
+  background: linear-gradient(45deg, #005522, #003311);
+  color: #00ff99;
+  box-shadow: 0 0 12px #004422;
+  font-weight: 700;
+}
+
+button.secondary:hover {
+  background: linear-gradient(45deg, #007733, #005522);
+  box-shadow: 0 0 18px #00cc66;
+}
+
+/* BOX SHADOWS VARIADOS */
+.shadow-glow {
+  box-shadow: 0 0 20px #00ff99;
+}
+
+.shadow-glow-soft {
+  box-shadow: 0 0 10px #00ff99;
+}
+
+/* AVISO DE ERRO */
+.error-message {
+  color: #ff4444;
+  font-weight: 700;
+  margin-top: 10px;
+  user-select: none;
+}
+
+/* LOADING SPINNER */
+.loading-spinner {
+  border: 5px solid rgba(0,255,153,0.2);
+  border-top: 5px solid #00ff99;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 15px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Parte 2/2 - CSS Supremo Clicker Simulator */
+
+/* TEMA LIGHT MODE */
+body.light-theme {
+  background: linear-gradient(135deg, #e0f7fa, #b2ebf2, #80deea);
+  color: #121212;
+}
+
+body.light-theme #container {
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 40px rgba(0, 150, 255, 0.2);
+}
+
+body.light-theme h1 {
+  color: #0077cc;
+  text-shadow: 0 0 5px #0099ff;
+}
+
+body.light-theme button {
+  background: linear-gradient(45deg, #0099ff, #0055aa);
+  color: #f0f0f0;
+  box-shadow: 0 4px 8px rgba(0, 153, 255, 0.5), inset 0 -3px 8px rgba(0, 85, 170, 0.6);
+}
+
+body.light-theme button:hover,
+body.light-theme button:focus {
+  background: linear-gradient(45deg, #00ccff, #0077cc);
+  box-shadow: 0 6px 14px rgba(0, 204, 255, 0.8), inset 0 -3px 10px rgba(0, 119, 204, 0.8);
+  color: #ffffff;
+}
+
+body.light-theme #clickBtn {
+  background: linear-gradient(135deg, #00aaff, #0077cc);
+  box-shadow: 0 0 20px #0099ff, 0 5px 10px rgba(0, 153, 255, 0.6);
+  color: #e0e0e0;
+  text-shadow: 0 0 6px #0099ff;
+}
+
+body.light-theme #clickBtn:active {
+  background: linear-gradient(135deg, #0077cc, #004477);
+  box-shadow: inset 0 0 10px #003355;
+}
+
+/* SCROLLBAR LIGHT THEME */
+body.light-theme ::-webkit-scrollbar-thumb {
+  background: #0099ff;
+  box-shadow: inset 0 0 6px #0077cc;
+}
+
+/* CAIXAS LIGHT */
+body.light-theme .box {
+  background: rgba(240, 248, 255, 0.95);
+  color: #121212;
+  box-shadow: 0 0 25px rgba(0, 119, 204, 0.15);
+}
+
+/* LINKS E ITENS LIGHT */
+body.light-theme .box ul li,
+body.light-theme .box ol li {
+  background: rgba(0, 119, 204, 0.1);
+  color: #004477;
+}
+
+body.light-theme .box ul li:hover,
+body.light-theme .box ol li:hover {
+  background: rgba(0, 153, 255, 0.25);
+}
+
+/* FORM LIGHT */
+body.light-theme input[type="text"],
+body.light-theme input[type="email"],
+body.light-theme textarea {
+  background: #f0f8ff;
+  color: #004477;
+  box-shadow: inset 0 0 8px #0099ff;
+}
+
+body.light-theme input[type="text"]:focus,
+body.light-theme input[type="email"]:focus,
+body.light-theme textarea:focus {
+  background: #e6f2ff;
+  box-shadow: 0 0 12px #0077cc;
+}
+
+/* PROGRESS LIGHT */
+body.light-theme progress::-webkit-progress-value {
+  background: linear-gradient(90deg, #0099ff, #0055aa);
+  box-shadow: 0 0 8px #0099ff;
+}
+
+/* ACHIEVEMENTS LIGHT */
+body.light-theme .achievement {
+  background: linear-gradient(135deg, #0077cc, #004477);
+  color: #e0e0e0;
+  box-shadow: 0 0 15px #0077cc;
+}
+
+/* NOTIF LIGHT */
+body.light-theme .notification {
+  background: linear-gradient(135deg, #0077cc, #004477);
+  color: #e0e0e0;
+  box-shadow: 0 0 10px #0077cc;
+}
+
+/* FOOTER LIGHT */
+body.light-theme footer {
+  color: #0077cc;
+}
+
+/* FLEXBOX ADICIONAL PARA RESPONSIVIDADE */
+@media (max-width: 1400px) {
   #container {
-    margin: 1rem 1rem 2rem 1rem;
-    padding: 1rem 1rem 1.5rem 1rem;
+    padding: 20px 30px;
   }
   .box {
-    max-width: 100%;
+    min-width: 280px;
+    max-height: 550px;
   }
-  .stats {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  .stats > div {
+    min-width: 160px;
+    font-size: 1.05rem;
   }
 }
 
-/* --- Tooltips --- */
+@media (max-width: 900px) {
+  #container {
+    padding: 15px 20px;
+  }
+  .box {
+    min-width: 100%;
+    max-height: 450px;
+  }
+  .flex-row {
+    flex-direction: column;
+  }
+  .stats {
+    justify-content: center;
+  }
+}
+
+/* ANIMAÇÕES AVANÇADAS */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px #00ff99, 0 0 30px #00ff99;
+  }
+  50% {
+    box-shadow: 0 0 20px #00ffcc, 0 0 50px #00ffcc;
+  }
+}
+
+#clickBtn.glow {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.error-message.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* TOOLTIP SIMPLES */
 .tooltip {
   position: relative;
   display: inline-block;
   cursor: help;
-  user-select: none;
+  border-bottom: 1px dotted #00ff99;
 }
 
-.tooltip .tooltiptext {
+.tooltip .tooltip-text {
   visibility: hidden;
-  width: 180px;
-  background-color: var(--primary-dark);
-  color: var(--bg);
+  width: 220px;
+  background-color: #00cc66;
+  color: #121212;
   text-align: center;
-  border-radius: var(--border-radius);
-  padding: 0.6rem;
+  border-radius: 8px;
+  padding: 8px 12px;
   position: absolute;
-  z-index: 3000;
+  z-index: 1001;
   bottom: 125%;
   left: 50%;
-  margin-left: -90px;
+  margin-left: -110px;
   opacity: 0;
-  transition: opacity 0.3s ease;
-  font-size: 0.9rem;
-  box-shadow: 0 0 10px var(--primary);
-  pointer-events: none;
+  transition: opacity 0.3s;
+  font-weight: 700;
   user-select: none;
+  box-shadow: 0 0 12px #00ff99;
 }
 
-.tooltip:hover .tooltiptext,
-.tooltip:focus-within .tooltiptext {
+.tooltip:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
 }
 
-/* --- Partículas na tela --- */
-#particleContainer {
+/* MODAIS */
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-  user-select: none;
+  background: rgba(0, 0, 0, 0.75);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1200;
 }
 
-/* --- Animação partículas --- */
-.particle {
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal {
+  background: rgba(0, 255, 153, 0.95);
+  border-radius: 24px;
+  padding: 32px 40px;
+  box-shadow: 0 0 60px #00ff99;
+  max-width: 650px;
+  width: 90%;
+  color: #121212;
+  user-select: none;
+  position: relative;
+}
+
+.modal h3 {
+  font-size: 2rem;
+  margin-bottom: 18px;
+  font-weight: 900;
+  color: #006633;
+  text-align: center;
+}
+
+.modal button.close-btn {
   position: absolute;
-  border-radius: 50%;
-  opacity: 0.8;
-  pointer-events: none;
-  user-select: none;
-  animation-name: floatUp;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-
-@keyframes floatUp {
-  0% {
-    transform: translateY(100%);
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 0.3;
-  }
-  100% {
-    transform: translateY(-120%);
-    opacity: 0;
-  }
-}
-
-/* --- Animações para botões e inputs --- */
-button,
-input,
-select,
-textarea {
-  transition: all 0.25s ease;
-  user-select: none;
-  outline-offset: 2px;
-}
-
-/* --- Estilo para inputs desabilitados --- */
-input:disabled,
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-  user-select: none;
-}
-
-/* --- Layout para painel lateral fixo (se precisar) --- */
-#sidePanel {
-  position: fixed;
-  right: 0;
-  top: 60px;
-  width: 320px;
-  height: calc(100vh - 60px);
-  background: var(--bg-alt);
-  box-shadow: -4px 0 15px rgba(0,0,0,0.3);
-  padding: 1rem 1.5rem;
-  overflow-y: auto;
-  border-top-left-radius: var(--border-radius);
-  border-bottom-left-radius: var(--border-radius);
-  user-select: none;
-  z-index: 100;
-}
-
-/* --- Tooltip para botoes laterais --- */
-#sidePanel button {
-  margin-bottom: 0.75rem;
-}
-
-/* --- Rodapé --- */
-footer {
-  text-align: center;
-  padding: 1rem 1rem 1.8rem 1rem;
-  color: var(--secondary);
-  font-size: 0.85rem;
-  user-select: none;
-}
-
-/* --- Botões circulares adicionais --- */
-.btn-circle {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: none;
-  background: var(--primary);
-  color: var(--bg);
-  font-weight: var(--font-weight-bold);
-  font-size: 1.5rem;
-  box-shadow: var(--button-shadow);
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  user-select: none;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-}
-
-.btn-circle:hover,
-.btn-circle:focus {
-  background: var(--accent);
-  color: var(--bg-alt);
-  box-shadow: 0 0 18px var(--accent);
-  outline: none;
-}
-
-/* --- Inputs numericos customizados --- */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* --- Barras de progresso customizadas --- */
-progress {
-  appearance: none;
-  width: 100%;
-  height: 18px;
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  user-select: none;
-}
-
-progress::-webkit-progress-bar {
-  background-color: var(--bg);
-}
-
-progress::-webkit-progress-value {
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-}
-
-/* --- Responsividade extra para celulares --- */
-@media (max-width: 480px) {
-  h1 {
-    font-size: 2.25rem;
-  }
-  #clickBtn {
-    font-size: 1.6rem;
-    padding: 1.1rem 0;
-  }
-  .box {
-    min-width: 100%;
-    max-width: 100%;
-  }
-  .stats {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  }
-  #toggleTheme {
-    font-size: 1.3rem;
-    padding: 0.4rem 0.5rem;
-  }
-}
-
-/* =============================== */
-/*   Fim da parte 1                */
-/* =============================== */
-
-/* =============================== */
-/* Clicker Simulator CSS Lendário   */
-/* Parte 2 de 3 (~700 linhas)       */
-/* =============================== */
-
-/* --- Lista de Upgrades e Itens --- */
-.upgrade-item,
-.shop-item,
-.pet-item,
-.mission-item,
-.achievement-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--bg-alt);
-  margin-bottom: 0.7rem;
-  padding: 0.6rem 1rem;
-  border-radius: var(--border-radius);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  cursor: pointer;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  user-select: none;
-}
-
-.upgrade-item:hover,
-.shop-item:hover,
-.pet-item:hover,
-.mission-item:hover,
-.achievement-item:hover {
-  background: var(--primary);
-  color: var(--bg);
-  box-shadow: 0 6px 20px var(--accent);
-}
-
-.upgrade-item > div,
-.shop-item > div,
-.pet-item > div,
-.mission-item > div,
-.achievement-item > div {
-  flex: 1;
-  user-select: none;
-}
-
-/* --- Nome e descrição --- */
-.item-name {
-  font-weight: var(--font-weight-bold);
-  font-size: 1.1rem;
-  user-select: text;
-}
-
-.item-desc {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  margin-top: 0.15rem;
-  font-style: italic;
-  user-select: text;
-}
-
-/* --- Preço e quantidade --- */
-.item-price,
-.item-quantity {
-  font-weight: var(--font-weight-bold);
-  min-width: 70px;
-  text-align: right;
-  user-select: none;
-}
-
-/* --- Botões comprar/ativar --- */
-.buy-btn,
-.activate-btn {
-  background: var(--primary);
-  color: var(--bg);
-  border: none;
-  padding: 0.4rem 0.9rem;
-  border-radius: var(--border-radius);
-  font-weight: var(--font-weight-bold);
-  cursor: pointer;
-  box-shadow: var(--button-shadow);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  user-select: none;
-}
-
-.buy-btn:disabled,
-.activate-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.buy-btn:hover:not(:disabled),
-.activate-btn:hover:not(:disabled),
-.buy-btn:focus:not(:disabled),
-.activate-btn:focus:not(:disabled) {
-  background: var(--accent);
-  color: var(--bg-alt);
-  box-shadow: 0 0 18px var(--accent);
-  outline: none;
-}
-
-/* --- Pets ativos destacados --- */
-.pet-item.active {
-  border: 2px solid var(--accent);
-  box-shadow: 0 0 12px var(--accent);
-}
-
-/* --- Missões e conquistas completas --- */
-.mission-item.completed,
-.achievement-item.completed {
-  background: var(--success);
-  color: var(--bg);
-  text-decoration: line-through;
-  box-shadow: 0 0 10px var(--success);
-  cursor: default;
-}
-
-/* --- Seção de ranking --- */
-#rankingList > div {
-  padding: 0.5rem 0.8rem;
-  border-bottom: 1px solid var(--bg-alt);
-  font-weight: var(--font-weight-bold);
-  font-size: 1rem;
-  color: var(--text-primary);
-  user-select: none;
-  transition: background 0.2s ease;
-  cursor: default;
-}
-
-#rankingList > div:nth-child(odd) {
-  background: var(--bg);
-}
-
-#rankingList > div:hover {
-  background: var(--primary-dark);
-  color: var(--accent);
-}
-
-/* --- Input nome jogador e botão salvar score --- */
-#playerNameInput {
-  font-size: 1rem;
-  padding: 0.5rem 0.8rem;
-  border-radius: var(--border-radius);
-  border: none;
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
-  margin-bottom: 0.6rem;
-  color: var(--text-primary);
-  background: var(--bg-alt);
-  user-select: text;
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-#playerNameInput:focus {
-  outline: 2px solid var(--primary);
-  background: var(--bg);
-}
-
-/* --- Seção de animais de estimação (pets) --- */
-.pet-image {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  margin-right: 0.9rem;
-  object-fit: cover;
-  user-select: none;
-  flex-shrink: 0;
-  border: 2px solid var(--primary);
-  transition: border-color 0.3s ease;
-}
-
-.pet-item.active .pet-image {
-  border-color: var(--accent);
-}
-
-/* --- Layout para títulos e botões adicionais --- */
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  user-select: none;
-  margin-bottom: 1rem;
-}
-
-.section-header h2 {
-  font-weight: var(--font-weight-bold);
-  color: var(--accent);
-  font-size: 1.7rem;
-  text-shadow: 0 0 4px var(--primary);
-  user-select: text;
-}
-
-.section-header button {
-  font-size: 1rem;
-  padding: 0.4rem 1rem;
-  border-radius: var(--border-radius);
-  background: var(--primary);
-  color: var(--bg);
-  border: none;
-  cursor: pointer;
-  box-shadow: var(--button-shadow);
-  user-select: none;
-  transition: background 0.3s ease;
-}
-
-.section-header button:hover,
-.section-header button:focus {
-  background: var(--accent);
-  color: var(--bg-alt);
-  outline: none;
-  box-shadow: 0 0 15px var(--accent);
-}
-
-/* --- Layout para progresso de XP --- */
-#xpContainer {
-  margin-top: 0.6rem;
-}
-
-#xpText {
-  font-weight: var(--font-weight-bold);
-  font-size: 1.1rem;
-  text-align: center;
-  margin-bottom: 0.3rem;
-  user-select: none;
-  color: var(--text-primary);
-}
-
-/* --- Barra de XP com transição --- */
-#xpBar {
-  width: 100%;
-  height: 22px;
-  border-radius: var(--border-radius);
-  background: var(--bg);
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
-  overflow: hidden;
-  user-select: none;
-}
-
-#xpProgressFill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  transition: width 0.5s ease;
-  border-radius: var(--border-radius);
-}
-
-/* --- Sistema de barras para rebirths --- */
-#rebirthBar {
-  margin-top: 1rem;
-  background: var(--bg);
-  border-radius: var(--border-radius);
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
-  overflow: hidden;
-  user-select: none;
-  height: 18px;
-}
-
-#rebirthProgressFill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #ffb300, #ff6f00);
-  border-radius: var(--border-radius);
-  transition: width 0.5s ease;
-}
-
-/* --- Sistema para múltiplos mundos --- */
-#worldSelector {
-  margin-top: 1rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  user-select: none;
-}
-
-.world-btn {
-  background: var(--primary);
-  color: var(--bg);
-  border: none;
-  padding: 0.5rem 1.1rem;
-  border-radius: var(--border-radius);
-  font-weight: var(--font-weight-bold);
-  cursor: pointer;
-  box-shadow: var(--button-shadow);
-  transition: background 0.3s ease;
-  user-select: none;
-}
-
-.world-btn:hover,
-.world-btn:focus {
-  background: var(--accent);
-  color: var(--bg-alt);
-  outline: none;
-  box-shadow: 0 0 20px var(--accent);
-}
-
-/* --- Contadores de clicks e CPS --- */
-.counter-display {
-  font-weight: var(--font-weight-bold);
-  font-size: 1.5rem;
-  user-select: none;
-  color: var(--primary);
-  text-shadow: 0 0 6px var(--accent);
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-/* --- Mensagens de erro e sucesso --- */
-.message-error {
-  background-color: var(--error);
-  color: var(--bg);
-  padding: 0.6rem 1rem;
-  border-radius: var(--border-radius);
-  font-weight: var(--font-weight-bold);
-  user-select: none;
-  margin-bottom: 1rem;
-  text-align: center;
-  box-shadow: 0 0 8px var(--error);
-}
-
-.message-success {
-  background-color: var(--success);
-  color: var(--bg);
-  padding: 0.6rem 1rem;
-  border-radius: var(--border-radius);
-  font-weight: var(--font-weight-bold);
-  user-select: none;
-  margin-bottom: 1rem;
-  text-align: center;
-  box-shadow: 0 0 8px var(--success);
-}
-
-/* --- Modais adicionais de confirmação e ajuda --- */
-.help-text {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  margin-top: 0.7rem;
-  user-select: text;
-  line-height: 1.5;
-  user-select: none;
-}
-
-/* --- Botões para fechar modais --- */
-.modal-close-btn {
+  top: 16px;
+  right: 20px;
   background: transparent;
   border: none;
   font-size: 2rem;
-  color: var(--accent);
+  color: #006633;
+  cursor: pointer;
+  font-weight: 900;
+  transition: color 0.3s;
+}
+
+.modal button.close-btn:hover {
+  color: #004422;
+}
+
+/* LISTAS MODAIS */
+.modal ul {
+  max-height: 350px;
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-top: 10px;
+  list-style: none;
+}
+
+.modal ul li {
+  background: #00cc66;
+  margin-bottom: 12px;
+  padding: 14px 20px;
+  border-radius: 18px;
+  font-weight: 800;
+  color: #e0f2f1;
+  box-shadow: 0 0 20px #00cc66;
   cursor: pointer;
   user-select: none;
-  transition: color 0.3s ease;
-}
-
-.modal-close-btn:hover,
-.modal-close-btn:focus {
-  color: var(--primary);
-  outline: none;
-}
-
-/* --- Caixa de diálogo para confirmação --- */
-.confirm-dialog {
-  padding: 1rem;
-  user-select: none;
-}
-
-.confirm-dialog p {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  user-select: text;
-}
-
-/* --- Botões de confirmação --- */
-.confirm-dialog button {
-  margin-right: 1rem;
-  padding: 0.6rem 1.2rem;
-  border-radius: var(--border-radius);
-  border: none;
-  cursor: pointer;
-  font-weight: var(--font-weight-bold);
-  user-select: none;
-  box-shadow: var(--button-shadow);
   transition: background 0.3s ease;
 }
 
-.confirm-dialog button.confirm {
-  background: var(--success);
-  color: var(--bg);
+.modal ul li:hover {
+  background: #00ff99;
 }
 
-.confirm-dialog button.cancel {
-  background: var(--error);
-  color: var(--bg);
-}
-
-.confirm-dialog button.confirm:hover {
-  background: #2e7d32;
-}
-
-.confirm-dialog button.cancel:hover {
-  background: #b71c1c;
-}
-
-/* --- Barra de progresso animada para carregamento --- */
-.loading-bar {
-  width: 100%;
-  height: 14px;
-  background: var(--bg);
-  border-radius: var(--border-radius);
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
-  overflow: hidden;
-  margin-bottom: 1rem;
+/* LOADING FULLSCREEN */
+#loadingScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #121212dd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1300;
   user-select: none;
 }
 
-.loading-bar-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  border-radius: var(--border-radius);
-  transition: width 1.2s ease;
+#loadingSpinner {
+  border: 8px solid rgba(0, 255, 153, 0.2);
+  border-top: 8px solid #00ff99;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  animation: spin 1.2s linear infinite;
 }
 
-/* --- Sistema de notificações expansível --- */
-#notificationArea > div {
-  background: var(--primary);
-  color: var(--bg);
-  padding: 0.7rem 1rem;
-  margin-top: 0.5rem;
-  border-radius: var(--border-radius);
-  box-shadow: 0 0 12px var(--accent);
-  font-weight: var(--font-weight-bold);
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* BOTÕES DESABILITADOS */
+button:disabled,
+button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none !important;
+  background: #444 !important;
+  color: #999 !important;
+}
+
+/* PETS GRID */
+#pets ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(120px,1fr));
+  gap: 14px;
+}
+
+#pets ul li {
+  background: #003311;
+  border-radius: 16px;
+  padding: 12px;
+  text-align: center;
+  color: #00ff99;
+  font-weight: 800;
+  box-shadow: 0 0 12px #00cc66;
+  cursor: pointer;
+  transition: transform 0.3s ease;
   user-select: none;
-  animation: slideInUp 0.3s ease forwards;
+}
+
+#pets ul li.active {
+  background: #00ff99;
+  color: #003311;
+  box-shadow: 0 0 20px #00ff99;
+  transform: scale(1.1);
+}
+
+/* UPGRADES LIST */
+#upgrades ul {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+#upgrades ul li {
+  background: rgba(0, 255, 153, 0.15);
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+#upgrades ul li:hover {
+  background: rgba(0, 255, 153, 0.4);
+}
+
+/* SHOP ITEMS LIST */
+#shop ul {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+#shop ul li {
+  background: rgba(0, 255, 153, 0.1);
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+#shop ul li.owned {
+  background: rgba(0, 255, 153, 0.25);
+  box-shadow: inset 0 0 10px #00ff99;
+  color: #004422;
+}
+
+#shop ul li:hover {
+  background: rgba(0, 255, 153, 0.3);
+}
+
+/* MISSIONS & ACHIEVEMENTS LIST */
+#missions ul,
+#achievements ul {
+  max-height: 580px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+#missions ul li,
+#achievements ul li {
+  background: rgba(0, 255, 153, 0.12);
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  border-radius: 16px;
+  font-weight: 700;
+  user-select: none;
+  transition: background 0.3s ease;
+}
+
+#missions ul li.completed,
+#achievements ul li.completed {
+  background: linear-gradient(45deg, #00ff99, #009933);
+  color: #121212;
+  box-shadow: 0 0 15px #00ff99;
   cursor: default;
 }
 
-/* --- Banners animados para eventos --- */
-.event-banner {
-  background: linear-gradient(45deg, var(--accent), var(--primary));
-  color: var(--bg);
-  padding: 1rem 1.5rem;
-  border-radius: var(--border-radius);
-  text-align: center;
-  font-weight: var(--font-weight-bold);
-  font-size: 1.3rem;
-  box-shadow: 0 0 15px var(--accent);
-  margin-bottom: 1rem;
-  user-select: none;
-}
-
-/* --- Lista customizada para missões e conquistas --- */
-.mission-list,
-.achievement-list {
-  list-style-type: none;
-  max-height: 280px;
-  overflow-y: auto;
-  padding-left: 0;
-  user-select: none;
-}
-
-.mission-list li,
-.achievement-list li {
-  background: var(--bg-alt);
-  margin-bottom: 0.6rem;
-  padding: 0.7rem 1rem;
-  border-radius: var(--border-radius);
-  box-shadow: 0 2px 7px rgba(0,0,0,0.3);
+#missions ul li:hover:not(.completed),
+#achievements ul li:hover:not(.completed) {
+  background: rgba(0, 255, 153, 0.25);
   cursor: pointer;
+}
+
+/* RANKING LIST */
+#rankingList {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #00ffcc;
+  text-shadow: 0 0 3px #00ffcc;
+  user-select: none;
+}
+
+#rankingList div {
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  background: rgba(0, 255, 153, 0.15);
+  box-shadow: 0 0 8px #00ff99;
   transition: background 0.3s ease;
+}
+
+#rankingList div:hover {
+  background: rgba(0, 255, 153, 0.3);
+}
+
+/* TOOLTIPS PARA RANKING */
+#rankingList div[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  background: #00ff99;
+  color: #121212;
+  padding: 6px 10px;
+  border-radius: 10px;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-weight: 700;
+  box-shadow: 0 0 12px #00ff99;
+  user-select: none;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* MENSAGENS DE ERRO */
+.error-message {
+  color: #ff3333;
+  background: rgba(255, 0, 0, 0.2);
+  padding: 10px 15px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  font-weight: 900;
+  text-align: center;
   user-select: none;
 }
 
-.mission-list li:hover,
-.achievement-list li:hover {
-  background: var(--primary);
-  color: var(--bg);
-  box-shadow: 0 0 18px var(--accent);
-}
-
-/* --- Layouts para upgrades e loja com imagens --- */
-.item-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  margin-right: 0.8rem;
+/* FORMATAÇÃO PARA AVATAR DOS PETS */
+.pet-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #00ff99;
+  margin-right: 14px;
+  vertical-align: middle;
   user-select: none;
-  flex-shrink: 0;
-  object-fit: cover;
-  box-shadow: 0 0 10px var(--primary);
 }
 
-/* --- Tooltip extra para informações de item --- */
-.item-tooltip {
+/* TOGGLE SWITCH ESTILO (para futuras configs) */
+.toggle-switch {
   position: relative;
   display: inline-block;
-  cursor: help;
-  user-select: none;
+  width: 54px;
+  height: 28px;
 }
 
-.item-tooltip .tooltiptext {
-  visibility: hidden;
-  width: 220px;
-  background-color: var(--primary-dark);
-  color: var(--bg);
-  text-align: center;
-  border-radius: var(--border-radius);
-  padding: 0.6rem 1rem;
-  position: absolute;
-  z-index: 4000;
-  bottom: 130%;
-  left: 50%;
-  margin-left: -110px;
+.toggle-switch input {
   opacity: 0;
-  transition: opacity 0.4s ease;
-  font-size: 0.95rem;
-  box-shadow: 0 0 15px var(--primary);
-  pointer-events: none;
-  user-select: none;
+  width: 0;
+  height: 0;
 }
 
-.item-tooltip:hover .tooltiptext,
-.item-tooltip:focus-within .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
-
-/* --- Sistema de barras para upgrades --- */
-.upgrade-bar {
-  height: 10px;
-  width: 100%;
-  background: var(--bg);
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  margin-top: 4px;
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  user-select: none;
-}
-
-.upgrade-bar-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  border-radius: var(--border-radius);
-  transition: width 0.5s ease;
-}
-
-/* --- Animações extras para upgrades --- */
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 10px var(--primary);
-  }
-  50% {
-    box-shadow: 0 0 20px var(--accent);
-  }
-}
-
-.upgrade-item.purchased {
-  animation: pulseGlow 2.4s infinite ease-in-out;
-}
-
-/* --- Animações para botão comprar pulsante --- */
-.buy-btn.pulsate {
-  animation: pulseGlow 1.5s infinite ease-in-out;
-}
-
-/* --- Efeito de hover para lista --- */
-.list-hover-effect > div:hover {
-  background: var(--primary-dark);
-  color: var(--accent);
-  font-weight: var(--font-weight-bold);
-  box-shadow: 0 0 15px var(--accent);
+.slider {
+  position: absolute;
   cursor: pointer;
+  background-color: #004422;
+  border-radius: 34px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.4s;
+  box-shadow: 0 0 12px #00ff99;
 }
 
-/* --- Sistema de sons (placeholder para icon) --- */
-.sound-icon {
-  width: 22px;
+.slider:before {
+  position: absolute;
+  content: "";
   height: 22px;
-  background: var(--primary);
-  mask: url("data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGQ9Ik0xMiA0bC00IDRINC41Yy0xLjI3IDAtMi4zIDEuMDMtMi4zIDJ2NGMwIDEuMDkgMS4wNSAxLjk3IDIuMzIgMS45N2gzdjRsNiA2IDEuNSAxbC01LjUtNWgxLTFjMCAwIDAtMy0zLTNNMTYgOXYyYzAgMi4yNS0
-xLjI1IDQuMjUtMyA1LjEybC0uNzYtMS4zOGExLjg2IDEuODYgMCAwIDAgMi4yNi0yLjU3WiIvPjwvc3ZnPg==") no-repeat center;
-background-size: cover;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #00ff99;
+  border-radius: 50%;
+  transition: 0.4s;
 }
+
+input:checked + .slider {
+  background-color: #00cc66;
+  box-shadow: 0 0 20px #00cc66;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* OUTROS AJUSTES FINOS */
+.user-select-none {
+  user-select: none !important;
+}
+
+.text-shadow-glow {
+  text-shadow:
+    0 0 6px #00ff99,
+    0 0 10px #00cc66;
+}
+
+/* ADICIONAIS - GRADIENTES E SOMBRAS */
+.gradient-border {
+  border: 3px solid;
+  border-image-slice: 1;
+  border-width: 3px;
+  border-image-source: linear-gradient(45deg, #00ff99, #006633);
+  border-radius: 16px;
+  padding: 8px;
+}
+
+/* END OF CSS SUPREMO PARTE 2 */
