@@ -1,70 +1,90 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Clicker Simulator</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clicker Simulator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <h1>Clicker Simulator</h1>
-    <div id="statsBar">
-      <div>Clicks: <span id="clicksDisplay">0</span></div>
-      <div>Total Clicks: <span id="totalClicksStat">0</span></div>
-      <div>CPS: <span id="cpsDisplay">0</span></div>
-      <div>Nível: <span id="levelDisplay">1</span></div>
-      <div>XP: <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
-      <div>Rebirths: <span id="rebirthCount">0</span></div>
-      <div>Mundo: <span id="currentWorld">1 - Jardim Inicial</span></div>
-    </div>
   </header>
+
+  <section id="statsBar">
+    <span>Clicks: <span id="clicksDisplay">0</span></span>
+    <span>Total Clicks: <span id="totalClicksStat">0</span></span>
+    <span>CPS: <span id="cpsDisplay">0</span></span>
+    <span>Nível: <span id="levelDisplay">1</span></span>
+    <span>XP: <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></span>
+    <span>Rebirths: <span id="rebirthCount">0</span></span>
+    <span>Mundo: <span id="currentWorld">1 - Jardim Inicial</span></span>
+  </section>
 
   <main>
     <section id="clickSection">
-      <button id="clickButton" aria-label="Clique para ganhar clicks">Clique aqui!</button>
+      <button id="clickButton" aria-label="Clique aqui para ganhar clicks">Clique!</button>
     </section>
 
     <section id="buyAmountSection">
-      <label for="buyAmountSelect">Quantidade para comprar:</label>
-      <select id="buyAmountSelect" aria-label="Quantidade para comprar">
+      <label for="buyAmountSelect">Comprar em quantidade:</label>
+      <select id="buyAmountSelect" aria-label="Quantidade para comprar upgrades">
         <option value="1" selected>1</option>
         <option value="5">5</option>
         <option value="10">10</option>
         <option value="25">25</option>
+        <option value="50">50</option>
       </select>
     </section>
 
-    <section id="upgradesSection">
+    <section class="itemsContainer" id="upgradesContainer">
       <h2>Upgrades</h2>
-      <div id="upgrades" class="itemsContainer"></div>
+      <div id="upgrades"></div>
     </section>
 
-    <section id="shopSection">
+    <section class="itemsContainer" id="shopContainer">
       <h2>Loja</h2>
-      <div id="shopList" class="itemsContainer"></div>
+      <div id="shopList"></div>
     </section>
 
-    <section id="petsSection">
+    <section class="itemsContainer" id="petsContainer">
       <h2>Pets</h2>
-      <div id="pets" class="itemsContainer"></div>
+      <div id="pets"></div>
     </section>
 
-    <section id="missionsSection">
+    <section class="itemsContainer" id="missionsContainer">
       <h2>Missões</h2>
-      <ul id="missions" class="missionsList"></ul>
+      <ul id="missions" aria-live="polite" aria-atomic="true"></ul>
     </section>
 
-    <section id="achievementsSection">
+    <section class="itemsContainer" id="achievementsContainer">
       <h2>Conquistas</h2>
-      <div id="achievements" class="itemsContainer"></div>
+      <ul id="achievementsList" aria-live="polite" aria-atomic="true"></ul>
     </section>
 
+    <section class="itemsContainer" id="rankingContainer">
+      <h2>Ranking Top 10</h2>
+      <div id="detailedRankingList">Carregando ranking...</div>
+      <input type="text" id="playerNameInput" placeholder="Seu nome para ranking" aria-label="Nome para ranking" />
+      <button id="saveScoreBtn" aria-label="Salvar score no ranking">Salvar Score</button>
+    </section>
+
+    <section class="itemsContainer" id="chatContainer">
+      <h2>Chat Global</h2>
+      <div id="chatMessages" aria-live="polite" aria-atomic="false" tabindex="0" style="height:200px; overflow-y:auto; background:#111; padding:10px; border-radius:8px;"></div>
+      <input type="text" id="chatInput" placeholder="Digite mensagem" aria-label="Mensagem do chat" />
+      <button id="chatSendBtn" aria-label="Enviar mensagem no chat">Enviar</button>
+    </section>
+
+    <section id="controls">
+      <button id="rebirthBtn" aria-label="Realizar rebirth">Rebirth</button>
+      <button id="saveBtn" aria-label="Salvar progresso">Salvar Progresso</button>
+      <button id="clearSaveBtn" aria-label="Limpar progresso">Limpar Progresso</button>
+      <button id="toggleTheme" aria-label="Alternar tema">☀️</button>
+    </section>
   </main>
 
-  <footer>
-    <div id="notification" role="alert" aria-live="assertive"></div>
-  </footer>
+  <div id="notification" role="alert" aria-live="assertive"></div>
 
   <script type="module" src="script.js"></script>
 </body>
