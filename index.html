@@ -3,88 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Clicker Simulator - jogo de clique com ranking online e upgrades." />
   <title>Clicker Simulator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #121212;
-      color: #eee;
-      margin: 0; padding: 20px;
-      transition: background 0.3s, color 0.3s;
-    }
-    body.light-theme {
-      background: #f5f5f5;
-      color: #222;
-    }
-    button {
-      padding: 5px 10px;
-      margin-left: 10px;
-      cursor: pointer;
-    }
-    #container {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    h1, h2 {
-      margin-top: 0;
-    }
-    .stats, .section {
-      background: #222;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-    }
-    body.light-theme .stats, body.light-theme .section {
-      background: #ddd;
-    }
-    #clickBtn {
-      font-size: 1.5em;
-      padding: 15px 30px;
-      margin-bottom: 15px;
-      border: none;
-      border-radius: 10px;
-      background: #1e90ff;
-      color: white;
-      transition: background 0.2s;
-    }
-    #clickBtn:hover {
-      background: #0c65d0;
-    }
-    .flex-row {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .box {
-      flex: 1 1 250px;
-      background: #333;
-      padding: 10px;
-      border-radius: 6px;
-    }
-    body.light-theme .box {
-      background: #eee;
-      color: #111;
-    }
-    input[type="text"] {
-      padding: 5px;
-      font-size: 1em;
-      width: 150px;
-    }
-    #toggleTheme {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      font-size: 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #1e90ff;
-      transition: color 0.3s;
-    }
-    #toggleTheme:hover {
-      color: #0c65d0;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <button id="toggleTheme" title="Alternar tema">🌙</button>
@@ -92,54 +13,72 @@
   <div id="container">
     <h1>Clicker Simulator</h1>
 
-    <div class="stats">
+    <section id="stats" aria-labelledby="statsTitle" class="stats">
+      <h2 id="statsTitle" class="sr-only">Estatísticas do jogador</h2>
       <div><strong>Clicks:</strong> <span id="clicksDisplay">0</span></div>
       <div><strong>CPS (Clicks por segundo):</strong> <span id="cpsDisplay">0</span></div>
       <div><strong>Level:</strong> <span id="levelDisplay">1</span></div>
       <div><strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
       <div><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
       <div><strong>Mundo Atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
-    </div>
+    </section>
 
-    <button id="clickBtn">Clique aqui!</button>
-
-    <div class="flex-row">
-      <div class="box" id="upgrades">
-        <h2>Upgrades</h2>
-        <!-- Lista de upgrades aparece aqui -->
-      </div>
-
-      <div class="box" id="shop">
-        <h2>Loja</h2>
-        <!-- Itens da loja aparecem aqui -->
-      </div>
-
-      <div class="box" id="pets">
-        <h2>Pets</h2>
-        <!-- Pets aparecem aqui -->
-      </div>
-    </div>
+    <button id="clickBtn" aria-label="Botão para clicar e ganhar clicks">Clique aqui!</button>
 
     <div class="flex-row">
-      <div class="box" id="missions">
-        <h2>Missões</h2>
-        <!-- Missões aparecem aqui -->
-      </div>
+      <section class="box" id="upgrades" aria-labelledby="upgradesTitle">
+        <h2 id="upgradesTitle">Upgrades</h2>
+        <!-- Aqui o JavaScript vai inserir os upgrades -->
+      </section>
 
-      <div class="box" id="achievements">
-        <h2>Conquistas</h2>
-        <!-- Conquistas aparecem aqui -->
-      </div>
+      <section class="box" id="shop" aria-labelledby="shopTitle">
+        <h2 id="shopTitle">Loja</h2>
+        <!-- Aqui o JavaScript vai inserir os itens da loja -->
+      </section>
 
-      <div class="box">
-        <h2>Ranking Online</h2>
-        <input id="playerNameInput" type="text" placeholder="Seu nome" />
+      <section class="box" id="pets" aria-labelledby="petsTitle">
+        <h2 id="petsTitle">Pets</h2>
+        <!-- Aqui o JavaScript vai inserir os pets -->
+      </section>
+    </div>
+
+    <div class="flex-row">
+      <section class="box" id="missions" aria-labelledby="missionsTitle">
+        <h2 id="missionsTitle">Missões</h2>
+        <!-- Aqui o JavaScript vai inserir as missões -->
+      </section>
+
+      <section class="box" id="achievements" aria-labelledby="achievementsTitle">
+        <h2 id="achievementsTitle">Conquistas</h2>
+        <!-- Aqui o JavaScript vai inserir as conquistas -->
+      </section>
+
+      <section class="box" aria-labelledby="rankingTitle">
+        <h2 id="rankingTitle">Ranking Online</h2>
+        <label for="playerNameInput" class="sr-only">Nome do jogador</label>
+        <input id="playerNameInput" type="text" placeholder="Seu nome" autocomplete="off" />
         <button id="saveScoreBtn">Salvar Score</button>
-        <div id="rankingList" style="margin-top:10px; max-height: 200px; overflow-y: auto; background: #111; padding: 5px; border-radius: 4px;"></div>
-      </div>
+        <div id="rankingList" class="ranking-list"></div>
+      </section>
     </div>
   </div>
 
   <script type="module" src="script.js"></script>
+
+  <style>
+    /* CSS para o sr-only (acessibilidade) */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
+    /* Remove margin top inline do rankingList */
+    #rankingList {
+      margin-top: 10px;
+    }
+  </style>
 </body>
 </html>
