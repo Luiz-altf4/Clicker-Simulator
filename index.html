@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Clicker Simulator</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -12,70 +12,78 @@
 
   <header>
     <h1>Clicker Simulator</h1>
-    <button id="clickBtn" aria-label="Clique para ganhar">Clique Aqui!</button>
+    <p class="subtitle">Clique, evolua, desbloqueie mundos e suba no ranking!</p>
+    <button id="clickBtn">👆 Clique Aqui!</button>
   </header>
 
-  <section class="stats" aria-label="Estatísticas do jogador">
-    <div><strong>Clique(s):</strong> <span id="clicksDisplay">0</span></div>
-    <div><strong>Cliques por segundo (CPS):</strong> <span id="cpsDisplay">0</span></div>
-    <div><strong>Nível:</strong> <span id="levelDisplay">1</span></div>
-    <div><strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
-    <div><strong>Prestígio (Rebirths):</strong> <span id="rebirthCount">0</span></div>
-    <div><strong>Mundo atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
-  </section>
+  <main>
+    <section class="stats" aria-label="Estatísticas">
+      <h2>Estatísticas</h2>
+      <div><strong>Cliques:</strong> <span id="clicksDisplay">0</span></div>
+      <div><strong>CPS (Cliques por segundo):</strong> <span id="cpsDisplay">0</span></div>
+      <div><strong>Nível:</strong> <span id="levelDisplay">1</span></div>
+      <div><strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
+      <div><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
+      <div><strong>Mundo Atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
+    </section>
 
-  <section class="buy-amounts" aria-label="Quantidade para compra de upgrades">
-    <strong>Comprar quantidade:</strong>
-    <button class="upgradeAmountBtn active" data-amount="1">1</button>
-    <button class="upgradeAmountBtn" data-amount="10">10</button>
-    <button class="upgradeAmountBtn" data-amount="100">100</button>
-    <button class="upgradeAmountBtn" data-amount="max">Max</button>
-  </section>
+    <section class="buy-amounts" aria-label="Quantidade de compra">
+      <strong>Quantidade:</strong>
+      <button class="upgradeAmountBtn active" data-amount="1">1</button>
+      <button class="upgradeAmountBtn" data-amount="10">10</button>
+      <button class="upgradeAmountBtn" data-amount="100">100</button>
+      <button class="upgradeAmountBtn" data-amount="max">Max</button>
+    </section>
 
-  <section class="upgrades" aria-label="Lista de upgrades">
-    <h2>Upgrades</h2>
-    <div id="upgradesList"></div>
-  </section>
+    <section class="upgrades" aria-label="Upgrades">
+      <h2>Upgrades</h2>
+      <div id="upgradesList"></div>
+    </section>
 
-  <section class="shop" aria-label="Loja de multiplicadores">
-    <h2>Loja</h2>
-    <div id="shopItemsList"></div>
-  </section>
+    <section class="shop" aria-label="Loja">
+      <h2>Loja</h2>
+      <div id="shopItemsList"></div>
+    </section>
 
-  <section class="pets" aria-label="Lista de pets">
-    <h2>Pets</h2>
-    <div id="petsList"></div>
-    <p id="activePet" style="margin-top:10px; font-weight:bold;">Pet ativo: Nenhum</p>
-  </section>
+    <section class="pets" aria-label="Pets">
+      <h2>Pets</h2>
+      <div id="petsList"></div>
+      <p id="activePet">Pet ativo: Nenhum</p>
+    </section>
 
-  <section class="missions" aria-label="Missões">
-    <h2>Missões</h2>
-    <div id="missionsList"></div>
-  </section>
+    <section class="missions" aria-label="Missões">
+      <h2>Missões</h2>
+      <div id="missionsList"></div>
+    </section>
 
-  <section class="achievements" aria-label="Conquistas">
-    <h2>Conquistas</h2>
-    <div id="achievementsList"></div>
-  </section>
+    <section class="achievements" aria-label="Conquistas">
+      <h2>Conquistas</h2>
+      <div id="achievementsList"></div>
+    </section>
 
-  <section class="rebirth-section" aria-label="Seção de prestígio">
-    <button id="rebirthBtn" class="btn" style="width: 100%;">Fazer Prestígio</button>
-    <p id="rebirthInfo" style="margin-top:10px;"></p>
-  </section>
+    <section class="worlds" aria-label="Mundos desbloqueáveis">
+      <h2>Mundos</h2>
+      <div id="worldsList"></div>
+    </section>
 
-  <section class="worlds" aria-label="Mundos desbloqueáveis">
-    <h2>Mundos</h2>
-    <div id="worldsList"></div>
-  </section>
+    <section class="rebirth-section" aria-label="Rebirth">
+      <h2>Prestígio (Rebirth)</h2>
+      <button id="rebirthBtn" class="btn">🔁 Fazer Rebirth</button>
+      <p id="rebirthInfo"></p>
+    </section>
 
-  <section class="ranking" aria-label="Ranking dos jogadores">
-    <h2>Ranking - Top 10 Jogadores</h2>
-    <ol id="rankingList"></ol>
-  </section>
+    <section class="ranking" aria-label="Ranking Global">
+      <h2>🏆 Ranking Global</h2>
+      <div id="rankingList">Carregando ranking...</div>
+      <input type="text" id="playerNameInput" placeholder="Seu nome no ranking" maxlength="20">
+      <button id="saveScoreBtn">Salvar Pontuação</button>
+    </section>
+  </main>
 
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <footer>
+    <p>&copy; 2025 Clicker Simulator by Luiz</p>
+  </footer>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
