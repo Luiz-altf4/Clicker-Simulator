@@ -1,1254 +1,1306 @@
-/* ===== Reset básico ===== */
+/* =============================== */
+/*   Clicker Simulator CSS Lendário   */
+/*       Parte 1 de 3 (700 linhas)     */
+/* =============================== */
+
+/* --- Reset e Normalização --- */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Roboto', Arial, sans-serif;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html, body {
   height: 100%;
-  font-family: 'Roboto', sans-serif;
-  background-color: #121212;
-  color: #eee;
+  background-color: var(--bg);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  user-select: none;
+  scroll-behavior: smooth;
+  font-size: 16px;
+  line-height: 1.4;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ===== Variáveis CSS para temas ===== */
+/* --- Variáveis CSS --- */
 :root {
-  --color-primary: #00ffff;
-  --color-primary-dark: #00cccc;
-  --color-primary-light: #33ffff;
-  --color-bg-dark: #121212;
-  --color-bg-light: #f0f0f0;
-  --color-text-dark: #eeeeee;
-  --color-text-light: #222222;
-
-  --font-main: 'Roboto', sans-serif;
-
-  --btn-radius: 50px;
-  --box-radius: 15px;
-  --shadow-glow: 0 0 15px var(--color-primary);
-  --transition-speed: 0.3s;
+  --bg: #121212;
+  --bg-alt: #1e1e1e;
+  --text-primary: #eee;
+  --text-secondary: #aaa;
+  --primary: #ff9800;
+  --primary-dark: #e65100;
+  --secondary: #757575;
+  --accent: #fbc02d;
+  --error: #d32f2f;
+  --success: #388e3c;
+  --border-radius: 8px;
+  --transition: 0.3s ease;
+  --shadow: 0 4px 8px rgba(0,0,0,0.3);
+  --button-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  --font-family: 'Roboto', Arial, sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
 }
 
-/* ===== Tema Light (quando .light-theme está no body) ===== */
+/* Tema Claro */
 body.light-theme {
-  background-color: var(--color-bg-light);
-  color: var(--color-text-light);
-}
-body.light-theme #container {
-  background-color: #fff;
-  box-shadow: 0 0 20px var(--color-primary-light);
-}
-body.light-theme button,
-body.light-theme .box {
-  background-color: #e6f7ff;
-  color: var(--color-text-light);
-  box-shadow: inset 0 0 10px var(--color-primary-light);
-}
-body.light-theme .box button {
-  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
-  color: #000;
-  box-shadow: 0 0 12px var(--color-primary-light);
-}
-body.light-theme #toggleTheme {
-  color: var(--color-text-light);
+  --bg: #fefefe;
+  --bg-alt: #ededed;
+  --text-primary: #212121;
+  --text-secondary: #555;
+  --primary: #ff6f00;
+  --primary-dark: #bf360c;
+  --secondary: #999;
+  --accent: #ffca28;
+  --shadow: 0 4px 10px rgba(0,0,0,0.1);
+  --button-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
-/* ===== Container principal ===== */
+/* --- Scrollbars personalizados --- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-alt);
+  border-radius: var(--border-radius);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: var(--border-radius);
+  border: 2px solid var(--bg-alt);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* --- Layout Container --- */
 #container {
-  max-width: 1200px;
-  margin: 50px auto 80px auto;
-  padding: 30px;
-  background-color: #222;
-  border-radius: var(--box-radius);
-  box-shadow: 0 0 30px rgba(0, 255, 255, 0.15);
+  max-width: 1280px;
+  margin: 1.5rem auto 3rem auto;
+  padding: 1rem 1.5rem 2rem 1.5rem;
+  background-color: var(--bg-alt);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 1.5rem;
   user-select: none;
 }
 
-/* ===== Botão de tema ===== */
-#toggleTheme {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  background: transparent;
-  border: none;
-  font-size: 2.4rem;
-  cursor: pointer;
-  color: var(--color-primary);
-  transition: color var(--transition-speed);
-  z-index: 10000;
-}
-#toggleTheme:hover {
-  color: var(--color-primary-light);
-}
-
-/* ===== Cabeçalho ===== */
-header {
+/* --- Cabeçalho --- */
+h1 {
+  font-size: 3rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--primary);
   text-align: center;
-  user-select: none;
-}
-header h1 {
-  font-weight: 900;
-  font-size: 3.2rem;
-  color: var(--color-primary);
-  letter-spacing: 3px;
-  text-shadow:
-    0 0 8px var(--color-primary-light),
-    0 0 20px var(--color-primary);
-}
-header p {
-  margin-top: 5px;
-  font-size: 1.3rem;
-  font-weight: 400;
-  color: #a0f0ffcc;
+  text-shadow: 0 0 8px var(--accent);
+  letter-spacing: 2px;
+  user-select: text;
+  margin-bottom: 1rem;
+  transition: color 0.4s ease;
 }
 
-/* ===== Estatísticas principais ===== */
+body.light-theme h1 {
+  color: var(--primary-dark);
+  text-shadow: 0 0 6px var(--accent);
+}
+
+/* --- Estatísticas do jogador --- */
 .stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 20px;
-}
-.stat-item {
-  background-color: #0a1f2a;
-  padding: 18px 22px;
-  border-radius: var(--box-radius);
-  box-shadow: inset 0 0 18px var(--color-primary-light);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem;
+  background: var(--bg);
+  border-radius: var(--border-radius);
+  padding: 1.25rem 1.5rem;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.4);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-bold);
   user-select: none;
-  transition: background-color var(--transition-speed);
-}
-.stat-item strong {
-  font-weight: 900;
-  font-size: 1.2rem;
-  color: var(--color-primary-light);
-  margin-bottom: 8px;
-  text-shadow: 0 0 8px var(--color-primary);
-}
-.stat-value {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #e0ffffcc;
-  text-shadow: 0 0 15px var(--color-primary-light);
-  user-select: text;
 }
 
-/* ===== Botão principal de clique ===== */
+.stats > div {
+  font-size: 1.25rem;
+  text-align: center;
+  border-radius: var(--border-radius);
+  padding: 0.5rem 1rem;
+  background: linear-gradient(45deg, var(--primary), var(--accent));
+  box-shadow: 0 2px 6px var(--button-shadow);
+  transition: background 0.3s ease;
+  cursor: default;
+  user-select: none;
+}
+
+body.light-theme .stats > div {
+  background: linear-gradient(45deg, var(--primary-dark), var(--primary));
+  color: var(--text-primary);
+}
+
+/* --- Botão principal de click --- */
 #clickBtn {
-  margin: 25px auto 15px auto;
-  background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+  display: block;
+  width: 100%;
+  padding: 1.5rem 0;
+  font-size: 2rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--bg);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: var(--button-shadow);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.3s ease, transform 0.1s ease;
+  text-align: center;
+  text-shadow: 0 0 3px rgba(0,0,0,0.25);
+  margin-bottom: 1rem;
+}
+
+#clickBtn:hover,
+#clickBtn:focus {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  outline: none;
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px var(--accent);
+}
+
+#clickBtn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px var(--primary-dark);
+}
+
+/* --- Botão tema claro/escuro --- */
+#toggleTheme {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: var(--bg-alt);
+  color: var(--primary);
   border: none;
   border-radius: 50%;
-  width: 170px;
-  height: 170px;
-  font-size: 3.2rem;
-  font-weight: 900;
-  color: #000;
+  padding: 0.5rem 0.6rem;
   cursor: pointer;
-  box-shadow:
-    0 0 25px var(--color-primary),
-    0 0 45px var(--color-primary-light),
-    inset 0 0 40px var(--color-primary-light);
+  font-size: 1.5rem;
+  box-shadow: var(--button-shadow);
+  transition: background 0.3s ease, color 0.3s ease;
   user-select: none;
-  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-#clickBtn:active {
-  transform: scale(0.92);
-  box-shadow:
-    0 0 20px var(--color-primary-light),
-    inset 0 0 30px var(--color-primary-light);
+  z-index: 1000;
 }
 
-/* ===== Layout flexível para painéis ===== */
+#toggleTheme:hover,
+#toggleTheme:focus {
+  background: var(--primary);
+  color: var(--bg);
+  outline: none;
+  box-shadow: 0 0 12px var(--primary);
+}
+
+/* --- Layout flexível para as caixas --- */
 .flex-row {
   display: flex;
-  gap: 20px;
-  justify-content: space-between;
+  gap: 1rem;
   flex-wrap: wrap;
-}
-
-/* ===== Boxes (painéis) ===== */
-.box {
-  background-color: #111;
-  flex: 1 1 320px;
-  border-radius: var(--box-radius);
-  box-shadow: inset 0 0 18px var(--color-primary-light);
-  padding: 25px;
-  max-height: 480px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-primary) #111;
-  display: flex;
-  flex-direction: column;
-}
-.box h2 {
-  font-weight: 900;
-  color: var(--color-primary);
-  font-size: 1.9rem;
-  margin-bottom: 15px;
-  text-shadow: 0 0 10px var(--color-primary-light);
-  user-select: none;
-}
-
-/* ===== Scrollbar customizada para Chrome/Edge/Safari ===== */
-.box::-webkit-scrollbar {
-  width: 10px;
-}
-.box::-webkit-scrollbar-track {
-  background: #111;
-}
-.box::-webkit-scrollbar-thumb {
-  background: var(--color-primary);
-  border-radius: 15px;
-}
-
-/* ===== Botões dentro dos boxes ===== */
-.box button {
-  margin-top: 10px;
-  padding: 11px 18px;
-  border-radius: var(--btn-radius);
-  border: none;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 1.1rem;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-dark));
-  color: #000;
-  box-shadow: 0 0 15px var(--color-primary);
-  transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-  user-select: none;
-  align-self: flex-start;
-}
-.box button:disabled {
-  background: #444;
-  color: #888;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-.box button:hover:not(:disabled) {
-  background: linear-gradient(90deg, var(--color-primary-dark), var(--color-primary-light));
-  box-shadow: 0 0 22px var(--color-primary-light);
-}
-
-/* ===== Item individual (upgrade, pet, mission, achievement, shop item, world) ===== */
-.upgrade, .pet, .mission, .achievement, .shop-item, .world {
-  background-color: #0a2533;
-  margin-bottom: 14px;
-  padding: 16px 20px;
-  border-radius: var(--box-radius);
-  box-shadow: inset 0 0 18px #00ffff88;
-  user-select: none;
-  cursor: pointer;
-  transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
-  display: flex;
-  flex-direction: column;
-}
-.upgrade strong, .pet strong, .mission strong, .achievement strong, .shop-item strong, .world strong {
-  color: var(--color-primary);
-  font-weight: 900;
-  font-size: 1.2rem;
-  margin-bottom: 8px;
-  text-shadow: 0 0 7px var(--color-primary);
-}
-
-/* ===== Item ativo selecionado ===== */
-.active {
-  border: 3px solid var(--color-primary);
-  box-shadow: 0 0 25px var(--color-primary);
-  background-color: #00404d;
-}
-
-/* ===== Inputs no ranking ===== */
-#playerNameInput {
-  width: calc(100% - 130px);
-  padding: 11px 14px;
-  font-size: 1.15rem;
-  border-radius: var(--btn-radius);
-  border: none;
-  margin-right: 10px;
-  box-shadow: inset 0 0 15px var(--color-primary-light);
-  background-color: #222;
-  color: #eee;
-  transition: background-color var(--transition-speed), color var(--transition-speed);
-}
-#playerNameInput::placeholder {
-  color: #555;
-}
-
-/* ===== Lista de ranking ===== */
-#rankingList {
-  margin-top: 12px;
-  font-size: 1.1rem;
-  max-height: 270px;
-  overflow-y: auto;
-  padding-right: 8px;
-  user-select: text;
-}
-
-/* ===== Notificações ===== */
-#notificationContainer {
-  position: fixed;
-  top: 85px;
-  right: 25px;
-  width: 320px;
-  max-width: 95vw;
-  z-index: 11000;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  user-select: none;
-}
-.notification {
-  background: linear-gradient(135deg, #00ffffcc, #00aaffcc);
-  color: #000;
-  padding: 16px 22px;
-  border-radius: var(--box-radius);
-  font-weight: 700;
-  text-align: center;
-  box-shadow: 0 0 25px #00ffffaa;
-  animation: slideInRight 0.4s ease forwards;
-  user-select: none;
-  cursor: default;
-}
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(120%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* ===== Efeito de clique flutuante ===== */
-.click-effect {
-  position: fixed;
-  font-weight: 900;
-  color: #0ff;
-  text-shadow: 0 0 10px #0ffccf;
-  pointer-events: none;
-  user-select: none;
-  animation: floatUp 1s ease forwards;
-  z-index: 12000;
-  font-size: 1.4rem;
-  user-select: none;
-}
-@keyframes floatUp {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-70px);
-  }
-}
-
-/* ===== Rodapé ===== */
-footer {
-  text-align: center;
-  margin-top: 40px;
-  font-size: 0.95rem;
-  color: #555;
-  user-select: none;
-}
-
-/* ===== Responsividade ===== */
-@media (max-width: 800px) {
-  .flex-row {
-    flex-direction: column;
-  }
-  .box {
-    max-height: none;
-    flex-basis: 100%;
-  }
-  #clickBtn {
-    width: 140px;
-    height: 140px;
-    font-size: 2.6rem;
-  }
-}
-
-/* ===== Transições globais ===== */
-*, button, input {
-  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-/* ===== Foco acessível ===== */
-button:focus, input:focus, .upgrade:focus, .pet:focus, .mission:focus, .achievement:focus, .shop-item:focus, .world:focus {
-  outline: 3px solid var(--color-primary);
-  outline-offset: 3px;
-  box-shadow: 0 0 25px var(--color-primary);
-}
-
-/* ===== Tooltip simples para itens ===== */
-.tooltip {
-  position: relative;
-  cursor: help;
-}
-.tooltip:hover::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-primary);
-  color: #000;
-  padding: 6px 12px;
-  border-radius: var(--btn-radius);
-  white-space: nowrap;
-  font-size: 0.9rem;
-  font-weight: 700;
-  box-shadow: 0 0 20px var(--color-primary-light);
-  opacity: 0.95;
-  pointer-events: none;
-  user-select: none;
-  z-index: 15000;
-  transition: opacity 0.2s ease;
-}
-.tooltip:hover::before {
-  content: '';
-  position: absolute;
-  bottom: 115%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 6px solid transparent;
-  border-top-color: var(--color-primary);
-  pointer-events: none;
-  z-index: 15001;
-  opacity: 0.95;
-}
-
-/* ===== Formatação para inputs e botões do modal ===== */
-.modal-content input[type="checkbox"] {
-  cursor: pointer;
-  width: 18px;
-  height: 18px;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-
-/* ==== Animations for modal buttons ==== */
-.modal-content button:hover {
-  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
-  box-shadow: 0 0 25px var(--color-primary);
-  color: #000;
-}
-
-/* ===== Link estilo botão ===== */
-a.button-link {
-  display: inline-block;
-  padding: 10px 25px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-dark));
-  color: #000;
-  font-weight: 700;
-  border-radius: var(--btn-radius);
-  text-decoration: none;
-  box-shadow: 0 0 15px var(--color-primary);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-a.button-link:hover {
-  background: linear-gradient(90deg, var(--color-primary-dark), var(--color-primary-light));
-  box-shadow: 0 0 25px var(--color-primary-light);
-}
-
-/* ===== Estilização para inputs em geral ===== */
-input, select, textarea {
-  background-color: #222;
-  border: none;
-  border-radius: var(--btn-radius);
-  color: #eee;
-  padding: 10px 14px;
-  font-size: 1rem;
-  box-shadow: inset 0 0 18px var(--color-primary-light);
-  transition: box-shadow 0.3s ease, background-color 0.3s ease;
-  user-select: text;
-}
-input:focus, select:focus, textarea:focus {
-  outline: none;
-  box-shadow: 0 0 25px var(--color-primary);
-  background-color: #00404d;
-}
-
-/* ===== Estilização para botões desabilitados ===== */
-button:disabled, input:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  box-shadow: none !important;
-}
-
-/* ===== Menu suspenso (dropdown) ===== */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #0a2533;
-  min-width: 160px;
-  box-shadow: 0 8px 16px rgba(0,255,255,0.3);
-  border-radius: var(--box-radius);
-  padding: 10px 0;
-  z-index: 10000;
-}
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-.dropdown-content a {
-  color: var(--color-primary);
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  font-weight: 700;
-  transition: background-color 0.3s ease;
-}
-.dropdown-content a:hover {
-  background-color: #00404d;
-}
-
-/* ===== Barras de progresso para XP ===== */
-.progress-bar-container {
-  width: 100%;
-  background-color: #111;
-  border-radius: var(--box-radius);
-  overflow: hidden;
-  box-shadow: inset 0 0 18px var(--color-primary);
-  margin-top: 12px;
-}
-.progress-bar-fill {
-  height: 18px;
-  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
-  width: 0%;
-  transition: width 0.5s ease;
-  box-shadow: 0 0 15px var(--color-primary);
-  border-radius: var(--box-radius);
-}
-
-/* ===== Tooltips extras para botões ===== */
-button[aria-label]:hover::after {
-  content: attr(aria-label);
-  position: absolute;
-  background: var(--color-primary);
-  color: #000;
-  padding: 6px 10px;
-  border-radius: var(--btn-radius);
-  top: -40px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  white-space: nowrap;
-  pointer-events: none;
-  user-select: none;
-  box-shadow: 0 0 15px var(--color-primary);
-  opacity: 0.9;
-  transition: opacity 0.3s ease;
-  z-index: 16000;
-}
-
-/* ===== Animação de pulso para botões ===== */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 8px var(--color-primary);
-  }
-  50% {
-    box-shadow: 0 0 22px var(--color-primary-light);
-  }
-  100% {
-    box-shadow: 0 0 8px var(--color-primary);
-  }
-}
-button.pulse {
-  animation: pulse 2s infinite ease-in-out;
-}
-
-/* ===== Parte 2 - continuação ===== */
-
-/* ===== Cards detalhados para upgrades, pets, missões etc ===== */
-.upgrade, .pet, .mission, .achievement, .shop-item, .world {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 15px;
-  padding: 18px 22px;
-  cursor: pointer;
-  user-select: none;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-.upgrade:hover, .pet:hover, .mission:hover, .achievement:hover, .shop-item:hover, .world:hover {
-  background-color: #005a72;
-  box-shadow: 0 0 25px var(--color-primary-light);
-}
-.upgrade img, .pet img {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px var(--color-primary);
-  user-select: none;
-  pointer-events: none;
-}
-.upgrade-info, .pet-info, .mission-info, .achievement-info, .shop-item-info, .world-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-.upgrade-info strong, .pet-info strong, .mission-info strong, .achievement-info strong, .shop-item-info strong, .world-info strong {
-  font-size: 1.2rem;
-  font-weight: 900;
-  color: var(--color-primary);
-  text-shadow: 0 0 7px var(--color-primary);
-  user-select: text;
-  margin-bottom: 6px;
-}
-.upgrade-info span, .pet-info span, .mission-info span, .achievement-info span, .shop-item-info span, .world-info span {
-  font-size: 0.9rem;
-  color: #b0f0ffcc;
-  user-select: text;
-}
-
-/* ===== Barra de progresso animada para níveis e XP ===== */
-.progress-bar-animated {
-  position: relative;
-  background: linear-gradient(90deg, #003340, #006680);
-  border-radius: var(--box-radius);
-  overflow: hidden;
-  box-shadow: inset 0 0 15px var(--color-primary);
-  height: 22px;
-  margin-top: 8px;
-}
-.progress-bar-animated::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; bottom: 0;
-  width: 100%;
-  background: linear-gradient(90deg, #00ffffaa, #33ffffaa, #00ffffaa);
-  animation: progressGlow 2.5s linear infinite;
-  filter: blur(6px);
-  opacity: 0.75;
-  pointer-events: none;
-  border-radius: var(--box-radius);
-  z-index: 1;
-}
-.progress-bar-fill {
-  position: relative;
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
-  border-radius: var(--box-radius);
-  box-shadow: 0 0 20px var(--color-primary);
-  z-index: 2;
-  transition: width 0.6s ease;
-}
-@keyframes progressGlow {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-/* ===== Animação leve para os números de clicks ===== */
-.number-flicker {
-  animation: flickerAnim 1.2s ease infinite;
-  color: var(--color-primary);
-  text-shadow: 0 0 15px var(--color-primary-light);
-  user-select: text;
-}
-@keyframes flickerAnim {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-/* ===== Modal padrão para mensagens ou configurações ===== */
-.modal-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.85);
-  display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 20000;
   user-select: none;
 }
-.modal-content {
-  background: #003344;
-  padding: 28px 36px;
-  border-radius: var(--box-radius);
-  box-shadow: 0 0 30px var(--color-primary);
-  width: 380px;
-  max-width: 95vw;
-  color: #ccf7ff;
-  font-weight: 700;
+
+/* --- Caixas principais: upgrades, loja, pets, missões, conquistas, ranking --- */
+.box {
+  background: var(--bg);
+  border-radius: var(--border-radius);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow);
+  min-width: 280px;
+  flex: 1 1 300px;
+  max-width: 350px;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  transition: box-shadow 0.3s ease;
+}
+
+.box:hover,
+.box:focus-within {
+  box-shadow: 0 0 15px var(--primary);
+  outline: none;
+}
+
+/* --- Títulos das caixas --- */
+.box h2 {
+  font-weight: var(--font-weight-bold);
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+  user-select: text;
   text-align: center;
+  letter-spacing: 1px;
+  text-shadow: 0 0 3px var(--primary);
+}
+
+/* --- Inputs e botões dentro das caixas --- */
+.box input[type="text"],
+.box button,
+.box input[type="number"] {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.7rem;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: var(--font-weight-normal);
+  background: var(--bg-alt);
+  color: var(--text-primary);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+  transition: background 0.3s ease, color 0.3s ease;
+  user-select: text;
+}
+
+.box input[type="text"]:focus,
+.box button:focus,
+.box input[type="number"]:focus {
+  outline: 2px solid var(--primary);
+  background: var(--bg);
+  color: var(--accent);
+}
+
+/* --- Botões dentro das caixas --- */
+.box button {
+  background: var(--primary);
+  color: var(--bg);
+  cursor: pointer;
+  font-weight: var(--font-weight-bold);
+  box-shadow: var(--button-shadow);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+}
+
+.box button:hover,
+.box button:focus {
+  background: var(--accent);
+  color: var(--bg-alt);
+  box-shadow: 0 4px 15px var(--accent);
+  outline: none;
+}
+
+/* --- Listas dentro das caixas (ex: ranking, upgrades, pets) --- */
+.box > div,
+.box > ul {
+  overflow-y: auto;
+  max-height: 280px;
+  padding-right: 0.5rem;
+  user-select: none;
+  font-size: 0.95rem;
+}
+
+.box > div::-webkit-scrollbar,
+.box > ul::-webkit-scrollbar {
+  width: 7px;
+}
+
+.box > div::-webkit-scrollbar-thumb,
+.box > ul::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+.box > div > div,
+.box > ul > li {
+  padding: 0.5rem 0.7rem;
+  border-bottom: 1px solid var(--bg-alt);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s ease;
+}
+
+.box > div > div:hover,
+.box > ul > li:hover {
+  background: var(--primary-dark);
+  color: var(--accent);
+  font-weight: var(--font-weight-bold);
+}
+
+/* --- Flex para botões de modal --- */
+#modalOpeners {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 1.2rem;
+  user-select: none;
+}
+
+.open-modal-btn {
+  background: var(--primary);
+  color: var(--bg);
+  border: none;
+  padding: 0.5rem 1rem;
+  font-weight: var(--font-weight-bold);
+  border-radius: var(--border-radius);
+  box-shadow: var(--button-shadow);
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+}
+
+.open-modal-btn:hover,
+.open-modal-btn:focus {
+  background: var(--accent);
+  color: var(--bg-alt);
+  outline: none;
+  box-shadow: 0 0 18px var(--accent);
+}
+
+/* --- Modais gerais --- */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: var(--bg-alt);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 2rem 2.5rem;
+  width: 90%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 1500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.3s ease;
+  user-select: none;
+}
+
+.modal.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-content {
   position: relative;
   user-select: none;
-  transition: transform 0.25s ease;
 }
-.modal-content h3 {
-  margin-bottom: 15px;
-  font-size: 1.8rem;
-  text-shadow: 0 0 15px var(--color-primary-light);
-}
+
 .modal-close {
   position: absolute;
-  top: 14px;
+  top: 12px;
   right: 14px;
   background: transparent;
   border: none;
-  font-size: 1.8rem;
+  font-size: 2rem;
+  color: var(--accent);
   cursor: pointer;
-  color: var(--color-primary-light);
+  user-select: none;
   transition: color 0.3s ease;
 }
-.modal-close:hover {
-  color: var(--color-primary);
-}
-.modal-content button {
-  margin-top: 22px;
-  padding: 14px 26px;
-  border-radius: var(--btn-radius);
-  border: none;
-  font-weight: 900;
-  font-size: 1.1rem;
-  cursor: pointer;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-dark));
-  color: #000;
-  box-shadow: 0 0 20px var(--color-primary);
-  transition: background 0.3s ease;
-}
-.modal-content button:hover {
-  background: linear-gradient(90deg, var(--color-primary-dark), var(--color-primary-light));
-  box-shadow: 0 0 28px var(--color-primary-light);
+
+.modal-close:hover,
+.modal-close:focus {
+  color: var(--primary);
+  outline: none;
 }
 
-/* ===== Responsividade aprimorada para modais e botões ===== */
-@media (max-width: 480px) {
-  .modal-content {
-    width: 90vw;
-    padding: 20px 25px;
-  }
-  #clickBtn {
-    width: 120px !important;
-    height: 120px !important;
-    font-size: 2.4rem !important;
-  }
-  .box {
-    flex-basis: 100% !important;
-    max-height: 400px !important;
-  }
-}
-
-/* ===== Animação de brilho pulsante para o botão clique ===== */
-@keyframes clickGlow {
-  0%, 100% {
-    box-shadow:
-      0 0 25px var(--color-primary),
-      inset 0 0 40px var(--color-primary-light);
-  }
-  50% {
-    box-shadow:
-      0 0 45px var(--color-primary-light),
-      inset 0 0 60px var(--color-primary);
-  }
-}
-#clickBtn {
-  animation: clickGlow 3.5s ease-in-out infinite;
-}
-
-/* ===== Efeito hover para itens selecionáveis ===== */
-.upgrade.selected, .pet.selected, .mission.selected, .achievement.selected, .shop-item.selected, .world.selected {
-  background-color: #007788 !important;
-  box-shadow: 0 0 35px var(--color-primary-light) !important;
-  border: 2.8px solid var(--color-primary);
-  cursor: default;
-}
-
-/* ===== Pet e upgrade thumbnails ===== */
-.pet img, .upgrade img {
-  object-fit: contain;
-  filter: drop-shadow(0 0 2px var(--color-primary));
-  user-select: none;
-}
-
-/* ===== Barras animadas para progresso de missões e conquistas ===== */
-.mission-progress, .achievement-progress {
+/* --- Inputs e botões em modais --- */
+.modal button,
+.modal input[type="text"],
+.modal input[type="number"] {
   width: 100%;
-  height: 16px;
-  background: #00262e;
-  border-radius: 15px;
-  margin-top: 6px;
-  overflow: hidden;
-  box-shadow: inset 0 0 15px var(--color-primary);
-  user-select: none;
-}
-.mission-progress-fill, .achievement-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
-  width: 0%;
-  transition: width 0.5s ease;
-  box-shadow: 0 0 12px var(--color-primary);
-  border-radius: 15px;
+  padding: 0.6rem 1rem;
+  margin: 0.5rem 0 1rem 0;
+  font-size: 1rem;
+  border-radius: var(--border-radius);
+  border: none;
+  background: var(--bg);
+  color: var(--text-primary);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
+  transition: background 0.3s ease, color 0.3s ease;
+  user-select: text;
 }
 
-/* ===== Avisos e mensagens ===== */
-.toast {
+.modal button {
+  background: var(--primary);
+  color: var(--bg);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  box-shadow: var(--button-shadow);
+  user-select: none;
+}
+
+.modal button:hover,
+.modal button:focus {
+  background: var(--accent);
+  color: var(--bg-alt);
+  outline: none;
+  box-shadow: 0 0 20px var(--accent);
+}
+
+/* --- Barras e progressos --- */
+#xpBar {
+  background: var(--bg);
+  border-radius: var(--border-radius);
+  height: 18px;
+  margin-top: 6px;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.4);
+  overflow: hidden;
+}
+
+#xpProgressFill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width 0.4s ease;
+  border-radius: var(--border-radius);
+  user-select: none;
+}
+
+/* --- Notificações --- */
+#notificationArea {
   position: fixed;
-  bottom: 25px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--color-primary);
-  color: #000;
-  padding: 14px 30px;
-  font-weight: 700;
-  border-radius: var(--btn-radius);
-  box-shadow: 0 0 25px var(--color-primary-light);
-  user-select: none;
-  animation: fadeInOut 3s ease forwards;
-  z-index: 20000;
-}
-@keyframes fadeInOut {
-  0%, 100% { opacity: 0; }
-  10%, 90% { opacity: 1; }
-}
-
-/* ===== Botão grande para resetar jogo ===== */
-#resetBtn {
-  margin: 20px auto 50px auto;
-  padding: 18px 32px;
-  font-size: 1.5rem;
-  font-weight: 900;
-  border-radius: var(--btn-radius);
-  border: none;
-  background: linear-gradient(45deg, #ff0055, #ff3399);
-  color: #fff;
-  cursor: pointer;
-  box-shadow: 0 0 40px #ff3366;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  user-select: none;
-}
-#resetBtn:hover {
-  background: linear-gradient(45deg, #ff3399, #ff0055);
-  box-shadow: 0 0 60px #ff5599;
-}
-
-/* ===== Efeito visual para ranking ===== */
-#rankingList div {
-  padding: 10px 15px;
-  margin-bottom: 10px;
-  border-radius: 15px;
-  background: #003d4d;
-  box-shadow: 0 0 20px var(--color-primary-light);
-  font-weight: 700;
-  color: var(--color-primary);
-  user-select: text;
-  transition: background-color 0.3s ease;
-}
-#rankingList div:nth-child(odd) {
-  background: #004d66;
-}
-#rankingList div:hover {
-  background: var(--color-primary);
-  color: #000;
-  box-shadow: 0 0 40px var(--color-primary-light);
-}
-
-/* ===== Animação partículas simples para cliques ===== */
-.particles-container {
-  position: fixed;
+  max-width: 380px;
+  width: 90vw;
   pointer-events: none;
-  z-index: 9999;
-  top: 0; left: 0; width: 100%; height: 100%;
-  overflow: visible;
+  user-select: none;
+  z-index: 2000;
+  font-weight: var(--font-weight-bold);
+  color: var(--bg);
+  text-shadow: 0 0 8px var(--primary);
+  text-align: center;
+}
+
+/* --- Animações para notificações --- */
+@keyframes slideInUp {
+  0% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* --- Feedbacks visuais no click --- */
+#clickBtn:active {
+  animation: clickPress 0.1s ease forwards;
+}
+
+@keyframes clickPress {
+  0% {
+    transform: scale(1);
+    box-shadow: var(--button-shadow);
+  }
+  50% {
+    transform: scale(0.9);
+    box-shadow: 0 0 25px var(--accent);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: var(--button-shadow);
+  }
+}
+
+/* --- Responsividade base --- */
+@media (max-width: 980px) {
+  #container {
+    margin: 1rem 1rem 2rem 1rem;
+    padding: 1rem 1rem 1.5rem 1rem;
+  }
+  .box {
+    max-width: 100%;
+  }
+  .stats {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
+/* --- Tooltips --- */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
   user-select: none;
 }
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 180px;
+  background-color: var(--primary-dark);
+  color: var(--bg);
+  text-align: center;
+  border-radius: var(--border-radius);
+  padding: 0.6rem;
+  position: absolute;
+  z-index: 3000;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -90px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-size: 0.9rem;
+  box-shadow: 0 0 10px var(--primary);
+  pointer-events: none;
+  user-select: none;
+}
+
+.tooltip:hover .tooltiptext,
+.tooltip:focus-within .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* --- Partículas na tela --- */
+#particleContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* --- Animação partículas --- */
 .particle {
   position: absolute;
   border-radius: 50%;
-  background: var(--color-primary-light);
   opacity: 0.8;
   pointer-events: none;
   user-select: none;
-  animation: particle-float 1s forwards ease-out;
-  box-shadow: 0 0 8px var(--color-primary);
+  animation-name: floatUp;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
-@keyframes particle-float {
+
+@keyframes floatUp {
   0% {
-    transform: translateY(0) scale(1);
+    transform: translateY(100%);
     opacity: 0.8;
   }
+  50% {
+    opacity: 0.3;
+  }
   100% {
-    transform: translateY(-70px) scale(0.3);
+    transform: translateY(-120%);
     opacity: 0;
   }
 }
 
-/* ===== Footer estilizado ===== */
-footer {
-  margin-top: 40px;
-  text-align: center;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #444;
+/* --- Animações para botões e inputs --- */
+button,
+input,
+select,
+textarea {
+  transition: all 0.25s ease;
   user-select: none;
-  letter-spacing: 0.5px;
+  outline-offset: 2px;
 }
 
-/* ===== Tooltips para sistema de upgrades ===== */
-.upgrade[data-tooltip]::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 110%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-primary);
-  color: #000;
-  padding: 8px 14px;
-  border-radius: var(--btn-radius);
-  white-space: nowrap;
-  font-weight: 700;
-  font-size: 0.9rem;
-  opacity: 0;
-  pointer-events: none;
+/* --- Estilo para inputs desabilitados --- */
+input:disabled,
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
   user-select: none;
-  box-shadow: 0 0 20px var(--color-primary-light);
-  transition: opacity 0.3s ease;
-  z-index: 16000;
-}
-.upgrade:hover[data-tooltip]::after {
-  opacity: 0.95;
 }
 
-/* ===== Indicadores e badges para conquistas e pets ===== */
-.badge {
-  background-color: var(--color-primary);
-  color: #000;
-  font-weight: 900;
-  padding: 5px 11px;
-  border-radius: 14px;
-  font-size: 0.8rem;
-  box-shadow: 0 0 12px var(--color-primary-light);
-  user-select: none;
-  align-self: flex-start;
-  margin-top: 8px;
-}
-
-/* ===== Animations para badges ===== */
-@keyframes badgePulse {
-  0%, 100% {
-    box-shadow: 0 0 10px var(--color-primary);
-  }
-  50% {
-    box-shadow: 0 0 25px var(--color-primary-light);
-  }
-}
-.badge.pulse {
-  animation: badgePulse 2.8s ease-in-out infinite;
-}
-
-/* ===== Barra fixa inferior para ações rápidas ===== */
-#quickActions {
+/* --- Layout para painel lateral fixo (se precisar) --- */
+#sidePanel {
   position: fixed;
-  bottom: 0;
-  left: 0;
   right: 0;
-  background-color: #001a26;
+  top: 60px;
+  width: 320px;
+  height: calc(100vh - 60px);
+  background: var(--bg-alt);
+  box-shadow: -4px 0 15px rgba(0,0,0,0.3);
+  padding: 1rem 1.5rem;
+  overflow-y: auto;
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+  user-select: none;
+  z-index: 100;
+}
+
+/* --- Tooltip para botoes laterais --- */
+#sidePanel button {
+  margin-bottom: 0.75rem;
+}
+
+/* --- Rodapé --- */
+footer {
+  text-align: center;
+  padding: 1rem 1rem 1.8rem 1rem;
+  color: var(--secondary);
+  font-size: 0.85rem;
+  user-select: none;
+}
+
+/* --- Botões circulares adicionais --- */
+.btn-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: var(--primary);
+  color: var(--bg);
+  font-weight: var(--font-weight-bold);
+  font-size: 1.5rem;
+  box-shadow: var(--button-shadow);
+  cursor: pointer;
   display: flex;
   justify-content: center;
-  gap: 24px;
-  padding: 14px 0;
-  box-shadow: 0 -3px 15px rgba(0, 255, 255, 0.25);
+  align-items: center;
   user-select: none;
-  z-index: 15000;
-}
-#quickActions button {
-  background: linear-gradient(45deg, var(--color-primary), var(--color-primary-dark));
-  border: none;
-  padding: 12px 28px;
-  border-radius: var(--btn-radius);
-  font-weight: 800;
-  font-size: 1.1rem;
-  color: #000;
-  cursor: pointer;
-  box-shadow: 0 0 22px var(--color-primary);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-#quickActions button:hover {
-  background: linear-gradient(45deg, var(--color-primary-dark), var(--color-primary-light));
-  box-shadow: 0 0 40px var(--color-primary-light);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* ===== Loading spinner ===== */
-.loading-spinner {
-  border: 5px solid #003344;
-  border-top: 5px solid var(--color-primary);
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
-  animation: spin 1.2s linear infinite;
-  margin: 30px auto;
-  user-select: none;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* ===== Layout para mensagens de erro ===== */
-.error-message {
-  background-color: #aa0000cc;
-  color: #fff;
-  padding: 14px 22px;
-  border-radius: var(--btn-radius);
-  font-weight: 700;
-  box-shadow: 0 0 25px #ff0000cc;
-  user-select: none;
-  margin-bottom: 25px;
-  text-align: center;
-}
-
-/* ===== Barra de progresso para carregamento de níveis ===== */
-.level-progress-container {
-  width: 100%;
-  height: 20px;
-  background: #002a3c;
-  border-radius: 15px;
-  box-shadow: inset 0 0 15px var(--color-primary);
-  overflow: hidden;
-  margin-top: 15px;
-}
-.level-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--color-primary-light), var(--color-primary));
-  width: 0%;
-  transition: width 0.6s ease;
-  box-shadow: 0 0 15px var(--color-primary);
-  border-radius: 15px;
-}
-
-/* ===== Visual para botões de compra ===== */
-.buy-button {
-  background: linear-gradient(90deg, #00ffdd, #00ccaa);
-  border: none;
-  padding: 12px 24px;
-  border-radius: var(--btn-radius);
-  color: #000;
-  font-weight: 900;
-  font-size: 1.1rem;
-  cursor: pointer;
-  box-shadow: 0 0 20px #00ffcc;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  user-select: none;
-}
-.buy-button:hover {
-  background: linear-gradient(90deg, #00ccaa, #00ffdd);
-  box-shadow: 0 0 30px #00ffdd;
-}
-
-/* ===== Sombras e bordas para inputs de texto ===== */
-input[type="text"], input[type="number"], select {
-  box-shadow: inset 0 0 15px var(--color-primary-light);
-  border: none;
-  border-radius: var(--btn-radius);
-  background-color: #001f2a;
-  color: #eee;
-  padding: 11px 15px;
-  font-size: 1rem;
-  user-select: text;
-  transition: box-shadow 0.3s ease;
-}
-input[type="text"]:focus, input[type="number"]:focus, select:focus {
-  box-shadow: 0 0 25px var(--color-primary);
+.btn-circle:hover,
+.btn-circle:focus {
+  background: var(--accent);
+  color: var(--bg-alt);
+  box-shadow: 0 0 18px var(--accent);
   outline: none;
-  background-color: #00404d;
 }
 
-/* ===== Tooltips para upgrades e pets detalhados ===== */
-.tooltip-detail {
-  position: relative;
-  cursor: help;
-}
-.tooltip-detail:hover::after {
-  content: attr(data-detail);
-  position: absolute;
-  top: -130%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--color-primary);
-  color: #000;
-  padding: 10px 20px;
-  border-radius: 18px;
-  white-space: normal;
-  font-size: 0.95rem;
-  font-weight: 700;
-  box-shadow: 0 0 20px var(--color-primary-light);
-  pointer-events: none;
-  user-select: none;
-  z-index: 16000;
-  max-width: 250px;
-  text-align: center;
+/* --- Inputs numericos customizados --- */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-/* ===== Efeitos visuais para sistema de rebirths ===== */
-.rebirth-badge {
-  background: linear-gradient(45deg, #aa00ff, #dd33ff);
-  color: #000;
-  font-weight: 900;
-  padding: 8px 20px;
-  border-radius: 20px;
-  box-shadow: 0 0 25px #cc33ff;
+/* --- Barras de progresso customizadas --- */
+progress {
+  appearance: none;
+  width: 100%;
+  height: 18px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
   user-select: none;
+}
+
+progress::-webkit-progress-bar {
+  background-color: var(--bg);
+}
+
+progress::-webkit-progress-value {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+
+/* --- Responsividade extra para celulares --- */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2.25rem;
+  }
+  #clickBtn {
+    font-size: 1.6rem;
+    padding: 1.1rem 0;
+  }
+  .box {
+    min-width: 100%;
+    max-width: 100%;
+  }
+  .stats {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+  #toggleTheme {
+    font-size: 1.3rem;
+    padding: 0.4rem 0.5rem;
+  }
+}
+
+/* =============================== */
+/*   Fim da parte 1                */
+/* =============================== */
+
+/* =============================== */
+/* Clicker Simulator CSS Lendário   */
+/* Parte 2 de 3 (~700 linhas)       */
+/* =============================== */
+
+/* --- Lista de Upgrades e Itens --- */
+.upgrade-item,
+.shop-item,
+.pet-item,
+.mission-item,
+.achievement-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-alt);
+  margin-bottom: 0.7rem;
+  padding: 0.6rem 1rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+}
+
+.upgrade-item:hover,
+.shop-item:hover,
+.pet-item:hover,
+.mission-item:hover,
+.achievement-item:hover {
+  background: var(--primary);
+  color: var(--bg);
+  box-shadow: 0 6px 20px var(--accent);
+}
+
+.upgrade-item > div,
+.shop-item > div,
+.pet-item > div,
+.mission-item > div,
+.achievement-item > div {
+  flex: 1;
+  user-select: none;
+}
+
+/* --- Nome e descrição --- */
+.item-name {
+  font-weight: var(--font-weight-bold);
+  font-size: 1.1rem;
+  user-select: text;
+}
+
+.item-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.15rem;
+  font-style: italic;
+  user-select: text;
+}
+
+/* --- Preço e quantidade --- */
+.item-price,
+.item-quantity {
+  font-weight: var(--font-weight-bold);
+  min-width: 70px;
+  text-align: right;
+  user-select: none;
+}
+
+/* --- Botões comprar/ativar --- */
+.buy-btn,
+.activate-btn {
+  background: var(--primary);
+  color: var(--bg);
+  border: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--border-radius);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  box-shadow: var(--button-shadow);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+}
+
+.buy-btn:disabled,
+.activate-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.buy-btn:hover:not(:disabled),
+.activate-btn:hover:not(:disabled),
+.buy-btn:focus:not(:disabled),
+.activate-btn:focus:not(:disabled) {
+  background: var(--accent);
+  color: var(--bg-alt);
+  box-shadow: 0 0 18px var(--accent);
+  outline: none;
+}
+
+/* --- Pets ativos destacados --- */
+.pet-item.active {
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+}
+
+/* --- Missões e conquistas completas --- */
+.mission-item.completed,
+.achievement-item.completed {
+  background: var(--success);
+  color: var(--bg);
+  text-decoration: line-through;
+  box-shadow: 0 0 10px var(--success);
+  cursor: default;
+}
+
+/* --- Seção de ranking --- */
+#rankingList > div {
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid var(--bg-alt);
+  font-weight: var(--font-weight-bold);
+  font-size: 1rem;
+  color: var(--text-primary);
+  user-select: none;
+  transition: background 0.2s ease;
+  cursor: default;
+}
+
+#rankingList > div:nth-child(odd) {
+  background: var(--bg);
+}
+
+#rankingList > div:hover {
+  background: var(--primary-dark);
+  color: var(--accent);
+}
+
+/* --- Input nome jogador e botão salvar score --- */
+#playerNameInput {
+  font-size: 1rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--border-radius);
+  border: none;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
+  margin-bottom: 0.6rem;
+  color: var(--text-primary);
+  background: var(--bg-alt);
+  user-select: text;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+#playerNameInput:focus {
+  outline: 2px solid var(--primary);
+  background: var(--bg);
+}
+
+/* --- Seção de animais de estimação (pets) --- */
+.pet-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-right: 0.9rem;
+  object-fit: cover;
+  user-select: none;
+  flex-shrink: 0;
+  border: 2px solid var(--primary);
+  transition: border-color 0.3s ease;
+}
+
+.pet-item.active .pet-image {
+  border-color: var(--accent);
+}
+
+/* --- Layout para títulos e botões adicionais --- */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  margin-bottom: 1rem;
+}
+
+.section-header h2 {
+  font-weight: var(--font-weight-bold);
+  color: var(--accent);
+  font-size: 1.7rem;
+  text-shadow: 0 0 4px var(--primary);
+  user-select: text;
+}
+
+.section-header button {
+  font-size: 1rem;
+  padding: 0.4rem 1rem;
+  border-radius: var(--border-radius);
+  background: var(--primary);
+  color: var(--bg);
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--button-shadow);
+  user-select: none;
+  transition: background 0.3s ease;
+}
+
+.section-header button:hover,
+.section-header button:focus {
+  background: var(--accent);
+  color: var(--bg-alt);
+  outline: none;
+  box-shadow: 0 0 15px var(--accent);
+}
+
+/* --- Layout para progresso de XP --- */
+#xpContainer {
+  margin-top: 0.6rem;
+}
+
+#xpText {
+  font-weight: var(--font-weight-bold);
   font-size: 1.1rem;
   text-align: center;
-  margin-top: 12px;
+  margin-bottom: 0.3rem;
+  user-select: none;
+  color: var(--text-primary);
 }
 
-/* ===== Animação de partículas para rebirth ===== */
-@keyframes rebirthParticles {
-  0% { opacity: 1; transform: scale(1) translateY(0); }
-  100% { opacity: 0; transform: scale(1.3) translateY(-50px); }
-}
-.rebirth-particle {
-  position: absolute;
-  border-radius: 50%;
-  background: #dd33ffaa;
-  box-shadow: 0 0 15px #cc33ff;
-  animation: rebirthParticles 1.5s ease forwards;
+/* --- Barra de XP com transição --- */
+#xpBar {
+  width: 100%;
+  height: 22px;
+  border-radius: var(--border-radius);
+  background: var(--bg);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
+  overflow: hidden;
+  user-select: none;
 }
 
-/* ===== Botão para mudar o mundo ===== */
-#changeWorldBtn {
-  margin: 25px auto 45px auto;
-  padding: 15px 38px;
-  font-weight: 800;
-  font-size: 1.3rem;
-  background: linear-gradient(45deg, #0044ff, #00ccff);
-  color: #000;
+#xpProgressFill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width 0.5s ease;
+  border-radius: var(--border-radius);
+}
+
+/* --- Sistema de barras para rebirths --- */
+#rebirthBar {
+  margin-top: 1rem;
+  background: var(--bg);
+  border-radius: var(--border-radius);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+  overflow: hidden;
+  user-select: none;
+  height: 18px;
+}
+
+#rebirthProgressFill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ffb300, #ff6f00);
+  border-radius: var(--border-radius);
+  transition: width 0.5s ease;
+}
+
+/* --- Sistema para múltiplos mundos --- */
+#worldSelector {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  user-select: none;
+}
+
+.world-btn {
+  background: var(--primary);
+  color: var(--bg);
   border: none;
-  border-radius: var(--btn-radius);
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--border-radius);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
-  box-shadow: 0 0 40px #00ccff;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: var(--button-shadow);
+  transition: background 0.3s ease;
   user-select: none;
 }
-#changeWorldBtn:hover {
-  background: linear-gradient(45deg, #00ccff, #0044ff);
-  box-shadow: 0 0 60px #00eeff;
+
+.world-btn:hover,
+.world-btn:focus {
+  background: var(--accent);
+  color: var(--bg-alt);
+  outline: none;
+  box-shadow: 0 0 20px var(--accent);
 }
 
-/* ===== Ajustes para múltiplos temas ===== */
-body.light-theme {
-  --color-primary: #1db9e0;
-  --color-primary-light: #5fddff;
-  --color-primary-dark: #0083b8;
-  background-color: #e6f7ff;
-  color: #003344;
-}
-body.light-theme button, body.light-theme input, body.light-theme select, body.light-theme textarea {
-  background-color: #cceeff;
-  color: #003344;
-  box-shadow: inset 0 0 18px #5fddff;
-}
-body.light-theme .box {
-  background-color: #b3e0ffcc;
-  box-shadow: 0 0 18px #5fddff;
-}
-
-/* ===== Animação suave para troca de temas ===== */
-body, button, input, select, textarea {
-  transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
-}
-
-/* ===== Zoom e fontes responsivos ===== */
-@media (max-width: 900px) {
-  body {
-    font-size: 0.92rem;
-  }
-}
-@media (max-width: 600px) {
-  body {
-    font-size: 0.88rem;
-  }
-}
-
-/* ===== Créditos no footer ===== */
-footer {
-  margin-top: 50px;
-  font-weight: 600;
-  font-size: 0.85rem;
+/* --- Contadores de clicks e CPS --- */
+.counter-display {
+  font-weight: var(--font-weight-bold);
+  font-size: 1.5rem;
+  user-select: none;
+  color: var(--primary);
+  text-shadow: 0 0 6px var(--accent);
   text-align: center;
-  color: var(--color-primary-light);
+  margin-bottom: 1rem;
+}
+
+/* --- Mensagens de erro e sucesso --- */
+.message-error {
+  background-color: var(--error);
+  color: var(--bg);
+  padding: 0.6rem 1rem;
+  border-radius: var(--border-radius);
+  font-weight: var(--font-weight-bold);
   user-select: none;
-  letter-spacing: 0.8px;
+  margin-bottom: 1rem;
+  text-align: center;
+  box-shadow: 0 0 8px var(--error);
 }
 
-/* ===== Animações extras e polimento visual (opcional) ===== */
-@keyframes glowPulse {
-  0%, 100% {
-    box-shadow: 0 0 18px var(--color-primary);
-  }
-  50% {
-    box-shadow: 0 0 32px var(--color-primary-light);
-  }
-}
-.pulse-glow {
-  animation: glowPulse 3s ease-in-out infinite;
+.message-success {
+  background-color: var(--success);
+  color: var(--bg);
+  padding: 0.6rem 1rem;
+  border-radius: var(--border-radius);
+  font-weight: var(--font-weight-bold);
+  user-select: none;
+  margin-bottom: 1rem;
+  text-align: center;
+  box-shadow: 0 0 8px var(--success);
 }
 
-/* ===== Efeito hover para links ===== */
-a {
-  color: var(--color-primary);
-  text-decoration: none;
+/* --- Modais adicionais de confirmação e ajuda --- */
+.help-text {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-top: 0.7rem;
+  user-select: text;
+  line-height: 1.5;
+  user-select: none;
+}
+
+/* --- Botões para fechar modais --- */
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  color: var(--accent);
+  cursor: pointer;
+  user-select: none;
   transition: color 0.3s ease;
 }
-a:hover {
-  color: var(--color-primary-light);
+
+.modal-close-btn:hover,
+.modal-close-btn:focus {
+  color: var(--primary);
+  outline: none;
 }
 
-/* ===== Cursor customizado para elementos clicáveis ===== */
-.clickable {
+/* --- Caixa de diálogo para confirmação --- */
+.confirm-dialog {
+  padding: 1rem;
+  user-select: none;
+}
+
+.confirm-dialog p {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  user-select: text;
+}
+
+/* --- Botões de confirmação --- */
+.confirm-dialog button {
+  margin-right: 1rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  font-weight: var(--font-weight-bold);
+  user-select: none;
+  box-shadow: var(--button-shadow);
+  transition: background 0.3s ease;
+}
+
+.confirm-dialog button.confirm {
+  background: var(--success);
+  color: var(--bg);
+}
+
+.confirm-dialog button.cancel {
+  background: var(--error);
+  color: var(--bg);
+}
+
+.confirm-dialog button.confirm:hover {
+  background: #2e7d32;
+}
+
+.confirm-dialog button.cancel:hover {
+  background: #b71c1c;
+}
+
+/* --- Barra de progresso animada para carregamento --- */
+.loading-bar {
+  width: 100%;
+  height: 14px;
+  background: var(--bg);
+  border-radius: var(--border-radius);
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+  overflow: hidden;
+  margin-bottom: 1rem;
+  user-select: none;
+}
+
+.loading-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: var(--border-radius);
+  transition: width 1.2s ease;
+}
+
+/* --- Sistema de notificações expansível --- */
+#notificationArea > div {
+  background: var(--primary);
+  color: var(--bg);
+  padding: 0.7rem 1rem;
+  margin-top: 0.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 12px var(--accent);
+  font-weight: var(--font-weight-bold);
+  user-select: none;
+  animation: slideInUp 0.3s ease forwards;
+  cursor: default;
+}
+
+/* --- Banners animados para eventos --- */
+.event-banner {
+  background: linear-gradient(45deg, var(--accent), var(--primary));
+  color: var(--bg);
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+  font-weight: var(--font-weight-bold);
+  font-size: 1.3rem;
+  box-shadow: 0 0 15px var(--accent);
+  margin-bottom: 1rem;
+  user-select: none;
+}
+
+/* --- Lista customizada para missões e conquistas --- */
+.mission-list,
+.achievement-list {
+  list-style-type: none;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-left: 0;
+  user-select: none;
+}
+
+.mission-list li,
+.achievement-list li {
+  background: var(--bg-alt);
+  margin-bottom: 0.6rem;
+  padding: 0.7rem 1rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 7px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: background 0.3s ease;
+  user-select: none;
+}
+
+.mission-list li:hover,
+.achievement-list li:hover {
+  background: var(--primary);
+  color: var(--bg);
+  box-shadow: 0 0 18px var(--accent);
+}
+
+/* --- Layouts para upgrades e loja com imagens --- */
+.item-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  margin-right: 0.8rem;
+  user-select: none;
+  flex-shrink: 0;
+  object-fit: cover;
+  box-shadow: 0 0 10px var(--primary);
+}
+
+/* --- Tooltip extra para informações de item --- */
+.item-tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  user-select: none;
+}
+
+.item-tooltip .tooltiptext {
+  visibility: hidden;
+  width: 220px;
+  background-color: var(--primary-dark);
+  color: var(--bg);
+  text-align: center;
+  border-radius: var(--border-radius);
+  padding: 0.6rem 1rem;
+  position: absolute;
+  z-index: 4000;
+  bottom: 130%;
+  left: 50%;
+  margin-left: -110px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  font-size: 0.95rem;
+  box-shadow: 0 0 15px var(--primary);
+  pointer-events: none;
+  user-select: none;
+}
+
+.item-tooltip:hover .tooltiptext,
+.item-tooltip:focus-within .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* --- Sistema de barras para upgrades --- */
+.upgrade-bar {
+  height: 10px;
+  width: 100%;
+  background: var(--bg);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  margin-top: 4px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  user-select: none;
+}
+
+.upgrade-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: var(--border-radius);
+  transition: width 0.5s ease;
+}
+
+/* --- Animações extras para upgrades --- */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px var(--primary);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--accent);
+  }
+}
+
+.upgrade-item.purchased {
+  animation: pulseGlow 2.4s infinite ease-in-out;
+}
+
+/* --- Animações para botão comprar pulsante --- */
+.buy-btn.pulsate {
+  animation: pulseGlow 1.5s infinite ease-in-out;
+}
+
+/* --- Efeito de hover para lista --- */
+.list-hover-effect > div:hover {
+  background: var(--primary-dark);
+  color: var(--accent);
+  font-weight: var(--font-weight-bold);
+  box-shadow: 0 0 15px var(--accent);
   cursor: pointer;
 }
 
-/* ===== Espaçamentos e alinhamentos para botões e inputs ===== */
-button, input, select {
-  margin: 8px 0;
-  box-sizing: border-box;
+/* --- Sistema de sons (placeholder para icon) --- */
+.sound-icon {
+  width: 22px;
+  height: 22px;
+  background: var(--primary);
+  mask: url("data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZmIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGQ9Ik0xMiA0bC00IDRINC41Yy0xLjI3IDAtMi4zIDEuMDMtMi4zIDJ2NGMwIDEuMDkgMS4wNSAxLjk3IDIuMzIgMS45N2gzdjRsNiA2IDEuNSAxbC01LjUtNWgxLTFjMCAwIDAtMy0zLTNNMTYgOXYyYzAgMi4yNS0
+xLjI1IDQuMjUtMyA1LjEybC0uNzYtMS4zOGExLjg2IDEuODYgMCAwIDAgMi4yNi0yLjU3WiIvPjwvc3ZnPg==") no-repeat center;
+background-size: cover;
 }
-
-/* ===== Estilos para notificações personalizadas ===== */
-.notification {
-  position: fixed;
-  top: 25px;
-  right: 25px;
-  background: var(--color-primary);
-  color: #000;
-  padding: 12px 26px;
-  border-radius: var(--btn-radius);
-  font-weight: 900;
-  box-shadow: 0 0 25px var(--color-primary-light);
-  user-select: none;
-  z-index: 30000;
-  opacity: 0;
-  animation: notifFadeIn 0.8s forwards;
-}
-@keyframes notifFadeIn {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-/* ===== Classes utilitárias para margem ===== */
-.m-0 { margin: 0 !important; }
-.mb-12 { margin-bottom: 12px !important; }
-.mb-24 { margin-bottom: 24px !important; }
-.p-12 { padding: 12px !important; }
-.p-24 { padding: 24px !important; }
-
-/* ===== Finalizando parte 2 ===== */
