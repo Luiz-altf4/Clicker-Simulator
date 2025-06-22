@@ -4,68 +4,218 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Clicker Simulator</title>
-  <!-- Fonte moderna -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Roboto&display=swap" rel="stylesheet" />
-  <!-- Link para o CSS externo -->
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Estilos básicos para organização */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212;
+      color: #eee;
+      margin: 0;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header {
+      margin: 20px 0;
+      text-align: center;
+    }
+    button {
+      cursor: pointer;
+      background: #333;
+      color: #eee;
+      border: none;
+      padding: 8px 16px;
+      margin: 4px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    button:hover:not(:disabled) {
+      background: #555;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    h2 {
+      margin-top: 20px;
+    }
+    .stats, .upgrades, .shop, .pets, .worlds, .rebirth-section, .buy-amounts {
+      width: 100%;
+      max-width: 600px;
+      background: #222;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px #000;
+    }
+    .stats div {
+      margin: 6px 0;
+      font-size: 1.1rem;
+    }
+    #clickBtn {
+      font-size: 1.5rem;
+      padding: 20px 40px;
+      margin: 20px 0;
+      background: #0a84ff;
+      border-radius: 15px;
+      color: white;
+      font-weight: bold;
+      user-select: none;
+    }
+    .upgrade-row, .shop-item, .pet-card, .world-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      background: #333;
+      margin-bottom: 8px;
+      border-radius: 8px;
+    }
+    .upgrade-row div, .shop-item h3, .pet-name {
+      flex: 1;
+    }
+    .pet-card {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .pet-card.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .pet-card.active {
+      border: 2px solid #0a84ff;
+    }
+    .pet-emoji {
+      font-size: 2rem;
+    }
+    .pet-bonus, .pet-price {
+      font-size: 0.9rem;
+      margin-top: 2px;
+      color: #aaa;
+    }
+    .btn {
+      min-width: 100px;
+      font-weight: 600;
+    }
+    .shop-buy-btn {
+      min-width: 140px;
+    }
+    .world-card {
+      padding: 12px;
+      cursor: pointer;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .world-card.disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    .world-card.active {
+      background: #0a84ff;
+      font-weight: bold;
+      color: white;
+    }
+    .buy-amounts button {
+      margin: 0 5px;
+      padding: 6px 14px;
+    }
+    .buy-amounts .active {
+      background: #0a84ff;
+      color: white;
+    }
+    #toggleTheme {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: transparent;
+      font-size: 1.5rem;
+      border: none;
+      color: #0a84ff;
+    }
+    /* Tema claro */
+    body.light-theme {
+      background: #f0f0f0;
+      color: #222;
+    }
+    body.light-theme .stats,
+    body.light-theme .upgrades,
+    body.light-theme .shop,
+    body.light-theme .pets,
+    body.light-theme .worlds,
+    body.light-theme .rebirth-section,
+    body.light-theme .buy-amounts {
+      background: #fff;
+      color: #222;
+      box-shadow: 0 0 10px #ccc;
+    }
+    body.light-theme button {
+      background: #ddd;
+      color: #222;
+    }
+    body.light-theme button:hover:not(:disabled) {
+      background: #bbb;
+    }
+    body.light-theme .world-card.active {
+      background: #007aff;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
+
+  <button id="toggleTheme" title="Alternar Tema">☀️</button>
+
+  <header>
     <h1>Clicker Simulator</h1>
+    <button id="clickBtn" aria-label="Clique para ganhar">Clique Aqui!</button>
+  </header>
 
-    <div class="stats">
-      <p>Cliques: <span id="clicks">0</span></p>
-      <p>Por segundo: <span id="cps">0</span></p>
-      <p>Prestígio: <span id="prestige">0</span></p>
-      <p>Nível: <span id="level">1</span></p>
-    </div>
+  <section class="stats" aria-label="Estatísticas do jogador">
+    <div><strong>Clique(s):</strong> <span id="clicksDisplay">0</span></div>
+    <div><strong>Cliques por segundo (CPS):</strong> <span id="cpsDisplay">0</span></div>
+    <div><strong>Nível:</strong> <span id="levelDisplay">1</span></div>
+    <div><strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
+    <div><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
+    <div><strong>Mundo atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
+  </section>
 
-    <div class="progress-container">
-      <div class="progress-bar" id="xp-bar"></div>
-    </div>
+  <section class="buy-amounts" aria-label="Quantidade para compra de upgrades">
+    <strong>Comprar quantidade:</strong>
+    <button class="upgradeAmountBtn active" data-amount="1">1</button>
+    <button class="upgradeAmountBtn" data-amount="10">10</button>
+    <button class="upgradeAmountBtn" data-amount="100">100</button>
+    <button class="upgradeAmountBtn" data-amount="max">Max</button>
+  </section>
 
-    <button id="clickBtn">Clique Aqui!</button>
+  <section class="upgrades" aria-label="Lista de upgrades">
+    <h2>Upgrades</h2>
+    <div id="upgradesList"></div>
+  </section>
 
-    <div class="buttons">
-      <button id="upgradeClickBtn">Upg. de Clique (x2) - <span id="upgradeClickCost">25</span></button>
-      <button id="upgradeAutoBtn">Auto-Clicker - <span id="upgradeAutoCost">100</span></button>
-      <button id="prestigeBtn">Prestígio (requer 1M)</button>
-    </div>
+  <section class="shop" aria-label="Loja de multiplicadores">
+    <h2>Loja</h2>
+    <div id="shopItemsList"></div>
+  </section>
 
-    <div class="panel">
-      <h2>Árvore de Upgrades</h2>
-      <div class="upgrade-tree">
-        <div class="upgrade">
-          <div>+1 clique por clique</div>
-          <button id="lvlClickBtn">Custo: <span id="lvlClickCost">25</span></button>
-        </div>
-        <div class="upgrade">
-          <div>Auto‑Clicker</div>
-          <button id="lvlAutoBtn">Custo: <span id="lvlAutoCost">100</span></button>
-        </div>
-      </div>
-    </div>
+  <section class="pets" aria-label="Lista de pets">
+    <h2>Pets</h2>
+    <div id="petsList"></div>
+    <p id="activePet" style="margin-top:10px; font-weight:bold;">Pet ativo: Nenhum</p>
+  </section>
 
-    <div class="panel">
-      <h2>Missões</h2>
-      <ul id="missions">
-        <li>Clique 100 vezes <span class="status" id="mission1">❌</span></li>
-        <li>Alcance 1 K CPS <span class="status" id="mission2">❌</span></li>
-        <li>Colete 1 Prestígio <span class="status" id="mission3">❌</span></li>
-      </ul>
-    </div>
+  <section class="worlds" aria-label="Mundos desbloqueáveis">
+    <h2>Mundos</h2>
+    <div id="worldsList"></div>
+  </section>
 
-    <div class="panel">
-      <h2>Conquistas</h2>
-      <ul id="achievements">
-        <li id="achv1" class="locked">10 K cliques</li>
-        <li id="achv2" class="locked">100 K cliques</li>
-        <li id="achv3" class="locked">1 M cliques</li>
-      </ul>
-    </div>
-  </div>
+  <section class="rebirth-section" aria-label="Seção de rebirth">
+    <button id="rebirthBtn" class="btn" style="width: 100%;">Fazer Rebirth</button>
+    <p id="rebirthInfo" style="margin-top:10px;"></p>
+  </section>
 
-  <!-- Link para o JS externo -->
   <script src="script.js"></script>
 </body>
 </html>
