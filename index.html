@@ -3,66 +3,105 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator</title>
+  <title>Clicker Simulator - Supremo Lendário</title>
+
+  <!-- Fonte Google Fonts (Roboto) -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- CSS Profissional -->
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico" />
+
+  <!-- Ícones (FontAwesome CDN) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
-  <button id="toggleTheme" title="Alternar tema">🌙</button>
 
-  <main id="container" role="main" aria-label="Clicker Simulator">
-    <h1>Clicker Simulator</h1>
+  <!-- Botão tema claro/escuro -->
+  <button id="toggleTheme" class="theme-toggle" title="Alternar tema">🌙</button>
 
-    <section class="stats" aria-label="Estatísticas do jogador">
-      <div><strong>Clicks:</strong> <span id="clicksDisplay">0</span></div>
-      <div><strong>CPS (Clicks por segundo):</strong> <span id="cpsDisplay">0</span></div>
-      <div><strong>Level:</strong> <span id="levelDisplay">1</span></div>
-      <div><strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
-      <div><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
-      <div><strong>Mundo Atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
+  <!-- Container principal -->
+  <main id="container">
+
+    <header>
+      <h1>Clicker Simulator <small class="subtitle">Supremo Lendário</small></h1>
+      <p class="description">Clique, compre upgrades, ganhe pets, complete missões e conquistas!</p>
+    </header>
+
+    <!-- Estatísticas -->
+    <section id="stats" aria-label="Estatísticas do jogador" role="region">
+      <div class="stat-item" tabindex="0"><strong>Clicks:</strong> <span id="clicksDisplay">0</span></div>
+      <div class="stat-item" tabindex="0"><strong>CPS (Clicks por segundo):</strong> <span id="cpsDisplay">0</span></div>
+      <div class="stat-item" tabindex="0"><strong>Level:</strong> <span id="levelDisplay">1</span></div>
+      <div class="stat-item" tabindex="0">
+        <strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span>
+        <progress id="xpBar" value="0" max="100" aria-label="Barra de experiência"></progress>
+      </div>
+      <div class="stat-item" tabindex="0"><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
+      <div class="stat-item" tabindex="0"><strong>Mundo Atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
     </section>
 
-    <button id="clickBtn" aria-label="Clique para ganhar clicks">Clique aqui!</button>
+    <!-- Botão principal de clique -->
+    <section id="click-section" aria-label="Clique principal" role="region">
+      <button id="clickBtn" aria-pressed="false" aria-label="Clique aqui para ganhar clicks">Clique aqui!</button>
+    </section>
 
-    <section class="flex-row" aria-label="Seções do jogo">
-      <article class="box" id="upgrades" tabindex="0" aria-live="polite" aria-label="Upgrades disponíveis">
+    <!-- Seções flexíveis: upgrades, loja e pets -->
+    <section class="flex-row" aria-label="Seção de upgrades, loja e pets">
+      
+      <article class="box" id="upgrades" aria-label="Upgrades disponíveis">
         <h2>Upgrades</h2>
+        <div id="upgrades-list" role="list" aria-live="polite"></div>
       </article>
 
-      <article class="box" id="shop" tabindex="0" aria-live="polite" aria-label="Loja de multiplicadores e itens">
+      <article class="box" id="shop" aria-label="Loja">
         <h2>Loja</h2>
+        <div id="shop-list" role="list" aria-live="polite"></div>
       </article>
 
-      <article class="box" id="pets" tabindex="0" aria-live="polite" aria-label="Pets disponíveis">
+      <article class="box" id="pets" aria-label="Pets">
         <h2>Pets</h2>
+        <div id="pets-list" role="list" aria-live="polite"></div>
       </article>
     </section>
 
+    <!-- Seções: missões, conquistas e ranking -->
     <section class="flex-row" aria-label="Missões, conquistas e ranking">
-      <article class="box" id="missions" tabindex="0" aria-live="polite" aria-label="Missões atuais">
+
+      <article class="box" id="missions" aria-label="Missões do jogador">
         <h2>Missões</h2>
+        <div id="missions-list" role="list" aria-live="polite"></div>
       </article>
 
-      <article class="box" id="achievements" tabindex="0" aria-live="polite" aria-label="Conquistas do jogador">
+      <article class="box" id="achievements" aria-label="Conquistas">
         <h2>Conquistas</h2>
+        <div id="achievements-list" role="list" aria-live="polite"></div>
       </article>
 
-      <article class="box" aria-label="Ranking Online e salvar score">
+      <article class="box" id="ranking" aria-label="Ranking online">
         <h2>Ranking Online</h2>
-        <input
-          id="playerNameInput"
-          type="text"
-          placeholder="Digite seu nome (mín. 3 caracteres)"
-          aria-label="Nome do jogador para salvar score"
-          autocomplete="off"
-          maxlength="20"
-        />
-        <button id="saveScoreBtn" aria-live="polite" aria-atomic="true">Salvar Score</button>
-        <div id="rankingList" style="margin-top:10px;" aria-live="polite" aria-atomic="true"></div>
+        <form id="rankingForm" aria-label="Formulário para salvar seu score" onsubmit="return false;">
+          <input
+            id="playerNameInput"
+            type="text"
+            maxlength="16"
+            minlength="3"
+            placeholder="Seu nome (3 a 16 chars)"
+            aria-required="true"
+            aria-describedby="nameHelp"
+          />
+          <small id="nameHelp">Digite seu nome para salvar seu score.</small>
+          <button id="saveScoreBtn" type="submit" disabled>Salvar Score</button>
+        </form>
+        <div id="rankingList" aria-live="polite" class="ranking-list"></div>
       </article>
     </section>
+
   </main>
 
+  <!-- Container de notificações -->
+  <div id="notifications" aria-live="assertive" aria-atomic="true"></div>
+
+  <!-- Script JS (modular) -->
   <script type="module" src="script.js"></script>
 </body>
 </html>
