@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Clicker Simulator</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -16,7 +16,7 @@
     <p>Nível: <span id="levelDisplay">1</span></p>
     <p>XP: <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></p>
     <p>Rebirths: <span id="rebirthCount">0</span></p>
-    <p>Mundo Atual: <span id="currentWorld">1</span></p>
+    <p>Mundo Atual: <span id="currentWorld">1 - Jardim Inicial</span></p>
   </div>
 
   <div id="clickArea">
@@ -30,30 +30,44 @@
     <button id="toggleTheme">🌙</button>
   </div>
 
-  <h2>🛠️ Upgrades</h2>
-  <div id="upgradesList"></div>
+  <section>
+    <h2>🛠️ Upgrades</h2>
+    <div id="upgrades"></div>
+  </section>
 
-  <h2>🐾 Pets</h2>
-  <div id="petsList"></div>
+  <section>
+    <h2>🐾 Pets</h2>
+    <div id="pets"></div>
+  </section>
 
-  <h2>🛍️ Loja</h2>
-  <div id="shopList"></div>
+  <section>
+    <h2>🛍️ Loja</h2>
+    <div id="shopList"></div>
+  </section>
 
-  <h2>🎯 Missões</h2>
-  <ul id="missions"></ul>
+  <section>
+    <h2>🎯 Missões</h2>
+    <ul id="missions"></ul>
+  </section>
 
-  <h2>🏆 Conquistas</h2>
-  <ul id="achievementsList"></ul>
+  <section>
+    <h2>🏆 Conquistas</h2>
+    <ul id="achievementsList"></ul>
+  </section>
 
-  <h2>📊 Ranking</h2>
-  <input id="playerNameInput" placeholder="Seu nome no ranking" />
-  <button id="saveScoreBtn">Salvar Score</button>
-  <div id="detailedRankingList">Carregando ranking...</div>
+  <section>
+    <h2>📊 Ranking</h2>
+    <input id="playerNameInput" placeholder="Seu nome no ranking" maxlength="15" />
+    <button id="saveScoreBtn">Salvar Score</button>
+    <div id="detailedRankingList">Carregando ranking...</div>
+  </section>
 
-  <h2>💬 Chat Global</h2>
-  <div id="chatMessages" style="height:150px;overflow-y:auto;border:1px solid white;padding:10px;"></div>
-  <input id="chatInput" placeholder="Digite sua mensagem" />
-  <button id="chatSendBtn">Enviar</button>
+  <section>
+    <h2>💬 Chat Global</h2>
+    <div id="chatMessages" style="height:150px; overflow-y:auto; border:1px solid white; padding:10px;"></div>
+    <input id="chatInput" placeholder="Digite sua mensagem" maxlength="100" />
+    <button id="chatSendBtn">Enviar</button>
+  </section>
 
   <div id="notification" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:8px;font-weight:bold;"></div>
 
