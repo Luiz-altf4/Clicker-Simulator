@@ -1,105 +1,62 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Clicker Simulator</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Clicker Simulator</h1>
-  <div class="game-container">
-    <div class="stats">
-      <div>Clicks: <span id="clicksDisplay">0</span></div>
-      <div>CPS: <span id="cpsDisplay">0</span></div>
-    </div>
-    <button id="clickArea">Clique aqui!</button>
-    <h2>Upgrades</h2>
-    <div id="upgradesList"></div>
+  <h1>💥 Clicker Simulator 💥</h1>
+
+  <div id="stats">
+    <p>Clicks: <span id="clicksDisplay">0</span></p>
+    <p>Total Clicks: <span id="totalClicksStat">0</span></p>
+    <p>CPS: <span id="cpsDisplay">0</span></p>
+    <p>Nível: <span id="levelDisplay">1</span></p>
+    <p>XP: <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></p>
+    <p>Rebirths: <span id="rebirthCount">0</span></p>
+    <p>Mundo Atual: <span id="currentWorld">1</span></p>
   </div>
 
-  <script>
-    const gameState = {
-      clicks: 0,
-      upgrades: [
-        { id: 1, name: "Cursor", cps: 1, quantity: 0, baseCost: 10 },
-        { id: 2, name: "Auto Clicker", cps: 5, quantity: 0, baseCost: 100 },
-        { id: 3, name: "Mega Generator", cps: 20, quantity: 0, baseCost: 500 }
-      ]
-    };
+  <div id="clickArea">
+    <button id="clickBtn">CLIQUE!</button>
+  </div>
 
-    const $ = id => document.getElementById(id);
+  <div>
+    <button id="rebirthBtn">Rebirth</button>
+    <button id="saveBtn">Salvar</button>
+    <button id="clearSaveBtn">Limpar Save</button>
+    <button id="toggleTheme">🌙</button>
+  </div>
 
-    function formatNumber(n) {
-      if (n < 1000) return n;
-      const units = ["K","M","B"];
-      let i = 0;
-      while (n >= 1000 && i < units.length) {
-        n /= 1000;
-        i++;
-      }
-      return n.toFixed(2) + units[i-1];
-    }
+  <h2>🛠️ Upgrades</h2>
+  <div id="upgradesList"></div>
 
-    function getUpgradeCost(u) {
-      return Math.floor(u.baseCost * Math.pow(1.15, u.quantity));
-    }
+  <h2>🐾 Pets</h2>
+  <div id="petsList"></div>
 
-    function calcCPS() {
-      return gameState.upgrades.reduce((sum,u) => sum + u.cps * u.quantity, 0);
-    }
+  <h2>🛍️ Loja</h2>
+  <div id="shopList"></div>
 
-    function buyUpgrade(id) {
-      const u = gameState.upgrades.find(x => x.id === id);
-      const cost = getUpgradeCost(u);
-      if (gameState.clicks >= cost) {
-        gameState.clicks -= cost;
-        u.quantity++;
-        showNotification(`Comprou ${u.name}!`);
-        updateDisplay();
-      } else {
-        showNotification("Clicks insuficientes!", "error");
-      }
-    }
+  <h2>🎯 Missões</h2>
+  <ul id="missions"></ul>
 
-    function updateDisplay() {
-      $("clicksDisplay").textContent = formatNumber(gameState.clicks);
-      $("cpsDisplay").textContent = calcCPS().toFixed(1);
+  <h2>🏆 Conquistas</h2>
+  <ul id="achievementsList"></ul>
 
-      const list = $("upgradesList");
-      list.innerHTML = "";
-      gameState.upgrades.forEach(u => {
-        const cost = getUpgradeCost(u);
-        const btn = document.createElement("button");
-        btn.textContent = `Comprar (${formatNumber(cost)})`;
-        btn.disabled = gameState.clicks < cost;
-        btn.onclick = () => buyUpgrade(u.id);
+  <h2>📊 Ranking</h2>
+  <input id="playerNameInput" placeholder="Seu nome no ranking" />
+  <button id="saveScoreBtn">Salvar Score</button>
+  <div id="detailedRankingList">Carregando ranking...</div>
 
-        const div = document.createElement("div");
-        div.className = "upgrade";
-        div.innerHTML = `<strong>${u.name}</strong> x${u.quantity} — ${u.cps} CPS`;
-        div.appendChild(btn);
-        list.appendChild(div);
-      });
-    }
+  <h2>💬 Chat Global</h2>
+  <div id="chatMessages" style="height:150px;overflow-y:auto;border:1px solid white;padding:10px;"></div>
+  <input id="chatInput" placeholder="Digite sua mensagem" />
+  <button id="chatSendBtn">Enviar</button>
 
-    function showNotification(msg, type="info") {
-      console.log(type.toUpperCase() + ": " + msg);
-    }
+  <div id="notification" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:8px;font-weight:bold;"></div>
 
-    $("clickArea").onclick = () => {
-      gameState.clicks++;
-      updateDisplay();
-    };
-
-    setInterval(() => {
-      gameState.clicks += calcCPS();
-      updateDisplay();
-    }, 1000);
-
-    document.addEventListener("DOMContentLoaded", () => {
-      updateDisplay();
-    });
-  </script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
