@@ -7,87 +7,64 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <button id="toggleThemeBtn" class="theme-btn">🌙</button>
+  <h1>Clicker Simulator</h1>
   <div class="container">
-    <!-- Painel de Click -->
-    <section class="panel" id="clickPanel">
-      <h2>Clicks</h2>
-      <button id="clickBtn" class="btn click-btn">Clique Aqui!</button>
-      <p>Clicks: <span id="score">0</span></p>
-      <p>Poder por Click: <span id="clickPower">1</span></p>
-    </section>
+    <div class="score-display" id="score">0</div>
+    <button id="clickBtn">Clique Aqui!</button>
 
-    <!-- Painel de Upgrades -->
-    <section class="panel" id="upgradePanel">
-      <h2>Upgrades</h2>
-      <div class="upgrade-row">
-        <button id="upgradeClickPowerBtn" class="btn upgrade-btn">Melhorar Click Power</button>
-        <span>Custo: <span id="upgradeClickPowerCost">10</span></span>
+    <div class="stats section">
+      <span>Força de clique: <strong id="clickPower">1</strong></span>
+      <span>Auto Clickers: <strong id="autoClickers">0</strong></span>
+      <span>Multiplicador: <strong id="multiplierCount">0</strong> (x<span id="multiplier">1</span>)</span>
+      <span>Clicks por segundo (CPS): <strong id="cps">0</strong></span>
+      <span>Nível: <strong id="levelDisplay">1</strong></span>
+      <span>Gemas: <strong id="gemsCount">0</strong></span>
+      <span>Rebirths: <strong id="rebirthCount">0</strong></span>
+      <div class="xp-bar-container">
+        <div class="xp-bar-fill" id="xpBar"></div>
+      </div>
+    </div>
+
+    <div class="shop section">
+      <div>
+        <span>Custo Upgrade Click Power: <strong id="upgradeClickPowerCost">10</strong></span>
+        <button class="btn btn-buy" id="upgradeClickPowerBtn">Comprar Upgrade</button>
+      </div>
+      <div>
+        <span>Custo Auto Clicker: <strong id="autoClickerCost">50</strong></span>
+        <button class="btn btn-buy" id="buyAutoClickerBtn">Comprar Auto Clicker</button>
+      </div>
+      <div>
+        <span>Custo Multiplicador: <strong id="multiplierCost">100</strong></span>
+        <button class="btn btn-buy" id="buyMultiplierBtn">Comprar Multiplicador</button>
       </div>
 
       <div class="upgrade-row">
-        <button id="buyAutoClickerBtn" class="btn upgrade-btn">Comprar AutoClicker</button>
-        <span>Qtd: <span id="autoClickers">0</span> | Custo: <span id="autoClickerCost">50</span></span>
-      </div>
-
-      <div class="upgrade-row">
-        <button id="buyMultiplierBtn" class="btn upgrade-btn">Comprar Multiplicador</button>
-        <span>Qtd: <span id="multiplierCount">0</span> | Custo: <span id="multiplierCost">100</span></span>
-      </div>
-
-      <div class="upgrade-row">
-        <span>Comprar em: </span>
+        <span>Comprar em:</span>
         <button class="btn upgradeAmountBtn active" data-amount="1">1</button>
         <button class="btn upgradeAmountBtn" data-amount="10">10</button>
         <button class="btn upgradeAmountBtn" data-amount="100">100</button>
+        <button class="btn upgradeAmountBtn" data-amount="1000">1000</button>
+        <button class="btn upgradeAmountBtn" data-amount="max">Máximo</button>
       </div>
-    </section>
+    </div>
 
-    <!-- Painel de Informacoes -->
-    <section class="panel" id="infoPanel">
-      <h2>Informacoes</h2>
-      <p id="cps">Clicks por segundo: 0</p>
-      <p id="levelDisplay">Nível: 1</p>
-      <div id="xpBarContainer"><div id="xpBar"></div></div>
-      <p>Gemas: <span id="gemsCount">0</span></p>
-      <p>Rebirths: <span id="rebirthCount">0</span></p>
-    </section>
+    <div class="boosts section">
+      <button class="btn btn-buy" id="speedBoostBtn">Boost de Velocidade (20 Gemas)</button>
+      <button class="btn btn-buy" id="multiplierBoostBtn">Boost de Multiplicador (50 Gemas)</button>
+      <button class="btn btn-buy" id="buyGemsBtn">Comprar 100 Gemas</button>
+    </div>
 
-    <!-- Painel de Boosts -->
-    <section class="panel" id="boostPanel">
-      <h2>Boosts</h2>
-      <button id="speedBoostBtn" class="btn boost-btn">Boost de Velocidade (20 Gemas)</button>
-      <button id="multiplierBoostBtn" class="btn boost-btn">Boost de Multiplicador (50 Gemas)</button>
-      <button id="buyGemsBtn" class="btn boost-btn">Comprar 100 Gemas</button>
-    </section>
-
-    <!-- Painel de Rebirth -->
-    <section class="panel" id="rebirthPanel">
-      <h2>Rebirth & Reset</h2>
-      <button id="rebirthBtn" class="btn rebirth-btn">Fazer Rebirth</button>
-      <button id="prestigeBtn" class="btn prestige-btn">Prestígio</button>
-      <button id="resetBtn" class="btn reset-btn">Resetar Jogo</button>
-    </section>
-
-    <!-- Painel da Loja -->
-    <section class="panel" id="shopPanel">
-      <h2>Loja</h2>
-      <div class="shop-item">
-        <button class="btn shop-buy" data-item="clickPowerBoost" data-cost="500">Click Power Boost (500)</button>
-      </div>
-      <div class="shop-item">
-        <button class="btn shop-buy" data-item="autoClickerBoost" data-cost="1000">AutoClicker Boost (1000)</button>
-      </div>
-      <div class="shop-item">
-        <button class="btn shop-buy" data-item="multiplierBoost" data-cost="2000">Multiplicador Boost (2000)</button>
-      </div>
-    </section>
+    <div class="rebirth-reset section">
+      <button class="btn btn-buy" id="rebirthBtn">Rebirth</button>
+      <button class="btn btn-buy" id="resetBtn">Resetar Jogo</button>
+    </div>
   </div>
 
-  <!-- Sons -->
-  <audio id="clickSound" src="click.mp3" preload="auto"></audio>
-  <audio id="buySound" src="buy.mp3" preload="auto"></audio>
-  <audio id="boostSound" src="boost.mp3" preload="auto"></audio>
+  <!-- Sons opcionais -->
+  <audio id="clickSound" src="https://freesound.org/data/previews/256/256113_3263906-lq.mp3" preload="auto"></audio>
+  <audio id="buySound" src="https://freesound.org/data/previews/331/331912_3248244-lq.mp3" preload="auto"></audio>
+  <audio id="boostSound" src="https://freesound.org/data/previews/159/159408_2598750-lq.mp3" preload="auto"></audio>
 
   <script src="script.js"></script>
 </body>
