@@ -3,234 +3,175 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #121212;
+  color: #e0e0e0;
+  padding: 1rem;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-body.dark-theme {
-  background: #121212;
-  color: #eee;
-}
-
-body.light-theme {
-  background: #f0f0f0;
+.light-theme {
+  background-color: #f5f5f5;
   color: #222;
 }
 
 header {
-  background: #0f62fe;
-  padding: 1rem;
-  text-align: center;
-  color: white;
-  font-weight: bold;
-  font-size: 1.5rem;
-  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
-#currentWorld {
-  margin-top: 0.4rem;
-  font-weight: normal;
-  font-size: 1rem;
-  color: #cce1ff;
+button {
+  cursor: pointer;
+  background-color: #0f62fe;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0043ce;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 main {
-  max-width: 960px;
-  margin: 1rem auto;
-  padding: 0 1rem;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 section {
   margin-bottom: 1.5rem;
-  background: #1a1a1a;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px #0f62fe50;
-}
-
-body.light-theme section {
-  background: #fff;
-  box-shadow: 0 0 10px #0f62fe40;
-  color: #222;
-}
-
-h2 {
-  margin-bottom: 0.7rem;
-  border-bottom: 2px solid #0f62fe;
-  padding-bottom: 0.3rem;
-}
-
-#statsSection div {
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
-}
-
-#buyAmountSelect {
-  padding: 0.3rem;
-  font-size: 1rem;
-  margin-left: 0.4rem;
-}
-
-.big-btn {
-  padding: 1rem 2rem;
-  font-size: 1.8rem;
-  cursor: pointer;
-  border-radius: 12px;
-  border: none;
-  background-color: #0f62fe;
-  color: white;
-  user-select: none;
-  margin: 0.5rem;
-  transition: background-color 0.3s ease;
-}
-
-.big-btn:hover:not(.btn-disabled) {
-  background-color: #0059b3;
-}
-
-.rebirth-btn {
-  background-color: #ff4c4c;
-}
-
-.rebirth-btn:hover:not(.btn-disabled) {
-  background-color: #cc0000;
-}
-
-.btn-disabled {
-  background-color: #444 !important;
-  cursor: not-allowed !important;
-}
-
-.upgrade-item,
-.shop-item,
-.pet-item,
-.mission-item,
-.achievement-item {
-  border-bottom: 1px solid #333;
-  padding: 0.5rem 0;
-}
-
-.upgrade-item:last-child,
-.shop-item:last-child,
-.pet-item:last-child,
-.mission-item:last-child,
-.achievement-item:last-child {
-  border-bottom: none;
-}
-
-.upgrade-item button,
-.shop-item button,
-.pet-item button {
-  margin-top: 0.3rem;
-  padding: 0.3rem 0.7rem;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 8px;
-  border: none;
-  background-color: #0f62fe;
-  color: white;
-  transition: background-color 0.2s ease;
-}
-
-.upgrade-item button:hover:not(.btn-disabled),
-.shop-item button:hover:not(.btn-disabled),
-.pet-item button:hover:not(.btn-disabled) {
-  background-color: #0059b3;
-}
-
-.mission-item progress {
-  width: 100%;
-  height: 14px;
-  margin-top: 4px;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.achievement-item span.achieved {
-  color: #27ae60;
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-left: 0.4rem;
-}
-
-.achievement-item span.not-achieved {
-  color: #e74c3c;
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-left: 0.4rem;
-}
-
-#chatSection {
   background-color: #222;
   padding: 1rem;
   border-radius: 8px;
+}
+
+.light-theme section {
+  background-color: #e0e0e0;
+}
+
+h2 {
+  margin-bottom: 0.75rem;
+  color: #0f62fe;
+}
+
+#clickBtn {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  background-color: #27ae60;
+}
+
+#rebirthBtn {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.2rem;
+  background-color: #e67e22;
+  margin-bottom: 1rem;
+}
+
+.upgrade-item, .shop-item, .pet-item {
+  background-color: #333;
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.light-theme .upgrade-item,
+.light-theme .shop-item,
+.light-theme .pet-item {
+  background-color: #ddd;
+  color: #222;
+}
+
+.upgrade-item h4,
+.shop-item h4,
+.pet-item h4 {
+  margin-bottom: 0.3rem;
+}
+
+.upgrade-item p,
+.shop-item p,
+.pet-item p {
+  margin: 0.2rem 0;
   color: #eee;
-  display: flex;
-  flex-direction: column;
-  max-height: 320px;
+  font-weight: 600;
 }
 
-.chat-list {
-  flex-grow: 1;
+.light-theme .upgrade-item p,
+.light-theme .shop-item p,
+.light-theme .pet-item p {
+  color: #222;
+}
+
+.ranking-item {
+  background-color: #1f1f1f;
+  padding: 0.4rem;
+  margin-bottom: 0.3rem;
+  border-radius: 4px;
+  color: #a0a0a0;
+}
+
+.light-theme .ranking-item {
+  background-color: #ccc;
+  color: #444;
+}
+
+.chatMessages {
+  height: 150px;
   overflow-y: auto;
-  background-color: #111;
-  border-radius: 6px;
+  background-color: #1e1e1e;
   padding: 0.5rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  color: #ddd;
   font-size: 0.9rem;
-  margin-bottom: 0.6rem;
-  height: 180px;
-  user-select: text;
-  line-height: 1.3rem;
 }
 
-#chatInput {
-  padding: 0.5rem;
-  border-radius: 6px;
-  border: none;
-  font-size: 1rem;
-  margin-bottom: 0.4rem;
-}
-
-#chatSendBtn {
-  align-self: flex-end;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #0f62fe;
-  border: none;
-  border-radius: 6px;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#chatSendBtn:hover {
-  background-color: #0059b3;
+.light-theme .chatMessages {
+  background-color: #fafafa;
+  color: #222;
 }
 
 .notification {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  padding: 12px 20px;
-  border-radius: 12px;
+  background-color: #0f62fe;
   color: white;
-  font-weight: bold;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  display: none;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(15, 98, 254, 0.6);
+  z-index: 999;
+}
+
+/* Inputs */
+input[type=text] {
+  width: 70%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: none;
+  margin-right: 0.5rem;
   font-size: 1rem;
-  z-index: 9999;
-  user-select: none;
-  pointer-events: none;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
 
 @media (max-width: 600px) {
-  main {
-    padding: 0 0.5rem;
-  }
-  .big-btn {
-    font-size: 1.3rem;
-    padding: 0.8rem 1.2rem;
-    margin: 0.3rem;
-  }
-  #statsSection div {
-    font-size: 1rem;
+  button, input[type=text] {
+    width: 100%;
+    margin-bottom: 0.5rem;
   }
 }
