@@ -1,340 +1,209 @@
-/* Fonte personalizada do Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-
 /* Reset básico */
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
-/* Corpo e fundo */
 body {
-  font-family: 'Montserrat', sans-serif;
-  background: linear-gradient(135deg, #1f1f2e, #151520);
-  color: #e0e0e0;
-  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #121212;
+  color: #eee;
+  margin: 0;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  transition: background 0.5s, color 0.5s;
+  min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
 }
 
-/* Tema claro */
-body.light-theme {
-  background: linear-gradient(135deg, #d6e3f0, #f0f4f8);
-  color: #222;
-}
-
-/* Cabeçalho */
 header {
-  text-align: center;
   margin-bottom: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.8rem;
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
+  background: #333;
+  color: #eee;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background 0.3s;
   user-select: none;
 }
 
-header h1 {
-  font-weight: 700;
-  font-size: 3rem;
-  margin-bottom: 10px;
-  letter-spacing: 2px;
-  text-shadow: 0 0 8px #0a84ffaa;
-}
-
-/* Botão grande do clique */
-#clickBtn {
+button:hover:not(:disabled) {
   background: #0a84ff;
   color: white;
-  border-radius: 50px;
-  border: none;
-  padding: 25px 60px;
-  font-size: 2.2rem;
-  font-weight: 700;
-  box-shadow: 0 6px 15px #0a84ffbb;
-  transition: background 0.3s, box-shadow 0.3s;
-  cursor: pointer;
 }
 
-#clickBtn:hover {
-  background: #006ddb;
-  box-shadow: 0 8px 20px #006ddbcc;
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-#clickBtn:active {
-  transform: scale(0.97);
-  box-shadow: 0 4px 10px #004b9acc;
-}
-
-/* Seções principais */
-section {
-  background: #222239;
-  border-radius: 15px;
-  padding: 20px 25px;
-  margin-bottom: 25px;
-  max-width: 620px;
-  width: 100%;
-  box-shadow: 0 0 15px #0a84ff33;
-  transition: background 0.5s, color 0.5s;
-}
-
-body.light-theme section {
-  background: #f9f9fc;
-  color: #222;
-  box-shadow: 0 0 15px #007aff33;
-}
-
-/* Títulos das seções */
-h2 {
-  font-weight: 700;
+#clickBtn {
   font-size: 1.8rem;
+  padding: 25px 50px;
+  background: #0a84ff;
+  border-radius: 20px;
+  font-weight: bold;
+  margin: 25px 0;
+  user-select: none;
+  box-shadow: 0 0 15px #0a84ffaa;
+  transition: background 0.2s;
+}
+
+#clickBtn:hover:not(:disabled) {
+  background: #0071d9;
+  box-shadow: 0 0 20px #0071d9aa;
+}
+
+section {
+  width: 100%;
+  max-width: 700px;
+  background: #222;
+  border-radius: 12px;
+  padding: 15px 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 0 15px #000;
+  transition: background 0.3s;
+}
+
+h2 {
+  margin-top: 0;
   margin-bottom: 15px;
-  color: #0a84ff;
-  text-shadow: 0 0 6px #0a84ffcc;
-  transition: color 0.5s;
+  font-weight: 700;
+  font-size: 1.6rem;
 }
 
-body.light-theme h2 {
-  color: #007aff;
-  text-shadow: none;
+.stats div, .upgrade-row div, .shop-item h3, .pet-name, .pet-bonus, .pet-price {
+  font-size: 1.1rem;
 }
 
-/* Estatísticas */
 .stats div {
-  font-size: 1.15rem;
-  margin-bottom: 10px;
-  letter-spacing: 0.02em;
+  margin-bottom: 8px;
 }
 
-.stats strong {
-  color: #0a84ff;
-}
-
-/* Lista de upgrades, loja, pets, mundos */
 .upgrade-row, .shop-item, .pet-card, .world-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #1f1f35;
-  border-radius: 10px;
   padding: 10px 15px;
-  margin-bottom: 12px;
-  box-shadow: 0 0 8px #0008;
-  transition: background 0.3s, box-shadow 0.3s;
-  cursor: pointer;
+  background: #333;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  transition: background 0.3s;
 }
 
-.upgrade-row:hover, .shop-item:hover, .pet-card:hover, .world-card:hover {
-  background: #0a84ff22;
-  box-shadow: 0 0 12px #0a84ffcc;
-}
-
-body.light-theme .upgrade-row, 
-body.light-theme .shop-item, 
-body.light-theme .pet-card, 
-body.light-theme .world-card {
-  background: #fff;
-  box-shadow: 0 0 10px #007aff33;
-  color: #222;
-}
-
-body.light-theme .upgrade-row:hover, 
-body.light-theme .shop-item:hover, 
-body.light-theme .pet-card:hover, 
-body.light-theme .world-card:hover {
-  background: #007aff22;
-  box-shadow: 0 0 14px #007affcc;
-}
-
-/* Upgrade e Shop nomes e preços */
 .upgrade-row div, .shop-item h3, .pet-name {
   flex: 1;
-  font-weight: 600;
-  font-size: 1rem;
-  user-select: none;
 }
 
-.shop-item p {
-  flex: 2;
-  font-size: 0.9rem;
-  color: #a0a0a0;
-  user-select: none;
-}
-
-body.light-theme .shop-item p {
-  color: #555;
-}
-
-/* Botões */
-.btn, .shop-buy-btn {
-  background: #0a84ff;
-  border: none;
-  color: white;
-  font-weight: 700;
-  padding: 8px 20px;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  min-width: 110px;
-  user-select: none;
-  transition: background 0.3s, box-shadow 0.3s;
-}
-
-.btn:hover:not(:disabled), .shop-buy-btn:hover:not(:disabled) {
-  background: #006ddb;
-  box-shadow: 0 0 12px #006ddbcc;
-}
-
-.btn:disabled, .shop-buy-btn:disabled {
-  background: #444a5a;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-/* Pets */
 .pet-card {
   flex-direction: column;
   align-items: flex-start;
-  padding: 15px 20px;
-  gap: 6px;
-  min-height: 110px;
-  position: relative;
-}
-
-.pet-emoji {
-  font-size: 3rem;
+  cursor: pointer;
   user-select: none;
 }
 
-.pet-name {
-  font-size: 1.25rem;
-  color: #0a84ff;
-  user-select: none;
-}
-
-.pet-bonus, .pet-price {
-  font-size: 0.9rem;
-  color: #a0a0a0;
-  user-select: none;
-}
-
-body.light-theme .pet-name {
-  color: #007aff;
+.pet-card.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .pet-card.active {
   border: 3px solid #0a84ff;
-  box-shadow: 0 0 20px #0a84ffcc;
+  background: #0a84ff22;
 }
 
-.pet-card.disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+.pet-emoji {
+  font-size: 2.4rem;
+  margin-bottom: 6px;
 }
 
-/* Mundos */
+.pet-bonus, .pet-price {
+  font-size: 0.95rem;
+  margin-top: 2px;
+  color: #aaa;
+}
+
+.btn {
+  min-width: 110px;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.shop-buy-btn {
+  min-width: 140px;
+}
+
 .world-card {
+  padding: 15px;
+  cursor: pointer;
+  border-radius: 10px;
+  text-align: center;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.1rem;
   user-select: none;
-  border-radius: 12px;
-  padding: 15px 0;
+  transition: background 0.3s, color 0.3s;
 }
 
 .world-card.disabled {
   opacity: 0.3;
   cursor: not-allowed;
-  text-shadow: none;
+  background: #222;
+  color: #777;
 }
 
 .world-card.active {
   background: #0a84ff;
+  font-weight: 700;
   color: white;
-  box-shadow: 0 0 16px #0a84ffcc;
-  cursor: default;
+  box-shadow: 0 0 15px #0a84ffcc;
 }
 
-/* Seção comprar quantidades */
 .buy-amounts {
-  text-align: center;
-  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .buy-amounts strong {
   margin-right: 10px;
-  font-weight: 700;
-  font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .buy-amounts button {
-  background: #444a5a;
-  color: #ddd;
-  font-weight: 700;
+  margin: 5px 8px;
   padding: 8px 18px;
-  margin: 0 5px;
-  border-radius: 12px;
-  font-size: 1rem;
-  user-select: none;
-  transition: background 0.3s, color 0.3s;
-}
-
-.buy-amounts button:hover {
-  background: #0a84ff;
-  color: white;
-  box-shadow: 0 0 10px #0a84ffcc;
-  cursor: pointer;
-}
-
-.buy-amounts button.active {
-  background: #0a84ff;
-  color: white;
-  box-shadow: 0 0 14px #0a84ffcc;
-}
-
-/* Rebirth */
-.rebirth-section {
-  text-align: center;
-}
-
-#rebirthBtn {
-  font-size: 1.2rem;
+  border-radius: 10px;
   font-weight: 700;
-  padding: 15px 0;
-  width: 100%;
-  border-radius: 25px;
-  background: linear-gradient(90deg, #ff416c, #ff4b2b);
-  box-shadow: 0 0 15px #ff4b2bcc;
+  min-width: 60px;
+  transition: background 0.3s;
+}
+
+.buy-amounts .active {
+  background: #0a84ff;
   color: white;
-  user-select: none;
-  transition: background 0.4s ease-in-out;
-  border: none;
+  box-shadow: 0 0 12px #0a84ffbb;
 }
 
-#rebirthBtn:hover {
-  background: linear-gradient(90deg, #ff4b2b, #ff416c);
-  box-shadow: 0 0 25px #ff416ccc;
-  cursor: pointer;
-}
-
-#rebirthBtn:disabled {
-  background: #666;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-#rebirthInfo {
-  margin-top: 12px;
-  font-weight: 600;
-  font-size: 1rem;
-  user-select: none;
-}
-
-/* Botão de alternar tema */
 #toggleTheme {
   position: fixed;
-  top: 18px;
-  right: 18px;
-  font-size: 1.8rem;
+  top: 15px;
+  right: 15px;
   background: transparent;
+  font-size: 1.8rem;
   border: none;
   color: #0a84ff;
   cursor: pointer;
@@ -343,19 +212,87 @@ body.light-theme .pet-name {
 }
 
 #toggleTheme:hover {
-  color: #006ddb;
+  color: #007aff;
 }
 
-/* Responsividade */
-@media (max-width: 700px) {
+/* Tema claro */
+body.light-theme {
+  background: #f0f0f0;
+  color: #222;
+}
+
+body.light-theme section {
+  background: #fff;
+  color: #222;
+  box-shadow: 0 0 15px #ccc;
+}
+
+body.light-theme button {
+  background: #ddd;
+  color: #222;
+}
+
+body.light-theme button:hover:not(:disabled) {
+  background: #bbb;
+}
+
+body.light-theme .world-card.active {
+  background: #007aff;
+  box-shadow: 0 0 15px #007affcc;
+}
+
+/* Missões e conquistas */
+#missionsList, #achievementsList {
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.mission, .achievement {
+  background: #333;
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mission button {
+  min-width: 100px;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 6px 10px;
+  background: #0a84ff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mission button:hover {
+  background: #007aff;
+}
+
+/* Responsividade básica */
+@media (max-width: 480px) {
   #clickBtn {
-    padding: 18px 40px;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
+    padding: 18px 30px;
   }
+
   section {
-    max-width: 100%;
+    padding: 10px 15px;
   }
-  .pet-card {
-    min-height: 140px;
+
+  .upgrade-row, .shop-item, .pet-card, .world-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn, .shop-buy-btn {
+    width: 100%;
+    margin-top: 8px;
   }
 }
