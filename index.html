@@ -48,12 +48,12 @@
     <p id="activePet" style="margin-top:10px; font-weight:bold;">Pet ativo: Nenhum</p>
   </section>
 
-  <section class="missions" aria-label="Lista de missões">
+  <section class="missions" aria-label="Missões">
     <h2>Missões</h2>
     <div id="missionsList"></div>
   </section>
 
-  <section class="achievements" aria-label="Lista de conquistas">
+  <section class="achievements" aria-label="Conquistas">
     <h2>Conquistas</h2>
     <div id="achievementsList"></div>
   </section>
@@ -68,11 +68,18 @@
     <p id="rebirthInfo" style="margin-top:10px;"></p>
   </section>
 
-  <section class="ranking" aria-label="Ranking dos jogadores">
+  <section class="ranking" aria-label="Ranking online">
     <h2>Ranking - Top 10 Jogadores</h2>
-    <ol id="rankingList"></ol>
+    <ul id="rankingList"></ul>
+    <div class="rank-inputs">
+      <input type="text" id="playerNameInput" placeholder="Seu nome (3+ chars)" maxlength="15" />
+      <button id="saveRankBtn" class="btn">Salvar Pontuação</button>
+    </div>
+    <p id="rankMessage" style="color: red; margin-top: 8px;"></p>
   </section>
 
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
   <script src="firebase-config.js"></script>
   <script src="script.js"></script>
 </body>
