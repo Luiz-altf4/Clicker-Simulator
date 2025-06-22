@@ -3,82 +3,274 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator - Supremo</title>
-
-  <!-- Fonte Roboto Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
-
-  <!-- CSS principal -->
+  <title>Clicker Simulator Supremo - Parte 1</title>
+  
+  <!-- Fonte Google e ícones -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"></script>
+  
 </head>
 <body>
-  <button id="toggleTheme" title="Alternar tema" aria-label="Alternar tema">🌙</button>
-<!-- Ranking online fixo no canto direito -->
-<div id="rankingFixed" title="Ranking Online">
-  <h2>Ranking Online</h2>
-  <div id="rankingList"></div>
-</div>
+  <button id="toggleTheme" title="Alternar tema">🌙</button>
 
-  <main id="container">
+  <div id="container">
+
+    <!-- Título principal -->
     <header>
-      <h1>Clicker Simulator</h1>
+      <h1>Clicker Simulator Supremo</h1>
+      <p class="subtitle">O jogo de clicker definitivo, com ranking online, chat global e mais!</p>
     </header>
 
-    <section class="stats" aria-label="Estatísticas do jogo">
-      <div><strong>Clicks:</strong> <span id="clicksDisplay">0</span></div>
-      <div><strong>CPS (Clicks por segundo):</strong> <span id="cpsDisplay">0</span></div>
-      <div><strong>Level:</strong> <span id="levelDisplay">1</span></div>
-      <div><strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
-      <div><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
-      <div><strong>Mundo Atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
+    <!-- Estatísticas principais -->
+    <section id="stats" aria-label="Estatísticas do jogador">
+      <div class="stat-item"><strong>Clicks:</strong> <span id="clicksDisplay">0</span></div>
+      <div class="stat-item"><strong>CPS (Clicks por segundo):</strong> <span id="cpsDisplay">0</span></div>
+      <div class="stat-item"><strong>Level:</strong> <span id="levelDisplay">1</span></div>
+      <div class="stat-item"><strong>XP:</strong> <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
+      <div class="stat-item"><strong>Rebirths:</strong> <span id="rebirthCount">0</span></div>
+      <div class="stat-item"><strong>Mundo Atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
     </section>
 
-    <button id="clickBtn" aria-label="Botão principal de clique">Clique aqui!</button>
+    <!-- Botão principal para clicar -->
+    <section id="clickSection" aria-label="Clique principal">
+      <button id="clickBtn" aria-pressed="false" aria-label="Clique para ganhar clicks">Clique aqui!</button>
+    </section>
 
-    <section class="flex-row" aria-label="Áreas principais do jogo">
-      <div class="box" id="upgrades">
+    <!-- Área principal flexível com upgrades, loja e pets -->
+    <section id="mainArea" class="flex-row">
+
+      <!-- Upgrades -->
+      <article id="upgrades" class="box" aria-label="Upgrades">
         <h2>Upgrades</h2>
-        <ul id="upgradesList" class="list-container" role="list"></ul>
-      </div>
+        <div id="upgradesList" class="list-container">
+          <!-- Lista de upgrades aparecerá aqui via JS -->
+        </div>
+      </article>
 
-      <div class="box" id="shop">
+      <!-- Loja -->
+      <article id="shop" class="box" aria-label="Loja">
         <h2>Loja</h2>
-        <ul id="shopList" class="list-container" role="list"></ul>
-      </div>
+        <div id="shopList" class="list-container">
+          <!-- Itens da loja aparecerão aqui via JS -->
+        </div>
+      </article>
 
-      <div class="box" id="pets">
+      <!-- Pets -->
+      <article id="pets" class="box" aria-label="Pets">
         <h2>Pets</h2>
-        <ul id="petsList" class="list-container" role="list"></ul>
-      </div>
+        <div id="petsList" class="list-container pets-list">
+          <!-- Pets aparecerão aqui via JS -->
+        </div>
+      </article>
+
     </section>
 
-    <section class="flex-row" aria-label="Missões e conquistas">
-      <div class="box" id="missions">
+    <!-- Seção de missões, conquistas e ranking -->
+    <section id="secondaryArea" class="flex-row">
+
+      <!-- Missões -->
+      <article id="missions" class="box" aria-label="Missões">
         <h2>Missões</h2>
-        <ul id="missionsList" class="list-container" role="list"></ul>
-      </div>
+        <div id="missionsList" class="list-container">
+          <!-- Missões aparecerão aqui via JS -->
+        </div>
+      </article>
 
-      <div class="box" id="achievements">
+      <!-- Conquistas -->
+      <article id="achievements" class="box" aria-label="Conquistas">
         <h2>Conquistas</h2>
-        <ul id="achievementsList" class="list-container" role="list"></ul>
-      </div>
+        <div id="achievementsList" class="list-container">
+          <!-- Conquistas aparecerão aqui via JS -->
+        </div>
+      </article>
 
-      <div class="box" id="rankingBox">
+      <!-- Ranking -->
+      <article id="ranking" class="box" aria-label="Ranking Online">
         <h2>Ranking Online</h2>
-        <label for="playerNameInput">Seu nome:</label>
-        <input id="playerNameInput" type="text" maxlength="20" placeholder="Digite seu nome (mín 3 chars)" aria-required="true" />
-        <button id="saveScoreBtn" class="btn-special" aria-label="Salvar seu score">Salvar Score</button>
-        <div id="rankingList" class="list-container" role="list" aria-live="polite" aria-atomic="true" style="margin-top:10px;"></div>
-      </div>
+        <input id="playerNameInput" type="text" placeholder="Seu nome (mín. 3 caracteres)" aria-label="Nome do jogador" maxlength="15" />
+        <button id="saveScoreBtn" aria-label="Salvar pontuação">Salvar Score</button>
+        <div id="rankingList" class="ranking-list" tabindex="0" aria-live="polite" aria-relevant="additions removals">
+          <!-- Ranking online carregado via JS -->
+        </div>
+      </article>
+
     </section>
 
-    <button id="resetBtn" title="Resetar jogo" aria-label="Resetar jogo">Resetar Progresso</button>
-  </main>
+    <!-- Chat Global -->
+    <section id="chatContainer" class="box" aria-label="Chat Global">
+      <h2>Chat Global</h2>
+      <div id="chatMessages" tabindex="0" aria-live="polite" aria-relevant="additions removals">
+        <!-- Mensagens do chat -->
+      </div>
+      <form id="chatForm" aria-label="Enviar mensagem no chat" autocomplete="off">
+        <input id="chatInput" type="text" placeholder="Digite sua mensagem..." maxlength="100" aria-required="true" />
+        <button id="sendChatBtn" type="submit" aria-label="Enviar mensagem">Enviar</button>
+      </form>
+    </section>
 
-  <footer>
-    <p>© 2025 Clicker Simulator - Desenvolvido por Luiz Felipe</p>
-  </footer>
+    <!-- Modal exemplo -->
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+      <div class="modal-content">
+        <button class="closeModalBtn" aria-label="Fechar modal">×</button>
+        <h3 id="modalTitle">Título do Modal</h3>
+        <p id="modalDesc">Aqui você pode mostrar informações extras, tutoriais, dicas ou anúncios.</p>
+      </div>
+    </div>
 
-  <script type="module" src="script.js"></script>
+  </div>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>
+
+<!-- parte 2 do HTML - continua logo após a parte 1, dentro do <body> -->
+
+<!-- Configurações Avançadas -->
+<section id="settings" class="box" aria-label="Configurações do Jogo">
+  <h2>Configurações</h2>
+  <form id="settingsForm">
+    <div class="setting-item">
+      <label for="volumeRange">Volume do Som: <span id="volumeValue">50</span>%</label>
+      <input type="range" id="volumeRange" min="0" max="100" value="50" />
+    </div>
+    <div class="setting-item">
+      <label for="autoSaveToggle">Salvar Automaticamente:</label>
+      <input type="checkbox" id="autoSaveToggle" checked />
+    </div>
+    <div class="setting-item">
+      <label for="themeSelect">Tema:</label>
+      <select id="themeSelect" aria-label="Selecionar tema do jogo">
+        <option value="dark">Escuro</option>
+        <option value="light">Claro</option>
+      </select>
+    </div>
+    <div class="setting-item">
+      <label for="languageSelect">Idioma:</label>
+      <select id="languageSelect" aria-label="Selecionar idioma do jogo">
+        <option value="pt-BR" selected>Português (BR)</option>
+        <option value="en-US">English (US)</option>
+        <option value="es-ES">Español</option>
+      </select>
+    </div>
+    <button type="button" id="resetGameBtn" class="danger-btn">Resetar Progresso</button>
+  </form>
+</section>
+
+<!-- Tutorial -->
+<section id="tutorial" class="box" aria-label="Tutorial do Jogo">
+  <h2>Como Jogar</h2>
+  <ol>
+    <li>Clique no botão principal para ganhar clicks.</li>
+    <li>Use clicks para comprar upgrades na Loja.</li>
+    <li>Adquira Pets para aumentar seus clicks automáticos.</li>
+    <li>Complete missões para ganhar recompensas extras.</li>
+    <li>Alcance níveis altos e faça rebirth para começar com bônus!</li>
+    <li>Participe do chat global e veja o ranking online.</li>
+    <li>Salve seu progresso e configure o jogo do seu jeito.</li>
+  </ol>
+</section>
+
+<!-- Estatísticas Detalhadas -->
+<section id="detailedStats" class="box" aria-label="Estatísticas Detalhadas">
+  <h2>Estatísticas Detalhadas</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Estatística</th>
+        <th>Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Total de Clicks</td><td id="statTotalClicks">0</td></tr>
+      <tr><td>Clicks por Segundo</td><td id="statCPS">0</td></tr>
+      <tr><td>Nível Atual</td><td id="statLevel">1</td></tr>
+      <tr><td>XP Atual</td><td id="statXP">0</td></tr>
+      <tr><td>Rebirths</td><td id="statRebirths">0</td></tr>
+      <tr><td>Mundo Atual</td><td id="statWorld">Jardim Inicial</td></tr>
+      <tr><td>Pets Ativos</td><td id="statActivePets">Nenhum</td></tr>
+      <tr><td>Upgrades Comprados</td><td id="statUpgrades">0</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Créditos -->
+<footer id="credits" class="box" aria-label="Créditos do jogo">
+  <p>© 2025 Luiz Felipe. Desenvolvido com ❤️ por Luiz. Todos os direitos reservados.</p>
+  <p>Firebase e Google são marcas registradas.</p>
+</footer>
+
+<!-- Modal de ajuda extra -->
+<div id="helpModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="helpModalTitle" aria-describedby="helpModalDesc">
+  <div class="modal-content">
+    <button class="closeModalBtn" aria-label="Fechar modal">×</button>
+    <h3 id="helpModalTitle">Ajuda e Suporte</h3>
+    <p id="helpModalDesc">Se você tiver dúvidas, visite nossa página de suporte ou envie um email para suporte@clickersimulator.com.</p>
+  </div>
+</div>
+
+<!-- Modal de confirmação reset -->
+<div id="resetModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="resetModalTitle" aria-describedby="resetModalDesc">
+  <div class="modal-content">
+    <button class="closeModalBtn" aria-label="Fechar modal">×</button>
+    <h3 id="resetModalTitle">Confirmar Reset</h3>
+    <p id="resetModalDesc">Tem certeza que deseja resetar todo o seu progresso? Esta ação não pode ser desfeita.</p>
+    <button id="confirmResetBtn" class="danger-btn">Sim, resetar</button>
+    <button id="cancelResetBtn">Cancelar</button>
+  </div>
+</div>
+
+<!-- parte 3 do HTML - continua dentro do <body> -->
+
+<!-- Área de Debug e Logs -->
+<section id="debugArea" class="box" aria-label="Área de Debug e Logs">
+  <h2>Debug e Logs do Sistema</h2>
+  <textarea id="debugLogs" readonly rows="10" aria-label="Logs do sistema"></textarea>
+  <button id="clearLogsBtn" aria-label="Limpar logs">Limpar Logs</button>
+</section>
+
+<!-- Histórico de Eventos -->
+<section id="eventHistory" class="box" aria-label="Histórico de Eventos">
+  <h2>Histórico de Eventos</h2>
+  <ul id="eventList" class="event-list">
+    <!-- Eventos recentes aparecerão aqui -->
+  </ul>
+</section>
+
+<!-- Tooltips -->
+<div id="tooltip" class="tooltip hidden" role="tooltip"></div>
+
+<!-- Modal de notificações -->
+<div id="notificationModal" class="modal hidden" role="alertdialog" aria-modal="true" aria-labelledby="notificationTitle" aria-describedby="notificationDesc">
+  <div class="modal-content">
+    <button class="closeModalBtn" aria-label="Fechar notificação">×</button>
+    <h3 id="notificationTitle">Notificação</h3>
+    <p id="notificationDesc"></p>
+  </div>
+</div>
+
+<!-- Modal de erros críticos -->
+<div id="errorModal" class="modal hidden" role="alertdialog" aria-modal="true" aria-labelledby="errorTitle" aria-describedby="errorDesc">
+  <div class="modal-content">
+    <button class="closeModalBtn" aria-label="Fechar erro">×</button>
+    <h3 id="errorTitle">Erro Crítico</h3>
+    <p id="errorDesc"></p>
+    <button id="reloadBtn">Recarregar Página</button>
+  </div>
+</div>
+
+<!-- Rodapé detalhado -->
+<footer id="detailedFooter" class="box">
+  <p>Versão 2.5.3 | Desenvolvido por Luiz Felipe | <a href="https://github.com/Luiz-altf4/Clicker-Simulator" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+  <p>Suporte via email: suporte@clickersimulator.com</p>
+</footer>
+
+</div> <!-- fim do container -->
+
 </body>
 </html>
