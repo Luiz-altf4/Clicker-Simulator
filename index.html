@@ -3,85 +3,78 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator - Luiz Felipe</title>
+  <title>Clicker Simulator - Luiz</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="shortcut icon" href="favicon.ico" />
 </head>
 <body>
 
-  <button id="toggleTheme" title="Alternar tema claro/escuro">🌓</button>
-
-  <div id="gameContainer">
-
+  <header>
     <h1>Clicker Simulator</h1>
+    <div id="currentWorld" class="info">1 - Jardim Inicial</div>
+    <div id="clicksDisplay" class="info">Coins: 0</div>
+    <div id="cpsDisplay" class="info">CPS: 0</div>
+    <div id="levelDisplay" class="info">Level: 1</div>
+    <div id="xpDisplay" class="info">XP: 0</div>
+    <div id="rebirthCount" class="info">Rebirths: 0</div>
+  </header>
 
-    <div id="stats">
-      <div class="stat-box" id="coinsDisplay">Coins: 0</div>
-      <div class="stat-box" id="cpsDisplay">CPS: 0</div>
-      <div class="stat-box" id="clickPowerDisplay">Click Power: 1</div>
-      <div class="stat-box" id="xpDisplay">XP: 0</div>
-      <div class="stat-box" id="levelDisplay">Level: 1</div>
-    </div>
-
-    <button id="clickButton" aria-label="Clique para ganhar coins">Clique Aqui!</button>
-
-    <div id="controls">
-      <label for="buyAmountSelect">Comprar quantidade:</label>
-      <select id="buyAmountSelect" aria-label="Selecionar quantidade para comprar">
-        <option value="1">1x</option>
-        <option value="5">5x</option>
-        <option value="10">10x</option>
+  <main>
+    <section id="clickSection" class="section">
+      <button id="clickButton" class="btn click-btn">Clique Aqui!</button>
+      <label for="buyAmountSelect">Quantidade para comprar upgrades:</label>
+      <select id="buyAmountSelect" class="select-amount">
+        <option value="1" selected>1</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
       </select>
-      <button id="saveBtn" title="Salvar progresso">💾 Salvar</button>
-      <button id="loadBtn" title="Carregar progresso">📂 Carregar</button>
-      <button id="resetBtn" title="Resetar progresso">⚠️ Resetar</button>
-    </div>
-
-    <!-- Seções do jogo -->
-    <section class="section-container" id="upgradesSection" aria-label="Upgrades">
-      <h3>Upgrades</h3>
-      <div id="upgradesList" role="list" aria-live="polite"></div>
     </section>
 
-    <section class="section-container" id="shopSection" aria-label="Loja">
-      <h3>Loja</h3>
-      <div id="shopList" role="list" aria-live="polite"></div>
-    </section>
-
-    <section class="section-container" id="petsSection" aria-label="Pets">
-      <h3>Pets</h3>
-      <div id="petsList" role="list" aria-live="polite"></div>
-    </section>
-
-    <section class="section-container" id="missionsSection" aria-label="Missões">
-      <h3>Missões</h3>
-      <ul id="missions" role="list" aria-live="polite"></ul>
-    </section>
-
-    <section class="section-container" id="achievementsSection" aria-label="Conquistas">
-      <h3>Conquistas</h3>
-      <ul id="achievementsList" role="list" aria-live="polite"></ul>
-    </section>
-
-    <section class="section-container" id="rankingSection" aria-label="Ranking Online">
-      <h3>Ranking</h3>
-      <div id="ranking" role="list" aria-live="polite"></div>
-    </section>
-
-    <section class="section-container" id="chatSection" aria-label="Chat Global">
-      <h3>Chat Global</h3>
-      <div id="chatContainer">
-        <div id="chatMessages" role="log" aria-live="polite" aria-relevant="additions"></div>
-        <input type="text" id="playerNameInput" placeholder="Seu nome..." maxlength="15" aria-label="Nome do jogador" autocomplete="off" />
-        <input type="text" id="chatInput" placeholder="Digite sua mensagem..." maxlength="120" aria-label="Mensagem do chat" autocomplete="off" />
-        <button id="chatSendBtn" aria-label="Enviar mensagem">Enviar</button>
+    <section id="upgradesSection" class="section">
+      <h2>Upgrades</h2>
+      <div id="upgradesList" class="items-list">
+        <!-- Upgrades são injetados aqui pelo JS -->
       </div>
     </section>
 
-  </div>
+    <section id="shopSection" class="section">
+      <h2>Loja</h2>
+      <div id="shopList" class="items-list">
+        <!-- Itens da loja injetados pelo JS -->
+      </div>
+    </section>
 
-  <div id="notification" role="alert" aria-live="assertive"></div>
+    <section id="petsSection" class="section">
+      <h2>Pets</h2>
+      <div id="petsList" class="items-list">
+        <!-- Pets injetados aqui pelo JS -->
+      </div>
+    </section>
 
-  <script src="script.js"></script>
+    <section id="missionsSection" class="section">
+      <h2>Missões</h2>
+      <ul id="missions">
+        <!-- Missões injetadas pelo JS -->
+      </ul>
+    </section>
+
+    <section id="achievementsSection" class="section">
+      <h2>Conquistas</h2>
+      <ul id="achievementsList">
+        <!-- Conquistas injetadas pelo JS -->
+      </ul>
+    </section>
+
+    <section id="controlsSection" class="section controls">
+      <button id="saveBtn" class="btn control-btn">Salvar</button>
+      <button id="loadBtn" class="btn control-btn">Carregar</button>
+      <button id="resetBtn" class="btn control-btn">Resetar</button>
+    </section>
+  </main>
+
+  <div id="notification" class="notification" style="display:none;"></div>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
