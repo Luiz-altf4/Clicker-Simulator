@@ -1,28 +1,25 @@
-/* Reset básico */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+:root {
+  --color-bg: #121212;
+  --color-panel-bg: #1f1f1f;
+  --color-text: #eee;
+  --color-accent: #4fc3f7;
+  --color-btn-bg: #222;
+  --color-btn-hover: #4fc3f7;
+  --color-btn-text: #eee;
+  --color-xp-bar-bg: #333;
+  --color-xp-bar-fill: #4fc3f7;
 }
 
 body {
-  background: #121212;
-  color: #eee;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  position: relative;
+  margin: 0;
+  font-family: 'Orbitron', monospace, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   overflow-x: hidden;
-}
-
-h1 {
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 2.5rem;
-  text-shadow: 0 0 10px #00ffcc;
+  position: relative;
+  min-height: 100vh;
 }
 
 /* Luz piscando nos cantos */
@@ -30,162 +27,166 @@ body::before,
 body::after {
   content: "";
   position: fixed;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  filter: blur(40px);
-  opacity: 0.7;
-  animation: pulse 3s infinite alternate;
-  z-index: 0;
-}
-
-body::before {
-  top: 10px;
-  left: 10px;
-  background: #00ffcc;
-}
-
-body::after {
-  bottom: 10px;
-  right: 10px;
-  background: #ff0066;
-  animation-delay: 1.5s;
-}
-
-@keyframes pulse {
-  from {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0.8;
-    transform: scale(1.1);
-  }
-}
-
-/* Container do jogo */
-.container {
-  background: #1f1f1f;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 0 20px #00ffcc;
-  width: 100%;
-  max-width: 450px;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, #4fc3f7, transparent 70%);
+  opacity: 0.5;
+  animation: pulse 2.5s infinite ease-in-out;
+  pointer-events: none;
   z-index: 1;
 }
 
-.score-display {
-  font-size: 3rem;
-  text-align: center;
-  margin-bottom: 15px;
-  text-shadow: 0 0 15px #00ffcc;
+body::before {
+  top: 0;
+  left: 0;
 }
 
-#clickBtn {
-  width: 100%;
-  padding: 20px 0;
-  font-size: 1.7rem;
+body::after {
+  bottom: 0;
+  right: 0;
+  animation-delay: 1.25s;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.15);
+  }
+}
+
+/* Botão tema */
+.theme-btn {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  background-color: var(--color-btn-bg);
   border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  color: var(--color-btn-text);
+  font-size: 20px;
+  z-index: 10;
+  transition: background-color 0.3s;
+}
+
+.theme-btn:hover {
+  background-color: var(--color-btn-hover);
+}
+
+/* Container geral */
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  padding: 80px 16px 16px 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Painéis */
+.panel {
+  background-color: var(--color-panel-bg);
   border-radius: 12px;
-  background: linear-gradient(45deg, #00ffc8, #00a9b8);
-  color: #121212;
-  cursor: pointer;
-  box-shadow: 0 0 15px #00ffc8;
-  transition: background 0.3s ease;
-  user-select: none;
-}
-#clickBtn:hover {
-  background: linear-gradient(45deg, #00a9b8, #00ffc8);
+  padding: 16px;
+  box-shadow: 0 0 20px #0b4f6c44;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 2;
 }
 
-.stats, .shop, .boosts, .rebirth-reset {
-  margin-top: 20px;
+/* Títulos */
+.panel h2 {
+  margin: 0 0 8px 0;
+  font-weight: 700;
+  font-size: 1.3rem;
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: 6px;
 }
 
-.stats span,
-.shop span,
-.boosts span {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 1.1rem;
-}
-
+/* Botões */
 .btn {
-  cursor: pointer;
-  padding: 8px 14px;
-  font-size: 1rem;
-  border-radius: 8px;
+  background-color: var(--color-btn-bg);
   border: none;
-  margin-right: 8px;
-  margin-bottom: 10px;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--color-btn-text);
+  font-weight: 700;
+  transition: background-color 0.3s;
   user-select: none;
-  transition: box-shadow 0.3s ease;
 }
 
-.btn:active {
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
+.btn:hover,
+.btn:focus {
+  background-color: var(--color-btn-hover);
+  outline: none;
 }
 
-/* Botões principais */
-.btn-buy {
-  background: #00ffcc;
-  color: #121212;
-  box-shadow: 0 0 10px #00ffcc;
-  min-width: 100px;
+/* Click Button - maior */
+.click-btn {
+  font-size: 1.4rem;
+  padding: 20px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 900;
 }
 
-.btn-buy:hover {
-  background: #00c7a1;
-}
-
-.upgradeAmountBtn {
-  background: #222;
-  color: #ccc;
-  box-shadow: 0 0 8px #222;
-  min-width: 50px;
-}
-
-.upgradeAmountBtn.active,
-.upgradeAmountBtn:hover {
-  background: #00ffcc;
-  color: #121212;
-  box-shadow: 0 0 10px #00ffcc;
-}
-
-/* Barras */
-.xp-bar-container {
-  width: 100%;
-  height: 18px;
-  background: #333;
-  border-radius: 9px;
-  overflow: hidden;
-  margin-top: 6px;
-  box-shadow: inset 0 0 5px #00ffcc;
-}
-.xp-bar-fill {
-  height: 100%;
-  background: #00ffcc;
-  width: 0%;
-  transition: width 0.3s ease;
-}
-
-/* Divisões de seções */
-.section {
-  margin-top: 20px;
-}
-
-/* Layout dos botões de compra */
+/* Upgrade rows */
 .upgrade-row {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
 }
 
-/* Rodapé */
-footer {
-  margin-top: 30px;
-  font-size: 0.85rem;
-  color: #555;
+/* Botões comprar múltiplos */
+.upgradeAmountBtn {
+  background-color: var(--color-btn-bg);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-left: 6px;
+  min-width: 48px;
+  text-align: center;
   user-select: none;
+  font-weight: 700;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  color: var(--color-btn-text);
+}
+
+.upgradeAmountBtn:hover {
+  background-color: var(--color-btn-hover);
+  color: black;
+}
+
+.upgradeAmountBtn.active {
+  background-color: var(--color-accent);
+  border-color: var(--color-btn-text);
+  color: black;
+}
+
+/* Barra de XP */
+#xpBarContainer {
+  width: 100%;
+  height: 20px;
+  background-color: var(--color-xp-bar-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 6px 0 12px 0;
+}
+
+#xpBar {
+  height: 100%;
+  width: 0%;
+  background-color: var(--color-xp-bar-fill);
+  border-radius: 10px 0 0 10px;
+  transition: width 0.3s ease;
 }
