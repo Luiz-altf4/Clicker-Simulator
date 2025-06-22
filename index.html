@@ -1,39 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Clicker Simulator PRO</title>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Clicker Simulator PRO 2.0</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h1>Clicker Simulator PRO</h1>
+    <h1>Clicker Simulator PRO 2.0</h1>
     <button id="clickBtn" class="button-main">Clique Aqui!</button>
     <div class="stats">
       <span>Clicks: <strong id="score">0</strong></span>
-      <span>Poder por Click: <strong id="clickPower">1</strong></span>
+      <span>Power/Click: <strong id="clickPower">1</strong></span>
       <span>AutoClickers: <strong id="autoClickers">0</strong></span>
-      <span>Multiplicador: <strong id="multiplierCount">0</strong> (x<strong id="multiplier">1</strong>)</span>
+      <span>Multiplier: <strong id="multiplierCount">0</strong> (x<strong id="multiplier">1</strong>)</span>
       <span>CPS: <strong id="cps">0</strong></span>
-      <span>Nível: <strong id="levelDisplay">1</strong></span>
+      <span>World: <strong id="worldName">Terra</strong> 🌍</span>
+      <span>Nível: <strong id="level">1</strong></span>
       <div class="xp-bar-container"><div class="xp-bar-fill" id="xpBar"></div></div>
-      <span>Gemas: <strong id="gemsCount">0</strong></span>
-      <span>Rebirths: <strong id="rebirthCount">0</strong></span>
+      <span>Gemas: <strong id="gems">0</strong></span>
+      <span>Rebirths: <strong id="rebirths">0</strong></span>
     </div>
+
     <div class="shop">
-      <div>
-        <span>Upgrade Click Power <strong id="upgradeClickPowerCost">10</strong></span>
-        <button id="upgradeClickPowerBtn" class="btn-buy">Comprar</button>
-      </div>
-      <div>
-        <span>AutoClicker <strong id="autoClickerCost">50</strong></span>
-        <button id="buyAutoClickerBtn" class="btn-buy">Comprar</button>
-      </div>
-      <div>
-        <span>Multiplicador <strong id="multiplierCost">100</strong></span>
-        <button id="buyMultiplierBtn" class="btn-buy">Comprar</button>
-      </div>
+      <div><span>Upgrade Power <strong id="cpCost">10</strong></span>
+      <button id="cpBtn" class="btn-buy">Comprar</button></div>
+      <div><span>AutoClicker <strong id="acCost">50</strong></span>
+      <button id="acBtn" class="btn-buy">Comprar</button></div>
+      <div><span>Multiplier <strong id="mCost">100</strong></span>
+      <button id="mBtn" class="btn-buy">Comprar</button></div>
       <span>Comprar em:</span>
       <button class="upgradeAmountBtn active" data-amount="1">1</button>
       <button class="upgradeAmountBtn" data-amount="10">10</button>
@@ -41,15 +36,25 @@
       <button class="upgradeAmountBtn" data-amount="1000">1000</button>
       <button class="upgradeAmountBtn" data-amount="max">Max</button>
     </div>
+
     <div class="boosts">
-      <button id="speedBoostBtn" class="btn-buy">Boost Velocidade (20 gems)</button>
-      <button id="multiplierBoostBtn" class="btn-buy">Boost Multiplicador (50 gems)</button>
-      <button id="buyGemsBtn" class="btn-buy">Comprar 100 Gemas</button>
+      <button id="speedBtn" class="btn-buy">Boost Speed (20g)</button>
+      <button id="multiBtn" class="btn-buy">Boost Multi (50g)</button>
+      <button id="gemBtn" class="btn-buy">Buy 100 Gems (10k clicks)</button>
     </div>
+
     <div class="rebirth-reset">
       <button id="rebirthBtn" class="btn-buy">Rebirth</button>
-      <button id="resetBtn" class="btn-buy">Resetar Tudo</button>
+      <button id="resetBtn" class="btn-buy">Reset All</button>
     </div>
+
+    <div class="world-switcher">
+      <span>Select World:</span>
+      <button class="world-switch-btn" data-world="earth">Terra</button>
+      <button class="world-switch-btn" data-world="moon">Lua</button>
+      <button class="world-switch-btn" data-world="mars">Marte</button>
+    </div>
+
     <footer>&copy; 2025 Luiz</footer>
   </div>
   <script src="script.js"></script>
