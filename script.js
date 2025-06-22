@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getDatabase, ref, push, set, get } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
-// Config Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyA4iTIlOQbfvtEQd27R5L6Z7y_oXeatBF8",
   authDomain: "clickersimulatorrank.firebaseapp.com",
@@ -16,12 +15,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// DOM helpers
 const el = id => document.getElementById(id);
 
-// Estado inicial do jogo
 let clicks = 0;
-let cps = 0;
 let level = 1;
 let xp = 0;
 let xpToNext = 100;
@@ -29,15 +25,16 @@ let rebirths = 0;
 let currentWorld = 1;
 let buyAmount = 1;
 
-let upgrades = [];  // Preencha seus upgrades aqui ou carregue dinamicamente
+let upgrades = [];
 let shopItems = [];
 let pets = [];
 let achievements = [];
 let missions = [];
-
 let activePetId = null;
 
-// === Formatação de números
+let cpsIntervalId = null;
+
+// --- Formatar números com unidades ---
 function format(n) {
   if (n < 1000) return n.toFixed(0);
   const units = ["K","M","B","T","Qa","Qi","Sx","Sp","Oc","No","De"];
@@ -49,13 +46,11 @@ function format(n) {
   return n.toFixed(2) + units[i];
 }
 
-// === Nome dos mundos
 function getWorldName() {
   const worlds = ["Jardim Inicial","Cidade Neon","Espaço","Dimensão"];
   return worlds[currentWorld - 1] || "???";
 }
 
-// === Atualiza a tela com valores atuais
 function display() {
   el("clicksDisplay").textContent = format(clicks);
   el("cpsDisplay").textContent = format(calcCPS());
@@ -66,21 +61,30 @@ function display() {
   el("currentWorld").textContent = `${currentWorld} - ${getWorldName()}`;
 }
 
-// === Cálculo de clicks por segundo (CPS)
 function calcCPS() {
   let base = 0;
-  upgrades.forEach(u => base += (u.cps || 0) * (u.quantity || 0));
+  if (!Array.isArray(upgrades)) upgrades = [];
+  if (!Array.isArray(pets)) pets = [];
+  if (!Array.isArray(shopItems)) shopItems = [];
+
+  upgrades.forEach(u => {
+    base += (u.cps || 0) * (u.quantity || 0);
+  });
+
   let mult = 1;
   if (activePetId) {
     const pet = pets.find(p => p.id === activePetId);
     if (pet) mult += (pet.bonusPercent || 0) / 100;
   }
-  if (shopItems.find(i => i.name?.includes("x5") && i.owned)) mult *= 5;
-  else if (shopItems.find(i => i.name?.includes("x2") && i.owned)) mult *= 2;
+
+  const hasX5 = shopItems.find(i => i.name?.includes("x5") && i.owned);
+  const hasX2 = shopItems.find(i => i.name?.includes("x2") && i.owned);
+  if (hasX5) mult *= 5;
+  else if (hasX2) mult *= 2;
+
   return base * mult;
 }
 
-// === Ganhar XP e subir de nível
 function gainXP(amount) {
   xp += amount;
   while (xp >= xpToNext) {
@@ -90,41 +94,55 @@ function gainXP(amount) {
   }
 }
 
-// === Salvar estado no localStorage
+// --- Função para salvar jogo no localStorage com debounce ---
+let saveTimeout = null;
 function saveGame() {
-  const saveData = {
-    clicks, cps, level, xp, xpToNext, rebirths, currentWorld, buyAmount,
-    upgrades, shopItems, pets, achievements, missions, activePetId
-  };
-  localStorage.setItem("clickerSave", JSON.stringify(saveData));
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(() => {
+    try {
+      const saveData = {
+        clicks, level, xp, xpToNext, rebirths, currentWorld, buyAmount,
+        upgrades, shopItems, pets, achievements, missions, activePetId
+      };
+      localStorage.setItem("clickerSave", JSON.stringify(saveData));
+      //console.log("Jogo salvo");
+    } catch(e) {
+      console.error("Erro ao salvar jogo:", e);
+    }
+  }, 500); // Salva 0.5s após última chamada
 }
 
-// === Carregar estado do localStorage
 function loadGame() {
-  const save = localStorage.getItem("clickerSave");
-  if (!save) return;
   try {
+    const save = localStorage.getItem("clickerSave");
+    if (!save) return;
     const data = JSON.parse(save);
     clicks = data.clicks ?? 0;
-    cps = data.cps ?? 0;
     level = data.level ?? 1;
     xp = data.xp ?? 0;
     xpToNext = data.xpToNext ?? 100;
     rebirths = data.rebirths ?? 0;
     currentWorld = data.currentWorld ?? 1;
     buyAmount = data.buyAmount ?? 1;
-    upgrades = data.upgrades ?? [];
-    shopItems = data.shopItems ?? [];
-    pets = data.pets ?? [];
-    achievements = data.achievements ?? [];
-    missions = data.missions ?? [];
+    upgrades = Array.isArray(data.upgrades) ? data.upgrades : [];
+    shopItems = Array.isArray(data.shopItems) ? data.shopItems : [];
+    pets = Array.isArray(data.pets) ? data.pets : [];
+    achievements = Array.isArray(data.achievements) ? data.achievements : [];
+    missions = Array.isArray(data.missions) ? data.missions : [];
     activePetId = data.activePetId ?? null;
   } catch(e) {
-    console.error("Erro ao carregar save:", e);
+    console.error("Erro ao carregar jogo:", e);
   }
 }
 
-// === Eventos do botão de clique
+// --- Botão clique principal com animação ---
+function animateClickBtn() {
+  const btn = el("clickBtn");
+  btn.classList.add("clicked");
+  setTimeout(() => btn.classList.remove("clicked"), 150);
+}
+
+// --- Evento do clique ---
 el("clickBtn").onclick = () => {
   let gain = 1;
   if (activePetId) {
@@ -135,19 +153,25 @@ el("clickBtn").onclick = () => {
   gainXP(5);
   display();
   saveGame();
+  animateClickBtn();
 };
 
-// === Incremento automático (CPS)
-setInterval(() => {
-  const gain = calcCPS();
-  clicks += gain;
-  gainXP(gain);
-  display();
-  saveGame();
-}, 1000);
+// --- CPS automático ---
+function startCPSInterval() {
+  if (cpsIntervalId) clearInterval(cpsIntervalId);
+  cpsIntervalId = setInterval(() => {
+    const gain = calcCPS();
+    clicks += gain;
+    gainXP(gain);
+    display();
+    saveGame();
+  }, 1000);
+}
 
-// === Firebase: salvar score com async/await e validação
+// --- Firebase salvar score ---
+let saveBtnLocked = false;
 async function saveScore() {
+  if (saveBtnLocked) return;
   const nameInput = el("playerNameInput");
   const saveBtn = el("saveScoreBtn");
   const name = nameInput.value.trim();
@@ -162,6 +186,7 @@ async function saveScore() {
     return;
   }
 
+  saveBtnLocked = true;
   saveBtn.disabled = true;
   saveBtn.textContent = "Salvando...";
 
@@ -171,16 +196,17 @@ async function saveScore() {
     nameInput.value = "";
     alert("Score salvo com sucesso!");
     await loadRanking();
-  } catch (err) {
-    console.error("Erro ao salvar score:", err);
+  } catch (e) {
+    console.error("Erro ao salvar score:", e);
     alert("Erro ao salvar score. Tente novamente.");
   } finally {
+    saveBtnLocked = false;
     saveBtn.disabled = false;
     saveBtn.textContent = "Salvar Score";
   }
 }
 
-// === Firebase: carregar ranking
+// --- Firebase carregar ranking ---
 async function loadRanking() {
   const list = el("rankingList");
   list.textContent = "Carregando ranking...";
@@ -191,43 +217,45 @@ async function loadRanking() {
       list.textContent = "Nenhum score salvo ainda.";
       return;
     }
-
     const data = [];
-    snapshot.forEach(child => {
-      data.push(child.val());
-    });
-
+    snapshot.forEach(child => data.push(child.val()));
     const sorted = data.sort((a,b) => b.score - a.score).slice(0, 10);
-
-    list.innerHTML = sorted
-      .map((e,i) => `<div>#${i+1} ${e.name}: ${format(e.score)}</div>`)
-      .join("");
-
-  } catch (err) {
-    console.error("Erro ao carregar ranking:", err);
+    list.innerHTML = sorted.map((e,i) => `<div>#${i+1} ${e.name}: ${format(e.score)}</div>`).join("");
+  } catch (e) {
+    console.error("Erro ao carregar ranking:", e);
     list.textContent = "Erro ao carregar ranking.";
   }
 }
 
-// === Tema claro/escuro
+// --- Toggle tema claro/escuro ---
+function updateThemeIcon() {
+  const toggleBtn = el("toggleTheme");
+  if (document.body.classList.contains("light-theme")) {
+    toggleBtn.textContent = "☀️";
+    toggleBtn.title = "Modo claro";
+  } else {
+    toggleBtn.textContent = "🌙";
+    toggleBtn.title = "Modo escuro";
+  }
+}
+
 el("toggleTheme").onclick = () => {
   document.body.classList.toggle("light-theme");
-  el("toggleTheme").textContent = document.body.classList.contains("light-theme") ? "🌙" : "☀️";
+  updateThemeIcon();
+  saveGame();
 };
 
-// === Inicialização da página
-window.addEventListener("load", () => {
+document.addEventListener("DOMContentLoaded", () => {
   loadGame();
   display();
   loadRanking();
+  startCPSInterval();
+  updateThemeIcon();
 
   el("saveScoreBtn").addEventListener("click", saveScore);
 });
 
-// === Firebase imports e instanciações
-// Você precisa manter essas linhas no topo do arquivo:
-// import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-// import { getDatabase, ref, push, set, get } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
-
-// const app = initializeApp(firebaseConfig);
-// const db = getDatabase(app);
+// --- Salvar jogo antes de fechar/atualizar a página ---
+window.addEventListener("beforeunload", () => {
+  saveGame();
+});
