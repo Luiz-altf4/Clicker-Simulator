@@ -1,72 +1,78 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Clicker Simulator</title>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <h1>Clicker Simulator</h1>
-    <button id="toggleTheme" aria-label="Alternar tema">☀️</button>
+    <button id="toggleTheme" title="Alternar Tema">☀️</button>
   </header>
 
   <main>
-    <section id="gameSection">
-      <button id="clickBtn" aria-label="Clique aqui">Clique!</button>
-      <p>Clicks: <span id="clicksDisplay">0</span></p>
-      <p>Total Clicks: <span id="totalClicksStat">0</span></p>
-      <p>CPS: <span id="cpsDisplay">0</span></p>
-      <p>Nível: <span id="levelDisplay">1</span></p>
-      <p>XP: <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></p>
-      <p>Rebirths: <span id="rebirthCount">0</span></p>
-      <p>Mundo: <span id="currentWorld">1 - Jardim Inicial</span></p>
-      <button id="rebirthBtn">Rebirth</button>
-      <button id="saveBtn">Salvar</button>
-      <button id="clearSaveBtn">Limpar Progresso</button>
+    <section id="game-info">
+      <div>Clicks: <span id="clicksDisplay">0</span></div>
+      <div>Total Clicks: <span id="totalClicksStat">0</span></div>
+      <div>Clicks por segundo (CPS): <span id="cpsDisplay">0</span></div>
+      <div>Nível: <span id="levelDisplay">1</span></div>
+      <div>XP: <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
+      <div>Rebirths: <span id="rebirthCount">0</span></div>
+      <div>Mundo: <span id="currentWorld">1 - Jardim Inicial</span></div>
     </section>
 
-    <section id="upgradesSection">
+    <button id="clickBtn" class="big-btn">Clique aqui!</button>
+    <button id="rebirthBtn">Rebirth</button>
+
+    <section id="upgrades-section">
       <h2>Upgrades</h2>
       <div id="upgrades"></div>
     </section>
 
-    <section id="shopSection">
+    <section id="shop-section">
       <h2>Loja</h2>
       <div id="shopList"></div>
     </section>
 
-    <section id="petsSection">
+    <section id="pets-section">
       <h2>Pets</h2>
       <div id="pets"></div>
     </section>
 
-    <section id="missionsSection">
+    <section id="missions-section">
       <h2>Missões</h2>
       <ul id="missions"></ul>
     </section>
 
-    <section id="achievementsSection">
+    <section id="achievements-section">
       <h2>Conquistas</h2>
       <ul id="achievementsList"></ul>
     </section>
 
-    <section id="rankingSection">
+    <section id="ranking-section">
       <h2>Ranking</h2>
-      <input type="text" id="playerNameInput" placeholder="Digite seu nome" />
-      <button id="saveScoreBtn">Enviar Pontuação</button>
-      <div id="detailedRankingList">Carregando ranking...</div>
+      <input id="playerNameInput" placeholder="Seu nome" />
+      <button id="saveScoreBtn">Enviar pontuação</button>
+      <div id="detailedRankingList"></div>
     </section>
 
-    <section id="chatSection">
+    <section id="chat-section">
       <h2>Chat Global</h2>
-      <div id="chatMessages">Nenhuma mensagem ainda.</div>
-      <input type="text" id="chatInput" placeholder="Digite sua mensagem" />
+      <div id="chatMessages" class="chat-messages">Nenhuma mensagem ainda.</div>
+      <input id="chatInput" placeholder="Digite uma mensagem" />
       <button id="chatSendBtn">Enviar</button>
     </section>
 
-    <div id="notification" role="alert" aria-live="assertive"></div>
+    <section id="notifications">
+      <div id="notification" class="notification"></div>
+    </section>
+
+    <section id="controls">
+      <button id="saveBtn">Salvar Progresso</button>
+      <button id="clearSaveBtn">Limpar Progresso</button>
+    </section>
   </main>
 
   <script type="module" src="script.js"></script>
