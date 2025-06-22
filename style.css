@@ -1,428 +1,182 @@
-/* Reset e Fontes */
-* {
-  box-sizing: border-box;
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+:root {
+  --color-bg: #0a0a0a;
+  --color-panel-bg: #1a1a1a;
+  --color-text: #f0f0f0;
+  --color-accent: #00d1ff;
+  --color-btn-bg: #111;
+  --color-btn-hover: #00d1ff;
+  --color-btn-text: #fff;
+  --color-xp-bar-bg: #333;
+  --color-xp-bar-fill: #00d1ff;
+  --color-shadow: rgba(0, 209, 255, 0.4);
+  --transition-speed: 0.3s;
 }
 
 body {
   margin: 0;
-  font-family: 'Orbitron', monospace, sans-serif;
+  font-family: 'Orbitron', sans-serif;
   background-color: var(--color-bg);
   color: var(--color-text);
   overflow-x: hidden;
   user-select: none;
-  min-height: 100vh;
-  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* Variáveis */
-:root {
-  --color-bg: #121212;
-  --color-panel-bg: #1e1e1e;
-  --color-text: #eee;
-  --color-accent: #4fc3f7;
-  --color-accent-light: #80d8ff;
-  --color-btn-bg: #222;
-  --color-btn-hover: #4fc3f7;
-  --color-btn-text: #eee;
-  --color-xp-bar-bg: #333;
-  --color-xp-bar-fill: linear-gradient(90deg, #4fc3f7 0%, #80d8ff 100%);
-  --color-shadow: rgba(79, 195, 247, 0.6);
-  --transition-speed: 0.3s;
-  --font-large: 3rem;
-  --font-medium: 1.1rem;
-  --font-small: 0.9rem;
-}
-
-/* Tema claro */
-body.light-theme {
-  --color-bg: #f5f8fa;
-  --color-panel-bg: #ffffff;
-  --color-text: #222;
-  --color-accent: #008cff;
-  --color-accent-light: #66b3ff;
-  --color-btn-bg: #ddd;
-  --color-btn-hover: #008cff;
-  --color-btn-text: #222;
-  --color-xp-bar-bg: #ccc;
-  --color-xp-bar-fill: linear-gradient(90deg, #008cff 0%, #66b3ff 100%);
-  --color-shadow: rgba(0, 140, 255, 0.6);
-}
-
-/* Luz pulsante nos cantos */
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  width: 110px;
-  height: 110px;
-  background: radial-gradient(circle, var(--color-accent), transparent 70%);
-  opacity: 0.3;
-  animation: pulse 3s infinite ease-in-out;
-  pointer-events: none;
-  z-index: 0;
-  filter: drop-shadow(0 0 10px var(--color-accent));
-  border-radius: 50%;
-}
-
-body::before {
-  top: 10px;
-  left: 10px;
-}
-
-body::after {
-  bottom: 10px;
-  right: 10px;
-  animation-delay: 1.5s;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.75;
-    transform: scale(1.3);
-  }
-}
-
-/* Botão tema */
 .theme-btn {
   position: fixed;
   top: 12px;
   right: 12px;
   background-color: var(--color-btn-bg);
   border: none;
-  padding: 12px 18px;
-  cursor: pointer;
-  border-radius: 10px;
+  padding: 10px 16px;
+  border-radius: 8px;
   color: var(--color-btn-text);
-  font-size: 24px;
-  box-shadow: 0 0 15px var(--color-accent);
-  transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+  font-size: 22px;
   z-index: 10;
+  transition: background-color var(--transition-speed);
+  box-shadow: 0 0 12px var(--color-accent);
 }
-
 .theme-btn:hover {
   background-color: var(--color-btn-hover);
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 100px 24px 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.panel {
+  background-color: var(--color-panel-bg);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 0 18px var(--color-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: all var(--transition-speed);
+}
+.panel:hover {
   box-shadow: 0 0 30px var(--color-accent);
 }
 
-/* Container principal */
-.container {
-  max-width: 1400px;
-  margin: 100px auto 40px;
-  padding: 0 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 28px;
-  z-index: 1;
-}
-
-/* Painéis */
-.panel {
-  background-color: var(--color-panel-bg);
-  border-radius: 20px;
-  padding: 30px 28px;
-  box-shadow: 0 0 40px var(--color-shadow);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  transition: box-shadow var(--transition-speed);
-}
-
-.panel:hover {
-  box-shadow: 0 0 70px var(--color-accent);
-}
-
-/* Títulos */
 .panel h2 {
-  font-weight: 900;
-  font-size: 1.9rem;
-  margin-bottom: 15px;
-  letter-spacing: 2px;
-  color: var(--color-accent);
-  border-bottom: 3px solid var(--color-accent);
-  padding-bottom: 10px;
-  text-transform: uppercase;
-  user-select: none;
-}
-
-/* Stats principais */
-.stats {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  color: var(--color-text);
-  user-select: text;
-}
-
-.stat-item {
-  font-weight: 700;
-  font-size: var(--font-medium);
+  margin: 0 0 12px;
+  font-weight: 800;
+  font-size: 1.5rem;
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: 8px;
   letter-spacing: 1px;
-  user-select: none;
-}
-
-.stat-item.large {
-  font-size: var(--font-large);
-  text-align: center;
-  color: var(--color-accent-light);
-  letter-spacing: 4px;
-  user-select: none;
-}
-
-/* Botão click */
-.click-btn {
-  font-size: 2.2rem;
-  padding: 30px 0;
-  font-weight: 900;
-  border-radius: 20px;
-  cursor: pointer;
-  letter-spacing: 4px;
-  background-color: var(--color-btn-bg);
-  color: var(--color-btn-text);
-  box-shadow: 0 0 35px var(--color-accent);
-  border: 3px solid var(--color-accent);
-  transition: transform 0.2s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-  user-select: none;
+  color: var(--color-accent);
   text-transform: uppercase;
 }
 
-.click-btn:active {
-  transform: scale(0.93);
-  box-shadow: 0 0 50px var(--color-accent);
+.btn {
+  background-color: var(--color-btn-bg);
+  border: none;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--color-btn-text);
+  transition: background-color var(--transition-speed), box-shadow var(--transition-speed);
+  box-shadow: 0 0 8px transparent;
+  letter-spacing: 1px;
+  text-align: center;
+}
+.btn:hover {
   background-color: var(--color-btn-hover);
-  color: var(--color-bg);
+  box-shadow: 0 0 14px var(--color-accent);
 }
 
-/* Quantidade comprar */
-.buy-amounts {
+.click-btn {
+  font-size: 1.6rem;
+  padding: 28px;
+  text-transform: uppercase;
+  font-weight: 900;
+  transition: transform 0.15s ease;
+  box-shadow: 0 0 20px var(--color-accent);
+}
+.click-btn:active {
+  transform: scale(0.9);
+  box-shadow: 0 0 30px var(--color-accent);
+}
+
+.upgrade-row {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
   flex-wrap: wrap;
-  user-select: none;
-}
-
-.buy-amounts label {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--color-accent);
-  user-select: none;
+  gap: 10px;
 }
 
 .upgradeAmountBtn {
   background-color: var(--color-btn-bg);
-  border-radius: 12px;
-  padding: 12px 18px;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-btn-text);
   cursor: pointer;
   border: 2px solid transparent;
-  font-weight: 800;
-  color: var(--color-btn-text);
-  font-size: 1rem;
-  min-width: 75px;
+  min-width: 50px;
   text-align: center;
-  transition: all 0.3s ease;
-  user-select: none;
+  transition: all var(--transition-speed);
 }
-
-.upgradeAmountBtn.active,
-.upgradeAmountBtn:hover {
+.upgradeAmountBtn.active {
   background-color: var(--color-accent);
   color: var(--color-bg);
   border-color: var(--color-btn-text);
-  box-shadow: 0 0 25px var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent);
 }
 
-/* Lista upgrades */
-.upgrades-list, .shop-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-height: 400px;
-  overflow-y: auto;
-  padding-right: 8px;
-}
-
-/* Item upgrade/loja */
-.upgrade-row, .shop-item {
-  background-color: #222;
-  border-radius: 15px;
-  padding: 18px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 0 12px rgba(79, 195, 247, 0.4);
-  transition: box-shadow 0.3s ease, background-color 0.3s ease;
-  user-select: none;
-}
-
-.upgrade-row:hover, .shop-item:hover {
-  box-shadow: 0 0 40px var(--color-accent);
-  background-color: #2b2b2b;
-}
-
-/* Texto do upgrade/loja */
-.upgrade-row span.name,
-.shop-item span.name {
-  font-weight: 800;
-  font-size: 1.05rem;
-  flex: 1;
-  color: var(--color-text);
-  user-select: none;
-  letter-spacing: 0.5px;
-}
-
-/* Custo */
-.upgrade-row span.cost,
-.shop-item span.cost {
-  min-width: 110px;
-  text-align: right;
-  font-weight: 700;
-  color: var(--color-accent-light);
-  user-select: none;
-  font-size: 1rem;
-}
-
-/* Botão comprar upgrade/loja */
-.upgrade-row button,
-.shop-item button {
-  background-color: var(--color-btn-bg);
-  border: none;
-  border-radius: 14px;
-  padding: 10px 22px;
-  color: var(--color-btn-text);
-  font-weight: 800;
-  font-size: 1.05rem;
-  cursor: pointer;
-  user-select: none;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  min-width: 110px;
-  box-shadow: 0 0 15px transparent;
-}
-
-.upgrade-row button:hover,
-.shop-item button:hover {
-  background-color: var(--color-btn-hover);
-  box-shadow: 0 0 25px var(--color-accent);
-}
-
-/* Barra de XP */
 #xpBarContainer {
   background-color: var(--color-xp-bar-bg);
-  border-radius: 18px;
-  width: 100%;
-  height: 22px;
-  overflow: hidden;
-  box-shadow: inset 0 0 10px #000a;
-  margin-top: 6px;
-  user-select: none;
-}
-
-#xpBar {
-  height: 100%;
-  width: 0;
-  background: var(--color-xp-bar-fill);
-  border-radius: 18px;
-  transition: width 0.4s ease;
-  box-shadow: 0 0 20px var(--color-accent);
-  background-size: 200% 100%;
-  animation: xpGradient 4s linear infinite;
-}
-
-/* Animação do gradiente na barra XP */
-@keyframes xpGradient {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
-}
-
-/* Painel ações */
-#actionsPanel {
-  gap: 15px;
-}
-
-.action-btn {
-  font-size: 1.3rem;
-  padding: 18px 24px;
-  border-radius: 18px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  box-shadow: 0 0 20px var(--color-accent);
-  transition: all 0.3s ease;
-}
-
-.action-btn:hover {
-  background-color: var(--color-btn-hover);
-  box-shadow: 0 0 40px var(--color-accent);
-  color: var(--color-bg);
-}
-
-.reset {
-  background-color: #b03232;
-  box-shadow: 0 0 20px #d14b4b;
-  color: #eee;
-}
-
-.reset:hover {
-  background-color: #d14b4b;
-  box-shadow: 0 0 45px #d14b4b;
-  color: #fff;
-}
-
-/* Select mundos */
-#worldsSelect {
-  background-color: var(--color-btn-bg);
-  border: none;
   border-radius: 12px;
-  padding: 12px 18px;
-  color: var(--color-btn-text);
-  font-weight: 700;
-  font-size: 1.1rem;
-  cursor: pointer;
-  box-shadow: 0 0 15px var(--color-accent);
-  transition: background-color 0.3s ease;
-  user-select: none;
+  height: 18px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: inset 0 0 8px #0009;
+}
+#xpBar {
+  background-color: var(--color-xp-bar-fill);
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease-in-out;
+  box-shadow: 0 0 10px var(--color-accent);
+  border-radius: 12px;
 }
 
-#worldsSelect:hover {
-  background-color: var(--color-btn-hover);
-  color: var(--color-bg);
+#cps, #levelDisplay, #gemsCount, #rebirthCount, #worldName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
 }
 
-/* Scroll barras upgrades e loja - personalizado */
-.upgrades-list::-webkit-scrollbar,
-.shop-list::-webkit-scrollbar {
-  width: 8px;
+.shop-item {
+  margin-bottom: 12px;
+}
+.shop-buy {
+  width: 100%;
+  text-align: center;
 }
 
-.upgrades-list::-webkit-scrollbar-track,
-.shop-list::-webkit-scrollbar-track {
-  background: var(--color-panel-bg);
-  border-radius: 10px;
-}
-
-.upgrades-list::-webkit-scrollbar-thumb,
-.shop-list::-webkit-scrollbar-thumb {
-  background-color: var(--color-accent);
-  border-radius: 10px;
-}
-
-/* Responsividade */
-@media (max-width: 720px) {
+@media (max-width: 600px) {
   .container {
     grid-template-columns: 1fr;
-    padding: 80px 16px 16px 16px;
+    padding: 80px 16px;
+  }
+  .btn {
+    font-size: 0.9rem;
+    padding: 12px;
   }
   .click-btn {
-    font-size: 1.8rem;
-    padding: 22px 0;
-  }
-  .upgradeAmountBtn {
-    min-width: 55px;
-    padding: 10px 14px;
-  }
-  #xpBarContainer {
-    height: 18px;
+    padding: 20px;
+    font-size: 1.4rem;
   }
 }
