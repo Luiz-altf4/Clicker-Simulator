@@ -4,19 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Clicker Simulator</title>
-  <!-- Link CSS profissional -->
   <link rel="stylesheet" href="style.css" />
-  <!-- Favicon opcional -->
   <link rel="icon" href="favicon.ico" />
 </head>
 <body>
-  <!-- Botão alternar tema (fixo no topo direito) -->
   <button id="toggleTheme" title="Alternar tema">🌙</button>
 
   <main id="container" role="main" aria-label="Clicker Simulator">
     <h1>Clicker Simulator</h1>
 
-    <!-- Estatísticas principais -->
     <section class="stats" aria-label="Estatísticas do jogador">
       <div><strong>Clicks:</strong> <span id="clicksDisplay">0</span></div>
       <div><strong>CPS (Clicks por segundo):</strong> <span id="cpsDisplay">0</span></div>
@@ -26,45 +22,31 @@
       <div><strong>Mundo Atual:</strong> <span id="currentWorld">1 - Jardim Inicial</span></div>
     </section>
 
-    <!-- Botão principal para clicar -->
     <button id="clickBtn" aria-label="Clique para ganhar clicks">Clique aqui!</button>
 
-    <!-- Linhas flexíveis para upgrades, loja e pets -->
     <section class="flex-row" aria-label="Seções do jogo">
-      <!-- Upgrades -->
       <article class="box" id="upgrades" tabindex="0" aria-live="polite" aria-label="Upgrades disponíveis">
         <h2>Upgrades</h2>
-        <!-- Lista de upgrades gerada pelo JS -->
       </article>
 
-      <!-- Loja -->
       <article class="box" id="shop" tabindex="0" aria-live="polite" aria-label="Loja de multiplicadores e itens">
         <h2>Loja</h2>
-        <!-- Itens da loja gerados pelo JS -->
       </article>
 
-      <!-- Pets -->
       <article class="box" id="pets" tabindex="0" aria-live="polite" aria-label="Pets disponíveis">
         <h2>Pets</h2>
-        <!-- Pets gerados pelo JS -->
       </article>
     </section>
 
-    <!-- Segunda linha para missões, conquistas e ranking -->
     <section class="flex-row" aria-label="Missões, conquistas e ranking">
-      <!-- Missões -->
       <article class="box" id="missions" tabindex="0" aria-live="polite" aria-label="Missões atuais">
         <h2>Missões</h2>
-        <!-- Missões geradas pelo JS -->
       </article>
 
-      <!-- Conquistas -->
       <article class="box" id="achievements" tabindex="0" aria-live="polite" aria-label="Conquistas do jogador">
         <h2>Conquistas</h2>
-        <!-- Conquistas geradas pelo JS -->
       </article>
 
-      <!-- Ranking Online -->
       <article class="box" aria-label="Ranking Online e salvar score">
         <h2>Ranking Online</h2>
         <input
@@ -81,7 +63,6 @@
     </section>
   </main>
 
-  <!-- Script JS principal (módulo) -->
   <script type="module" src="script.js"></script>
 </body>
 </html>
