@@ -3,125 +3,87 @@ let score = 0;
 let clickPower = 1;
 let autoClickers = 0;
 let multiplier = 1;
-let multiplierCount = 0; // quantidade comprada do multiplicador
+let multiplierCount = 0;
 let cps = 0;
 let level = 1;
 let xp = 0;
 let gems = 0;
 let rebirths = 0;
+let prestige = 0;
 
 const clickSound = document.getElementById("clickSound");
 const buySound = document.getElementById("buySound");
 const boostSound = document.getElementById("boostSound");
 
-// Elementos DOM
 const scoreDisplay = document.getElementById("score");
 const clickBtn = document.getElementById("clickBtn");
 const clickPowerSpan = document.getElementById("clickPower");
-
 const upgradeClickPowerBtn = document.getElementById("upgradeClickPowerBtn");
 const upgradeClickPowerCostSpan = document.getElementById("upgradeClickPowerCost");
-
 const autoClickersSpan = document.getElementById("autoClickers");
 const autoClickerCostSpan = document.getElementById("autoClickerCost");
 const buyAutoClickerBtn = document.getElementById("buyAutoClickerBtn");
-
 const multiplierCostSpan = document.getElementById("multiplierCost");
 const multiplierCountSpan = document.getElementById("multiplierCount");
 const buyMultiplierBtn = document.getElementById("buyMultiplierBtn");
-
 const cpsDisplay = document.getElementById("cps");
 const xpBar = document.getElementById("xpBar");
 const levelDisplay = document.getElementById("levelDisplay");
 const gemsDisplay = document.getElementById("gemsCount");
 const rebirthCountSpan = document.getElementById("rebirthCount");
-
 const speedBoostBtn = document.getElementById("speedBoostBtn");
 const multiplierBoostBtn = document.getElementById("multiplierBoostBtn");
 const buyGemsBtn = document.getElementById("buyGemsBtn");
-
 const rebirthBtn = document.getElementById("rebirthBtn");
 const resetBtn = document.getElementById("resetBtn");
-
+const prestigeBtn = document.getElementById("prestigeBtn");
 const upgradeAmountBtns = document.querySelectorAll(".upgradeAmountBtn");
+const shopButtons = document.querySelectorAll(".shop-buy");
 let upgradeAmount = 1;
 
-// Rebirth custo (array com potências para até 100 níveis)
 const rebirthCostsPowers = Array.from({ length: 100 }, (_, i) => 3 * (i + 1));
 
-// Função custo rebirth com crescimento exponencial
-function custoRebirth(rebirthCount) {
-  if (rebirthCount < rebirthCostsPowers.length) {
-    return Math.pow(10, rebirthCostsPowers[rebirthCount]);
+function custoRebirth(count) {
+  if (count < rebirthCostsPowers.length) {
+    return Math.pow(10, rebirthCostsPowers[count]);
   } else {
-    return Math.pow(10, rebirthCostsPowers.at(-1)) + (rebirthCount - rebirthCostsPowers.length + 1) * 1e300;
+    return Math.pow(10, rebirthCostsPowers.at(-1)) + (count - rebirthCostsPowers.length + 1) * 1e300;
   }
 }
 
-// Função para formatar números grandes
 function formatarNumero(num) {
   if (num < 1000) return num.toFixed(0);
-  const unidades = ["", "K", "M", "B", "T", "Q", "Qi", "Sx", "Sp", "Oc",
-  "N", "Dc", "Ud", "Dd", "Td", "Qd", "Qn", "Sxd", "Spd", "Ocd",
-  "Nd", "Vg", "UVg", "DVg", "TVg", "QVg", "QnVg", "SVg", "SpVg", "OVg",
-  "NVg", "Tg", "UTg", "DTg", "TTg", "QTg", "QnTg", "STg", "SpTg", "OTg",
-  "NTg", "Qg", "UQg", "DQg", "TQg", "QQg", "QnQg", "SQg", "SpQg", "OQg",
-  "NQg", "Qq", "UQq", "DQq", "TQq", "QQq", "QnQq", "SQq", "SpQq", "OQq",
-  "NQq", "Sg", "USg", "DSg", "TSg", "QSg", "QnSg", "SSg", "SpSg", "OSg",
-  "NSg", "Sgnt", "USgnt", "DSgnt", "TSgnt", "QSgnt", "QnSgnt", "SSgnt", "SpSgnt", "OSgnt", "NSgnt",
-  "Ogt", "UOgt", "DOgt", "TOgt", "QOgt", "QnOgt", "SOgt", "SpOgt", "OOgt", "NOgt",
-  "Ng", "UNg", "DNn", "TNn", "QNn", "QnNn", "SNn", "SpNn", "ONn", "NNn", "OLPWO", "NdOs", "NSposk",
-  "Ldm", "Huoop", "Nowid", "Infernal", "Nallk", "Alsk", "SEoiUd", "A", "B", "C", "D", "E",
-  "AB", "AC", "AD", "AE", "Comdwi", "CMD", "Gfsppdo", "osiwop", "OOOOOOOgtu", "DQtgSqSp", "omhfooe",
-  "AqTpzRf", "mNsEjkD", "BdLuwXo", "zVtErPc", "yHqLmXa", "rTgPovB", "JtMwuZs", "EqYdrAf", "cLgUpMk", "NvYtlQz",
-  "WbmUjfE", "uSkzOcb", "fDwHryQ", "ZxgLMtA", "KoWvnJP", "VsLMdhr", "iPfEoqL", "jYHRxVc", "GblTMaX", "tRkXeNj",
-  "XoLqvRy", "YJmgtsd", "dRyxPlW", "FJvLzCn", "msOQaWv", "vLNBfTg", "CtmrYUJ", "GnQHrpl", "hXJKYzb", "VbzMWCs",
-  "ejrQphM", "LQNjmpB", "uyXhZWr", "SpMJrqT", "rTwPLmC", "DwZlVoj", "NpFYrEd", "xvRpjKn", "MJYtcqo", "ZPLxkqg",
-  "qlKNJus", "wMaRjZv", "epZOUyk", "oLYfJrT", "rLMQkhd", "SKprlTV", "zXDrYMj", "YoRLfnz", "qVWlHkJ", "vRpWZoq",
-  "KwLXtYh", "TGmzyPo", "fWLoUjB", "uOMqLrz", "JDmxRlN", "hbRzkLm", "VxLMRTu", "xWAqKLj", "PFvQzoM", "cWkYXJr",
-  "tLpVNHb", "UBNkyXc", "zJWxTup", "LsXQnzm", "HFzOrpL", "azqLxWP", "xoLMJRV", "kTYaRbL", "XvLKoPf", "LtZRPoj",
-  "dPqrYML", "mWXLKob", "QVpWrlo", "GZxpKYR", "uJvQLxm", "zKHrOYT", "OtwXJlz", "qzYPLkW", "tRLPJxv", "rKOYwZT",
-  "EFJrmqY", "MvXULrj", "XJrYtWk", "pTzWRmQ", "bqYoRPx", "yWXTLMk", "LOMxpqY", "JXovTYr", "WqRpXLY", "vnRMxjt",
-  "ZPWRyox", "XtqkJLM", "KLYzopM", "mTzYwXp", "pYVoXrm", "LqWRmjt", "xkLYvRp", "rXJPqwt", "JvXoPLY", "TZpqrmY"
-  ];
+  const unidades = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"];
   let ordem = Math.min(Math.floor(Math.log10(num) / 3), unidades.length - 1);
   let valor = num / Math.pow(1000, ordem);
   return valor.toFixed(2) + unidades[ordem];
 }
 
-// Salvar e carregar estado localStorage
 function salvarEstado() {
-  const estado = { score, clickPower, autoClickers, multiplier, multiplierCount, cps, level, xp, gems, rebirths };
+  const estado = { score, clickPower, autoClickers, multiplierCount, level, xp, gems, rebirths, prestige };
   localStorage.setItem("clickerSimEstado", JSON.stringify(estado));
 }
 
 function carregarEstado() {
-  const estado = localStorage.getItem("clickerSimEstado");
-  if (estado) {
-    const obj = JSON.parse(estado);
-    score = obj.score ?? 0;
-    clickPower = obj.clickPower ?? 1;
-    autoClickers = obj.autoClickers ?? 0;
-    multiplier = obj.multiplier ?? 1;
-    multiplierCount = obj.multiplierCount ?? 0;
-    cps = obj.cps ?? 0;
-    level = obj.level ?? 1;
-    xp = obj.xp ?? 0;
-    gems = obj.gems ?? 0;
-    rebirths = obj.rebirths ?? 0;
-
-    // Atualiza multiplicador considerando rebirths
-    multiplier = (multiplierCount + 1) * (rebirths * 2 || 1);
-  }
+  const estado = JSON.parse(localStorage.getItem("clickerSimEstado"));
+  if (!estado) return;
+  score = estado.score;
+  clickPower = estado.clickPower;
+  autoClickers = estado.autoClickers;
+  multiplierCount = estado.multiplierCount;
+  multiplier = (multiplierCount + 1) * (rebirths * 2 || 1);
+  level = estado.level;
+  xp = estado.xp;
+  gems = estado.gems;
+  rebirths = estado.rebirths;
+  prestige = estado.prestige || 0;
 }
 
-// Atualizar interface
 function atualizar() {
   verificarLevelUp();
-
   scoreDisplay.textContent = formatarNumero(score);
   clickPowerSpan.textContent = formatarNumero(clickPower);
-  upgradeClickPowerCostSpan.textContent = formatarNumero(custoUpgradeClickPower());
+  upgradeClickPowerCostSpan.textContent = formatarNumero(custoClickPower());
   autoClickersSpan.textContent = autoClickers;
   autoClickerCostSpan.textContent = formatarNumero(custoAutoClicker());
   multiplierCountSpan.textContent = multiplierCount;
@@ -131,11 +93,9 @@ function atualizar() {
   xpBar.style.width = `${Math.min((xp / (level * 100)) * 100, 100)}%`;
   gemsDisplay.textContent = gems;
   rebirthCountSpan.textContent = rebirths;
-
   salvarEstado();
 }
 
-// Verificar se sobe de nível
 function verificarLevelUp() {
   while (xp >= level * 100) {
     xp -= level * 100;
@@ -145,85 +105,89 @@ function verificarLevelUp() {
   }
 }
 
-// Custos das compras
-function custoUpgradeClickPower() {
+function custoClickPower() {
   return Math.floor(10 * Math.pow(1.5, clickPower - 1)) * upgradeAmount;
 }
+
 function custoAutoClicker() {
   return 50 * (autoClickers + 1) * upgradeAmount;
 }
+
 function custoMultiplicador() {
-  // Multiplicador aumenta o preço conforme quantidade
-  let custoTotal = 0;
+  let total = 0;
   for (let i = 0; i < upgradeAmount; i++) {
-    custoTotal += 100 * (multiplierCount + i + 1);
+    total += 100 * (multiplierCount + i + 1);
   }
-  return custoTotal;
+  return total;
 }
 
-// Eventos dos botões
-
-clickBtn.addEventListener("click", () => {
+clickBtn.onclick = () => {
   score += clickPower * multiplier;
   xp++;
   clickSound.play();
   atualizar();
-});
+};
 
-upgradeClickPowerBtn.addEventListener("click", () => {
-  const custo = custoUpgradeClickPower();
+upgradeClickPowerBtn.onclick = () => {
+  const custo = custoClickPower();
   if (score >= custo) {
     score -= custo;
     clickPower += upgradeAmount;
     buySound.play();
     atualizar();
-  } else {
-    alert(`Você precisa de ${formatarNumero(custo)} clicks para comprar!`);
   }
-});
+};
 
-buyAutoClickerBtn.addEventListener("click", () => {
+buyAutoClickerBtn.onclick = () => {
   const custo = custoAutoClicker();
   if (score >= custo) {
     score -= custo;
     autoClickers += upgradeAmount;
     buySound.play();
     atualizar();
-  } else {
-    alert(`Você precisa de ${formatarNumero(custo)} clicks para comprar!`);
   }
-});
+};
 
-buyMultiplierBtn.addEventListener("click", () => {
+buyMultiplierBtn.onclick = () => {
   const custo = custoMultiplicador();
   if (score >= custo) {
     score -= custo;
     multiplierCount += upgradeAmount;
-    // Multiplicador base + rebirths influencia o poder total
     multiplier = (multiplierCount + 1) * (rebirths * 2 || 1);
     buySound.play();
     atualizar();
-  } else {
-    alert(`Você precisa de ${formatarNumero(custo)} clicks para comprar!`);
   }
+};
+
+upgradeAmountBtns.forEach(btn => {
+  btn.onclick = () => {
+    upgradeAmount = parseInt(btn.dataset.amount);
+    upgradeAmountBtns.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+  };
 });
 
-speedBoostBtn.addEventListener("click", () => {
+setInterval(() => {
+  let ganho = autoClickers * multiplier;
+  score += ganho;
+  cps = ganho;
+  atualizar();
+}, 1000);
+
+speedBoostBtn.onclick = () => {
   if (gems >= 20) {
     gems -= 20;
     boostSound.play();
-    const boostInterval = setInterval(() => {
+    const interval = setInterval(() => {
       score += clickPower * multiplier;
       atualizar();
     }, 100);
-    setTimeout(() => clearInterval(boostInterval), 30000);
+    setTimeout(() => clearInterval(interval), 30000);
     atualizar();
-  } else {
-    alert("Você precisa de 20 gemas para comprar este boost!");
   }
-});
+};
 
-multiplierBoostBtn.addEventListener("click", () => {
+multiplierBoostBtn.onclick = () => {
   if (gems >= 50) {
     gems -= 50;
     boostSound.play();
@@ -233,67 +197,82 @@ multiplierBoostBtn.addEventListener("click", () => {
       multiplier /= 5;
       atualizar();
     }, 30000);
-  } else {
-    alert("Você precisa de 50 gemas para comprar este boost!");
   }
-});
+};
 
-buyGemsBtn.addEventListener("click", () => {
+buyGemsBtn.onclick = () => {
   gems += 100;
   buySound.play();
   atualizar();
-});
+};
 
-rebirthBtn.addEventListener("click", () => {
+rebirthBtn.onclick = () => {
   const custo = custoRebirth(rebirths);
   if (score >= custo) {
     score = 0;
     clickPower = 1;
     autoClickers = 0;
     multiplierCount = 0;
-    multiplier = 1;
-    cps = 0;
     level = 1;
     xp = 0;
     rebirths++;
     multiplier = (multiplierCount + 1) * (rebirths * 2 || 1);
     buySound.play();
     atualizar();
-  } else {
-    alert(`Rebirth custa ${formatarNumero(custo)} clicks!`);
   }
-});
+};
 
-resetBtn.addEventListener("click", () => {
-  if (confirm("Tem certeza que deseja resetar o jogo? Todo o progresso será perdido.")) {
+prestigeBtn.onclick = () => {
+  if (rebirths >= 5) {
+    prestige++;
+    score = 0;
+    clickPower = 1;
+    autoClickers = 0;
+    multiplierCount = 0;
+    multiplier = 1;
+    level = 1;
+    xp = 0;
+    rebirths = 0;
+    gems = 0;
+    buySound.play();
+    atualizar();
+    alert("Você ativou o Prestígio! Parabéns!");
+  } else {
+    alert("É necessário pelo menos 5 Rebirths para prestigiar!");
+  }
+};
+
+resetBtn.onclick = () => {
+  if (confirm("Deseja realmente resetar o jogo?")) {
     localStorage.clear();
     location.reload();
   }
+};
+
+shopButtons.forEach(btn => {
+  btn.onclick = () => {
+    const custo = parseInt(btn.dataset.cost);
+    if (score >= custo) {
+      score -= custo;
+      const item = btn.dataset.item;
+      switch (item) {
+        case "clickPowerBoost": clickPower += 5; break;
+        case "autoClickerBoost": autoClickers += 5; break;
+        case "multiplierBoost": multiplierCount += 1; multiplier = (multiplierCount + 1) * (rebirths * 2 || 1); break;
+      }
+      buySound.play();
+      atualizar();
+    } else {
+      alert("Você não tem clicks suficientes!");
+    }
+  };
 });
 
-upgradeAmountBtns.forEach(btn => {
-  btn.addEventListener("click", () => {
-    upgradeAmount = parseInt(btn.dataset.amount);
-    upgradeAmountBtns.forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-  });
-});
-
-// Auto clicker que funciona somando clicks por segundo
-setInterval(() => {
-  const clicksPorSegundo = autoClickers * multiplier;
-  score += clicksPorSegundo;
-  cps = clicksPorSegundo;
-  atualizar();
-}, 1000);
-
-// Trocar tema dark/light
-document.getElementById("toggleThemeBtn").addEventListener("click", () => {
+document.getElementById("toggleThemeBtn").onclick = () => {
   document.body.classList.toggle("light");
-});
+};
 
-// Inicializa
-window.addEventListener("load", () => {
+window.onload = () => {
   carregarEstado();
   atualizar();
-});
+};
