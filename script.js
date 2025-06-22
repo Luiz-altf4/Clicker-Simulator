@@ -13,201 +13,161 @@ let upgrades = [
   { id: 2, name: "Auto Clicker", cost: 500, cps: 5, clickPower: 0, quantity: 0 },
   { id: 3, name: "Mega Click", cost: 2000, cps: 0, clickPower: 10, quantity: 0 },
   { id: 4, name: "Ultra Click", cost: 10000, cps: 0, clickPower: 50, quantity: 0 },
-  { id: 5, name: "Auto Mega Clicker", cost: 50000, cps: 50, clickPower: 0, quantity: 0 }
 ];
 
 let shopItems = [
-  { id: 1, name: "Gems Pack", cost: 1000, quantity: 0 },
-  { id: 2, name: "Multiplier Booster", cost: 5000, quantity: 0 }
+  { id: 1, name: "Multiplier Booster", cost: 5000, quantity: 0 },
+  { id: 2, name: "Gemas x2", cost: 10000, quantity: 0 },
 ];
 
 let buyAmount = 1;
 
 // === Elementos DOM ===
 const clickBtn = document.getElementById('clickBtn');
-const clickCountDisplay = document.getElementById('clickCount');
+const clickCount = document.getElementById('clickCount');
 const cpsDisplay = document.getElementById('cps');
-const gemsDisplay = document.getElementById('gemsCount');
-const rebirthDisplay = document.getElementById('rebirthCount');
 const multiplierDisplay = document.getElementById('multiplierDisplay');
-const currentWorldDisplay = document.getElementById('currentWorld');
 const xpBar = document.getElementById('xpBar');
-
+const xpDisplay = document.getElementById('xpDisplay');
+const gemsCount = document.getElementById('gemsCount');
+const rebirthCount = document.getElementById('rebirthCount');
+const currentWorldDisplay = document.getElementById('currentWorld');
 const upgradesContainer = document.getElementById('upgradesContainer');
 const shopPanel = document.getElementById('shopPanel');
-const worldsSelect = document.getElementById('worldsSelect');
 const rebirthBtn = document.getElementById('rebirthBtn');
 const resetBtn = document.getElementById('resetBtn');
+const worldsSelect = document.getElementById('worldsSelect');
 const buyAmountBtns = document.querySelectorAll('.upgradeAmountBtn');
+const themeBtn = document.getElementById('themeBtn');
 
-// === Salvar e carregar ===
-function saveGame() {
-  const saveData = {
-    clicks, cps, gems, rebirths, multiplier, currentWorld,
-    xp, xpToLevel, upgrades, shopItems
-  };
-  localStorage.setItem('clickerSave', JSON.stringify(saveData));
-}
+// === Funções ===
 
-function loadGame() {
-  const saved = localStorage.getItem('clickerSave');
-  if (saved) {
-    const data = JSON.parse(saved);
-    clicks = data.clicks || 0;
-    cps = data.cps || 0;
-    gems = data.gems || 0;
-    rebirths = data.rebirths || 0;
-    multiplier = data.multiplier || 1;
-    currentWorld = data.currentWorld || 'Default';
-    xp = data.xp || 0;
-    xpToLevel = data.xpToLevel || 100;
-    upgrades = data.upgrades || upgrades;
-    shopItems = data.shopItems || shopItems;
-  }
-}
-
-// === Atualiza os displays na tela ===
-function updateDisplay() {
-  clickCountDisplay.textContent = formatNumber(clicks);
-  cpsDisplay.textContent = `CPS: ${formatNumber(cps)}`;
-  gemsDisplay.textContent = `Gems: ${formatNumber(gems)}`;
-  rebirthDisplay.textContent = `Rebirths: ${rebirths}`;
-  multiplierDisplay.textContent = `Multiplier: x${multiplier.toFixed(1)}`;
-  currentWorldDisplay.textContent = `World: ${currentWorld}`;
-  xpBar.style.width = `${Math.min(100, (xp / xpToLevel) * 100)}%`;
-}
-
-// === Formatar números grandes ===
 function formatNumber(num) {
-  if (num < 1000) return num.toString();
-  const units = ["k", "m", "b", "t", "q", "Qn", "s", "Sn", "O", "N"];
+  // Formatação compacta com suffix (ex: 1k, 1M, 1B...)
+  if (num < 1000) return num.toFixed(0);
+  const units = ["k", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"];
   let unitIndex = -1;
-  while (num >= 1000 && unitIndex < units.length - 1) {
-    num /= 1000;
+  let n = num;
+  while (n >= 1000 && unitIndex < units.length - 1) {
+    n /= 1000;
     unitIndex++;
   }
-  return num.toFixed(2) + units[unitIndex];
+  return n.toFixed(2) + units[unitIndex];
 }
 
-// === Renderiza upgrades ===
+function updateDisplay() {
+  clickCount.textContent = formatNumber(clicks);
+  cpsDisplay.textContent = `CPS: ${formatNumber(cps * multiplier)}`;
+  multiplierDisplay.textContent = `Multiplicador: x${multiplier.toFixed(2)}`;
+  gemsCount.textContent = `Gemas: ${formatNumber(gems)}`;
+  rebirthCount.textContent = `Rebirths: ${rebirths}`;
+  currentWorldDisplay.textContent = `Mundo: ${currentWorld}`;
+  xpDisplay.textContent = `XP: ${xp} / ${xpToLevel}`;
+
+  const xpPercent = Math.min((xp / xpToLevel) * 100, 100);
+  xpBar.style.width = `${xpPercent}%`;
+}
+
 function renderUpgrades() {
   upgradesContainer.innerHTML = '';
   upgrades.forEach(upg => {
-    const row = document.createElement('div');
-    row.className = 'upgrade-row';
+    const canBuy = clicks >= upg.cost;
+    const buyQty = buyAmount === 'max' ? Math.floor(clicks / upg.cost) : buyAmount;
+    const totalCost = upg.cost * buyQty;
 
-    const name = document.createElement('span');
-    name.textContent = `${upg.name} (Lvl: ${upg.quantity})`;
-    name.style.flex = '1';
+    const upgradeRow = document.createElement('div');
+    upgradeRow.className = 'upgrade-row';
 
-    const cost = document.createElement('span');
-    cost.textContent = `Cost: ${formatNumber(upg.cost)}`;
-    cost.style.minWidth = '90px';
-    cost.style.textAlign = 'right';
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'name';
+    nameSpan.textContent = `${upg.name} (x${upg.quantity})`;
 
-    const btn = document.createElement('button');
-    btn.className = 'btn';
-    btn.textContent = `Buy x${buyAmount === 'max' ? 'Max' : buyAmount}`;
-    btn.style.minWidth = '100px';
+    const costSpan = document.createElement('span');
+    costSpan.className = 'cost';
+    costSpan.textContent = `Preço: ${formatNumber(totalCost)}`;
 
-    btn.addEventListener('click', () => buyUpgrade(upg));
+    const buyBtn = document.createElement('button');
+    buyBtn.textContent = 'Comprar';
+    buyBtn.disabled = totalCost > clicks;
+    buyBtn.addEventListener('click', () => {
+      buyUpgrade(upg, buyQty);
+    });
 
-    row.appendChild(name);
-    row.appendChild(cost);
-    row.appendChild(btn);
+    upgradeRow.appendChild(nameSpan);
+    upgradeRow.appendChild(costSpan);
+    upgradeRow.appendChild(buyBtn);
 
-    upgradesContainer.appendChild(row);
+    upgradesContainer.appendChild(upgradeRow);
   });
 }
 
-// === Comprar upgrade ===
-function buyUpgrade(upg) {
-  let amountToBuy = buyAmount === 'max' ? calculateMaxAffordable(upg) : buyAmount;
-  if (amountToBuy <= 0) return;
-
-  let totalCost = 0;
-  let tempCost = upg.cost;
-  for (let i = 0; i < amountToBuy; i++) {
-    totalCost += tempCost;
-    tempCost = Math.floor(tempCost * 1.15);
-  }
-
-  if (clicks < totalCost) return;
-
-  clicks -= totalCost;
-  upg.cost = tempCost;
-  upg.quantity += amountToBuy;
-
-  if (upg.cps > 0) {
-    cps += upg.cps * amountToBuy;
-  }
-  if (upg.clickPower > 0) {
-    multiplier += upg.clickPower * amountToBuy;
-  }
-
-  updateDisplay();
-  renderUpgrades();
-  saveGame();
-}
-
-// === Calcula máximo que pode comprar ===
-function calculateMaxAffordable(upg) {
-  let max = 0;
-  let totalCost = 0;
-  let tempCost = upg.cost;
-  while (clicks >= totalCost + tempCost) {
-    totalCost += tempCost;
-    tempCost = Math.floor(tempCost * 1.15);
-    max++;
-  }
-  return max;
-}
-
-// === Renderiza loja ===
 function renderShop() {
   shopPanel.innerHTML = '';
   shopItems.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'shop-item';
+    const canBuy = clicks >= item.cost;
 
-    const name = document.createElement('span');
-    name.textContent = `${item.name} (Owned: ${item.quantity})`;
-    name.style.flex = '1';
+    const shopItem = document.createElement('div');
+    shopItem.className = 'shop-item';
 
-    const cost = document.createElement('span');
-    cost.textContent = `Cost: ${formatNumber(item.cost)}`;
-    cost.style.minWidth = '90px';
-    cost.style.textAlign = 'right';
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'name';
+    nameSpan.textContent = `${item.name} (x${item.quantity})`;
 
-    const btn = document.createElement('button');
-    btn.className = 'btn shop-buy';
-    btn.textContent = 'Buy';
-    btn.addEventListener('click', () => buyShopItem(item));
+    const costSpan = document.createElement('span');
+    costSpan.className = 'cost';
+    costSpan.textContent = `Preço: ${formatNumber(item.cost)}`;
 
-    div.appendChild(name);
-    div.appendChild(cost);
-    div.appendChild(btn);
+    const buyBtn = document.createElement('button');
+    buyBtn.textContent = 'Comprar';
+    buyBtn.disabled = !canBuy;
+    buyBtn.addEventListener('click', () => {
+      buyShopItem(item);
+    });
 
-    shopPanel.appendChild(div);
+    shopItem.appendChild(nameSpan);
+    shopItem.appendChild(costSpan);
+    shopItem.appendChild(buyBtn);
+
+    shopPanel.appendChild(shopItem);
   });
 }
 
-// === Comprar item da loja ===
-function buyShopItem(item) {
-  if (clicks < item.cost) return;
-  clicks -= item.cost;
-  item.quantity++;
-
-  if (item.name === "Multiplier Booster") {
-    multiplier += 0.5;
+function buyUpgrade(upg, quantity) {
+  const totalCost = upg.cost * quantity;
+  if (clicks >= totalCost) {
+    clicks -= totalCost;
+    upg.quantity += quantity;
+    // Aplicar efeitos do upgrade
+    if (upg.cps > 0) {
+      cps += upg.cps * quantity;
+    }
+    if (upg.clickPower > 0) {
+      multiplier += upg.clickPower * quantity;
+    }
+    // Aumenta custo progressivamente
+    upg.cost = Math.floor(upg.cost * (1.15 ** quantity));
+    updateDisplay();
+    renderUpgrades();
+    saveGame();
   }
-
-  updateDisplay();
-  renderShop();
-  saveGame();
 }
 
-// === Gerencia mundos ===
+function buyShopItem(item) {
+  if (clicks >= item.cost) {
+    clicks -= item.cost;
+    item.quantity++;
+    if (item.name === "Multiplier Booster") {
+      multiplier += 0.5;
+    }
+    if (item.name === "Gemas x2") {
+      gems *= 2;
+    }
+    updateDisplay();
+    renderShop();
+    saveGame();
+  }
+}
+
 const worlds = ['Default', 'Sun', 'Moon', 'Galaxy'];
 
 function renderWorlds() {
@@ -227,7 +187,6 @@ worldsSelect.addEventListener('change', () => {
   saveGame();
 });
 
-// === Clique manual ===
 clickBtn.addEventListener('click', () => {
   clicks += 1 * multiplier;
   xp += 1 * multiplier;
@@ -236,7 +195,6 @@ clickBtn.addEventListener('click', () => {
   saveGame();
 });
 
-// === Loop automático (CPS) ===
 setInterval(() => {
   clicks += cps * multiplier;
   xp += cps * multiplier;
@@ -245,25 +203,23 @@ setInterval(() => {
   saveGame();
 }, 1000);
 
-// === Checa level up ===
 function checkLevelUp() {
   if (xp >= xpToLevel) {
     xp -= xpToLevel;
     xpToLevel = Math.floor(xpToLevel * 1.2);
-    // Pode dar recompensas aqui
+    // Aqui você pode adicionar recompensas por subir de nível
   }
 }
 
-// === Rebirth ===
 rebirthBtn.addEventListener('click', () => {
   if (clicks < 100000) {
-    alert('Você precisa de pelo menos 100.000 clicks para rebirth!');
+    alert('Você precisa de pelo menos 100.000 clicks para fazer Rebirth!');
     return;
   }
   rebirths++;
   clicks = 0;
   cps = 0;
-  multiplier *= 2;
+  multiplier = 1 + rebirths; // Exemplo: multiplicador cresce com rebirths
   xp = 0;
   xpToLevel = 100;
 
@@ -282,7 +238,6 @@ rebirthBtn.addEventListener('click', () => {
   saveGame();
 });
 
-// === Reset total ===
 resetBtn.addEventListener('click', () => {
   if (confirm('Tem certeza que quer resetar todo o progresso?')) {
     clicks = 0;
@@ -308,22 +263,18 @@ resetBtn.addEventListener('click', () => {
   }
 });
 
-// === Botões de quantidade de compra ===
+// Botões quantidade comprar
 buyAmountBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     buyAmountBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-
     const val = btn.getAttribute('data-amount');
     buyAmount = val === 'max' ? 'max' : parseInt(val);
     renderUpgrades();
   });
 });
 
-buyAmountBtns[0].classList.add('active');
-
-// === Tema dark/light ===
-const themeBtn = document.getElementById('themeBtn');
+// Botão tema dark/light
 themeBtn.addEventListener('click', () => {
   document.body.classList.toggle('light-theme');
   if (document.body.classList.contains('light-theme')) {
@@ -333,13 +284,46 @@ themeBtn.addEventListener('click', () => {
   }
 });
 
-// === Inicialização ===
+function saveGame() {
+  const saveData = {
+    clicks,
+    cps,
+    gems,
+    rebirths,
+    multiplier,
+    currentWorld,
+    xp,
+    xpToLevel,
+    upgrades,
+    shopItems,
+  };
+  localStorage.setItem('clickerSave', JSON.stringify(saveData));
+}
+
+function loadGame() {
+  const saveData = JSON.parse(localStorage.getItem('clickerSave'));
+  if (saveData) {
+    clicks = saveData.clicks || 0;
+    cps = saveData.cps || 0;
+    gems = saveData.gems || 0;
+    rebirths = saveData.rebirths || 0;
+    multiplier = saveData.multiplier || 1;
+    currentWorld = saveData.currentWorld || 'Default';
+    xp = saveData.xp || 0;
+    xpToLevel = saveData.xpToLevel || 100;
+    upgrades = saveData.upgrades || upgrades;
+    shopItems = saveData.shopItems || shopItems;
+  }
+}
+
+// Inicialização
 function init() {
   loadGame();
   renderUpgrades();
   renderShop();
   renderWorlds();
   updateDisplay();
+  buyAmountBtns[0].classList.add('active');
 }
 
 init();
