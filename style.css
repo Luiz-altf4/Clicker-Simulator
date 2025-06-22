@@ -1,209 +1,252 @@
-/* style.css */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap');
-
-body {
-  background: linear-gradient(45deg, #000, #111);
-  color: white;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  text-align: center;
-  padding: 20px;
-  animation: rgbBackground 10s infinite linear;
-  min-height: 100vh;
-  margin: 0;
+:root {
+  --neon-blue: #00ffff;
+  --neon-pink: #ff00ff;
+  --neon-purple: #9d00ff;
+  --neon-green: #00ff88;
+  --dark-bg: #0a0a0a;
+  --dark-bg-alt: #111111;
+  --text-light: #e0e0e0;
+  --border-glow: 0 0 8px var(--neon-blue), 0 0 20px var(--neon-pink);
 }
 
-@keyframes rgbBackground {
-  0% { background-color: #ff0000; }
-  20% { background-color: #00ff00; }
-  40% { background-color: #0000ff; }
-  60% { background-color: #ffff00; }
-  80% { background-color: #ff00ff; }
-  100% { background-color: #00ffff; }
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(45deg, #0a0a0a, #111111);
+  font-family: 'Orbitron', sans-serif;
+  color: var(--text-light);
+  text-align: center;
+  padding: 20px;
+  user-select: none;
+  overflow-x: hidden;
 }
 
 h1 {
-  font-size: 3rem;
-  text-shadow: 0 0 15px #fff;
+  font-size: 3.5rem;
   margin-bottom: 15px;
-  user-select: none;
+  color: var(--neon-pink);
+  text-shadow:
+    0 0 5px var(--neon-pink),
+    0 0 10px var(--neon-pink),
+    0 0 20px var(--neon-pink);
+  animation: flicker 3s infinite alternate;
 }
 
-h2 {
-  margin-top: 40px;
-  margin-bottom: 20px;
-  font-weight: 700;
-  text-shadow: 0 0 8px #0ff;
-  user-select: none;
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+#stats p {
+  font-size: 1.25rem;
+  margin: 8px 0;
+  text-shadow: 0 0 6px var(--neon-blue);
 }
 
 #clickArea {
-  margin: 0 auto 30px;
-  background: radial-gradient(circle, #222, #000);
+  margin: 30px auto 40px;
+  background: radial-gradient(circle at center, #0ff, #008080);
   border-radius: 50%;
   width: 160px;
   height: 160px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  font-size: 2.4rem;
+  align-items: center;
+  font-size: 2.2rem;
   font-weight: 700;
+  color: #001f1f;
   cursor: pointer;
-  box-shadow: 0 0 25px #0ff;
-  transition: transform 0.1s ease, box-shadow 0.2s ease;
+  box-shadow:
+    0 0 15px var(--neon-green),
+    inset 0 0 30px var(--neon-green);
+  transition: transform 0.1s ease, box-shadow 0.3s ease;
+  border: 3px solid var(--neon-green);
   user-select: none;
 }
 
 #clickArea:active {
   transform: scale(0.9);
-  box-shadow: 0 0 50px #0ff;
-}
-
-#stats p {
-  font-size: 1.2rem;
-  margin: 5px 0;
-  user-select: none;
+  box-shadow:
+    0 0 40px var(--neon-green),
+    inset 0 0 40px var(--neon-green);
 }
 
 section {
-  max-width: 600px;
-  margin: 0 auto 40px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 15px;
-  padding: 15px 25px;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+  background: var(--dark-bg-alt);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  margin: 20px auto;
+  max-width: 700px;
+  padding: 20px;
+  box-shadow:
+    0 0 10px var(--neon-purple),
+    inset 0 0 15px var(--neon-purple);
+  position: relative;
+  animation: borderGlow 4s ease-in-out infinite alternate;
 }
 
-#upgrades, #shopList, #petsList {
+section h2 {
+  color: var(--neon-purple);
+  font-size: 2rem;
+  margin-bottom: 15px;
+  text-shadow:
+    0 0 6px var(--neon-purple),
+    0 0 10px var(--neon-purple);
+}
+
+@keyframes borderGlow {
+  0% {
+    border-color: var(--neon-purple);
+    box-shadow:
+      0 0 10px var(--neon-purple),
+      inset 0 0 15px var(--neon-purple);
+  }
+  100% {
+    border-color: var(--neon-pink);
+    box-shadow:
+      0 0 15px var(--neon-pink),
+      inset 0 0 20px var(--neon-pink);
+  }
+}
+
+#upgradesList, #petsList, #shopList, #missionsList, #achievementsList {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 15px;
+  gap: 12px;
 }
 
-.upgrade-item, .shop-item, .pet-item {
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid #00ffff;
-  border-radius: 12px;
-  width: 170px;
-  padding: 15px;
-  text-align: left;
-  box-shadow: 0 0 10px #00ffffaa;
-  user-select: none;
-  transition: background-color 0.3s ease;
-}
-
-.upgrade-item:hover, .shop-item:hover, .pet-item:hover {
-  background: rgba(0, 255, 255, 0.2);
-}
-
-.upgrade-item h4, .shop-item h4, .pet-item h4 {
-  margin: 0 0 10px;
-  font-size: 1.1rem;
-  text-shadow: 0 0 5px #0ff;
-}
-
-.upgrade-item p, .shop-item p, .pet-item p {
-  margin: 4px 0;
-  font-size: 0.9rem;
-}
-
-.upgrade-item button, .shop-item button, .pet-item button, #sendScoreBtn {
-  margin-top: 10px;
-  width: 100%;
-  padding: 8px 0;
+.upgrade, .pet, .shop-item, .mission-item, .achievement-item {
+  background: #111;
+  border: 2px solid var(--neon-blue);
+  border-radius: 10px;
+  width: 180px;
+  padding: 12px 15px;
+  box-shadow:
+    0 0 8px var(--neon-blue),
+    inset 0 0 10px #004444;
+  color: var(--text-light);
   font-weight: 600;
-  color: #000;
-  background: #00ffff;
-  border: none;
+  user-select: none;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.upgrade:hover, .pet:hover, .shop-item:hover, .mission-item:hover, .achievement-item:hover {
+  border-color: var(--neon-green);
+  box-shadow:
+    0 0 15px var(--neon-green),
+    inset 0 0 18px #007744;
+}
+
+.upgrade h3, .pet h3, .shop-item h3, .mission-item h3, .achievement-item h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.2rem;
+  color: var(--neon-pink);
+  text-shadow: 0 0 8px var(--neon-pink);
+}
+
+.upgrade p, .pet p, .shop-item p, .mission-item p, .achievement-item p {
+  font-size: 0.9rem;
+  margin: 0 0 10px 0;
+  color: #b0b0b0;
+  flex-grow: 1;
+}
+
+button {
+  background: transparent;
+  border: 2px solid var(--neon-blue);
+  color: var(--neon-blue);
+  font-weight: 700;
+  padding: 8px 0;
   border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 0 8px #00ffffaa;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.upgrade-item button:disabled, .shop-item button:disabled, .pet-item button:disabled {
-  background: #00808088;
-  cursor: not-allowed;
-  box-shadow: none;
-  color: #444;
-}
-
-.upgrade-item button:hover:not(:disabled), .shop-item button:hover:not(:disabled), .pet-item button:hover:not(:disabled), #sendScoreBtn:hover:not(:disabled) {
-  background: #00b8b8;
-  color: #fff;
-  box-shadow: 0 0 15px #00ffff;
-}
-
-#missionsList, #achievementsList {
-  text-align: left;
-  max-height: 200px;
-  overflow-y: auto;
-  padding-left: 15px;
   user-select: none;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
 }
 
-#missionsList li, #achievementsList li {
-  margin: 6px 0;
-  font-size: 1rem;
+button:disabled {
+  border-color: #444;
+  color: #444;
+  cursor: default;
+  box-shadow: none;
 }
 
-.achievement-item.completed {
-  color: #00ff00;
-  font-weight: bold;
-  text-shadow: 0 0 6px #00ff00;
+button:not(:disabled):hover {
+  background: var(--neon-green);
+  color: #001100;
+  border-color: var(--neon-green);
+  box-shadow:
+    0 0 15px var(--neon-green),
+    inset 0 0 25px #00bb33;
 }
 
 #rankingList {
   max-height: 200px;
   overflow-y: auto;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 10px;
-  text-align: left;
-  box-shadow: 0 0 12px #0ff;
-  user-select: none;
-}
-
-#rankingList div {
-  padding: 5px 0;
-  border-bottom: 1px solid #00ffff44;
-}
-
-#rankingList div:last-child {
-  border-bottom: none;
-}
-
-#playerName {
-  width: 60%;
-  padding: 10px;
+  background: #111;
   border-radius: 10px;
-  border: none;
-  outline: none;
+  padding: 15px;
+  box-shadow:
+    0 0 12px var(--neon-purple),
+    inset 0 0 15px #330066;
+  color: var(--text-light);
+  font-weight: 700;
   font-size: 1rem;
-  margin-bottom: 10px;
-  box-shadow: 0 0 10px #00ffffaa;
+}
+
+#btnSubmitScore, #btnRebirth {
+  margin: 15px 8px 0 8px;
+  background: var(--neon-pink);
+  border-color: var(--neon-pink);
+  box-shadow:
+    0 0 15px var(--neon-pink),
+    inset 0 0 20px #cc00cc;
+  color: white;
+  font-weight: 800;
+  font-size: 1.1rem;
+  width: 200px;
+  transition: all 0.3s ease;
+}
+
+#btnSubmitScore:hover, #btnRebirth:hover {
+  background: var(--neon-purple);
+  border-color: var(--neon-purple);
+  box-shadow:
+    0 0 20px var(--neon-purple),
+    inset 0 0 25px #aa00ff;
 }
 
 #notification {
-  font-size: 1.1rem;
-  pointer-events: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 8px;
+  z-index: 9999;
+  color: white;
   user-select: none;
+  box-shadow: 0 0 20px var(--neon-pink);
 }
 
-/* Responsivo */
-
 @media (max-width: 720px) {
-  #upgrades, #shopList, #petsList {
-    flex-direction: column;
-    align-items: center;
+  .upgrade, .pet, .shop-item, .mission-item, .achievement-item {
+    width: 100%;
   }
 
-  .upgrade-item, .shop-item, .pet-item {
-    width: 90%;
-  }
-
-  #playerName {
+  #btnSubmitScore, #btnRebirth {
     width: 90%;
   }
 }
