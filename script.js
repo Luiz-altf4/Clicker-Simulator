@@ -12,16 +12,15 @@ let upgrades = [
   { id: 1, name: "Upgrade Click", cost: 50, cps: 0, clickPower: 1, quantity: 0 },
   { id: 2, name: "Auto Clicker", cost: 500, cps: 5, clickPower: 0, quantity: 0 },
   { id: 3, name: "Mega Click", cost: 2000, cps: 0, clickPower: 10, quantity: 0 },
-  // Adicione outros upgrades que quiser
+  { id: 4, name: "Ultra Click", cost: 10000, cps: 0, clickPower: 50, quantity: 0 },
+  { id: 5, name: "Auto Mega Clicker", cost: 50000, cps: 50, clickPower: 0, quantity: 0 }
 ];
 
 let shopItems = [
   { id: 1, name: "Gems Pack", cost: 1000, quantity: 0 },
-  { id: 2, name: "Multiplier Booster", cost: 5000, quantity: 0 },
-  // Adicione outros itens da loja
+  { id: 2, name: "Multiplier Booster", cost: 5000, quantity: 0 }
 ];
 
-// Variável para controlar quantidade de compra (1,10,100,1000,max)
 let buyAmount = 1;
 
 // === Elementos DOM ===
@@ -41,24 +40,15 @@ const rebirthBtn = document.getElementById('rebirthBtn');
 const resetBtn = document.getElementById('resetBtn');
 const buyAmountBtns = document.querySelectorAll('.upgradeAmountBtn');
 
-// === Função para salvar progresso no localStorage ===
+// === Salvar e carregar ===
 function saveGame() {
   const saveData = {
-    clicks,
-    cps,
-    gems,
-    rebirths,
-    multiplier,
-    currentWorld,
-    xp,
-    xpToLevel,
-    upgrades,
-    shopItems
+    clicks, cps, gems, rebirths, multiplier, currentWorld,
+    xp, xpToLevel, upgrades, shopItems
   };
   localStorage.setItem('clickerSave', JSON.stringify(saveData));
 }
 
-// === Função para carregar progresso do localStorage ===
 function loadGame() {
   const saved = localStorage.getItem('clickerSave');
   if (saved) {
@@ -87,7 +77,7 @@ function updateDisplay() {
   xpBar.style.width = `${Math.min(100, (xp / xpToLevel) * 100)}%`;
 }
 
-// === Função para formatar números grandes com unidades (ex: 1k, 1m) ===
+// === Formatar números grandes ===
 function formatNumber(num) {
   if (num < 1000) return num.toString();
   const units = ["k", "m", "b", "t", "q", "Qn", "s", "Sn", "O", "N"];
@@ -99,7 +89,7 @@ function formatNumber(num) {
   return num.toFixed(2) + units[unitIndex];
 }
 
-// === Cria e mostra os upgrades na tela ===
+// === Renderiza upgrades ===
 function renderUpgrades() {
   upgradesContainer.innerHTML = '';
   upgrades.forEach(upg => {
@@ -130,7 +120,7 @@ function renderUpgrades() {
   });
 }
 
-// === Função para comprar upgrade ===
+// === Comprar upgrade ===
 function buyUpgrade(upg) {
   let amountToBuy = buyAmount === 'max' ? calculateMaxAffordable(upg) : buyAmount;
   if (amountToBuy <= 0) return;
@@ -139,16 +129,15 @@ function buyUpgrade(upg) {
   let tempCost = upg.cost;
   for (let i = 0; i < amountToBuy; i++) {
     totalCost += tempCost;
-    tempCost = Math.floor(tempCost * 1.15); // custo aumenta 15% a cada compra
+    tempCost = Math.floor(tempCost * 1.15);
   }
 
-  if (clicks < totalCost) return; // Não tem clicks suficientes
+  if (clicks < totalCost) return;
 
   clicks -= totalCost;
   upg.cost = tempCost;
   upg.quantity += amountToBuy;
 
-  // Atualiza stats conforme upgrade
   if (upg.cps > 0) {
     cps += upg.cps * amountToBuy;
   }
@@ -161,7 +150,7 @@ function buyUpgrade(upg) {
   saveGame();
 }
 
-// === Calcula quantos upgrades dá pra comprar com clicks atuais ===
+// === Calcula máximo que pode comprar ===
 function calculateMaxAffordable(upg) {
   let max = 0;
   let totalCost = 0;
@@ -209,7 +198,6 @@ function buyShopItem(item) {
   clicks -= item.cost;
   item.quantity++;
 
-  // Exemplo: se for booster, aumenta multiplicador
   if (item.name === "Multiplier Booster") {
     multiplier += 0.5;
   }
@@ -262,7 +250,7 @@ function checkLevelUp() {
   if (xp >= xpToLevel) {
     xp -= xpToLevel;
     xpToLevel = Math.floor(xpToLevel * 1.2);
-    // Aqui pode dar recompensa por level up
+    // Pode dar recompensas aqui
   }
 }
 
@@ -280,7 +268,7 @@ rebirthBtn.addEventListener('click', () => {
   xpToLevel = 100;
 
   upgrades.forEach(u => {
-    u.cost = Math.floor(u.cost / (1.15 ** u.quantity)); // reset custo
+    u.cost = Math.floor(u.cost / (1.15 ** u.quantity));
     u.quantity = 0;
   });
 
@@ -307,7 +295,7 @@ resetBtn.addEventListener('click', () => {
     xpToLevel = 100;
 
     upgrades.forEach(u => {
-      u.cost = u.cost / (1.15 ** u.quantity);
+      u.cost = Math.floor(u.cost / (1.15 ** u.quantity));
       u.quantity = 0;
     });
     shopItems.forEach(i => i.quantity = 0);
@@ -332,10 +320,20 @@ buyAmountBtns.forEach(btn => {
   });
 });
 
-// Inicializa botão ativo quantidade
 buyAmountBtns[0].classList.add('active');
 
-// === Inicia o jogo ===
+// === Tema dark/light ===
+const themeBtn = document.getElementById('themeBtn');
+themeBtn.addEventListener('click', () => {
+  document.body.classList.toggle('light-theme');
+  if (document.body.classList.contains('light-theme')) {
+    themeBtn.textContent = '🌞';
+  } else {
+    themeBtn.textContent = '🌙';
+  }
+});
+
+// === Inicialização ===
 function init() {
   loadGame();
   renderUpgrades();
