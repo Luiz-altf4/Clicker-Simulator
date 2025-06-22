@@ -1,396 +1,65 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <title>Clicker Simulator Supremo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clicker Simulator Supreme</title>
+
   <link rel="stylesheet" href="style.css" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap"
-    rel="stylesheet" />
-  <meta name="description" content="Clicker Simulator lendário, completo e com ranking online, chat global, pets, upgrades, missões e muito mais!" />
+  <!-- Firebase -->
+  <script type="module" src="script.js" defer></script>
 </head>
-
 <body>
-  <header>
-    CLICKER SIMULATOR SUPREMO
-  </header>
+  <div id="gameContainer">
+    <header>
+      <h1>Clicker Simulator Supreme</h1>
+      <button id="toggleTheme" aria-label="Alternar tema">🌙</button>
+    </header>
 
-  <div id="container" class="container">
+    <main>
+      <section id="clickSection">
+        <div id="clicksDisplay" aria-live="polite" aria-atomic="true">0</div>
+        <button id="clickBtn" aria-label="Clique aqui para ganhar clicks">Clique Aqui!</button>
+      </section>
 
-    <!-- Subheader descritivo -->
-    <p class="subheader">
-      Clique rápido, conquiste upgrades, colecione pets incríveis, suba no ranking global e mostre que você é o
-      melhor!
-    </p>
+      <section class="status-bar" role="region" aria-label="Estatísticas do jogador">
+        <div>Nível: <span id="levelDisplay">1</span></div>
+        <div>XP: <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></div>
+        <div>CPS: <span id="cpsDisplay">0</span></div>
+        <div>Rebirths: <span id="rebirthCount">0</span></div>
+        <div>Mundo: <span id="currentWorld">1 - Jardim Inicial</span></div>
+      </section>
 
-    <!-- Painel principal do jogo -->
-    <section id="gamePanel" class="panel">
-
-      <!-- Seção do contador de cliques -->
-      <div id="clickCounterWrapper" class="click-counter-wrapper">
-        <h2 class="section-title">Clique Aqui!</h2>
-        <button id="clickerBtn" class="clicker-btn" aria-label="Botão para clicar e ganhar pontos">Clique-me!</button>
-        <div id="clickCountDisplay" class="click-count-display" aria-live="polite" aria-atomic="true">0</div>
-        <div id="clickPowerDisplay" class="click-power-display">Poder de Clique: 1</div>
-      </div>
-
-      <!-- Barra de XP -->
-      <div class="progress-bar" title="XP atual">
-        <div id="xpBarFill" class="progress-fill" style="width: 0%;"></div>
-      </div>
-      <div id="xpText" class="xp-text">XP: 0 / 100</div>
-
-      <!-- Sistema de abas para seções do jogo -->
-      <nav class="tabs" role="tablist" aria-label="Seções do jogo">
-        <button class="tab active" role="tab" aria-selected="true" aria-controls="upgradesPanel" id="tabUpgrades">Upgrades</button>
-        <button class="tab" role="tab" aria-selected="false" aria-controls="petsPanel" id="tabPets">Pets</button>
-        <button class="tab" role="tab" aria-selected="false" aria-controls="missionsPanel" id="tabMissions">Missões</button>
-        <button class="tab" role="tab" aria-selected="false" aria-controls="rankingPanel" id="tabRanking">Ranking</button>
-        <button class="tab" role="tab" aria-selected="false" aria-controls="settingsPanel" id="tabSettings">Configurações</button>
-      </nav>
-
-      <!-- Conteúdo das abas -->
-      <div class="tab-content active" id="upgradesPanel" role="tabpanel" aria-labelledby="tabUpgrades">
-        <h3>Upgrades Disponíveis</h3>
-        <div class="list-scrollable" id="upgradesList" tabindex="0" aria-label="Lista de upgrades"></div>
-      </div>
-
-      <div class="tab-content" id="petsPanel" role="tabpanel" aria-labelledby="tabPets" hidden>
-        <h3>Seus Pets</h3>
-        <div class="list-scrollable" id="petsList" tabindex="0" aria-label="Lista de pets"></div>
-      </div>
-
-      <div class="tab-content" id="missionsPanel" role="tabpanel" aria-labelledby="tabMissions" hidden>
-        <h3>Missões Ativas</h3>
-        <div class="list-scrollable" id="missionsList" tabindex="0" aria-label="Lista de missões"></div>
-      </div>
-
-      <div class="tab-content" id="rankingPanel" role="tabpanel" aria-labelledby="tabRanking" hidden>
-        <h3>Ranking Global</h3>
-        <div id="rankingList" tabindex="0" aria-live="polite" aria-atomic="true" aria-label="Lista de ranking dos jogadores">
-          <!-- Ranking será populado dinamicamente -->
+      <section class="sections">
+        <div class="main-column">
+          <section aria-label="Upgrades disponíveis" id="upgrades"></section>
+          <section aria-label="Loja" id="shopList"></section>
+          <section aria-label="Pets" id="pets"></section>
+          <section aria-label="Missões" id="missions"></section>
+          <section aria-label="Conquistas" id="achievementsList"></section>
         </div>
-      </div>
 
-      <div class="tab-content" id="settingsPanel" role="tabpanel" aria-labelledby="tabSettings" hidden>
-        <h3>Configurações</h3>
+        <div class="side-column">
+          <section aria-label="Ranking" id="detailedRankingList"></section>
 
-        <label for="themeSelector">Tema:</label>
-        <select id="themeSelector" name="themeSelector" aria-label="Seleção de tema">
-          <option value="light">Claro</option>
-          <option value="dark" selected>Escuro</option>
-          <option value="blue">Azul</option>
-        </select>
+          <section aria-label="Chat global" id="chatSection">
+            <div id="chatMessages" tabindex="0" role="log" aria-live="polite" aria-relevant="additions"></div>
+            <input type="text" id="chatInput" aria-label="Digite sua mensagem" placeholder="Digite aqui..." autocomplete="off" />
+            <button id="sendChatBtn" aria-label="Enviar mensagem">Enviar</button>
+          </section>
 
-        <label for="soundToggle">Som:</label>
-        <input type="checkbox" id="soundToggle" name="soundToggle" aria-checked="true" checked />
-
-        <button id="resetGameBtn" class="control-btn" aria-label="Reiniciar jogo">Reiniciar Jogo</button>
-      </div>
-
-    </section>
-
-    <!-- Chat Global Flutuante -->
-    <button id="openChatBtn" aria-label="Abrir chat global">💬</button>
-
-    <!-- Modal do Chat Global -->
-    <div id="chatModal" role="dialog" aria-modal="true" aria-labelledby="chatModalTitle" aria-hidden="true">
-      <div id="chatModalContent">
-        <header id="chatModalHeader">
-          <h3 id="chatModalTitle">Chat Global</h3>
-          <button id="chatModalClose" aria-label="Fechar chat global">×</button>
-        </header>
-        <section id="chatModalMessages" tabindex="0" aria-live="polite" aria-atomic="false">
-          <!-- Mensagens do chat -->
-        </section>
-        <div id="chatModalInputWrapper">
-          <input type="text" id="chatModalInput" placeholder="Digite sua mensagem..." aria-label="Campo de mensagem" autocomplete="off" />
-          <button id="chatModalSendBtn" aria-label="Enviar mensagem">Enviar</button>
+          <section id="controls">
+            <input type="text" id="playerNameInput" aria-label="Digite seu nome para ranking" placeholder="Seu nome" />
+            <button id="saveScoreBtn" aria-label="Salvar score no ranking">Salvar Score</button>
+            <button id="saveBtn" aria-label="Salvar progresso">Salvar Progresso</button>
+            <button id="rebirthBtn" aria-label="Fazer Rebirth">Rebirth</button>
+            <button id="clearSaveBtn" aria-label="Limpar progresso">Resetar</button>
+          </section>
         </div>
-      </div>
-    </div>
-
-    <!-- Modal de Confirmação -->
-    <div id="confirmDialog" class="confirm-dialog" hidden role="alertdialog" aria-modal="true" aria-labelledby="confirmDialogTitle" aria-describedby="confirmDialogDesc">
-      <h2 id="confirmDialogTitle">Confirmação</h2>
-      <p id="confirmDialogDesc">Tem certeza que deseja reiniciar o jogo? Todos os dados serão perdidos.</p>
-      <div class="btn-group">
-        <button id="confirmYesBtn" aria-label="Confirmar reinício">Sim</button>
-        <button id="confirmNoBtn" aria-label="Cancelar reinício">Não</button>
-      </div>
-    </div>
-
-    <!-- Mensagem de alerta -->
-    <div id="alertMessage" class="alert-message" hidden role="alert" aria-live="assertive" aria-atomic="true"></div>
-
+      </section>
+    </main>
   </div>
 
-  <!-- Scripts -->
-  <script src="script.js"></script>
+  <div id="notification" class="notification" role="alert" aria-live="assertive"></div>
 </body>
-
 </html>
-
-<!-- ================== PARTE 2 DO HTML ================== -->
-
-<!-- CONTINUAÇÃO DO CONTAINER PRINCIPAL -->
-
-<section id="extraFeatures" class="panel extra-features">
-
-  <h2>Funcionalidades Extras</h2>
-
-  <div class="feature-box" id="achievementsSection" tabindex="0" aria-label="Conquistas do jogador">
-    <h3>Conquistas</h3>
-    <ul id="achievementsList" class="achievements-list">
-      <!-- Conquistas populadas via JS -->
-    </ul>
-  </div>
-
-  <div class="feature-box" id="rebirthSection" tabindex="0" aria-label="Sistema de Rebirth">
-    <h3>Rebirths</h3>
-    <p>Quantidade de rebirths: <span id="rebirthCountDisplay">0</span></p>
-    <button id="rebirthBtn" class="control-btn" aria-label="Realizar Rebirth">Fazer Rebirth</button>
-    <p class="rebirth-info">O rebirth reinicia seu progresso mas aumenta seus ganhos!</p>
-  </div>
-
-  <div class="feature-box" id="shopSection" tabindex="0" aria-label="Loja do jogo">
-    <h3>Loja</h3>
-    <div id="shopList" class="shop-list">
-      <!-- Itens da loja via JS -->
-    </div>
-  </div>
-
-  <div class="feature-box" id="worldsSection" tabindex="0" aria-label="Mundos do jogo">
-    <h3>Mundos</h3>
-    <p>Mundo atual: <span id="currentWorldDisplay">1 - Jardim Inicial</span></p>
-    <button id="changeWorldBtn" class="control-btn" aria-label="Mudar de mundo">Mudar Mundo</button>
-    <p class="world-info">Cada mundo traz desafios e bônus únicos!</p>
-  </div>
-
-  <div class="feature-box" id="leaderboardsSection" tabindex="0" aria-label="Ranking do jogo">
-    <h3>Ranking Online Detalhado</h3>
-    <input id="playerNameInput" type="text" placeholder="Digite seu nome" aria-label="Nome do jogador para ranking" maxlength="20" />
-    <button id="saveScoreBtn" class="control-btn" aria-label="Salvar score no ranking">Salvar Score</button>
-    <div id="detailedRankingList" class="ranking-list" tabindex="0" aria-live="polite" aria-atomic="true">
-      <!-- Ranking detalhado por JS -->
-    </div>
-  </div>
-
-</section>
-
-<!-- Estatísticas Avançadas -->
-<section id="advancedStats" class="panel advanced-stats" aria-label="Estatísticas avançadas do jogador">
-  <h2>Estatísticas Detalhadas</h2>
-  <table class="stats-table" aria-describedby="statsDesc">
-    <caption id="statsDesc">Tabela com estatísticas detalhadas do jogo</caption>
-    <thead>
-      <tr>
-        <th>Estatística</th>
-        <th>Valor</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Clicks Totais</td>
-        <td id="totalClicksStat">0</td>
-      </tr>
-      <tr>
-        <td>Clicks por Segundo (CPS)</td>
-        <td id="cpsStat">0</td>
-      </tr>
-      <tr>
-        <td>Nível Atual</td>
-        <td id="levelStat">1</td>
-      </tr>
-      <tr>
-        <td>XP Atual</td>
-        <td id="xpStat">0</td>
-      </tr>
-      <tr>
-        <td>Rebirths Realizados</td>
-        <td id="rebirthsStat">0</td>
-      </tr>
-      <tr>
-        <td>Mundo Atual</td>
-        <td id="worldStat">1 - Jardim Inicial</td>
-      </tr>
-      <tr>
-        <td>Pets Ativos</td>
-        <td id="activePetsStat">Nenhum</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-<!-- Seção Tutorial -->
-<section id="tutorialSection" class="panel tutorial-section" aria-label="Tutorial do jogo">
-  <h2>Tutorial Rápido</h2>
-  <ol>
-    <li>Clique no botão para ganhar clicks.</li>
-    <li>Use seus clicks para comprar upgrades e pets.</li>
-    <li>Complete missões para ganhar bônus especiais.</li>
-    <li>Faça rebirth para acelerar seu progresso.</li>
-    <li>Participe do ranking e mostre seu poder!</li>
-  </ol>
-  <button id="closeTutorialBtn" class="control-btn" aria-label="Fechar tutorial">Fechar Tutorial</button>
-</section>
-
-<!-- Rodapé com créditos -->
-<footer id="footer" role="contentinfo">
-  <p>© 2025 Clicker Simulator Supremo. Desenvolvido por Luiz Felipe.</p>
-  <p>Design, código e funcionalidade top de linha para você!</p>
-</footer>
-
-<!-- Scripts essenciais do jogo (se necessário para alguma funcionalidade rápida) -->
-<script>
-  // Script para fechar tutorial
-  document.getElementById('closeTutorialBtn').addEventListener('click', () => {
-    document.getElementById('tutorialSection').style.display = 'none';
-  });
-
-  // Script para abas do painel
-  const tabs = document.querySelectorAll('.tab');
-  const tabContents = document.querySelectorAll('.tab-content');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => {
-        t.classList.remove('active');
-        t.setAttribute('aria-selected', 'false');
-      });
-      tabContents.forEach(tc => tc.hidden = true);
-      tab.classList.add('active');
-      tab.setAttribute('aria-selected', 'true');
-      const panelId = tab.getAttribute('aria-controls');
-      document.getElementById(panelId).hidden = false;
-      document.getElementById(panelId).classList.add('active');
-    });
-  });
-</script>
-
-<!-- ================== PARTE 3 DO HTML ================== -->
-
-<!-- Tela de Loading -->
-<div id="loadingScreen" class="loading-screen" role="alert" aria-live="assertive" aria-busy="true" aria-label="Carregando jogo, aguarde...">
-  <div class="loader"></div>
-  <p>Carregando jogo, por favor aguarde...</p>
-</div>
-
-<!-- Notificações -->
-<div id="notificationContainer" class="notification-container" aria-live="polite" aria-atomic="true" role="region">
-  <!-- Notificações via JS -->
-</div>
-
-<!-- Painel de Configurações Avançadas -->
-<section id="advancedSettings" class="panel advanced-settings" aria-label="Configurações avançadas do jogo" hidden>
-  <h2>Configurações Avançadas</h2>
-
-  <fieldset>
-    <legend>Preferências Visuais</legend>
-
-    <label for="fontSizeRange">Tamanho da Fonte: <span id="fontSizeValue">16</span>px</label>
-    <input type="range" id="fontSizeRange" min="12" max="24" value="16" aria-valuemin="12" aria-valuemax="24" aria-valuenow="16" aria-label="Ajustar tamanho da fonte" />
-
-    <label for="colorSchemeSelect">Esquema de Cores:</label>
-    <select id="colorSchemeSelect" aria-label="Selecionar esquema de cores">
-      <option value="default">Padrão</option>
-      <option value="highContrast">Alto Contraste</option>
-      <option value="pastel">Pastel</option>
-      <option value="neon">Neon</option>
-    </select>
-  </fieldset>
-
-  <fieldset>
-    <legend>Preferências de Áudio</legend>
-    <label for="musicVolumeRange">Volume da Música: <span id="musicVolumeValue">50</span>%</label>
-    <input type="range" id="musicVolumeRange" min="0" max="100" value="50" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-label="Ajustar volume da música" />
-
-    <label for="effectsVolumeRange">Volume dos Efeitos: <span id="effectsVolumeValue">70</span>%</label>
-    <input type="range" id="effectsVolumeRange" min="0" max="100" value="70" aria-valuemin="0" aria-valuemax="100" aria-valuenow="70" aria-label="Ajustar volume dos efeitos" />
-  </fieldset>
-
-  <fieldset>
-    <legend>Redes Sociais</legend>
-    <p>Siga-nos para novidades e eventos:</p>
-    <ul class="social-links">
-      <li><a href="https://twitter.com/ClickerSupremo" target="_blank" rel="noopener noreferrer" aria-label="Twitter">Twitter</a></li>
-      <li><a href="https://discord.gg/clickersupremo" target="_blank" rel="noopener noreferrer" aria-label="Discord">Discord</a></li>
-      <li><a href="https://www.youtube.com/channel/clickersupremo" target="_blank" rel="noopener noreferrer" aria-label="YouTube">YouTube</a></li>
-    </ul>
-  </fieldset>
-
-  <button id="closeAdvancedSettingsBtn" class="control-btn" aria-label="Fechar configurações avançadas">Fechar</button>
-</section>
-
-<!-- Painel para Créditos Detalhados -->
-<section id="creditsPanel" class="panel credits-panel" aria-label="Créditos do projeto" hidden>
-  <h2>Créditos</h2>
-  <p>Desenvolvedor: Luiz Felipe</p>
-  <p>Design e UI: Equipe Clicker Supremo</p>
-  <p>APIs e Serviços: Firebase, Google Fonts</p>
-  <p>Testes e QA: Time Clicker</p>
-  <p>Inspiração: Jogos Clicker clássicos e simuladores populares</p>
-
-  <button id="closeCreditsBtn" class="control-btn" aria-label="Fechar créditos">Fechar</button>
-</section>
-
-<!-- Modal para confirmações gerais -->
-<div id="genericConfirmModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="genericConfirmTitle" aria-describedby="genericConfirmDesc" hidden>
-  <div class="modal-content">
-    <h3 id="genericConfirmTitle">Confirmação</h3>
-    <p id="genericConfirmDesc">Tem certeza que deseja continuar?</p>
-    <div class="btn-group">
-      <button id="genericConfirmYes" class="control-btn">Sim</button>
-      <button id="genericConfirmNo" class="control-btn">Não</button>
-    </div>
-  </div>
-</div>
-
-<!-- Modal de erros -->
-<div id="errorModal" class="modal error-modal" role="alertdialog" aria-modal="true" aria-labelledby="errorModalTitle" aria-describedby="errorModalDesc" hidden>
-  <div class="modal-content">
-    <h3 id="errorModalTitle">Erro</h3>
-    <p id="errorModalDesc">Ocorreu um erro inesperado. Tente novamente mais tarde.</p>
-    <button id="errorModalCloseBtn" class="control-btn" aria-label="Fechar mensagem de erro">Fechar</button>
-  </div>
-</div>
-
-<!-- Aviso de manutenção -->
-<div id="maintenanceNotice" class="maintenance-notice" role="alert" aria-live="polite" aria-atomic="true" hidden>
-  <p>🚧 O jogo está em manutenção. Alguns recursos podem estar temporariamente indisponíveis.</p>
-</div>
-
-<!-- Botão para voltar ao topo -->
-<button id="scrollTopBtn" class="scroll-top-btn" aria-label="Voltar ao topo">⬆️</button>
-
-<!-- Scripts para modais e scroll -->
-<script>
-  // Fechar modal de erros
-  document.getElementById('errorModalCloseBtn').addEventListener('click', () => {
-    document.getElementById('errorModal').hidden = true;
-  });
-
-  // Fechar configurações avançadas
-  document.getElementById('closeAdvancedSettingsBtn').addEventListener('click', () => {
-    document.getElementById('advancedSettings').hidden = true;
-  });
-
-  // Fechar créditos
-  document.getElementById('closeCreditsBtn').addEventListener('click', () => {
-    document.getElementById('creditsPanel').hidden = true;
-  });
-
-  // Scroll para topo
-  const scrollTopBtn = document.getElementById('scrollTopBtn');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 200) {
-      scrollTopBtn.style.display = 'block';
-    } else {
-      scrollTopBtn.style.display = 'none';
-    }
-  });
-  scrollTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-</script>
