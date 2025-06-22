@@ -1,100 +1,110 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator</title>
+  <title>🔥 Clicker Simulator ELITE 🔥</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
-  <button id="toggleThemeBtn" class="theme-btn">🌙</button>
+  <button id="toggleThemeBtn" class="theme-btn" title="Alternar Tema">🌙</button>
 
-  <div class="container">
+  <header>
+    <h1>🔥 Clicker Simulator ELITE 🔥</h1>
+    <p class="subtitle">Clique, evolua, rebirth e conquiste mundos!</p>
+  </header>
+
+  <main class="container">
 
     <!-- Painel de Click -->
     <section class="panel" id="clickPanel">
-      <h2>Clicks</h2>
-      <button id="clickBtn" class="btn click-btn">Clique Aqui!</button>
+      <h2><i class="fa-solid fa-hand-pointer"></i> Clique</h2>
+      <button id="clickBtn" class="btn click-btn" title="Clique para ganhar pontos!">Clique Aqui!</button>
       <p>Clicks: <span id="score">0</span></p>
       <p>Poder por Click: <span id="clickPower">1</span></p>
     </section>
 
     <!-- Upgrades -->
     <section class="panel" id="upgradePanel">
-      <h2>Upgrades</h2>
+      <h2><i class="fa-solid fa-rocket"></i> Upgrades</h2>
       <div class="upgrade-row">
-        <button id="upgradeClickPowerBtn" class="btn upgrade-btn">Melhorar Click Power</button>
+        <button id="upgradeClickPowerBtn" class="btn upgrade-btn" title="Aumenta seu poder de clique">Melhorar Click Power</button>
         <span>Custo: <span id="upgradeClickPowerCost">10</span></span>
       </div>
 
       <div class="upgrade-row">
-        <button id="buyAutoClickerBtn" class="btn upgrade-btn">Comprar AutoClicker</button>
+        <button id="buyAutoClickerBtn" class="btn upgrade-btn" title="Compra autoclickers automáticos">Comprar AutoClicker</button>
         <span>Qtd: <span id="autoClickers">0</span> | Custo: <span id="autoClickerCost">50</span></span>
       </div>
 
       <div class="upgrade-row">
-        <button id="buyMultiplierBtn" class="btn upgrade-btn">Comprar Multiplicador</button>
+        <button id="buyMultiplierBtn" class="btn upgrade-btn" title="Compra multiplicadores de clique">Comprar Multiplicador</button>
         <span>Qtd: <span id="multiplierCount">0</span> | Custo: <span id="multiplierCost">100</span></span>
       </div>
 
-      <div class="upgrade-row">
+      <div class="upgrade-row upgrade-amounts">
         <span>Comprar em: </span>
-        <button class="btn upgradeAmountBtn active" data-amount="1">1</button>
-        <button class="btn upgradeAmountBtn" data-amount="10">10</button>
-        <button class="btn upgradeAmountBtn" data-amount="100">100</button>
-        <button class="btn upgradeAmountBtn" data-amount="1000">1000</button>
-        <button class="btn upgradeAmountBtn" data-amount="max">Máximo</button>
+        <button class="btn upgradeAmountBtn active" data-amount="1" title="Comprar 1 unidade">1</button>
+        <button class="btn upgradeAmountBtn" data-amount="10" title="Comprar 10 unidades">10</button>
+        <button class="btn upgradeAmountBtn" data-amount="100" title="Comprar 100 unidades">100</button>
+        <button class="btn upgradeAmountBtn" data-amount="1000" title="Comprar 1000 unidades">1000</button>
+        <button class="btn upgradeAmountBtn" data-amount="max" title="Comprar o máximo possível">Máximo</button>
       </div>
     </section>
 
     <!-- Informações -->
     <section class="panel" id="infoPanel">
-      <h2>Informações</h2>
+      <h2><i class="fa-solid fa-info-circle"></i> Informações</h2>
       <p id="cps">Clicks por segundo: 0</p>
       <p id="levelDisplay">Nível: 1</p>
-      <div id="xpBarContainer">
+      <div id="xpBarContainer" title="Barra de XP">
         <div id="xpBar"></div>
       </div>
-      <p>Gemas: <span id="gemsCount">0</span></p>
+      <p>Gemas: <span id="gemsCount">0</span> <i class="fa-solid fa-gem"></i></p>
       <p>Rebirths: <span id="rebirthCount">0</span></p>
       <p>Mundo Atual: <span id="currentWorld">Terra</span></p>
     </section>
 
     <!-- Boosts -->
     <section class="panel" id="boostPanel">
-      <h2>Boosts</h2>
-      <button id="speedBoostBtn" class="btn boost-btn">Boost de Velocidade (20 Gemas)</button>
-      <button id="multiplierBoostBtn" class="btn boost-btn">Boost de Multiplicador (50 Gemas)</button>
-      <button id="buyGemsBtn" class="btn boost-btn">Comprar 100 Gemas</button>
+      <h2><i class="fa-solid fa-bolt"></i> Boosts</h2>
+      <button id="speedBoostBtn" class="btn boost-btn" title="Aumenta velocidade dos autoclickers por 30s">Boost de Velocidade (20 Gemas)</button>
+      <button id="multiplierBoostBtn" class="btn boost-btn" title="Dobra seu multiplicador por 30s">Boost de Multiplicador (50 Gemas)</button>
+      <button id="buyGemsBtn" class="btn boost-btn" title="Compre 100 gemas grátis (teste)">Comprar 100 Gemas</button>
     </section>
 
     <!-- Rebirth & Reset -->
     <section class="panel" id="rebirthPanel">
-      <h2>Rebirth & Reset</h2>
-      <button id="rebirthBtn" class="btn rebirth-btn">Fazer Rebirth</button>
-      <button id="resetBtn" class="btn reset-btn">Resetar Jogo</button>
+      <h2><i class="fa-solid fa-rotate"></i> Rebirth & Reset</h2>
+      <button id="rebirthBtn" class="btn rebirth-btn" title="Reinicie com bônus após acumular 100.000 clicks">Fazer Rebirth</button>
+      <button id="resetBtn" class="btn reset-btn" title="Reseta tudo!">Resetar Jogo</button>
     </section>
 
     <!-- Loja -->
     <section class="panel" id="shopPanel">
-      <h2>Loja</h2>
+      <h2><i class="fa-solid fa-shop"></i> Loja</h2>
       <div class="shop-item">
-        <button class="btn shop-buy" data-item="clickPowerBoost" data-cost="500">Comprar Click Power Boost (500 clicks)</button>
+        <button class="btn shop-buy" data-item="clickPowerBoost" data-cost="500" title="Aumenta o poder do clique">Comprar Click Power Boost (500 clicks)</button>
       </div>
       <div class="shop-item">
-        <button class="btn shop-buy" data-item="autoClickerBoost" data-cost="1000">Comprar AutoClicker Boost (1000 clicks)</button>
+        <button class="btn shop-buy" data-item="autoClickerBoost" data-cost="1000" title="Melhora o autoclicker">Comprar AutoClicker Boost (1000 clicks)</button>
       </div>
       <div class="shop-item">
-        <button class="btn shop-buy" data-item="multiplierBoost" data-cost="2000">Comprar Multiplicador Boost (2000 clicks)</button>
+        <button class="btn shop-buy" data-item="multiplierBoost" data-cost="2000" title="Melhora multiplicadores">Comprar Multiplicador Boost (2000 clicks)</button>
       </div>
     </section>
 
-  </div>
+  </main>
 
   <!-- Sons -->
   <audio id="clickSound" src="click.mp3" preload="auto"></audio>
   <audio id="buySound" src="buy.mp3" preload="auto"></audio>
   <audio id="boostSound" src="boost.mp3" preload="auto"></audio>
+
+  <footer>
+    <p>© 2025 Luiz Felipe - Clicker Simulator ELITE</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
