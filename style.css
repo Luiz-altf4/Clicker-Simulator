@@ -1,20 +1,23 @@
 /* Reset básico */
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #121212;
   color: #eee;
+  margin: 0;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  transition: background 0.3s, color 0.3s;
+}
+
+header {
+  margin: 20px 0;
+  text-align: center;
 }
 
 button {
@@ -25,14 +28,11 @@ button {
   padding: 8px 16px;
   margin: 4px;
   border-radius: 5px;
-  font-weight: 600;
   transition: background 0.3s;
-  user-select: none;
 }
 
 button:hover:not(:disabled) {
-  background: #0a84ff;
-  color: #fff;
+  background: #555;
 }
 
 button:disabled {
@@ -40,105 +40,54 @@ button:disabled {
   cursor: not-allowed;
 }
 
-h1, h2 {
-  margin-bottom: 12px;
-  user-select: none;
-  text-align: center;
+h2 {
+  margin-top: 20px;
 }
 
-header {
-  margin-bottom: 20px;
-}
-
-#clickBtn {
-  font-size: 1.6rem;
-  padding: 24px 48px;
-  background: #0a84ff;
-  border-radius: 20px;
-  font-weight: bold;
-  user-select: none;
-  box-shadow: 0 0 10px #0a84ffaa;
-  transition: background 0.3s, box-shadow 0.3s;
-}
-
-#clickBtn:hover:not(:disabled) {
-  background: #006fdd;
-  box-shadow: 0 0 20px #0a84ffcc;
-}
-
-section {
+.stats, .upgrades, .shop, .pets, .missions, .achievements, .worlds, .rebirth-section, .ranking, .buy-amounts {
   width: 100%;
-  max-width: 700px;
+  max-width: 600px;
   background: #222;
-  border-radius: 12px;
-  padding: 20px 25px;
-  margin-bottom: 25px;
-  box-shadow: 0 0 15px #000;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px #000;
 }
 
 .stats div {
-  font-size: 1.1rem;
   margin: 6px 0;
+  font-size: 1.1rem;
 }
 
-.buy-amounts {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.buy-amounts strong {
-  margin-right: 12px;
-  font-weight: 700;
-}
-
-.buy-amounts button {
-  min-width: 60px;
-  padding: 8px 12px;
-  font-weight: 700;
-  border-radius: 10px;
-  transition: background 0.3s;
-}
-
-.buy-amounts .active {
+#clickBtn {
+  font-size: 1.5rem;
+  padding: 20px 40px;
+  margin: 20px 0;
   background: #0a84ff;
+  border-radius: 15px;
   color: white;
-  box-shadow: 0 0 10px #0a84ffcc;
+  font-weight: bold;
+  user-select: none;
 }
 
 .upgrade-row, .shop-item, .pet-card, .world-card, .mission-card, .achievement-card, .ranking-entry {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 8px;
   background: #333;
-  padding: 10px 15px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  user-select: none;
-  transition: background 0.3s;
+  margin-bottom: 8px;
+  border-radius: 8px;
 }
 
-.upgrade-row div, .shop-item h3, .pet-name {
+.upgrade-row div, .shop-item h3, .pet-name, .mission-desc, .achievement-desc {
   flex: 1;
-}
-
-.upgrade-row button, .shop-buy-btn, .pet-btn {
-  min-width: 100px;
-  padding: 6px 14px;
-  border-radius: 10px;
-  font-weight: 600;
-  user-select: none;
-}
-
-.shop-buy-btn {
-  min-width: 140px;
 }
 
 .pet-card {
   flex-direction: column;
   align-items: flex-start;
+  padding: 10px;
   cursor: pointer;
 }
 
@@ -149,26 +98,32 @@ section {
 
 .pet-card.active {
   border: 2px solid #0a84ff;
-  box-shadow: 0 0 12px #0a84ffcc;
 }
 
 .pet-emoji {
-  font-size: 2.4rem;
+  font-size: 2rem;
 }
 
 .pet-bonus, .pet-price {
   font-size: 0.9rem;
-  margin-top: 4px;
+  margin-top: 2px;
   color: #aaa;
 }
 
-.world-card {
-  padding: 15px;
-  cursor: pointer;
-  border-radius: 12px;
-  text-align: center;
+.btn {
+  min-width: 100px;
   font-weight: 600;
-  transition: background 0.3s;
+}
+
+.shop-buy-btn {
+  min-width: 140px;
+}
+
+.world-card {
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  text-align: center;
 }
 
 .world-card.disabled {
@@ -180,120 +135,26 @@ section {
   background: #0a84ff;
   font-weight: bold;
   color: white;
-  box-shadow: 0 0 15px #0a84ffcc;
 }
 
-#rebirthBtn {
-  font-size: 1.1rem;
-  padding: 15px;
-  background: #0a84ff;
-  border-radius: 15px;
-  font-weight: bold;
-  user-select: none;
-  box-shadow: 0 0 12px #0a84ffcc;
-  transition: background 0.3s;
+.buy-amounts button {
+  margin: 0 5px;
+  padding: 6px 14px;
 }
 
-#rebirthBtn:hover:not(:disabled) {
-  background: #006fdd;
-  box-shadow: 0 0 20px #0a84ffcc;
-}
-
-#rebirthInfo {
-  margin-top: 10px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #bbb;
-}
-
-.mission-card, .achievement-card {
-  flex-direction: column;
-  align-items: flex-start;
-  background: #2a2a2a;
-  padding: 12px 18px;
-  margin-bottom: 12px;
-  border-radius: 12px;
-  cursor: default;
-  transition: background 0.3s;
-}
-
-.mission-card.completed, .achievement-card.completed {
+.buy-amounts .active {
   background: #0a84ff;
   color: white;
-  box-shadow: 0 0 12px #0a84ffcc;
 }
 
-.mission-title, .achievement-title {
-  font-weight: 700;
-  font-size: 1rem;
-  margin-bottom: 6px;
-  user-select: text;
-}
-
-.mission-progress, .achievement-desc {
-  font-size: 0.9rem;
-  color: #ccc;
-  user-select: text;
-}
-
-#rankingList {
-  max-height: 300px;
-  overflow-y: auto;
-  border-radius: 12px;
-  padding: 10px;
-  background: #333;
-  box-shadow: inset 0 0 10px #000;
-}
-
-.ranking-entry {
-  justify-content: space-between;
-  padding: 8px 12px;
-  font-weight: 600;
-  border-bottom: 1px solid #444;
-}
-
-.ranking-entry:nth-child(odd) {
-  background: #2a2a2a;
-}
-
-.ranking-entry span {
-  user-select: text;
-}
-
-#playerNameInput {
-  margin-top: 10px;
-  padding: 10px 15px;
-  width: 100%;
-  max-width: 300px;
-  border-radius: 10px;
+#toggleTheme {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  font-size: 1.5rem;
   border: none;
-  font-size: 1rem;
-}
-
-#saveScoreBtn {
-  margin-top: 10px;
-  width: 100%;
-  max-width: 300px;
-  background: #0a84ff;
-  color: white;
-  font-weight: 700;
-  border-radius: 12px;
-  padding: 12px 0;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-#saveScoreBtn:hover:not(:disabled) {
-  background: #006fdd;
-}
-
-#rankMessage {
-  margin-top: 8px;
-  font-weight: 600;
-  color: #eee;
-  min-height: 20px;
-  user-select: none;
-  text-align: center;
+  color: #0a84ff;
 }
 
 /* Tema claro */
@@ -302,10 +163,19 @@ body.light-theme {
   color: #222;
 }
 
-body.light-theme section {
+body.light-theme .stats,
+body.light-theme .upgrades,
+body.light-theme .shop,
+body.light-theme .pets,
+body.light-theme .missions,
+body.light-theme .achievements,
+body.light-theme .worlds,
+body.light-theme .rebirth-section,
+body.light-theme .ranking,
+body.light-theme .buy-amounts {
   background: #fff;
   color: #222;
-  box-shadow: 0 0 15px #ccc;
+  box-shadow: 0 0 10px #ccc;
 }
 
 body.light-theme button {
@@ -319,34 +189,4 @@ body.light-theme button:hover:not(:disabled) {
 
 body.light-theme .world-card.active {
   background: #007aff;
-  box-shadow: 0 0 15px #007affcc;
-}
-
-body.light-theme .pet-card.active {
-  border-color: #007aff;
-  box-shadow: 0 0 15px #007affcc;
-}
-
-body.light-theme #clickBtn {
-  background: #007aff;
-  box-shadow: 0 0 15px #007affcc;
-}
-
-body.light-theme #clickBtn:hover:not(:disabled) {
-  background: #005ecb;
-  box-shadow: 0 0 25px #007affcc;
-}
-
-/* Responsividade */
-@media (max-width: 720px) {
-  section {
-    padding: 15px 20px;
-  }
-  #clickBtn {
-    padding: 18px 36px;
-    font-size: 1.3rem;
-  }
-  .buy-amounts {
-    flex-wrap: wrap;
-  }
 }
