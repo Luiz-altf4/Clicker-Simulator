@@ -1,4 +1,7 @@
-/* Estilos básicos */
+/* Reset e básico */
+* {
+  box-sizing: border-box;
+}
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #121212;
@@ -66,16 +69,16 @@ h2 {
   margin-bottom: 8px;
   border-radius: 8px;
 }
-.upgrade-row div, .shop-item h3, .pet-name, .mission-name, .achievement-name {
+.upgrade-row div, .shop-item h3, .pet-name {
   flex: 1;
 }
-.pet-card, .mission-card, .achievement-card {
+.pet-card {
   flex-direction: column;
   align-items: flex-start;
   padding: 10px;
   cursor: pointer;
 }
-.pet-card.disabled, .mission-card.disabled, .achievement-card.disabled {
+.pet-card.disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -85,7 +88,7 @@ h2 {
 .pet-emoji {
   font-size: 2rem;
 }
-.pet-bonus, .pet-price, .mission-desc, .achievement-desc {
+.pet-bonus, .pet-price {
   font-size: 0.9rem;
   margin-top: 2px;
   color: #aaa;
@@ -129,12 +132,20 @@ h2 {
   border: none;
   color: #0a84ff;
 }
-.ranking ol {
-  padding-left: 20px;
-  font-size: 1.1rem;
+.rank-inputs {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
-.ranking li {
-  margin-bottom: 6px;
+.rank-inputs input {
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 1rem;
+}
+.rank-inputs button {
+  padding: 6px 20px;
 }
 
 /* Tema claro */
