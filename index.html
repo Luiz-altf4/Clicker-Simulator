@@ -3,89 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator</title>
+  <title>Clicker Simulator - Luiz Felipe</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="shortcut icon" href="favicon.ico" />
 </head>
 <body>
-  <header>
+
+  <button id="toggleTheme" title="Alternar tema claro/escuro">🌓</button>
+
+  <div id="gameContainer">
+
     <h1>Clicker Simulator</h1>
-  </header>
 
-  <section id="statsBar">
-    <span>Clicks: <span id="clicksDisplay">0</span></span>
-    <span>Total Clicks: <span id="totalClicksStat">0</span></span>
-    <span>CPS: <span id="cpsDisplay">0</span></span>
-    <span>Nível: <span id="levelDisplay">1</span></span>
-    <span>XP: <span id="xpDisplay">0</span> / <span id="xpToNextLevel">100</span></span>
-    <span>Rebirths: <span id="rebirthCount">0</span></span>
-    <span>Mundo: <span id="currentWorld">1 - Jardim Inicial</span></span>
-  </section>
+    <div id="stats">
+      <div class="stat-box" id="coinsDisplay">Coins: 0</div>
+      <div class="stat-box" id="cpsDisplay">CPS: 0</div>
+      <div class="stat-box" id="clickPowerDisplay">Click Power: 1</div>
+      <div class="stat-box" id="xpDisplay">XP: 0</div>
+      <div class="stat-box" id="levelDisplay">Level: 1</div>
+    </div>
 
-  <main>
-    <section id="clickSection">
-      <button id="clickButton" aria-label="Clique aqui para ganhar clicks">Clique!</button>
-    </section>
+    <button id="clickButton" aria-label="Clique para ganhar coins">Clique Aqui!</button>
 
-    <section id="buyAmountSection">
-      <label for="buyAmountSelect">Comprar em quantidade:</label>
-      <select id="buyAmountSelect" aria-label="Quantidade para comprar upgrades">
-        <option value="1" selected>1</option>
-        <option value="5">5</option>
-        <option value="10">10</option>
-        <option value="25">25</option>
-        <option value="50">50</option>
+    <div id="controls">
+      <label for="buyAmountSelect">Comprar quantidade:</label>
+      <select id="buyAmountSelect" aria-label="Selecionar quantidade para comprar">
+        <option value="1">1x</option>
+        <option value="5">5x</option>
+        <option value="10">10x</option>
       </select>
+      <button id="saveBtn" title="Salvar progresso">💾 Salvar</button>
+      <button id="loadBtn" title="Carregar progresso">📂 Carregar</button>
+      <button id="resetBtn" title="Resetar progresso">⚠️ Resetar</button>
+    </div>
+
+    <!-- Seções do jogo -->
+    <section class="section-container" id="upgradesSection" aria-label="Upgrades">
+      <h3>Upgrades</h3>
+      <div id="upgradesList" role="list" aria-live="polite"></div>
     </section>
 
-    <section class="itemsContainer" id="upgradesContainer">
-      <h2>Upgrades</h2>
-      <div id="upgrades"></div>
+    <section class="section-container" id="shopSection" aria-label="Loja">
+      <h3>Loja</h3>
+      <div id="shopList" role="list" aria-live="polite"></div>
     </section>
 
-    <section class="itemsContainer" id="shopContainer">
-      <h2>Loja</h2>
-      <div id="shopList"></div>
+    <section class="section-container" id="petsSection" aria-label="Pets">
+      <h3>Pets</h3>
+      <div id="petsList" role="list" aria-live="polite"></div>
     </section>
 
-    <section class="itemsContainer" id="petsContainer">
-      <h2>Pets</h2>
-      <div id="pets"></div>
+    <section class="section-container" id="missionsSection" aria-label="Missões">
+      <h3>Missões</h3>
+      <ul id="missions" role="list" aria-live="polite"></ul>
     </section>
 
-    <section class="itemsContainer" id="missionsContainer">
-      <h2>Missões</h2>
-      <ul id="missions" aria-live="polite" aria-atomic="true"></ul>
+    <section class="section-container" id="achievementsSection" aria-label="Conquistas">
+      <h3>Conquistas</h3>
+      <ul id="achievementsList" role="list" aria-live="polite"></ul>
     </section>
 
-    <section class="itemsContainer" id="achievementsContainer">
-      <h2>Conquistas</h2>
-      <ul id="achievementsList" aria-live="polite" aria-atomic="true"></ul>
+    <section class="section-container" id="rankingSection" aria-label="Ranking Online">
+      <h3>Ranking</h3>
+      <div id="ranking" role="list" aria-live="polite"></div>
     </section>
 
-    <section class="itemsContainer" id="rankingContainer">
-      <h2>Ranking Top 10</h2>
-      <div id="detailedRankingList">Carregando ranking...</div>
-      <input type="text" id="playerNameInput" placeholder="Seu nome para ranking" aria-label="Nome para ranking" />
-      <button id="saveScoreBtn" aria-label="Salvar score no ranking">Salvar Score</button>
+    <section class="section-container" id="chatSection" aria-label="Chat Global">
+      <h3>Chat Global</h3>
+      <div id="chatContainer">
+        <div id="chatMessages" role="log" aria-live="polite" aria-relevant="additions"></div>
+        <input type="text" id="playerNameInput" placeholder="Seu nome..." maxlength="15" aria-label="Nome do jogador" autocomplete="off" />
+        <input type="text" id="chatInput" placeholder="Digite sua mensagem..." maxlength="120" aria-label="Mensagem do chat" autocomplete="off" />
+        <button id="chatSendBtn" aria-label="Enviar mensagem">Enviar</button>
+      </div>
     </section>
 
-    <section class="itemsContainer" id="chatContainer">
-      <h2>Chat Global</h2>
-      <div id="chatMessages" aria-live="polite" aria-atomic="false" tabindex="0" style="height:200px; overflow-y:auto; background:#111; padding:10px; border-radius:8px;"></div>
-      <input type="text" id="chatInput" placeholder="Digite mensagem" aria-label="Mensagem do chat" />
-      <button id="chatSendBtn" aria-label="Enviar mensagem no chat">Enviar</button>
-    </section>
-
-    <section id="controls">
-      <button id="rebirthBtn" aria-label="Realizar rebirth">Rebirth</button>
-      <button id="saveBtn" aria-label="Salvar progresso">Salvar Progresso</button>
-      <button id="clearSaveBtn" aria-label="Limpar progresso">Limpar Progresso</button>
-      <button id="toggleTheme" aria-label="Alternar tema">☀️</button>
-    </section>
-  </main>
+  </div>
 
   <div id="notification" role="alert" aria-live="assertive"></div>
 
-  <script type="module" src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
