@@ -1,21 +1,39 @@
+// Importações Firebase (coloque no seu index.html ou adapte seu firebase.js separado)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import {
   getDatabase, ref, push, set, onValue, query, orderByChild, limitToLast
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
-// Utils
-const $ = id => document.getElementById(id);
+// --- CONFIGURAÇÃO FIREBASE ---
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_AUTH_DOMAIN",
+  databaseURL: "SUA_DATABASE_URL",
+  projectId: "SEU_PROJECT_ID",
+  storageBucket: "SEU_STORAGE_BUCKET",
+  messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+  appId: "SEU_APP_ID",
+  measurementId: "SEU_MEASUREMENT_ID"
+};
 
-function abreviar(n) {
-  const sufixos = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "Dc"];
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// --- FUNÇÃO UTILITÁRIA DE ABREVIAÇÃO DE NÚMEROS ---
+function abreviarNum(num) {
+  const sufixos = ["", "K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No"];
   let i = 0;
-  while (n >= 1000 && i < sufixos.length - 1) {
-    n /= 1000;
+  while (num >= 1000 && i < sufixos.length - 1) {
+    num /= 1000;
     i++;
   }
-  return n.toFixed(1) + sufixos[i];
+  return num.toFixed(2).replace(/\.00$/, "") + sufixos[i];
 }
 
-// Game State
+// --- ATALHO PARA ID ---
+const $ = id => document.getElementById(id);
+
+// --- ESTADO DO JOGO ---
 const gameState = {
   clicks: 0,
   totalClicks: 0,
@@ -25,127 +43,170 @@ const gameState = {
   level: 1,
   xpToNext: 100,
   rebirths: 0,
-  prestigePoints: 0,
+  prestigeBonus: 1,
   upgrades: [],
   playerName: '',
-  lastChatTimestamp: 0
+  lastChatTimestamp: 0,
+  theme: "dark",
 };
 
+// --- DADOS DOS UPGRADES ---
 const upgradesData = [
   { id: 1, name: "🖱️ Click Básico", bonusClick: 1, cps: 0, price: 10 },
   { id: 2, name: "⚙️ Click Avançado", bonusClick: 0, cps: 1, price: 100 },
-  { id: 3, name: "🏠 Casa de Click", bonusClick: 0, cps: 2, price: 300 },
-  { id: 4, name: "🏢 Prédio de Click", bonusClick: 0, cps: 10, price: 1000 },
-  { id: 5, name: "🧪 Laboratório de Click", bonusClick: 0, cps: 20, price: 2500 },
-  { id: 6, name: "🏭 Fábrica de Click", bonusClick: 0, cps: 100, price: 5000 },
-  { id: 7, name: "🌆 Cidade de Click", bonusClick: 0, cps: 500, price: 15000 },
-  { id: 8, name: "🌍 País de Click", bonusClick: 0, cps: 10000, price: 50000 }
+  { id: 3, name: "🏠 Casa de Click", bonusClick: 0, cps: 5, price: 500 },
+  { id: 4, name: "🏢 Prédio de Click", bonusClick: 0, cps: 20, price: 2000 },
+  { id: 5, name: "🧪 Laboratório de Click", bonusClick: 0, cps: 50, price: 10000 },
+  { id: 6, name: "🏭 Fábrica de Click", bonusClick: 0, cps: 150, price: 50000 },
+  { id: 7, name: "🌆 Cidade de Click", bonusClick: 0, cps: 500, price: 250000 },
+  { id: 8, name: "🌍 País de Click", bonusClick: 0, cps: 2500, price: 1_000_000 }
 ];
 
-// Firebase DB ref - já inicializado no firebase.js
-const db = getDatabase();
-
-// Inicializa upgrades no gameState
+// --- INICIALIZAÇÃO DE UPGRADES ---
 function initUpgrades() {
   gameState.upgrades = upgradesData.map(u => ({ ...u, owned: 0 }));
 }
 
-// Renderização de upgrades
+// --- RENDERIZAÇÃO DE UPGRADES ---
 function renderUpgrades() {
   const container = $("upgradesContainer");
   container.innerHTML = "";
   gameState.upgrades.forEach(upg => {
+    const podeComprar = gameState.clicks >= upg.price;
+    const btn = `
+      <button ${podeComprar ? "" : "disabled"} onclick="buyUpgrade(${upg.id})">
+        Comprar
+      </button>
+    `;
     const div = document.createElement("div");
     div.className = "upgrade";
     div.innerHTML = `
       <h3>${upg.name}</h3>
-      <p>Preço: ${abreviar(upg.price)}</p>
+      <p>Preço: ${abreviarNum(upg.price)}</p>
       <p>Possui: ${upg.owned}</p>
-      <button ${gameState.clicks < upg.price ? "disabled" : ""} onclick="buyUpgrade(${upg.id})">Comprar</button>
+      ${btn}
     `;
     container.appendChild(div);
   });
 }
 
-// Comprar upgrade
-window.buyUpgrade = function (id) {
+// --- FUNÇÃO PARA COMPRAR UPGRADE ---
+window.buyUpgrade = function(id) {
   const upg = gameState.upgrades.find(u => u.id === id);
-  if (!upg || gameState.clicks < upg.price) return;
+  if (!upg) return;
+  if (gameState.clicks < upg.price) return alert("Você não tem clicks suficientes!");
+  
   gameState.clicks -= upg.price;
   upg.owned++;
-  gameState.cps += upg.cps;
-  gameState.multiplier += upg.bonusClick;
+  
+  // Atualiza cps e multiplicador
+  recalcStats();
+  
+  // Aumenta o preço com fator exponencial
   upg.price = Math.floor(upg.price * 1.35);
-  saveGame();
+
   renderUpgrades();
   updateDisplay();
-};
-
-// Atualizar display geral
-function updateDisplay() {
-  $("clicksDisplay").textContent = `Cliques: ${abreviar(gameState.clicks)}`;
-  $("cpsDisplay").textContent = `CPS: ${abreviar(gameState.cps)}`;
-  $("rebirthsDisplay").textContent = `Rebirths: ${gameState.rebirths}`;
-  $("prestigeDisplay").textContent = `Prestígio: ${gameState.prestigePoints}`;
-  $("xpFill").style.width = `${(gameState.xp / gameState.xpToNext) * 100}%`;
-  $("xpText").textContent = `XP: ${gameState.xp} / ${gameState.xpToNext}`;
+  saveGame();
 }
 
-// Ganhar clique
+// --- RECALCULA CPS E MULTIPLICADOR COM BASE NOS UPGRADES E REBIRTHS ---
+function recalcStats() {
+  let cps = 0;
+  let multiplier = 1 + gameState.prestigeBonus * 0.1; // bônus por prestígio
+  gameState.upgrades.forEach(u => {
+    cps += u.cps * u.owned;
+    multiplier += u.bonusClick * u.owned;
+  });
+  gameState.cps = cps;
+  gameState.multiplier = multiplier;
+}
+
+// --- ATUALIZA DISPLAY ---
+function updateDisplay() {
+  $("clicksDisplay").textContent = `Cliques: ${abreviarNum(gameState.clicks)}`;
+  $("cpsDisplay").textContent = `CPS: ${abreviarNum(gameState.cps)}`;
+  $("levelDisplay").textContent = `Nível: ${gameState.level}`;
+  $("xpFill").style.width = `${Math.min(100, (gameState.xp / gameState.xpToNext) * 100)}%`;
+  $("xpText").textContent = `XP: ${abreviarNum(gameState.xp)} / ${abreviarNum(gameState.xpToNext)}`;
+  $("rebirthDisplay").textContent = `Rebirths: ${gameState.rebirths}`;
+  $("prestigeDisplay").textContent = `Prestígio: ${gameState.prestigeBonus.toFixed(2)}x`;
+}
+
+// --- GANHAR CLIQUE ---
 function gainClick() {
   gameState.clicks += gameState.multiplier;
   gameState.totalClicks += gameState.multiplier;
-  gainXP(1);
+  gainXP(1 * gameState.multiplier);
   updateDisplay();
 }
 
+// --- GANHAR XP ---
 function gainXP(amount) {
   gameState.xp += amount;
   if (gameState.xp >= gameState.xpToNext) {
     gameState.level++;
-    gameState.xp = 0;
+    gameState.xp -= gameState.xpToNext;
     gameState.xpToNext = Math.floor(gameState.xpToNext * 1.25);
   }
 }
 
-// Intervalo de CPS
-function startIntervals() {
-  setInterval(() => {
-    gameState.clicks += gameState.cps;
-    updateDisplay();
-  }, 1000);
-
-  setInterval(() => {
-    saveGame();
-    enviarParaRanking();
-  }, 5000);
+// --- REBIRTH / PRESTÍGIO ---
+function rebirth() {
+  if (gameState.level < 10) return alert("Alcance nível 10 para rebirth!");
+  const bonusGanhos = Math.floor(gameState.level / 10);
+  gameState.rebirths++;
+  gameState.prestigeBonus += bonusGanhos;
+  // Resetar estado
+  gameState.clicks = 0;
+  gameState.cps = 0;
+  gameState.multiplier = 1;
+  gameState.xp = 0;
+  gameState.level = 1;
+  gameState.xpToNext = 100;
+  initUpgrades();
+  recalcStats();
+  updateDisplay();
+  renderUpgrades();
+  saveGame();
+  alert(`Rebirth realizado! Prestígio aumentado em ${bonusGanhos}x.`);
 }
 
-// Salvamento local
+// --- SALVAR JOGO ---
 function saveGame() {
   localStorage.setItem("clickerSave", JSON.stringify(gameState));
 }
 
+// --- CARREGAR JOGO ---
 function loadGame() {
   const data = localStorage.getItem("clickerSave");
   if (data) {
     const saved = JSON.parse(data);
     Object.assign(gameState, saved);
-    // Atualiza upgrades preço e owned pra garantir estrutura correta
-    gameState.upgrades.forEach(u => {
-      const savedU = saved.upgrades?.find(su => su.id === u.id);
-      if (savedU) {
-        u.owned = savedU.owned || 0;
-        u.price = savedU.price || u.price;
-      }
+
+    // Corrigir upgrades para manter estrutura correta
+    gameState.upgrades = upgradesData.map(u => {
+      const su = saved.upgrades?.find(s => s.id === u.id);
+      return su ? su : { ...u, owned: 0 };
     });
   } else {
     initUpgrades();
   }
+  recalcStats();
 }
 
-// Ranking Firebase
-function enviarParaRanking() {
+// --- INTERVALO PARA GERAR CPS AUTOMÁTICO ---
+function startCPSInterval() {
+  setInterval(() => {
+    gameState.clicks += gameState.cps;
+    gainXP(gameState.cps);
+    updateDisplay();
+  }, 1000);
+}
+
+// --- FUNÇÕES FIREBASE RANKING ---
+
+function enviarRanking() {
   if (!gameState.playerName) return;
   const rankRef = ref(db, "ranking");
   const novo = push(rankRef);
@@ -163,19 +224,20 @@ function carregarRanking() {
     container.innerHTML = "";
     const dados = [];
     snapshot.forEach(child => dados.push(child.val()));
-    dados.reverse().forEach((jogador, i) => {
+    dados.sort((a,b) => b.cliques - a.cliques); // Descendente
+    dados.forEach((jogador, i) => {
       const div = document.createElement("div");
-      div.textContent = `${i + 1}. ${jogador.nome} - ${abreviar(jogador.cliques)} cliques`;
+      div.textContent = `${i + 1}. ${jogador.nome} - ${abreviarNum(jogador.cliques)} cliques`;
       container.appendChild(div);
     });
   });
 }
 
-// Chat Firebase
+// --- CHAT GLOBAL FIREBASE ---
 function enviarChat(msg) {
   if (!msg.trim()) return;
   if (Date.now() - gameState.lastChatTimestamp < 3000) {
-    alert("Espere 3 segundos entre mensagens para evitar spam!");
+    alert("Aguarde 3 segundos entre mensagens para evitar spam!");
     return;
   }
   gameState.lastChatTimestamp = Date.now();
@@ -204,69 +266,65 @@ function carregarChat() {
   });
 }
 
-// Abas (tabs)
-function initTabs() {
-  const tabs = document.querySelectorAll(".tab");
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      document.querySelectorAll(".tab-content").forEach(tc => tc.style.display = "none");
-      const activeContent = document.getElementById(tab.dataset.tab);
-      if (activeContent) activeContent.style.display = "block";
-    });
+// --- CONTROLE DE TEMA (Claro/Escuro) ---
+function loadTheme() {
+  const tema = localStorage.getItem("theme") || "dark";
+  gameState.theme = tema;
+  document.body.classList.toggle("light-theme", tema === "light");
+}
+
+function toggleTheme() {
+  if (gameState.theme === "dark") {
+    gameState.theme = "light";
+    document.body.classList.add("light-theme");
+  } else {
+    gameState.theme = "dark";
+    document.body.classList.remove("light-theme");
+  }
+  localStorage.setItem("theme", gameState.theme);
+}
+
+// --- BOTÕES E EVENTOS ---
+function setupButtons() {
+  $("clickBtn").addEventListener("click", gainClick);
+  $("rebirthBtn").addEventListener("click", rebirth);
+  $("saveBtn").addEventListener("click", () => {
+    saveGame();
+    alert("Jogo salvo!");
+  });
+  $("themeBtn").addEventListener("click", toggleTheme);
+
+  $("sendChat").addEventListener("click", () => {
+    const msg = $("chatInput").value;
+    enviarChat(msg);
+    $("chatInput").value = "";
+  });
+
+  $("chatInput").addEventListener("keypress", e => {
+    if (e.key === "Enter") {
+      $("sendChat").click();
+    }
   });
 }
 
-// Tema claro / escuro
-function toggleTheme() {
-  document.body.classList.toggle("light-theme");
-  const isLight = document.body.classList.contains("light-theme");
-  localStorage.setItem("theme", isLight ? "light" : "dark");
-}
-
-function loadTheme() {
-  const theme = localStorage.getItem("theme") || "dark";
-  if (theme === "light") document.body.classList.add("light-theme");
-}
-
-// Resetar progresso
-function resetGame() {
-  if (!confirm("Tem certeza que quer resetar todo o progresso?")) return;
-  localStorage.removeItem("clickerSave");
-  location.reload();
-}
-
-// Inicialização geral
+// --- INICIALIZAÇÃO GERAL ---
 function init() {
-  gameState.playerName = prompt("Digite seu nome para entrar no ranking:") || "Jogador";
+  gameState.playerName = prompt("Digite seu nome para o ranking:") || "Jogador";
+
   loadTheme();
   loadGame();
   renderUpgrades();
   updateDisplay();
   carregarRanking();
   carregarChat();
-  initTabs();
+  setupButtons();
+  startCPSInterval();
 
-  $("clickBtn").addEventListener("click", gainClick);
-  $("sendChat").addEventListener("click", () => {
-    const msg = $("chatInput").value;
-    enviarChat(msg);
-    $("chatInput").value = "";
-  });
-  $("chatInput").addEventListener("keypress", e => {
-    if (e.key === "Enter") {
-      $("sendChat").click();
-    }
-  });
-  $("toggleTheme").addEventListener("click", toggleTheme);
-  $("manualSave").addEventListener("click", () => {
+  // Atualizar ranking e salvar jogo a cada 10 segundos
+  setInterval(() => {
+    enviarRanking();
     saveGame();
-    alert("Jogo salvo manualmente!");
-  });
-  $("resetProgress").addEventListener("click", resetGame);
-
-  startIntervals();
+  }, 10000);
 }
 
 window.addEventListener("DOMContentLoaded", init);
