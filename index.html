@@ -3,63 +3,85 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Clicker Simulator dos Deuses</title>
+<title>🔥 Clicker Simulator dos Deuses 🔥</title>
 <link rel="stylesheet" href="style.css" />
 <script type="module" src="script.js" defer></script>
+<style>
+  /* Inline styles para garantir alguns efeitos diretamente no head */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #111;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #0ff;
+    border-radius: 5px;
+  }
+</style>
 </head>
 <body>
   <div class="container">
     <header>
       <h1>🔥 Clicker Simulator dos Deuses 🔥</h1>
-      <button id="themeBtn" title="Alternar Tema RGB">🎨 Tema RGB</button>
-      <label>
-        Som
-        <input type="checkbox" id="toggleSound" checked />
-      </label>
+      <div class="header-controls">
+        <button id="themeBtn" title="Alternar Tema RGB" aria-label="Alternar Tema RGB">🎨 Tema RGB</button>
+        <label for="toggleSound" class="switch-label">
+          Som
+          <input type="checkbox" id="toggleSound" checked />
+          <span class="slider"></span>
+        </label>
+      </div>
     </header>
 
     <main>
-      <section id="gameArea" class="panel">
-        <button id="clickBtn">CLIQUE AQUI</button>
-        <div id="clicksDisplay" class="status">Cliques: 0</div>
-        <div id="cpsDisplay" class="status">CPS: 0</div>
-        <div id="levelDisplay" class="status">Nível: 1</div>
-        <div id="rebirthDisplay" class="status">Rebirths: 0</div>
-        <div id="prestigeDisplay" class="status">Prestígio: 1x</div>
-        <div id="xpText" class="status">XP: 0 / 100</div>
-        <div id="xpBar"><div id="xpFill"></div></div>
+      <section id="gameArea" class="panel game-panel">
+        <button id="clickBtn" aria-label="Botão para clicar e ganhar pontos">CLIQUE AQUI</button>
+        <div class="stats">
+          <div id="clicksDisplay" class="status">Cliques: 0</div>
+          <div id="cpsDisplay" class="status">CPS: 0</div>
+          <div id="levelDisplay" class="status">Nível: 1</div>
+          <div id="rebirthDisplay" class="status">Rebirths: 0</div>
+          <div id="prestigeDisplay" class="status">Prestígio: 1x</div>
+          <div id="xpText" class="status">XP: 0 / 100</div>
+          <div id="xpBar" aria-label="Barra de progresso de XP">
+            <div id="xpFill"></div>
+          </div>
+        </div>
       </section>
 
-      <section id="upgrades" class="panel">
+      <section id="upgrades" class="panel shop-panel">
         <h2>🛒 Loja de Upgrades</h2>
-        <div id="upgradesList"></div>
+        <div id="upgradesList" class="item-list"></div>
       </section>
 
-      <section id="pets" class="panel">
+      <section id="pets" class="panel shop-panel">
         <h2>🐾 Pets</h2>
-        <div id="petsList"></div>
+        <div id="petsList" class="item-list"></div>
       </section>
 
-      <section id="shop" class="panel">
+      <section id="shop" class="panel shop-panel">
         <h2>🎁 Loja Especial</h2>
-        <div id="shopItems"></div>
+        <div id="shopItems" class="item-list"></div>
       </section>
 
-      <section id="achievements" class="panel">
+      <section id="achievements" class="panel achievements-panel">
         <h2>🏅 Conquistas</h2>
-        <div id="achievementsList"></div>
+        <div id="achievementsList" class="item-list"></div>
       </section>
 
-      <section id="ranking" class="panel">
+      <section id="ranking" class="panel ranking-panel">
         <h2>📊 Ranking Top 10</h2>
-        <div id="rankingContainer"></div>
+        <div id="rankingContainer" class="ranking-list" tabindex="0" aria-label="Lista do ranking dos melhores jogadores"></div>
       </section>
 
-      <section id="chat" class="panel">
+      <section id="chat" class="panel chat-panel">
         <h2>💬 Chat Global</h2>
-        <div id="chatMessages"></div>
-        <input type="text" id="chatInput" placeholder="Escreva uma mensagem..." maxlength="100" autocomplete="off" />
-        <button id="sendChat">Enviar</button>
+        <div id="chatMessages" class="chat-messages" tabindex="0" aria-live="polite"></div>
+        <div class="chat-input-group">
+          <input type="text" id="chatInput" placeholder="Escreva uma mensagem..." maxlength="150" autocomplete="off" aria-label="Digite uma mensagem para o chat" />
+          <button id="sendChat" aria-label="Enviar mensagem para o chat">Enviar</button>
+        </div>
       </section>
     </main>
 
