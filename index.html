@@ -11,14 +11,14 @@
   <div id="app">
     <header>
       <h1>Clicker Simulator Ultimate</h1>
-      <div class="xp-bar" title="XP">
+      <div class="xp-bar">
         <div id="xpFill" class="xp-fill"></div>
         <div id="xpText">XP: 0 / 100</div>
       </div>
     </header>
 
     <main>
-      <button id="clickBtn" title="Clique para ganhar clicks!">Clique Aqui!</button>
+      <button id="clickBtn">Clique Aqui!</button>
 
       <section class="stats">
         <div id="clicksDisplay">Cliques: 0</div>
@@ -35,35 +35,29 @@
     </main>
 
     <div class="buttonsRow">
-      <button id="rebirthBtn" title="Rebirth / Prestígio - reinicia com bônus">Rebirth</button>
-      <button id="saveBtn" title="Salvar progresso">Salvar</button>
-      <button id="themeBtn" title="Alternar tema claro / escuro">Tema</button>
+      <button id="rebirthBtn">Rebirth</button>
+      <button id="saveBtn">Salvar</button>
+      <button id="themeBtn">Tema</button>
     </div>
 
     <section id="rankingSection">
       <h2>Ranking Top 10</h2>
-      <div id="rankingContainer" tabindex="0" aria-label="Ranking dos jogadores"></div>
+      <div id="rankingContainer"></div>
     </section>
 
     <section id="chatSection">
       <h2>Chat Global</h2>
       <div id="chatContainer">
-        <div id="chatMessages" tabindex="0" aria-label="Mensagens do chat"></div>
+        <div id="chatMessages"></div>
         <div style="display: flex; margin-top: 10px;">
-          <input
-            type="text"
-            id="chatInput"
-            placeholder="Digite sua mensagem..."
-            aria-label="Campo para digitar mensagem"
-            autocomplete="off"
-          />
-          <button id="sendChat" title="Enviar mensagem">Enviar</button>
+          <input id="chatInput" placeholder="Digite sua mensagem..." />
+          <button id="sendChat">Enviar</button>
         </div>
       </div>
     </section>
 
     <footer>
-      <p>© 2025 Clicker Simulator by Luiz Felipe</p>
+      <p>© 2025 Clicker Simulator por Luiz</p>
     </footer>
   </div>
 </body>
