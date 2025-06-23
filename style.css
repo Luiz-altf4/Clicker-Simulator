@@ -1,162 +1,158 @@
-/* Clicker Simulator Supremo - CSS dos Deuses ✨ */
+/* Clicker Simulator dos Deuses - style.css LENDÁRIO */
 
 body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(145deg, #111, #222);
+  color: white;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #0d0d0d;
-  color: #fff;
   overflow-x: hidden;
-  transition: background 0.5s, color 0.5s;
 }
 
-header {
-  background: linear-gradient(90deg, #00f260, #0575e6);
-  padding: 20px;
-  text-align: center;
-  font-size: 28px;
-  font-weight: bold;
-  color: white;
-  text-shadow: 0 0 5px #000;
-  border-bottom: 3px solid #00f260;
+h1, h2, h3 {
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
 }
 
-main {
+.container {
   padding: 20px;
   max-width: 1200px;
   margin: auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
 }
 
-section {
-  background: #1a1a1a;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 0 15px #00f26099;
-}
-
-button {
-  background: #00f260;
-  color: #000;
-  font-weight: bold;
+#clickBtn {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
   border: none;
-  border-radius: 8px;
-  padding: 10px 15px;
-  margin-top: 10px;
-  cursor: pointer;
-  transition: 0.3s;
+  background: radial-gradient(circle, #0ff, #09f);
+  color: black;
+  font-size: 24px;
+  box-shadow: 0 0 20px #0ff;
+  transition: transform 0.2s;
 }
 
-button:hover {
-  background: #05ff9a;
+#clickBtn:hover {
+  transform: scale(1.05);
+}
+
+.panel {
+  background: #1c1c1c;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #0ff5;
+  padding: 15px;
+  margin-bottom: 20px;
 }
 
 .item {
-  margin-bottom: 15px;
+  background: #222;
   padding: 10px;
-  background: #2a2a2a;
-  border-radius: 12px;
-  box-shadow: 0 0 8px #00f26055;
+  border: 1px solid #0ff2;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
-.completed {
-  background: #0f0;
-  color: #000;
+.item.completed {
+  background-color: #1e1e1e;
+  border-color: lime;
+  text-shadow: 0 0 5px lime;
+}
+
+button {
+  background: #0ff;
+  color: black;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
   font-weight: bold;
 }
 
-.rgb-theme {
-  animation: rgb 5s infinite linear;
+button:hover {
+  background: #0cf;
 }
 
-@keyframes rgb {
-  0%   { background-color: #ff0055; }
-  25%  { background-color: #ffcc00; }
-  50%  { background-color: #00ffcc; }
-  75%  { background-color: #6600ff; }
-  100% { background-color: #ff0055; }
-}
-
-#xpBar {
-  background: #333;
-  border-radius: 10px;
-  height: 20px;
-  overflow: hidden;
-  margin-top: 10px;
-}
-
-#xpFill {
-  background: linear-gradient(90deg, #00ff99, #00ccff);
-  height: 100%;
-  width: 0%;
-  transition: width 0.3s;
+input, select {
+  background: #111;
+  color: white;
+  border: 1px solid #0ff;
+  border-radius: 4px;
+  padding: 6px;
+  margin: 4px 0;
 }
 
 .particle {
-  position: absolute;
-  color: #00ffcc;
+  position: fixed;
   font-weight: bold;
-  animation: float 1s ease-out forwards;
-  pointer-events: none;
-  user-select: none;
+  color: #0ff;
+  text-shadow: 0 0 5px #0ff;
+  animation: rise 1s ease-out;
 }
 
-@keyframes float {
+@keyframes rise {
   0% { transform: translateY(0); opacity: 1; }
   100% { transform: translateY(-50px); opacity: 0; }
 }
 
-#chatMessages {
-  max-height: 200px;
-  overflow-y: auto;
-  background: #121212;
-  padding: 10px;
+#xpBar {
+  width: 100%;
+  height: 20px;
+  background: #333;
   border-radius: 10px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+#xpFill {
+  height: 100%;
+  background: linear-gradient(to right, #0ff, #0f0);
+  width: 0%;
+  transition: width 0.4s ease-in-out;
+}
+
+.rgb-theme {
+  background: black;
+  animation: rgbBG 4s infinite;
+}
+
+@keyframes rgbBG {
+  0% { background-color: #ff0000; }
+  25% { background-color: #00ff00; }
+  50% { background-color: #0000ff; }
+  75% { background-color: #ff00ff; }
+  100% { background-color: #ff0000; }
+}
+
+#rankingContainer, #chatMessages {
+  max-height: 250px;
+  overflow-y: auto;
+  background: #111;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #0ff3;
+  margin-bottom: 10px;
 }
 
 #chatMessages p {
   margin: 5px 0;
 }
 
-#rankingContainer {
-  background: #111;
-  padding: 10px;
-  border-radius: 10px;
-  max-height: 200px;
-  overflow-y: auto;
-  box-shadow: 0 0 5px #00ffcc88;
-}
-
-footer {
+#footer {
   text-align: center;
-  padding: 20px;
+  margin-top: 30px;
   font-size: 14px;
-  color: #aaa;
+  color: #888;
 }
 
 @media (max-width: 768px) {
-  main {
-    grid-template-columns: 1fr;
+  #clickBtn {
+    width: 140px;
+    height: 140px;
+    font-size: 18px;
+  }
+
+  .container {
+    padding: 10px;
   }
 }
-
-input, textarea {
-  background: #222;
-  border: 1px solid #00f260;
-  color: #fff;
-  padding: 10px;
-  border-radius: 8px;
-  width: 100%;
-  box-sizing: border-box;
-  margin-top: 10px;
-}
-
-h3 {
-  margin: 0 0 5px;
-  color: #00ff99;
-  text-shadow: 0 0 2px #000;
-}
-
-/* Fim do CSS Supremo */
