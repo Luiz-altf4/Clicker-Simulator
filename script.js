@@ -5,31 +5,37 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
 // === Firebase Config ===
+// ATENÇÃO: confirme que este databaseURL está correto e sem "/" no final
 const firebaseConfig = {
   apiKey: "AIzaSyA4iTIlOQbfvtEQd27R5L6Z7y_oXeatBF8",
   authDomain: "clickersimulatorrank.firebaseapp.com",
-  databaseURL: "https://clickersimulatorrank-default-rtdb.firebaseio.com", // CORRIGIDO
+  databaseURL: "https://clickersimulatorrank-default-rtdb.firebaseio.com",
   projectId: "clickersimulatorrank",
   storageBucket: "clickersimulatorrank.appspot.com",
   messagingSenderId: "487285841132",
   appId: "1:487285841132:web:e855fc761b7d2c420d99c9"
 };
 
-
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // === Utilitários ===
 const $ = id => document.getElementById(id);
-const format = n => {
-  const suffixes = ["", "K", "M", "B", "T", "Qd", "Qi", "Sx", "Sp", "Oc", "Dc"];
-  let tier = Math.log10(n) / 3 | 0;
-  if(tier === 0) return n;
-  const scale = Math.pow(10, tier * 3);
-  return (n / scale).toFixed(2) + suffixes[tier];
-};
 
-// === Estado do Jogo ===
+// Formata números grandes: 1234 => 1.23K, etc
+function formatNumber(n) {
+  if (n < 1000) return n.toString();
+  const units = ["K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No"];
+  let unitIndex = -1;
+  let num = n;
+  while (num >= 1000 && unitIndex < units.length -1) {
+    num /= 1000;
+    unitIndex++;
+  }
+  return num.toFixed(2) + units[unitIndex];
+}
+
+// === Estado do jogo ===
 let state = {
   clicks: 0,
   totalClicks: 0,
@@ -56,25 +62,30 @@ const upgradesData = [
 
 // === Inicialização ===
 function init() {
-  upgradesData.forEach(upg => {
-    state.upgrades.push({ ...upg, owned: 0 });
-  });
+  // Inicializa upgrades no estado (se ainda não tem)
+  if (!state.upgrades.length) {
+    upgradesData.forEach(u => {
+      state.upgrades.push({ ...u, owned: 0 });
+    });
+  }
 
+  // Eventos
   $("clickBtn").addEventListener("click", handleClick);
   $("rebirthBtn").addEventListener("click", handleRebirth);
   $("saveBtn").addEventListener("click", saveGame);
   $("themeBtn").addEventListener("click", toggleTheme);
   $("sendChat").addEventListener("click", sendChat);
-
   $("chatInput").addEventListener("keydown", e => {
     if (e.key === "Enter") sendChat();
   });
 
+  // Loop que soma CPS a cada segundo
   setInterval(() => {
     state.clicks += state.cps * state.prestige;
     updateDisplay();
   }, 1000);
 
+  // Auto save a cada 5 segundos
   setInterval(saveGame, 5000);
 
   loadGame();
@@ -84,12 +95,12 @@ function init() {
   listenChat();
 }
 
-// === Clique ===
+// === Clique manual ===
 function handleClick() {
   const bonus = state.multiplier * state.prestige;
   state.clicks += bonus;
   state.totalClicks += bonus;
-  state.xp += 1;
+  state.xp++;
   if (state.xp >= state.xpToNext) {
     state.level++;
     state.xp = 0;
@@ -98,7 +109,7 @@ function handleClick() {
   updateDisplay();
 }
 
-// === Upgrades ===
+// === Renderiza upgrades na UI ===
 function renderUpgrades() {
   const container = $("upgradesContainer");
   container.innerHTML = "";
@@ -107,9 +118,9 @@ function renderUpgrades() {
     div.className = "upgrade";
     div.innerHTML = `
       <h3>${upg.name}</h3>
-      <p>Preço: ${format(upg.price)}</p>
+      <p>Preço: ${formatNumber(upg.price)}</p>
       <p>Possui: ${upg.owned}</p>
-      <button onclick="buyUpgrade(${upg.id})">Comprar</button>
+      <button ${state.clicks < upg.price ? "disabled" : ""} onclick="buyUpgrade(${upg.id})">Comprar</button>
     `;
     container.appendChild(div);
   });
@@ -129,7 +140,10 @@ window.buyUpgrade = function(id) {
 
 // === Rebirth ===
 function handleRebirth() {
-  if (state.totalClicks < 10000) return alert("Você precisa de 10.000 cliques totais!");
+  if (state.totalClicks < 10000) {
+    alert("Você precisa de 10.000 cliques totais para fazer Rebirth!");
+    return;
+  }
   state.rebirths++;
   state.prestige = 1 + state.rebirths * 0.25;
   state.clicks = 0;
@@ -139,9 +153,10 @@ function handleRebirth() {
   state.level = 1;
   state.xpToNext = 100;
   state.multiplier = 1;
-  state.upgrades.forEach(u => {
-    u.owned = 0;
-    u.price = upgradesData.find(data => data.id === u.id).price;
+  // Reset upgrades
+  state.upgrades = [];
+  upgradesData.forEach(u => {
+    state.upgrades.push({ ...u, owned: 0 });
   });
   renderUpgrades();
   updateDisplay();
@@ -152,17 +167,14 @@ function toggleTheme() {
   document.body.classList.toggle("light-theme");
 }
 
-// === Ranking ===
+// === Ranking: carregar e mostrar top 10 ===
 function loadRanking() {
-  const topRef = query(ref(db, "ranking"), orderByChild("clicks"), limitToLast(10));
-  onValue(topRef, snapshot => {
-    const list = [];
-    snapshot.forEach(child => {
-      list.unshift(child.val());
-    });
-    $("rankingContainer").innerHTML = list.map(p =>
-      `<p><b>${p.name}</b>: ${format(p.clicks)}</p>`
-    ).join("");
+  const rankingRef = query(ref(db, "ranking"), orderByChild("clicks"), limitToLast(10));
+  onValue(rankingRef, snapshot => {
+    const players = [];
+    snapshot.forEach(child => players.unshift(child.val())); // inverte ordem para maior no topo
+    const container = $("rankingContainer");
+    container.innerHTML = players.map(p => `<p><b>${p.name}</b>: ${formatNumber(p.clicks)}</p>`).join("");
   });
 }
 
@@ -170,55 +182,88 @@ function loadRanking() {
 function listenChat() {
   const chatRef = ref(db, "chat");
   onValue(chatRef, snapshot => {
-    const msgs = [];
-    snapshot.forEach(msg => msgs.push(msg.val()));
-    $("chatMessages").innerHTML = msgs.map(m =>
-      `<p><b>${m.name}</b>: ${m.text}</p>`
-    ).join("");
-    $("chatMessages").scrollTop = $("chatMessages").scrollHeight;
+    const messages = [];
+    snapshot.forEach(child => messages.push(child.val()));
+    const container = $("chatMessages");
+    container.innerHTML = messages.map(m => `<p><b>${m.name}</b>: ${sanitize(m.text)}</p>`).join("");
+    container.scrollTop = container.scrollHeight;
   });
 }
 
 function sendChat() {
-  const name = prompt("Digite seu nome para o chat:") || "Jogador";
+  let name = localStorage.getItem("playerName");
+  if (!name) {
+    name = prompt("Digite seu nome para o chat (máx 15 caracteres):") || "Jogador";
+    name = name.substring(0, 15);
+    localStorage.setItem("playerName", name);
+  }
   const text = $("chatInput").value.trim();
-  if (!text || text.length > 100) return;
+  if (!text) return alert("Digite uma mensagem para enviar!");
+  if (text.length > 100) return alert("Mensagem muito longa!");
   push(ref(db, "chat"), {
-    name, text, time: Date.now()
+    name,
+    text,
+    time: Date.now()
   });
   $("chatInput").value = "";
 }
 
-// === Save/Load ===
-function saveGame() {
-  localStorage.setItem("clickerSave", JSON.stringify(state));
-  set(ref(db, `ranking/${state.username || "Jogador"}`), {
-    name: state.username || "Jogador",
-    clicks: state.totalClicks
+// Escapa caracteres HTML para evitar injection no chat
+function sanitize(str) {
+  return str.replace(/[&<>"']/g, m => {
+    switch (m) {
+      case "&": return "&amp;";
+      case "<": return "&lt;";
+      case ">": return "&gt;";
+      case '"': return "&quot;";
+      case "'": return "&#39;";
+      default: return m;
+    }
   });
 }
 
+// === Salvar jogo local + ranking online ===
+function saveGame() {
+  localStorage.setItem("clickerSave", JSON.stringify(state));
+
+  let name = localStorage.getItem("playerName") || "Jogador";
+  set(ref(db, `ranking/${name}`), {
+    name,
+    clicks: state.totalClicks
+  }).catch(console.error);
+}
+
+// === Carregar jogo do localStorage ===
 function loadGame() {
-  const data = localStorage.getItem("clickerSave");
-  if (data) {
-    const parsed = JSON.parse(data);
-    Object.assign(state, parsed);
+  const saveData = localStorage.getItem("clickerSave");
+  if (saveData) {
+    const data = JSON.parse(saveData);
+    Object.assign(state, data);
   } else {
-    state.username = prompt("Digite seu nome:") || "Jogador";
+    // Pergunta nome só uma vez
+    if (!localStorage.getItem("playerName")) {
+      const name = prompt("Digite seu nome (máx 15 caracteres):") || "Jogador";
+      localStorage.setItem("playerName", name.substring(0, 15));
+    }
   }
 }
 
-// === Atualizar Tela ===
+// === Atualizar display da UI ===
 function updateDisplay() {
-  $("clicksDisplay").textContent = `Cliques: ${format(state.clicks)}`;
-  $("cpsDisplay").textContent = `CPS: ${format(state.cps * state.prestige)}`;
+  $("clicksDisplay").textContent = `Cliques: ${formatNumber(state.clicks)}`;
+  $("cpsDisplay").textContent = `CPS: ${formatNumber(state.cps * state.prestige)}`;
   $("levelDisplay").textContent = `Nível: ${state.level}`;
   $("rebirthDisplay").textContent = `Rebirths: ${state.rebirths}`;
   $("prestigeDisplay").textContent = `Prestígio: ${state.prestige.toFixed(2)}x`;
 
-  const xpPercent = Math.floor((state.xp / state.xpToNext) * 100);
+  // Atualiza barra de XP
+  const xpPercent = (state.xp / state.xpToNext) * 100;
   $("xpFill").style.width = xpPercent + "%";
   $("xpText").textContent = `XP: ${state.xp} / ${state.xpToNext}`;
+
+  // Atualiza botões comprar upgrades habilitados/desabilitados
+  renderUpgrades();
 }
 
-document.addEventListener("DOMContentLoaded", init);
+// === Start ===
+window.addEventListener("DOMContentLoaded", init);
