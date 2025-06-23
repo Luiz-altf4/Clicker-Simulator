@@ -1,67 +1,71 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Clicker Simulator dos Deuses</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Clicker Simulator dos Deuses</title>
+<link rel="stylesheet" href="style.css" />
+<script type="module" src="script.js" defer></script>
 </head>
 <body>
-  <header>
-    ⚡ Clicker Simulator dos Deuses ⚡
-    <button id="themeBtn" style="float: right; margin-top: -5px;">Tema RGB</button>
-  </header>
-  <main>
-    <section>
-      <h2>Status</h2>
-      <p id="clicksDisplay">Cliques: 0</p>
-      <p id="cpsDisplay">CPS: 0</p>
-      <p id="levelDisplay">Nível: 1</p>
-      <p id="rebirthDisplay">Rebirths: 0</p>
-      <p id="prestigeDisplay">Prestígio: 1x</p>
-      <div id="xpBar">
-        <div id="xpFill"></div>
-      </div>
-      <p id="xpText">XP: 0 / 100</p>
-      <button id="clickBtn">💥 CLICAR 💥</button>
-    </section>
+  <div class="container">
+    <header>
+      <h1>🔥 Clicker Simulator dos Deuses 🔥</h1>
+      <button id="themeBtn" title="Alternar Tema RGB">🎨 Tema RGB</button>
+      <label>
+        Som
+        <input type="checkbox" id="toggleSound" checked />
+      </label>
+    </header>
 
-    <section>
-      <h2>Ranking Online</h2>
-      <div id="rankingContainer"></div>
-    </section>
+    <main>
+      <section id="gameArea" class="panel">
+        <button id="clickBtn">CLIQUE AQUI</button>
+        <div id="clicksDisplay" class="status">Cliques: 0</div>
+        <div id="cpsDisplay" class="status">CPS: 0</div>
+        <div id="levelDisplay" class="status">Nível: 1</div>
+        <div id="rebirthDisplay" class="status">Rebirths: 0</div>
+        <div id="prestigeDisplay" class="status">Prestígio: 1x</div>
+        <div id="xpText" class="status">XP: 0 / 100</div>
+        <div id="xpBar"><div id="xpFill"></div></div>
+      </section>
 
-    <section>
-      <h2>Loja de Upgrades</h2>
-      <div id="upgradesList"></div>
-    </section>
+      <section id="upgrades" class="panel">
+        <h2>🛒 Loja de Upgrades</h2>
+        <div id="upgradesList"></div>
+      </section>
 
-    <section>
-      <h2>Pets</h2>
-      <div id="petsList"></div>
-    </section>
+      <section id="pets" class="panel">
+        <h2>🐾 Pets</h2>
+        <div id="petsList"></div>
+      </section>
 
-    <section>
-      <h2>Loja de Itens</h2>
-      <div id="shopItems"></div>
-    </section>
+      <section id="shop" class="panel">
+        <h2>🎁 Loja Especial</h2>
+        <div id="shopItems"></div>
+      </section>
 
-    <section>
-      <h2>Conquistas</h2>
-      <div id="achievementsList"></div>
-    </section>
+      <section id="achievements" class="panel">
+        <h2>🏅 Conquistas</h2>
+        <div id="achievementsList"></div>
+      </section>
 
-    <section>
-      <h2>Chat Global</h2>
-      <div id="chatMessages"></div>
-      <input id="chatInput" placeholder="Digite sua mensagem..." />
-      <button id="sendChat">Enviar</button>
-    </section>
-  </main>
-  <footer>
-    <p>Clicker Simulator dos Deuses &copy; 2025 - Criado por Luiz</p>
-  </footer>
+      <section id="ranking" class="panel">
+        <h2>📊 Ranking Top 10</h2>
+        <div id="rankingContainer"></div>
+      </section>
 
-  <script type="module" src="script.js"></script>
+      <section id="chat" class="panel">
+        <h2>💬 Chat Global</h2>
+        <div id="chatMessages"></div>
+        <input type="text" id="chatInput" placeholder="Escreva uma mensagem..." maxlength="100" autocomplete="off" />
+        <button id="sendChat">Enviar</button>
+      </section>
+    </main>
+
+    <footer id="footer">
+      &copy; 2025 Luiz Felipe - Clicker Simulator dos Deuses
+    </footer>
+  </div>
 </body>
 </html>
