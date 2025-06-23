@@ -22,7 +22,6 @@ body.light-theme {
   color: #222;
 }
 
-/* Container principal */
 #app {
   background-color: #222;
   border-radius: 12px;
@@ -41,7 +40,6 @@ body.light-theme #app {
   color: #222;
 }
 
-/* Header */
 header {
   text-align: center;
 }
@@ -56,7 +54,6 @@ body.light-theme header h1 {
   color: #007acc;
 }
 
-/* Barra de XP */
 .xp-bar {
   position: relative;
   height: 28px;
@@ -96,7 +93,6 @@ body.light-theme #xpText {
   color: #004466;
 }
 
-/* Main */
 main {
   display: flex;
   flex-wrap: wrap;
@@ -104,7 +100,6 @@ main {
   gap: 30px;
 }
 
-/* Botão de click */
 #clickBtn {
   background-color: #00bfff;
   color: #121212;
@@ -129,7 +124,6 @@ body.light-theme #clickBtn {
   box-shadow: 0 0 15px #0099ff;
 }
 
-/* Estatísticas */
 .stats {
   flex-grow: 1;
   min-width: 200px;
@@ -157,7 +151,6 @@ body.light-theme .stats div {
   box-shadow: 0 0 10px #007accaa;
 }
 
-/* Seção upgrades */
 #upgradesSection {
   width: 100%;
 }
@@ -175,7 +168,6 @@ body.light-theme #upgradesSection h2 {
   text-shadow: none;
 }
 
-/* Container upgrades */
 #upgradesContainer {
   display: flex;
   flex-wrap: wrap;
@@ -183,7 +175,6 @@ body.light-theme #upgradesSection h2 {
   justify-content: center;
 }
 
-/* Cada upgrade */
 .upgrade {
   background-color: #333;
   width: 150px;
@@ -219,7 +210,6 @@ body.light-theme .upgrade h3 {
   font-size: 0.95rem;
 }
 
-/* Botão comprar upgrade */
 .upgrade button {
   background-color: #00bfff;
   border: none;
@@ -254,7 +244,6 @@ body.light-theme .upgrade button:disabled {
   background-color: #002233;
 }
 
-/* Footer */
 footer {
   text-align: center;
   font-weight: 600;
@@ -268,7 +257,6 @@ body.light-theme footer {
   color: #007acc88;
 }
 
-/* --- Ranking --- */
 #rankingContainer {
   background-color: #222;
   padding: 15px 20px;
@@ -288,7 +276,6 @@ body.light-theme #rankingContainer {
   box-shadow: 0 0 15px #0099ffcc;
 }
 
-/* --- Chat Global --- */
 #chatContainer {
   background-color: #222;
   border-radius: 14px;
@@ -310,7 +297,6 @@ body.light-theme #chatContainer {
   box-shadow: 0 0 15px #0099ffcc;
 }
 
-/* Mensagens chat */
 #chatMessages {
   flex-grow: 1;
   overflow-y: auto;
@@ -319,7 +305,6 @@ body.light-theme #chatContainer {
   font-size: 0.95rem;
 }
 
-/* Input e botão chat */
 #chatInput {
   padding: 8px 15px;
   border-radius: 20px;
@@ -359,7 +344,6 @@ body.light-theme #sendChat:hover {
   background-color: #0099ff;
 }
 
-/* --- Botões extras --- */
 .buttonsRow {
   display: flex;
   gap: 10px;
@@ -392,7 +376,6 @@ body.light-theme .buttonsRow button:hover {
   background-color: #0099ff;
 }
 
-/* Responsividade básica */
 @media (max-width: 700px) {
   main {
     flex-direction: column;
