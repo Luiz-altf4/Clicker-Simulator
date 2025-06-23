@@ -1,25 +1,8 @@
-// === Firebase Imports ===
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import {
-  getDatabase, ref, push, set, get, onValue, query, orderByChild, limitToLast
+  getDatabase, ref, push, set, onValue, query, orderByChild, limitToLast
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
-// === Firebase Config ===
-const firebaseConfig = {
-  apiKey: "AIzaSyA4iTIlOQbfvtEQd27R5L6Z7y_oXeatBF8",
-  authDomain: "clickersimulatorrank.firebaseapp.com",
-  databaseURL: "https://clickersimulatorrank-default-rtdb.firebaseio.com/",
-  projectId: "clickersimulatorrank",
-  storageBucket: "clickersimulatorrank.appspot.com",
-  messagingSenderId: "487285841132",
-  appId: "1:487285841132:web:e855fc761b7d2c420d99c9",
-  measurementId: "G-ZXXWCDTY9D"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-// === Utilidades ===
+// Utils
 const $ = id => document.getElementById(id);
 
 function abreviar(n) {
@@ -32,20 +15,22 @@ function abreviar(n) {
   return n.toFixed(1) + sufixos[i];
 }
 
-// === Estado do Jogo ===
-let gameState = {
+// Game State
+const gameState = {
   clicks: 0,
-  cps: 0,
   totalClicks: 0,
-  level: 1,
+  cps: 0,
+  multiplier: 1,
   xp: 0,
+  level: 1,
   xpToNext: 100,
+  rebirths: 0,
+  prestigePoints: 0,
   upgrades: [],
   playerName: '',
-  multiplier: 1
+  lastChatTimestamp: 0
 };
 
-// === Dados dos Upgrades ===
 const upgradesData = [
   { id: 1, name: "🖱️ Click Básico", bonusClick: 1, cps: 0, price: 10 },
   { id: 2, name: "⚙️ Click Avançado", bonusClick: 0, cps: 1, price: 100 },
@@ -57,26 +42,15 @@ const upgradesData = [
   { id: 8, name: "🌍 País de Click", bonusClick: 0, cps: 10000, price: 50000 }
 ];
 
-// === Inicialização do Jogo ===
-function init() {
-  upgradesData.forEach(u => {
-    gameState.upgrades.push({ ...u, owned: 0 });
-  });
+// Firebase DB ref - já inicializado no firebase.js
+const db = getDatabase();
 
-  carregarRanking();
-  loadGame();
-  renderUpgrades();
-  updateDisplay();
-  startIntervals();
+// Inicializa upgrades no gameState
+function initUpgrades() {
+  gameState.upgrades = upgradesData.map(u => ({ ...u, owned: 0 }));
 }
 
-function updateDisplay() {
-  $("clicksDisplay").textContent = `Cliques: ${abreviar(gameState.clicks)}`;
-  $("cpsDisplay").textContent = `CPS: ${abreviar(gameState.cps)}`;
-  $("xpFill").style.width = `${(gameState.xp / gameState.xpToNext) * 100}%`;
-  $("xpText").textContent = `XP: ${gameState.xp} / ${gameState.xpToNext}`;
-}
-
+// Renderização de upgrades
 function renderUpgrades() {
   const container = $("upgradesContainer");
   container.innerHTML = "";
@@ -87,12 +61,13 @@ function renderUpgrades() {
       <h3>${upg.name}</h3>
       <p>Preço: ${abreviar(upg.price)}</p>
       <p>Possui: ${upg.owned}</p>
-      <button onclick="buyUpgrade(${upg.id})">Comprar</button>
+      <button ${gameState.clicks < upg.price ? "disabled" : ""} onclick="buyUpgrade(${upg.id})">Comprar</button>
     `;
     container.appendChild(div);
   });
 }
 
+// Comprar upgrade
 window.buyUpgrade = function (id) {
   const upg = gameState.upgrades.find(u => u.id === id);
   if (!upg || gameState.clicks < upg.price) return;
@@ -106,20 +81,34 @@ window.buyUpgrade = function (id) {
   updateDisplay();
 };
 
+// Atualizar display geral
+function updateDisplay() {
+  $("clicksDisplay").textContent = `Cliques: ${abreviar(gameState.clicks)}`;
+  $("cpsDisplay").textContent = `CPS: ${abreviar(gameState.cps)}`;
+  $("rebirthsDisplay").textContent = `Rebirths: ${gameState.rebirths}`;
+  $("prestigeDisplay").textContent = `Prestígio: ${gameState.prestigePoints}`;
+  $("xpFill").style.width = `${(gameState.xp / gameState.xpToNext) * 100}%`;
+  $("xpText").textContent = `XP: ${gameState.xp} / ${gameState.xpToNext}`;
+}
+
+// Ganhar clique
 function gainClick() {
   gameState.clicks += gameState.multiplier;
   gameState.totalClicks += gameState.multiplier;
-  gameState.xp += 1;
+  gainXP(1);
+  updateDisplay();
+}
+
+function gainXP(amount) {
+  gameState.xp += amount;
   if (gameState.xp >= gameState.xpToNext) {
     gameState.level++;
     gameState.xp = 0;
     gameState.xpToNext = Math.floor(gameState.xpToNext * 1.25);
   }
-  updateDisplay();
 }
 
-$("clickBtn").addEventListener("click", gainClick);
-
+// Intervalo de CPS
 function startIntervals() {
   setInterval(() => {
     gameState.clicks += gameState.cps;
@@ -132,7 +121,7 @@ function startIntervals() {
   }, 5000);
 }
 
-// === Salvamento Local ===
+// Salvamento local
 function saveGame() {
   localStorage.setItem("clickerSave", JSON.stringify(gameState));
 }
@@ -142,15 +131,22 @@ function loadGame() {
   if (data) {
     const saved = JSON.parse(data);
     Object.assign(gameState, saved);
-    renderUpgrades();
-    updateDisplay();
+    // Atualiza upgrades preço e owned pra garantir estrutura correta
+    gameState.upgrades.forEach(u => {
+      const savedU = saved.upgrades?.find(su => su.id === u.id);
+      if (savedU) {
+        u.owned = savedU.owned || 0;
+        u.price = savedU.price || u.price;
+      }
+    });
+  } else {
+    initUpgrades();
   }
 }
 
-// === Firebase: Ranking ===
+// Ranking Firebase
 function enviarParaRanking() {
   if (!gameState.playerName) return;
-
   const rankRef = ref(db, "ranking");
   const novo = push(rankRef);
   set(novo, {
@@ -175,8 +171,102 @@ function carregarRanking() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  gameState.playerName = prompt("Digite seu nome para entrar no ranking:");
-  if (!gameState.playerName) gameState.playerName = "Jogador";
-  init();
-});
+// Chat Firebase
+function enviarChat(msg) {
+  if (!msg.trim()) return;
+  if (Date.now() - gameState.lastChatTimestamp < 3000) {
+    alert("Espere 3 segundos entre mensagens para evitar spam!");
+    return;
+  }
+  gameState.lastChatTimestamp = Date.now();
+
+  const chatRef = ref(db, "chat");
+  const novo = push(chatRef);
+  set(novo, {
+    nome: gameState.playerName,
+    mensagem: msg,
+    data: Date.now()
+  });
+}
+
+function carregarChat() {
+  const chatRef = query(ref(db, "chat"), orderByChild("data"), limitToLast(50));
+  onValue(chatRef, snapshot => {
+    const container = $("chatMessages");
+    container.innerHTML = "";
+    snapshot.forEach(child => {
+      const msg = child.val();
+      const div = document.createElement("div");
+      div.textContent = `[${new Date(msg.data).toLocaleTimeString()}] ${msg.nome}: ${msg.mensagem}`;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+    });
+  });
+}
+
+// Abas (tabs)
+function initTabs() {
+  const tabs = document.querySelectorAll(".tab");
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      document.querySelectorAll(".tab-content").forEach(tc => tc.style.display = "none");
+      const activeContent = document.getElementById(tab.dataset.tab);
+      if (activeContent) activeContent.style.display = "block";
+    });
+  });
+}
+
+// Tema claro / escuro
+function toggleTheme() {
+  document.body.classList.toggle("light-theme");
+  const isLight = document.body.classList.contains("light-theme");
+  localStorage.setItem("theme", isLight ? "light" : "dark");
+}
+
+function loadTheme() {
+  const theme = localStorage.getItem("theme") || "dark";
+  if (theme === "light") document.body.classList.add("light-theme");
+}
+
+// Resetar progresso
+function resetGame() {
+  if (!confirm("Tem certeza que quer resetar todo o progresso?")) return;
+  localStorage.removeItem("clickerSave");
+  location.reload();
+}
+
+// Inicialização geral
+function init() {
+  gameState.playerName = prompt("Digite seu nome para entrar no ranking:") || "Jogador";
+  loadTheme();
+  loadGame();
+  renderUpgrades();
+  updateDisplay();
+  carregarRanking();
+  carregarChat();
+  initTabs();
+
+  $("clickBtn").addEventListener("click", gainClick);
+  $("sendChat").addEventListener("click", () => {
+    const msg = $("chatInput").value;
+    enviarChat(msg);
+    $("chatInput").value = "";
+  });
+  $("chatInput").addEventListener("keypress", e => {
+    if (e.key === "Enter") {
+      $("sendChat").click();
+    }
+  });
+  $("toggleTheme").addEventListener("click", toggleTheme);
+  $("manualSave").addEventListener("click", () => {
+    saveGame();
+    alert("Jogo salvo manualmente!");
+  });
+  $("resetProgress").addEventListener("click", resetGame);
+
+  startIntervals();
+}
+
+window.addEventListener("DOMContentLoaded", init);
