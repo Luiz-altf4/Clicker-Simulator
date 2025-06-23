@@ -1,392 +1,265 @@
-/* Reset básico */
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  user-select: none;
 }
 
+/* Tema escuro padrão */
 body {
-  background-color: #121212;
+  background-color: #0d0d0d;
   color: #eee;
   display: flex;
   justify-content: center;
   padding: 20px;
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background 0.4s ease, color 0.4s ease;
 }
 
 body.light-theme {
-  background-color: #f5f5f5;
-  color: #222;
+  background-color: #f0f0f0;
+  color: #111;
 }
 
+/* Container principal */
 #app {
-  background-color: #222;
-  border-radius: 12px;
-  padding: 25px 30px;
-  max-width: 900px;
+  background-color: #1a1a1a;
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 1000px;
   width: 100%;
-  box-shadow: 0 0 20px #00bfff88;
+  box-shadow: 0 0 15px #00ffff60;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
 }
 
 body.light-theme #app {
   background-color: #fff;
-  box-shadow: 0 0 20px #0099ff88;
-  color: #222;
+  box-shadow: 0 0 15px #00bbff60;
 }
 
-header {
-  text-align: center;
-}
-
+/* Cabeçalho */
 header h1 {
-  font-size: 2.5rem;
-  color: #00bfff;
-  margin-bottom: 10px;
+  text-align: center;
+  font-size: 2.8rem;
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffffaa;
 }
 
-body.light-theme header h1 {
-  color: #007acc;
-}
-
+/* Barra de XP */
 .xp-bar {
   position: relative;
+  width: 100%;
+  max-width: 500px;
   height: 28px;
-  background: #333;
+  background-color: #333;
+  margin: 15px auto;
   border-radius: 14px;
   overflow: hidden;
-  margin: 0 auto;
-  max-width: 400px;
-}
-
-body.light-theme .xp-bar {
-  background: #ddd;
 }
 
 .xp-fill {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #00bfff, #00ffff);
-  transition: width 0.5s ease;
-}
-
-body.light-theme .xp-fill {
-  background: linear-gradient(90deg, #007acc, #00aaff);
+  background: linear-gradient(90deg, #00ffff, #0088ff);
+  transition: width 0.4s ease;
 }
 
 #xpText {
   position: absolute;
   width: 100%;
   text-align: center;
-  font-weight: 700;
-  top: 2px;
-  color: #c0f8ff;
-  font-size: 1.1rem;
+  line-height: 28px;
+  font-weight: bold;
+  color: #fff;
 }
 
-body.light-theme #xpText {
-  color: #004466;
-}
-
-main {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-}
-
+/* Botão de click */
 #clickBtn {
-  background-color: #00bfff;
-  color: #121212;
   font-size: 2rem;
-  padding: 25px 60px;
+  padding: 20px 60px;
   border: none;
-  border-radius: 20px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #00ffff, #00ccff);
+  color: #000;
   cursor: pointer;
-  box-shadow: 0 0 15px #00ffff;
-  transition: transform 0.1s ease, background-color 0.3s ease;
-  user-select: none;
-  flex-shrink: 0;
+  box-shadow: 0 0 10px #00ffffaa;
+  transition: transform 0.1s ease;
+  align-self: center;
 }
 
 #clickBtn:active {
   transform: scale(0.95);
 }
 
-body.light-theme #clickBtn {
-  background-color: #007acc;
-  color: #f5f5f5;
-  box-shadow: 0 0 15px #0099ff;
-}
-
+/* Seção de estatísticas */
 .stats {
-  flex-grow: 1;
-  min-width: 200px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  font-size: 1.3rem;
-  color: #a0eaff;
-}
-
-body.light-theme .stats {
-  color: #004466;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  font-size: 1.2rem;
 }
 
 .stats div {
-  padding: 10px 15px;
-  background-color: #333;
-  border-radius: 12px;
-  box-shadow: 0 0 10px #00bfffaa;
-  user-select: none;
+  padding: 10px 20px;
+  background-color: #222;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00ffff40;
 }
 
 body.light-theme .stats div {
-  background-color: #eee;
-  box-shadow: 0 0 10px #007accaa;
+  background-color: #f0f0f0;
+  color: #111;
 }
 
-#upgradesSection {
-  width: 100%;
-}
-
+/* Upgrades */
 #upgradesSection h2 {
   text-align: center;
-  margin-bottom: 15px;
   font-size: 2rem;
   color: #00ffff;
-  text-shadow: 0 0 8px #00bfff;
-}
-
-body.light-theme #upgradesSection h2 {
-  color: #007acc;
-  text-shadow: none;
+  margin-bottom: 10px;
 }
 
 #upgradesContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
+  gap: 20px;
   justify-content: center;
 }
 
 .upgrade {
-  background-color: #333;
-  width: 150px;
+  background-color: #2a2a2a;
   padding: 15px;
-  border-radius: 16px;
-  box-shadow: 0 0 15px #00bfffcc;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #a0eaff;
-  user-select: none;
-  transition: background-color 0.3s ease;
-}
-
-body.light-theme .upgrade {
-  background-color: #fafafa;
-  box-shadow: 0 0 15px #0099ffcc;
-  color: #004466;
+  width: 160px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px #00ffff40;
+  text-align: center;
+  color: #eee;
 }
 
 .upgrade h3 {
   font-size: 1.1rem;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   color: #00ffff;
-}
-
-body.light-theme .upgrade h3 {
-  color: #007acc;
 }
 
 .upgrade p {
-  margin-bottom: 10px;
-  font-size: 0.95rem;
+  margin: 4px 0;
+  font-size: 0.9rem;
 }
 
 .upgrade button {
-  background-color: #00bfff;
+  margin-top: 10px;
+  padding: 6px 12px;
   border: none;
-  padding: 8px 15px;
-  border-radius: 16px;
-  font-weight: 700;
-  color: #121212;
-  cursor: pointer;
-  width: 100%;
-  transition: background-color 0.3s ease;
-}
-
-.upgrade button:hover:not(:disabled) {
   background-color: #00ffff;
-}
-
-.upgrade button:disabled {
-  background-color: #004466;
-  cursor: not-allowed;
-}
-
-body.light-theme .upgrade button {
-  background-color: #007acc;
-  color: #f5f5f5;
-}
-
-body.light-theme .upgrade button:hover:not(:disabled) {
-  background-color: #0099ff;
-}
-
-body.light-theme .upgrade button:disabled {
-  background-color: #002233;
-}
-
-footer {
-  text-align: center;
-  font-weight: 600;
-  color: #00bfff88;
-  user-select: none;
-  margin-top: 30px;
-  font-size: 1rem;
-}
-
-body.light-theme footer {
-  color: #007acc88;
-}
-
-#rankingContainer {
-  background-color: #222;
-  padding: 15px 20px;
-  border-radius: 14px;
-  max-height: 200px;
-  overflow-y: auto;
-  box-shadow: 0 0 15px #00bfffcc;
-  font-size: 1.1rem;
-  color: #00ffff;
-  margin-top: 20px;
-  user-select: none;
-}
-
-body.light-theme #rankingContainer {
-  background-color: #f0f8ff;
-  color: #004466;
-  box-shadow: 0 0 15px #0099ffcc;
-}
-
-#chatContainer {
-  background-color: #222;
-  border-radius: 14px;
-  padding: 15px 20px;
-  max-height: 250px;
-  overflow-y: auto;
-  box-shadow: 0 0 15px #00bfffcc;
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  color: #00ffff;
-  user-select: none;
-}
-
-body.light-theme #chatContainer {
-  background-color: #f0f8ff;
-  color: #004466;
-  box-shadow: 0 0 15px #0099ffcc;
-}
-
-#chatMessages {
-  flex-grow: 1;
-  overflow-y: auto;
-  max-height: 180px;
-  padding-right: 10px;
-  font-size: 0.95rem;
-}
-
-#chatInput {
-  padding: 8px 15px;
-  border-radius: 20px;
-  border: none;
-  flex-grow: 1;
-  font-size: 1rem;
-}
-
-body.light-theme #chatInput {
-  background-color: #e0e0e0;
-  color: #222;
-}
-
-#sendChat {
-  background-color: #00bfff;
-  border: none;
-  color: #121212;
-  padding: 8px 20px;
-  font-weight: 700;
-  border-radius: 20px;
-  margin-left: 10px;
+  color: #000;
+  font-weight: bold;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  user-select: none;
+  transition: background 0.3s ease;
 }
 
-#sendChat:hover {
-  background-color: #00ffff;
+.upgrade button:hover {
+  background-color: #00ccff;
 }
 
-body.light-theme #sendChat {
-  background-color: #007acc;
-  color: #f5f5f5;
-}
-
-body.light-theme #sendChat:hover {
-  background-color: #0099ff;
-}
-
+/* Botões extras */
 .buttonsRow {
   display: flex;
-  gap: 10px;
   justify-content: center;
-  margin-top: 20px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .buttonsRow button {
-  background-color: #00bfff;
-  border: none;
-  border-radius: 20px;
-  color: #121212;
   padding: 10px 20px;
-  font-weight: 700;
+  border: none;
+  background-color: #00ffff;
+  color: #000;
+  font-weight: bold;
+  border-radius: 12px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  user-select: none;
 }
 
 .buttonsRow button:hover {
+  background-color: #00ccff;
+}
+
+/* Ranking */
+#rankingSection h2,
+#chatSection h2 {
+  text-align: center;
+  color: #00ffff;
+  margin-top: 20px;
+}
+
+#rankingContainer,
+#chatContainer {
+  background-color: #1f1f1f;
+  padding: 15px;
+  border-radius: 12px;
+  max-height: 250px;
+  overflow-y: auto;
+  box-shadow: 0 0 12px #00ffff40;
+  color: #eee;
+  font-size: 0.95rem;
+}
+
+#chatMessages {
+  max-height: 150px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+#chatInput {
+  flex-grow: 1;
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: none;
+  margin-right: 10px;
+  font-size: 0.9rem;
+}
+
+#sendChat {
+  padding: 8px 15px;
   background-color: #00ffff;
+  border: none;
+  color: #000;
+  font-weight: bold;
+  border-radius: 20px;
+  cursor: pointer;
 }
 
-body.light-theme .buttonsRow button {
-  background-color: #007acc;
-  color: #f5f5f5;
+/* Rodapé */
+footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #00ffff80;
+  margin-top: 20px;
 }
 
-body.light-theme .buttonsRow button:hover {
-  background-color: #0099ff;
-}
-
-@media (max-width: 700px) {
-  main {
+/* Responsivo */
+@media (max-width: 600px) {
+  .stats {
     flex-direction: column;
     align-items: center;
   }
 
-  #clickBtn {
+  .upgrade {
     width: 90%;
   }
 
-  #upgradesContainer {
-    justify-content: center;
+  .buttonsRow {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  #clickBtn {
+    width: 90%;
   }
 }
