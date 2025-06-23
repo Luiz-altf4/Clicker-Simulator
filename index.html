@@ -2,11 +2,10 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Clicker Simulator</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet" />
   <script type="module" src="firebase.js" defer></script>
   <script src="script.js" defer></script>
 </head>
@@ -15,8 +14,8 @@
     <header>
       <h1>Clicker Simulator</h1>
       <div class="xp-bar">
-        <div class="xp-fill" id="xpFill"></div>
-        <span class="xp-text" id="xpText">XP: 0 / 100</span>
+        <div id="xpFill" class="xp-fill"></div>
+        <span id="xpText" class="xp-text">XP: 0 / 100</span>
       </div>
     </header>
 
@@ -50,32 +49,32 @@
 
         <div class="tab-content" id="loja">
           <h2>Loja</h2>
-          <div id="lojaContainer"></div>
+          <div id="lojaContainer">Em desenvolvimento...</div>
         </div>
 
         <div class="tab-content" id="pets">
           <h2>Pets</h2>
-          <div id="petsContainer"></div>
+          <div id="petsContainer">Em desenvolvimento...</div>
         </div>
 
         <div class="tab-content" id="missoes">
           <h2>Missões</h2>
-          <div id="missoesContainer"></div>
+          <div id="missoesContainer">Em desenvolvimento...</div>
         </div>
 
         <div class="tab-content" id="conquistas">
           <h2>Conquistas</h2>
-          <div id="conquistasContainer"></div>
+          <div id="conquistasContainer">Em desenvolvimento...</div>
         </div>
 
         <div class="tab-content" id="mundos">
           <h2>Mundos</h2>
-          <div id="mundosContainer"></div>
+          <div id="mundosContainer">Em desenvolvimento...</div>
         </div>
 
         <div class="tab-content" id="prestigio">
           <h2>Prestígio</h2>
-          <div id="prestigioContainer"></div>
+          <div id="prestigioContainer">Em desenvolvimento...</div>
         </div>
 
         <div class="tab-content" id="ranking">
@@ -87,7 +86,7 @@
           <h2>Chat Global</h2>
           <div id="chatContainer">
             <div id="chatMessages"></div>
-            <input type="text" id="chatInput" placeholder="Digite sua mensagem..." maxlength="100" />
+            <input id="chatInput" type="text" placeholder="Digite sua mensagem..." maxlength="100" />
             <button id="sendChat">Enviar</button>
           </div>
         </div>
