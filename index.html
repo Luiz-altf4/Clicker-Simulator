@@ -3,11 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator</title>
+  <title>Clicker Simulator Clean</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet" />
-  <script type="module" src="firebase.js" defer></script>
-  <script src="script.js" defer></script>
 </head>
 <body>
   <div id="app">
@@ -15,94 +12,29 @@
       <h1>Clicker Simulator</h1>
       <div class="xp-bar">
         <div id="xpFill" class="xp-fill"></div>
-        <span id="xpText" class="xp-text">XP: 0 / 100</span>
+        <span id="xpText">XP: 0 / 100</span>
       </div>
     </header>
 
     <main>
-      <section class="game-area">
-        <button id="clickBtn" class="click-btn">CLIQUE AQUI</button>
+      <button id="clickBtn" class="click-btn">CLIQUE AQUI</button>
+      <div class="stats">
         <div id="clicksDisplay">Cliques: 0</div>
         <div id="cpsDisplay">CPS: 0</div>
-        <div id="rebirthsDisplay">Rebirths: 0</div>
-        <div id="prestigeDisplay">Prestígio: 0</div>
+        <div id="levelDisplay">Nível: 1</div>
+      </div>
+
+      <section id="upgradesSection">
+        <h2>Upgrades</h2>
+        <div id="upgradesContainer"></div>
       </section>
-
-      <aside class="side-panel">
-        <div class="tabs">
-          <button class="tab active" data-tab="upgrades">Upgrades</button>
-          <button class="tab" data-tab="loja">Loja</button>
-          <button class="tab" data-tab="pets">Pets</button>
-          <button class="tab" data-tab="missoes">Missões</button>
-          <button class="tab" data-tab="conquistas">Conquistas</button>
-          <button class="tab" data-tab="mundos">Mundos</button>
-          <button class="tab" data-tab="prestigio">Prestígio</button>
-          <button class="tab" data-tab="ranking">Ranking</button>
-          <button class="tab" data-tab="chat">Chat</button>
-          <button class="tab" data-tab="config">Config</button>
-        </div>
-
-        <div class="tab-content" id="upgrades" style="display: block;">
-          <h2>Upgrades</h2>
-          <div id="upgradesContainer"></div>
-        </div>
-
-        <div class="tab-content" id="loja">
-          <h2>Loja</h2>
-          <div id="lojaContainer">Em desenvolvimento...</div>
-        </div>
-
-        <div class="tab-content" id="pets">
-          <h2>Pets</h2>
-          <div id="petsContainer">Em desenvolvimento...</div>
-        </div>
-
-        <div class="tab-content" id="missoes">
-          <h2>Missões</h2>
-          <div id="missoesContainer">Em desenvolvimento...</div>
-        </div>
-
-        <div class="tab-content" id="conquistas">
-          <h2>Conquistas</h2>
-          <div id="conquistasContainer">Em desenvolvimento...</div>
-        </div>
-
-        <div class="tab-content" id="mundos">
-          <h2>Mundos</h2>
-          <div id="mundosContainer">Em desenvolvimento...</div>
-        </div>
-
-        <div class="tab-content" id="prestigio">
-          <h2>Prestígio</h2>
-          <div id="prestigioContainer">Em desenvolvimento...</div>
-        </div>
-
-        <div class="tab-content" id="ranking">
-          <h2>Ranking Global</h2>
-          <div id="rankingContainer">Carregando ranking...</div>
-        </div>
-
-        <div class="tab-content" id="chat">
-          <h2>Chat Global</h2>
-          <div id="chatContainer">
-            <div id="chatMessages"></div>
-            <input id="chatInput" type="text" placeholder="Digite sua mensagem..." maxlength="100" />
-            <button id="sendChat">Enviar</button>
-          </div>
-        </div>
-
-        <div class="tab-content" id="config">
-          <h2>Configurações</h2>
-          <button id="toggleTheme">Alternar Tema</button>
-          <button id="manualSave">Salvar Manualmente</button>
-          <button id="resetProgress">Resetar Progresso</button>
-        </div>
-      </aside>
     </main>
 
     <footer>
-      <p>Desenvolvido por Luiz | Clicker Simulator v2.0</p>
+      <p>Desenvolvido por Luiz Felipe</p>
     </footer>
+
+    <script src="script.js"></script>
   </div>
 </body>
 </html>
