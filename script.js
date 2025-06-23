@@ -1,7 +1,8 @@
-// === Firebase Imports ===
+// === Firebase Modular Imports ===
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import {
-  getDatabase, ref, push, set, get, onValue, query, orderByChild, limitToLast
+  getDatabase, ref, push, set, get, onValue,
+  query, orderByChild, limitToLast
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
 // === Firebase Config ===
@@ -19,8 +20,41 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+// === Helper Functions ===
 const $ = id => document.getElementById(id);
+const format = num => {
+  if (num >= 1e33) return (num / 1e33).toFixed(2) + ' Dc';
+  if (num >= 1e30) return (num / 1e30).toFixed(2) + ' Oc';
+  if (num >= 1e27) return (num / 1e27).toFixed(2) + ' Sp';
+  if (num >= 1e24) return (num / 1e24).toFixed(2) + ' Sx';
+  if (num >= 1e21) return (num / 1e21).toFixed(2) + ' Qi';
+  if (num >= 1e18) return (num / 1e18).toFixed(2) + ' Qd';
+  if (num >= 1e15) return (num / 1e15).toFixed(2) + ' T';
+  if (num >= 1e12) return (num / 1e12).toFixed(2) + ' B';
+  if (num >= 1e9) return (num / 1e9).toFixed(2) + ' M';
+  if (num >= 1e6) return (num / 1e6).toFixed(2) + ' K';
+  return Math.floor(num);
+};
 
+function notify(msg) {
+  const div = document.createElement('div');
+  div.className = 'notify';
+  div.textContent = msg;
+  document.body.appendChild(div);
+  setTimeout(() => div.remove(), 3000);
+}
+
+function createParticle(x, y, text = "+1") {
+  const particle = document.createElement('div');
+  particle.className = 'particle';
+  particle.style.left = `${x}px`;
+  particle.style.top = `${y}px`;
+  particle.textContent = text;
+  document.getElementById("particlesContainer").appendChild(particle);
+  setTimeout(() => particle.remove(), 1000);
+}
+
+// === Game State ===
 let gameState = {
   clicks: 0,
   cps: 0,
@@ -28,159 +62,107 @@ let gameState = {
   level: 1,
   xp: 0,
   xpToNext: 100,
-  upgrades: [],
-  pets: [],
-  achievements: [],
-  playerName: '',
   multiplier: 1,
   rebirths: 0,
-  prestigeMultiplier: 1,
-  chatCooldown: false
+  upgrades: [],
+  pets: [],
+  chatName: '',
 };
 
+// === Upgrades (17 itens!) ===
 const upgradesData = [
-  { id: 1, name: "🖱️ Click Básico", bonusClick: 1, cps: 0, price: 10 },
-  { id: 2, name: "⚙️ Click Avançado", bonusClick: 0, cps: 1, price: 100 },
-  { id: 3, name: "🏠 Casa de Click", bonusClick: 0, cps: 2, price: 300 },
-  { id: 4, name: "🏢 Prédio de Click", bonusClick: 0, cps: 10, price: 1000 },
-  { id: 5, name: "🧪 Laboratório de Click", bonusClick: 0, cps: 20, price: 2500 },
-  { id: 6, name: "🏭 Fábrica de Click", bonusClick: 0, cps: 100, price: 5000 },
-  { id: 7, name: "🌆 Cidade de Click", bonusClick: 0, cps: 500, price: 15000 },
-  { id: 8, name: "🌍 País de Click", bonusClick: 0, cps: 10000, price: 50000 },
-  { id: 9, name: "🚀 Base Espacial", bonusClick: 0, cps: 50000, price: 200000 },
-  { id: 10, name: "🤖 Exército de Robôs", bonusClick: 0, cps: 200000, price: 800000 },
-  { id: 11, name: "🌌 Império Galáctico", bonusClick: 0, cps: 1000000, price: 3500000 },
-  { id: 12, name: "⚡ Núcleo de Energia", bonusClick: 0, cps: 5000000, price: 12000000 },
-  { id: 13, name: "🛸 Frota Alienígena", bonusClick: 0, cps: 25000000, price: 60000000 },
-  { id: 14, name: "🕹️ Inteligência Artificial", bonusClick: 0, cps: 100000000, price: 300000000 },
-  { id: 15, name: "🌠 Buraco Negro", bonusClick: 0, cps: 500000000, price: 1500000000 },
-  { id: 16, name: "🌌 Universo Paralelo", bonusClick: 0, cps: 2000000000, price: 7000000000 },
-  { id: 17, name: "👑 Deus dos Clicks", bonusClick: 0, cps: 10000000000, price: 30000000000 }
+  { id: 1, name: "🖱️ Clique Básico", cps: 0, bonus: 1, price: 10 },
+  { id: 2, name: "⚙️ Clique Avançado", cps: 1, bonus: 0, price: 100 },
+  { id: 3, name: "🏠 Casa de Clique", cps: 5, bonus: 0, price: 500 },
+  { id: 4, name: "🏢 Prédio de Clique", cps: 10, bonus: 0, price: 1500 },
+  { id: 5, name: "🧪 Laboratório", cps: 20, bonus: 0, price: 3500 },
+  { id: 6, name: "🏭 Fábrica", cps: 100, bonus: 0, price: 8000 },
+  { id: 7, name: "🌆 Cidade", cps: 300, bonus: 0, price: 20000 },
+  { id: 8, name: "🌍 País", cps: 1000, bonus: 0, price: 60000 },
+  { id: 9, name: "🚀 Satélite", cps: 5000, bonus: 0, price: 150000 },
+  { id: 10, name: "🪐 Estação Espacial", cps: 10000, bonus: 0, price: 350000 },
+  { id: 11, name: "🌌 Galáxia", cps: 25000, bonus: 0, price: 800000 },
+  { id: 12, name: "🌠 Buraco Negro", cps: 60000, bonus: 0, price: 2000000 },
+  { id: 13, name: "🧠 Super Cérebro", cps: 150000, bonus: 0, price: 5000000 },
+  { id: 14, name: "🛸 Frota Alien", cps: 500000, bonus: 0, price: 12000000 },
+  { id: 15, name: "🧬 Dimensão Quântica", cps: 1e6, bonus: 0, price: 30000000 },
+  { id: 16, name: "💥 Big Bang", cps: 2e6, bonus: 0, price: 70000000 },
+  { id: 17, name: "🌟 Multiverso", cps: 5e6, bonus: 0, price: 150000000 }
 ];
 
-// Pets ex. simples
+// === Pets (em breve com bônus reais) ===
 const petsData = [
-  { id: 1, name: "🐶 Cachorro", bonusCPS: 1, price: 500 },
-  { id: 2, name: "🐱 Gato", bonusCPS: 5, price: 2000 },
-  { id: 3, name: "🦊 Raposa", bonusCPS: 20, price: 10000 },
+  { id: 1, name: "🐶 Cão Clicker", bonus: 1.05, price: 5000, owned: false },
+  { id: 2, name: "🐱 Gato Gamer", bonus: 1.10, price: 15000, owned: false },
+  { id: 3, name: "🐉 Dragão Lendário", bonus: 1.25, price: 50000, owned: false }
 ];
 
-// Achievements ex. simples
-const achievementsData = [
-  { id: 1, name: "Primeiro Clique", desc: "Faça seu primeiro clique", condition: gs => gs.totalClicks >= 1 },
-  { id: 2, name: "100 Cliques", desc: "Alcance 100 cliques totais", condition: gs => gs.totalClicks >= 100 },
-  { id: 3, name: "Nível 10", desc: "Chegue ao nível 10", condition: gs => gs.level >= 10 },
-  { id: 4, name: "Rebirth!", desc: "Faça seu primeiro Rebirth", condition: gs => gs.rebirths >= 1 },
-  { id: 5, name: "Colecionador de Pets", desc: "Adquira todos os pets", condition: gs => gs.pets.length >= petsData.length }
-];
-
-function escapeHTML(str) {
-  return str.replace(/[&<>"']/g, m => ({
-    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
-  })[m]);
+// Inicializa upgrades e pets
+function initGameData() {
+  upgradesData.forEach(u => gameState.upgrades.push({ ...u, owned: 0 }));
+  petsData.forEach(p => gameState.pets.push({ ...p }));
 }
 
-function formatNumber(num) {
-  if (num < 1000) return num.toString();
-  const suffixes = ["K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"];
-  let e = Math.floor(Math.log10(num) / 3);
-  let val = num / Math.pow(1000, e);
-  return val.toFixed(2) + suffixes[e - 1];
-}
-
-function init() {
-  if (!gameState.playerName) {
-    let name = prompt("Digite seu nome de jogador:");
-    if (!name || !name.trim()) name = "Player" + Math.floor(Math.random()*9999);
-    gameState.playerName = name.trim().substring(0,20);
-  }
-
-  upgradesData.forEach(u => {
-    const found = gameState.upgrades.find(upg => upg.id === u.id);
-    if (!found) gameState.upgrades.push({...u, owned:0, price: u.price});
-  });
-
-  petsData.forEach(p => {
-    const found = gameState.pets.find(pt => pt.id === p.id);
-    if (!found) gameState.pets.push({...p, owned: false});
-  });
-
-  achievementsData.forEach(a => {
-    const found = gameState.achievements.find(ac => ac.id === a.id);
-    if (!found) gameState.achievements.push({...a, unlocked: false});
-  });
-
+// === Init & DOM Ready ===
+document.addEventListener("DOMContentLoaded", () => {
+  initGameData();
+  setupClicker();
+  setupChat();
   loadGame();
   updateAllDisplays();
   renderAll();
   startIntervals();
-  setupChat();
-  updateRanking();
-}
+});
 
-function updateAllDisplays() {
-  $("clicksDisplay").textContent = `Cliques: ${formatNumber(gameState.clicks)}`;
-  $("cpsDisplay").textContent = `CPS: ${formatNumber(gameState.cps)}`;
-  $("levelDisplay").textContent = `Nível: ${gameState.level}`;
-  $("rebirthDisplay").textContent = `Rebirths: ${gameState.rebirths}`;
-  $("prestigeDisplay").textContent = `Prestígio: ${gameState.prestigeMultiplier}x`;
-  $("xpText").textContent = `XP: ${formatNumber(gameState.xp)} / ${formatNumber(gameState.xpToNext)}`;
-  const xpPercent = Math.min(100, (gameState.xp / gameState.xpToNext) * 100);
-  $("xpFill").style.width = xpPercent + "%";
-}
-
+// === Render All Elements ===
 function renderAll() {
   renderUpgrades();
   renderPets();
-  renderAchievements();
+  renderRanking();
 }
 
+// === Update Display ===
+function updateAllDisplays() {
+  $("clicks").textContent = format(gameState.clicks);
+  $("cps").textContent = format(gameState.cps);
+  $("level").textContent = gameState.level;
+  $("xp").textContent = gameState.xp;
+  $("xpToNext").textContent = gameState.xpToNext;
+  const fill = (gameState.xp / gameState.xpToNext) * 100;
+  $("xpFill").style.width = `${fill}%`;
+}
+
+// === Click System ===
+function gainClick(e) {
+  const bonus = gameState.multiplier * getPetBonus();
+  gameState.clicks += bonus;
+  gameState.totalClicks += bonus;
+  gameState.xp += 1;
+  if (e?.clientX) createParticle(e.clientX, e.clientY, `+${bonus}`);
+
+  if (gameState.xp >= gameState.xpToNext) {
+    gameState.level++;
+    gameState.xp = 0;
+    gameState.xpToNext = Math.floor(gameState.xpToNext * 1.3);
+    notify(`⚡ Level Up! Agora você é nível ${gameState.level}`);
+  }
+
+  updateAllDisplays();
+}
+$("clickArea").addEventListener("click", gainClick);
+
+// === Upgrade System ===
 function renderUpgrades() {
   const container = $("upgradesList");
   container.innerHTML = "";
   gameState.upgrades.forEach(upg => {
-    const canBuy = gameState.clicks >= upg.price;
     const div = document.createElement("div");
     div.className = "item";
     div.innerHTML = `
-      <h3>${escapeHTML(upg.name)}</h3>
-      <p>Preço: ${formatNumber(upg.price)}</p>
+      <h3>${upg.name}</h3>
+      <p>Preço: ${format(upg.price)}</p>
       <p>Possui: ${upg.owned}</p>
-      <button ${canBuy ? '' : 'disabled'} onclick="buyUpgrade(${upg.id})">Comprar</button>
-    `;
-    container.appendChild(div);
-  });
-}
-
-function renderPets() {
-  const container = $("petsList");
-  container.innerHTML = "";
-  gameState.pets.forEach(pet => {
-    const canBuy = !pet.owned && gameState.clicks >= pet.price;
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerHTML = `
-      <h3>${escapeHTML(pet.name)}</h3>
-      <p>Preço: ${formatNumber(pet.price)}</p>
-      <p>${pet.owned ? "Adotado" : "Disponível"}</p>
-      <button ${canBuy ? '' : 'disabled'} onclick="buyPet(${pet.id})">${pet.owned ? "✔️" : "Comprar"}</button>
-    `;
-    container.appendChild(div);
-  });
-}
-
-function renderAchievements() {
-  const container = $("achievementsList");
-  container.innerHTML = "";
-  gameState.achievements.forEach(ac => {
-    const unlocked = ac.unlocked;
-    const div = document.createElement("div");
-    div.className = "item";
-    div.style.backgroundColor = unlocked ? "#004477cc" : "#002233cc";
-    div.innerHTML = `
-      <h3>${escapeHTML(ac.name)}</h3>
-      <p>${escapeHTML(ac.desc)}</p>
-      <p>Status: ${unlocked ? "Desbloqueado ✅" : "Bloqueado ❌"}</p>
+      <button onclick="buyUpgrade(${upg.id})" ${gameState.clicks < upg.price ? "disabled" : ""}>Comprar</button>
     `;
     container.appendChild(div);
   });
@@ -189,60 +171,89 @@ function renderAchievements() {
 window.buyUpgrade = function(id) {
   const upg = gameState.upgrades.find(u => u.id === id);
   if (!upg || gameState.clicks < upg.price) return;
+
   gameState.clicks -= upg.price;
   upg.owned++;
   gameState.cps += upg.cps;
-  gameState.multiplier += upg.bonusClick;
+  gameState.multiplier += upg.bonus;
   upg.price = Math.floor(upg.price * 1.35);
-  saveGame();
+
   updateAllDisplays();
   renderUpgrades();
-  checkAchievements();
+  saveGame();
 };
+
+// === Pet System ===
+function getPetBonus() {
+  return gameState.pets.reduce((bonus, pet) => {
+    return pet.owned ? bonus * pet.bonus : bonus;
+  }, 1);
+}
+
+function renderPets() {
+  const container = $("petsList");
+  if (!container) return;
+  container.innerHTML = "";
+
+  gameState.pets.forEach(pet => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <h3>${pet.name}</h3>
+      <p>Bônus: x${pet.bonus}</p>
+      <p>Preço: ${format(pet.price)}</p>
+      <button ${pet.owned ? "disabled" : ""} onclick="buyPet(${pet.id})">Comprar</button>
+    `;
+    container.appendChild(div);
+  });
+}
 
 window.buyPet = function(id) {
   const pet = gameState.pets.find(p => p.id === id);
-  if (!pet || pet.owned || gameState.clicks < pet.price) return;
+  if (!pet || gameState.clicks < pet.price || pet.owned) return;
   gameState.clicks -= pet.price;
   pet.owned = true;
-  gameState.cps += pet.bonusCPS;
-  saveGame();
+  notify(`🎉 Pet ${pet.name} adquirido!`);
   updateAllDisplays();
   renderPets();
-  checkAchievements();
+  saveGame();
 };
 
-function gainClick() {
-  gameState.clicks += gameState.multiplier * gameState.prestigeMultiplier;
-  gameState.totalClicks += gameState.multiplier * gameState.prestigeMultiplier;
-  gameState.xp += 1 * gameState.prestigeMultiplier;
-  if (gameState.xp >= gameState.xpToNext) {
-    gameState.level++;
-    gameState.xp -= gameState.xpToNext;
-    gameState.xpToNext = Math.floor(gameState.xpToNext * 1.25);
+// === Rebirth System ===
+$("rebirthBtn").addEventListener("click", () => {
+  if (gameState.clicks >= 1e6) {
+    gameState.rebirths++;
+    gameState.clicks = 0;
+    gameState.cps = 0;
+    gameState.totalClicks = 0;
+    gameState.level = 1;
+    gameState.xp = 0;
+    gameState.xpToNext = 100;
+    gameState.multiplier = 1 + gameState.rebirths;
+    gameState.upgrades.forEach(u => {
+      u.owned = 0;
+      u.price = upgradesData.find(up => up.id === u.id).price;
+    });
+    notify(`🔥 Rebirth feito! Rebirths: ${gameState.rebirths}`);
+    renderAll();
+    updateAllDisplays();
+    saveGame();
+  } else {
+    notify("Você precisa de pelo menos 1 milhão de cliques para fazer Rebirth.");
   }
-  spawnParticle(`+${formatNumber(gameState.multiplier * gameState.prestigeMultiplier)}`, event.clientX, event.clientY);
-  updateAllDisplays();
-  checkAchievements();
-}
+});
 
-$("clickArea").addEventListener("click", gainClick);
-$("clickBtn").addEventListener("click", gainClick);
-
+// === Auto Click + Save ===
 function startIntervals() {
   setInterval(() => {
-    gameState.clicks += gameState.cps * gameState.prestigeMultiplier;
-    gameState.totalClicks += gameState.cps * gameState.prestigeMultiplier;
+    gameState.clicks += gameState.cps * getPetBonus();
     updateAllDisplays();
-    checkAchievements();
   }, 1000);
 
-  setInterval(() => {
-    saveGame();
-    updateRanking();
-  }, 10000);
+  setInterval(saveGame, 5000);
 }
 
+// === Save & Load ===
 function saveGame() {
   localStorage.setItem("clickerSave", JSON.stringify(gameState));
 }
@@ -255,166 +266,70 @@ function loadGame() {
   }
 }
 
-function checkAchievements() {
-  let updated = false;
-  gameState.achievements.forEach(ac => {
-    if (!ac.unlocked && ac.condition(gameState)) {
-      ac.unlocked = true;
-      updated = true;
-      notify(`Conquista desbloqueada: ${ac.name}`);
+// === Chat System ===
+function setupChat() {
+  const name = prompt("Digite seu nome para o chat:");
+  if (!name || name.length < 2) {
+    gameState.chatName = "Anônimo";
+  } else {
+    gameState.chatName = name.substring(0, 20);
+  }
+
+  const chatRef = ref(db, "chat");
+  $("chatSendBtn").addEventListener("click", () => {
+    const text = $("chatInput").value.trim();
+    if (text && text.length <= 120) {
+      push(chatRef, {
+        user: gameState.chatName,
+        msg: text,
+        time: Date.now()
+      });
+      $("chatInput").value = "";
     }
   });
-  if (updated) renderAchievements();
-}
 
-function notify(text) {
-  const n = document.createElement("div");
-  n.textContent = text;
-  n.style.position = "fixed";
-  n.style.top = "20px";
-  n.style.left = "50%";
-  n.style.transform = "translateX(-50%)";
-  n.style.background = "#00ffffcc";
-  n.style.color = "#001922";
-  n.style.padding = "10px 25px";
-  n.style.borderRadius = "15px";
-  n.style.fontWeight = "900";
-  n.style.fontFamily = "'Orbitron', monospace";
-  n.style.zIndex = "999999";
-  n.style.userSelect = "none";
-  document.body.appendChild(n);
-  setTimeout(() => {
-    n.style.transition = "opacity 1s ease";
-    n.style.opacity = "0";
-    setTimeout(() => document.body.removeChild(n), 1000);
-  }, 1500);
-}
-
-function spawnParticle(text, x, y) {
-  const container = $("particlesContainer");
-  if (!container) return;
-  const p = document.createElement("div");
-  p.className = "particle";
-  p.textContent = text;
-  p.style.left = x + "px";
-  p.style.top = y + "px";
-  container.appendChild(p);
-  setTimeout(() => {
-    if (p.parentNode) p.parentNode.removeChild(p);
-  }, 1000);
-}
-
-// === CHAT ===
-const chatMessages = $("chatMessages");
-const chatInput = $("chatInput");
-const chatSendBtn = $("chatSendBtn");
-
-function setupChat() {
-  chatSendBtn.addEventListener("click", sendMessage);
-  chatInput.addEventListener("keypress", e => {
-    if (e.key === "Enter") sendMessage();
-  });
-  listenChat();
-}
-
-function listenChat() {
-  const chatRef = ref(db, "chat");
   onValue(chatRef, snapshot => {
-    chatMessages.innerHTML = "";
-    snapshot.forEach(childSnap => {
-      const msg = childSnap.val();
-      if (msg && msg.name && msg.text) {
+    const data = snapshot.val();
+    const container = $("chatMessages");
+    container.innerHTML = "";
+
+    if (data) {
+      const msgs = Object.values(data).slice(-20);
+      msgs.forEach(entry => {
         const div = document.createElement("div");
-        div.textContent = `${escapeHTML(msg.name)}: ${escapeHTML(msg.text)}`;
-        chatMessages.appendChild(div);
-      }
+        const date = new Date(entry.time).toLocaleTimeString();
+        div.innerHTML = `<strong>[${entry.user}]</strong> ${entry.msg} <span style="font-size:0.75em;color:#666;">(${date})</span>`;
+        container.appendChild(div);
+      });
+      container.scrollTop = container.scrollHeight;
+    }
+  });
+}
+
+// === Ranking System ===
+function renderRanking() {
+  const refRank = query(ref(db, "rank"), orderByChild("clicks"), limitToLast(20));
+  onValue(refRank, snapshot => {
+    const data = snapshot.val();
+    if (!data) return;
+    const list = Object.values(data).sort((a, b) => b.clicks - a.clicks);
+    const container = $("rankContainer");
+    container.innerHTML = "";
+
+    list.forEach((entry, i) => {
+      const div = document.createElement("div");
+      div.className = "rank-item";
+      div.textContent = `#${i + 1} - ${entry.name}: ${format(entry.clicks)} cliques`;
+      container.appendChild(div);
     });
-    chatMessages.scrollTop = chatMessages.scrollHeight;
   });
-}
 
-function sendMessage() {
-  if (gameState.chatCooldown) return;
-  let text = chatInput.value.trim();
-  if (!text) return;
-  if (text.length > 150) {
-    notify("Mensagem muito longa!");
-    return;
-  }
-  const chatRef = ref(db, "chat");
-  push(chatRef, {
-    name: gameState.playerName,
-    text,
-    timestamp: Date.now()
-  });
-  chatInput.value = "";
-  gameState.chatCooldown = true;
-  setTimeout(() => gameState.chatCooldown = false, 3000); // antispam 3s
-}
-
-// === RANKING ===
-const rankList = $("rankList");
-const rankQuery = query(ref(db, "ranking"), orderByChild("clicks"), limitToLast(20));
-
-onValue(rankQuery, snapshot => {
-  rankList.innerHTML = "";
-  const arr = [];
-  snapshot.forEach(childSnap => {
-    arr.push(childSnap.val());
-  });
-  // Ordena decrescente por clicks
-  arr.sort((a, b) => b.clicks - a.clicks);
-  arr.forEach(player => {
-    const div = document.createElement("div");
-    div.className = "rank-item";
-    div.textContent = `${escapeHTML(player.name)} - ${formatNumber(player.clicks)} cliques`;
-    rankList.appendChild(div);
-  });
-});
-
-// Atualiza ranking no Firebase (com debounce)
-let rankingTimeout;
-function updateRanking() {
-  if (!gameState.playerName) return;
-  if (rankingTimeout) clearTimeout(rankingTimeout);
-  rankingTimeout = setTimeout(() => {
-    const rankRef = ref(db, `ranking/${gameState.playerName}`);
-    set(rankRef, {
-      name: gameState.playerName,
-      clicks: gameState.clicks,
-      timestamp: Date.now()
+  // Salvar rank atual
+  setInterval(() => {
+    const refUser = ref(db, `rank/${gameState.chatName}`);
+    set(refUser, {
+      name: gameState.chatName,
+      clicks: gameState.totalClicks
     });
-  }, 1000);
+  }, 10000);
 }
-
-// === REBIRTH ===
-const rebirthBtn = $("rebirthBtn");
-rebirthBtn.addEventListener("click", () => {
-  if (gameState.level < 50) {
-    notify("Você precisa estar no nível 50 para fazer Rebirth!");
-    return;
-  }
-  // Reseta progresso, aumenta rebirths e multiplica prestígio
-  gameState.rebirths++;
-  gameState.prestigeMultiplier *= 1.2;
-  gameState.level = 1;
-  gameState.xp = 0;
-  gameState.xpToNext = 100;
-  gameState.clicks = 0;
-  gameState.cps = 0;
-  gameState.multiplier = 1;
-  gameState.upgrades.forEach(u => {
-    u.owned = 0;
-    u.price = upgradesData.find(ud => ud.id === u.id).price;
-  });
-  gameState.pets.forEach(p => p.owned = false);
-  saveGame();
-  updateAllDisplays();
-  renderAll();
-  notify("Rebirth realizado! Prestígio aumentado em 20%!");
-  updateRanking();
-});
-
-window.addEventListener("beforeunload", saveGame);
-
-init();
