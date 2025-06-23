@@ -8,12 +8,13 @@ import {
 const firebaseConfig = {
   apiKey: "AIzaSyA4iTIlOQbfvtEQd27R5L6Z7y_oXeatBF8",
   authDomain: "clickersimulatorrank.firebaseapp.com",
-  databaseURL: "https://clickersimulatorrank-default-rtdb.firebaseio.com",
+  databaseURL: "https://clickersimulatorrank-default-rtdb.firebaseio.com", // CORRIGIDO
   projectId: "clickersimulatorrank",
   storageBucket: "clickersimulatorrank.appspot.com",
   messagingSenderId: "487285841132",
   appId: "1:487285841132:web:e855fc761b7d2c420d99c9"
 };
+
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
