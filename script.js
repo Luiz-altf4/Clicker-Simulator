@@ -1,10 +1,9 @@
-// Clicker Simulator dos Deuses - script.js ⚡
+// Clicker Simulator dos Deuses - script.js COMPLETO E FUNCIONAL ⚡
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import {
   getDatabase, ref, push, set, onValue, query, orderByChild, limitToLast
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
-// === Firebase Config ===
 const firebaseConfig = {
   apiKey: "AIzaSyA4iTIlOQbfvtEQd27R5L6Z7y_oXeatBF8",
   authDomain: "clickersimulatorrank.firebaseapp.com",
@@ -20,7 +19,6 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const $ = id => document.getElementById(id);
 
-// === Estado do Jogo ===
 let state = {
   clicks: 0,
   cps: 0,
@@ -36,8 +34,9 @@ let state = {
   achievements: [],
   multiplier: 1,
   sound: true,
-  name: "Player"
+  name: localStorage.getItem("username") || prompt("Digite seu nome:") || "Player"
 };
+localStorage.setItem("username", state.name);
 
 const upgrades = [
   { id: 1, name: "Click Básico", cps: 0, bonus: 1, price: 10 },
@@ -52,23 +51,31 @@ const pets = [
   { id: 2, name: "🐶 Cão Clicker", bonus: 5, price: 1000 }
 ];
 
-// === Inicialização ===
+const shopItems = [
+  { id: 1, name: "Cofre Secreto", effect: () => state.clicks += 500, price: 200 },
+  { id: 2, name: "Poder Místico", effect: () => state.multiplier *= 2, price: 1000 }
+];
+
+const achievements = [
+  { id: 1, name: "Primeiro Clique", check: () => state.totalClicks >= 1, earned: false },
+  { id: 2, name: "Mil Cliques", check: () => state.totalClicks >= 1000, earned: false },
+  { id: 3, name: "Level 10", check: () => state.level >= 10, earned: false }
+];
+
 function init() {
   upgrades.forEach(u => state.upgrades.push({ ...u, owned: 0 }));
   pets.forEach(p => state.pets.push({ ...p, owned: 0 }));
+  shopItems.forEach(i => state.shopItems.push(i));
+  achievements.forEach(a => state.achievements.push({ ...a }));
   loadGame();
   updateUI();
-  renderUpgrades();
-  renderPets();
-  renderShop();
-  renderAchievements();
+  renderAll();
   setupListeners();
   startLoops();
   loadRanking();
   loadChat();
 }
 
-// === Atualiza a UI ===
 function updateUI() {
   $("clicksDisplay").textContent = `Cliques: ${state.clicks}`;
   $("cpsDisplay").textContent = `CPS: ${state.cps}`;
@@ -79,14 +86,21 @@ function updateUI() {
   $("xpFill").style.width = `${(state.xp / state.xpToNext) * 100}%`;
 }
 
-// === Lógica de Click ===
+function renderAll() {
+  renderUpgrades();
+  renderPets();
+  renderShop();
+  renderAchievements();
+}
+
 $("clickBtn").addEventListener("click", () => {
   state.clicks += state.multiplier;
   state.totalClicks += state.multiplier;
   state.xp++;
-  spawnParticle();
   levelUp();
+  spawnParticle();
   updateUI();
+  checkAchievements();
 });
 
 function levelUp() {
@@ -107,7 +121,6 @@ function spawnParticle() {
   setTimeout(() => p.remove(), 1000);
 }
 
-// === Upgrades ===
 function renderUpgrades() {
   const container = $("upgradesList");
   container.innerHTML = "";
@@ -138,7 +151,6 @@ window.buyUpgrade = function(id) {
   updateUI();
 };
 
-// === Pets ===
 function renderPets() {
   const container = $("petsList");
   container.innerHTML = "";
@@ -168,39 +180,68 @@ window.buyPet = function(id) {
   updateUI();
 };
 
-// === Shop e Conquistas ===
 function renderShop() {
-  $("shopItems").innerHTML = "<p>(loja em breve)</p>";
+  const container = $("shopItems");
+  container.innerHTML = "";
+  state.shopItems.forEach(i => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <h3>${i.name}</h3>
+      <p>Preço: ${i.price}</p>
+      <button onclick="buyItem(${i.id})">Comprar</button>
+    `;
+    container.appendChild(div);
+  });
 }
+
+window.buyItem = function(id) {
+  const item = state.shopItems.find(i => i.id === id);
+  if (!item || state.clicks < item.price) return;
+  state.clicks -= item.price;
+  item.effect();
+  saveGame();
+  renderShop();
+  updateUI();
+};
 
 function renderAchievements() {
-  $("achievementsList").innerHTML = "<p>(conquistas em breve)</p>";
+  const container = $("achievementsList");
+  container.innerHTML = "";
+  state.achievements.forEach(a => {
+    const div = document.createElement("div");
+    div.className = "item";
+    if (a.earned) div.classList.add("completed");
+    div.innerHTML = `🏅 ${a.name}`;
+    container.appendChild(div);
+  });
 }
 
-// === Salvar e Carregar Jogo ===
+function checkAchievements() {
+  state.achievements.forEach(a => {
+    if (!a.earned && a.check()) {
+      a.earned = true;
+      alert(`🏅 Conquista desbloqueada: ${a.name}`);
+    }
+  });
+  renderAchievements();
+}
+
 function saveGame() {
   localStorage.setItem("clickerSave", JSON.stringify(state));
+  saveRanking();
 }
 
 function loadGame() {
   const data = localStorage.getItem("clickerSave");
-  if (data) {
-    Object.assign(state, JSON.parse(data));
-  }
+  if (data) Object.assign(state, JSON.parse(data));
 }
 
-// === Interações ===
 function setupListeners() {
-  $("toggleSound").addEventListener("change", e => {
-    state.sound = e.target.checked;
-  });
-  $("themeBtn").addEventListener("click", () => {
-    document.body.classList.toggle("rgb-theme");
-  });
+  $("toggleSound").addEventListener("change", e => state.sound = e.target.checked);
+  $("themeBtn").addEventListener("click", () => document.body.classList.toggle("rgb-theme"));
   $("sendChat").addEventListener("click", sendChat);
-  $("chatInput").addEventListener("keydown", e => {
-    if (e.key === "Enter") sendChat();
-  });
+  $("chatInput").addEventListener("keydown", e => { if (e.key === "Enter") sendChat(); });
 }
 
 function startLoops() {
@@ -212,7 +253,6 @@ function startLoops() {
   setInterval(saveGame, 10000);
 }
 
-// === Firebase: Ranking ===
 function saveRanking() {
   if (!state.name) return;
   const rankRef = ref(db, "ranking/" + state.name);
@@ -238,7 +278,6 @@ function loadRanking() {
   });
 }
 
-// === Firebase: Chat Global ===
 function sendChat() {
   const input = $("chatInput");
   if (!input.value.trim()) return;
