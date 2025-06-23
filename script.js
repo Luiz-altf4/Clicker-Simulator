@@ -13,7 +13,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "COLOQUE_SUA_API_KEY",
+  apiKey: "COLOQUE_SUA_API_KEY_AQUI",
   authDomain: "SEU_AUTH_DOMAIN",
   databaseURL: "SUA_DATABASE_URL",
   projectId: "SEU_PROJECT_ID",
@@ -38,7 +38,6 @@ function abreviarNum(num) {
   return num.toFixed(2).replace(/\.00$/, "") + sufixos[i];
 }
 
-// Dados de upgrades
 const upgradesData = [
   { id: 1, name: "🖱️ Click Básico", bonusClick: 1, cps: 0, price: 10 },
   { id: 2, name: "⚙️ Click Avançado", bonusClick: 0, cps: 1, price: 100 },
@@ -61,12 +60,10 @@ let gameState = {
   playerName: "",
 };
 
-// Inicializa upgrades
 function initUpgrades() {
   gameState.upgrades = upgradesData.map((u) => ({ ...u, owned: 0 }));
 }
 
-// Renderiza upgrades
 function renderUpgrades() {
   const container = $("upgradesContainer");
   container.innerHTML = "";
@@ -84,7 +81,6 @@ function renderUpgrades() {
   });
 }
 
-// Comprar upgrade
 window.buyUpgrade = function (id) {
   const upg = gameState.upgrades.find((u) => u.id === id);
   if (!upg) return;
@@ -94,37 +90,18 @@ window.buyUpgrade = function (id) {
   gameState.cps += upg.cps;
   gameState.multiplier += upg.bonusClick;
   upg.price = Math.floor(upg.price * 1.35);
-  saveGame();
-  renderUpgrades();
   updateDisplay();
+  renderUpgrades();
+  saveGame();
 };
 
-// Atualiza display
-function updateDisplay() {
-  $("clicksDisplay").textContent = `Cliques: ${abreviarNum(gameState.clicks)}`;
-  $("cpsDisplay").textContent = `CPS: ${abreviarNum(gameState.cps)}`;
-  $("levelDisplay").textContent = `Nível: ${gameState.level}`;
-  $("rebirthDisplay").textContent = `Rebirths: ${gameState.rebirths}`;
-  $("prestigeDisplay").textContent = `Prestígio: ${gameState.prestigeMultiplier.toFixed(
-    2
-  )}x`;
-  // XP Bar
-  const xpPercent = Math.min(100, (gameState.xp / gameState.xpToNext) * 100);
-  $("xpFill").style.width = xpPercent + "%";
-  $("xpText").textContent = `XP: ${abreviarNum(gameState.xp)} / ${abreviarNum(
-    gameState.xpToNext
-  )}`;
-}
-
-// Ganhar clique
 function gainClick() {
-  gameState.clicks += gameState.multiplier * gameState.prestigeMultiplier;
-  gameState.totalClicks += gameState.multiplier * gameState.prestigeMultiplier;
-  gainXP(1 * gameState.multiplier * gameState.prestigeMultiplier);
+  gameState.clicks += gameState.multiplier;
+  gameState.totalClicks += gameState.multiplier;
+  gainXP(gameState.multiplier);
   updateDisplay();
 }
 
-// Ganhar XP e subir nível
 function gainXP(amount) {
   gameState.xp += amount;
   if (gameState.xp >= gameState.xpToNext) {
@@ -132,47 +109,60 @@ function gainXP(amount) {
     gameState.xp -= gameState.xpToNext;
     gameState.xpToNext = Math.floor(gameState.xpToNext * 1.25);
   }
+  updateXPBar();
 }
 
-// Salvar jogo
+function updateDisplay() {
+  $("clicksDisplay").textContent = `Cliques: ${abreviarNum(gameState.clicks)}`;
+  $("cpsDisplay").textContent = `CPS: ${abreviarNum(gameState.cps)}`;
+  $("levelDisplay").textContent = `Nível: ${gameState.level}`;
+  $("rebirthDisplay").textContent = `Rebirths: ${gameState.rebirths}`;
+  $("prestigeDisplay").textContent = `Prestígio: ${gameState.prestigeMultiplier.toFixed(2)}x`;
+  updateXPBar();
+}
+
+function updateXPBar() {
+  const xpFill = $("xpFill");
+  const percent = Math.min((gameState.xp / gameState.xpToNext) * 100, 100);
+  xpFill.style.width = percent + "%";
+  $("xpText").textContent = `XP: ${abreviarNum(gameState.xp)} / ${abreviarNum(gameState.xpToNext)}`;
+}
+
 function saveGame() {
   localStorage.setItem("clickerSave", JSON.stringify(gameState));
   saveRanking();
 }
 
-// Carregar jogo
 function loadGame() {
   const data = localStorage.getItem("clickerSave");
   if (data) {
     const saved = JSON.parse(data);
     Object.assign(gameState, saved);
-    if (!gameState.upgrades || gameState.upgrades.length === 0) {
-      initUpgrades();
-    }
   } else {
     initUpgrades();
   }
-  updateDisplay();
   renderUpgrades();
+  updateDisplay();
 }
 
-// Intervalo do CPS
+// CPS automático
 function startCPS() {
   setInterval(() => {
     gameState.clicks += gameState.cps * gameState.prestigeMultiplier;
+    gameState.totalClicks += gameState.cps * gameState.prestigeMultiplier;
     gainXP(gameState.cps * gameState.prestigeMultiplier);
     updateDisplay();
   }, 1000);
 }
 
-// Rebirth (prestígio)
+// Rebirth / Prestígio
 function doRebirth() {
   if (gameState.clicks < 100000) {
-    alert("Você precisa de pelo menos 100k clicks para Rebirth!");
+    alert("Você precisa de pelo menos 100.000 clicks para fazer Rebirth!");
     return;
   }
   gameState.rebirths++;
-  gameState.prestigeMultiplier += 0.25; // aumenta multiplicador
+  gameState.prestigeMultiplier += 0.25;
   gameState.clicks = 0;
   gameState.totalClicks = 0;
   gameState.cps = 0;
@@ -187,9 +177,10 @@ function doRebirth() {
   alert("Rebirth realizado! Prestígio aumentado.");
 }
 
-// Ranking online no Firebase
+// Firebase Ranking e Chat
 
 const rankingRef = ref(db, "ranking");
+const chatRef = ref(db, "chat");
 
 function saveRanking() {
   if (!gameState.playerName) return;
@@ -206,26 +197,17 @@ function loadRanking() {
   const q = query(rankingRef, orderByChild("clicks"), limitToLast(10));
   onValue(q, (snapshot) => {
     const data = snapshot.val();
-    const arr = [];
-    for (let key in data) arr.push(data[key]);
-    arr.sort((a, b) => b.clicks - a.clicks);
-    renderRanking(arr);
+    if (!data) return;
+    const arr = Object.values(data).sort((a, b) => b.clicks - a.clicks);
+    const container = $("rankingContainer");
+    container.innerHTML = "";
+    arr.forEach((p, i) => {
+      const div = document.createElement("div");
+      div.textContent = `${i + 1}. ${p.name} — ${abreviarNum(p.clicks)} clicks`;
+      container.appendChild(div);
+    });
   });
 }
-
-function renderRanking(arr) {
-  const container = $("rankingContainer");
-  container.innerHTML = "";
-  arr.forEach((p, i) => {
-    container.innerHTML += `<div><strong>${i + 1}.</strong> ${p.name} - ${abreviarNum(
-      p.clicks
-    )} clicks</div>`;
-  });
-}
-
-// Chat básico Firebase (pode melhorar depois)
-
-const chatRef = ref(db, "chat");
 
 function sendMessage(msg) {
   if (!gameState.playerName) {
@@ -258,6 +240,7 @@ function loadChat() {
 }
 
 // Setup inicial
+
 function setup() {
   // Perguntar nome do jogador
   gameState.playerName =
@@ -288,13 +271,11 @@ function setup() {
   loadChat();
   startCPS();
 
-  setInterval(saveGame, 10000);
+  setInterval(saveGame, 15000);
 
-  // Define tema
-  if (
-    localStorage.getItem("theme") === "light" ||
-    !localStorage.getItem("theme")
-  ) {
+  // Tema
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "light") {
     document.body.classList.add("light-theme");
   }
 }
