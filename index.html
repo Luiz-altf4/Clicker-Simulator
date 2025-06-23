@@ -1,40 +1,80 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator Clean</title>
+  <title>Clicker Simulator - Ultimate</title>
+  
+  <!-- Seu CSS -->
   <link rel="stylesheet" href="style.css" />
+  
+  <!-- Firebase e script.js (mude o caminho do seu JS aqui) -->
+  <script type="module" src="script.js" defer></script>
 </head>
 <body>
   <div id="app">
     <header>
-      <h1>Clicker Simulator</h1>
-      <div class="xp-bar">
+      <h1>Clicker Simulator Ultimate</h1>
+      <div class="xp-bar" title="XP">
         <div id="xpFill" class="xp-fill"></div>
-        <span id="xpText">XP: 0 / 100</span>
+        <div id="xpText">XP: 0 / 100</div>
       </div>
     </header>
 
     <main>
-      <button id="clickBtn" class="click-btn">CLIQUE AQUI</button>
-      <div class="stats">
+      <!-- Botão de clique -->
+      <button id="clickBtn" title="Clique aqui para ganhar clicks!">Clique Aqui!</button>
+      
+      <!-- Estatísticas do jogador -->
+      <section class="stats">
         <div id="clicksDisplay">Cliques: 0</div>
         <div id="cpsDisplay">CPS: 0</div>
         <div id="levelDisplay">Nível: 1</div>
-      </div>
+        <div id="rebirthDisplay">Rebirths: 0</div>
+        <div id="prestigeDisplay">Prestígio: 1.00x</div>
+      </section>
 
+      <!-- Upgrades -->
       <section id="upgradesSection">
         <h2>Upgrades</h2>
         <div id="upgradesContainer"></div>
       </section>
     </main>
 
-    <footer>
-      <p>Desenvolvido por Luiz Felipe</p>
-    </footer>
+    <!-- Botões extras -->
+    <div class="buttonsRow">
+      <button id="rebirthBtn" title="Rebirth / Prestígio - reinicia com bônus">Rebirth</button>
+      <button id="saveBtn" title="Salvar progresso">Salvar</button>
+      <button id="themeBtn" title="Alternar tema claro / escuro">Tema</button>
+    </div>
 
-    <script src="script.js"></script>
+    <!-- Ranking online -->
+    <section id="rankingSection">
+      <h2>Ranking Top 10</h2>
+      <div id="rankingContainer" tabindex="0" aria-label="Ranking dos jogadores"></div>
+    </section>
+
+    <!-- Chat global -->
+    <section id="chatSection">
+      <h2>Chat Global</h2>
+      <div id="chatContainer">
+        <div id="chatMessages" tabindex="0" aria-label="Mensagens do chat"></div>
+        <div style="display: flex; margin-top: 10px;">
+          <input
+            type="text"
+            id="chatInput"
+            placeholder="Digite sua mensagem..."
+            aria-label="Campo para digitar mensagem"
+            autocomplete="off"
+          />
+          <button id="sendChat" title="Enviar mensagem">Enviar</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2025 Clicker Simulator by Luiz Felipe</p>
+    </footer>
   </div>
 </body>
 </html>
