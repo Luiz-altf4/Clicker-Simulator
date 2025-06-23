@@ -5,70 +5,93 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Clicker Simulator - Dos Deuses</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <script type="module" src="script.js" defer></script>
 </head>
-<body>
+<body class="theme-dark">
 
   <header>
-    CLICKER SIMULATOR <span style="color:#ff6600;">✦ Dos Deuses ✦</span>
+    <h1>🖱️ Clicker Simulator - Dos Deuses</h1>
+    <div id="levelDisplay">
+      Nível: <span id="level">1</span>
+    </div>
+    <div id="xpContainer">
+      <div id="xpBar">0/100</div>
+    </div>
   </header>
 
   <main>
-
-    <!-- Área de Clique e Estatísticas -->
-    <section id="clickSection" aria-label="Área de clique e estatísticas">
-      <div id="clickArea" tabindex="0" role="button" aria-pressed="false" aria-label="Área para clicar">
-        <span id="clickBtn">CLIQUE AQUI</span>
-      </div>
-      <div class="stats-line" aria-live="polite">
-        <div>Cliques: <strong id="clicks">0</strong></div>
-        <div>CPS: <strong id="cps">0</strong></div>
-      </div>
-      <div class="stats-line">
-        <div>Nível: <strong id="level">1</strong></div>
-        <div>XP: <strong id="xp">0</strong> / <strong id="xpToNext">100</strong></div>
-      </div>
-      <div class="progress-bar" aria-label="Barra de progresso do XP">
-        <div id="xpFill" style="width: 0%"></div>
+    <section id="gameArea">
+      <div id="clickArea" title="Clique aqui!">
+        <span id="clicks">0</span><br />
+        <small>Cliques</small>
       </div>
 
-      <button id="rebirthBtn" aria-label="Realizar Rebirth">REBIRTH</button>
-    </section>
-
-    <!-- Upgrades -->
-    <section id="upgradesSection" aria-label="Lista de upgrades disponíveis">
-      <h2>UPGRADES</h2>
-      <div id="upgradesList" role="list" aria-live="polite" aria-relevant="additions"></div>
-    </section>
-
-    <!-- Pets -->
-    <section id="petsSection" aria-label="Lista de pets">
-      <h2>PETS</h2>
-      <div id="petsList" role="list" aria-live="polite" aria-relevant="additions"></div>
-    </section>
-
-    <!-- Chat Global -->
-    <section id="chatSection" aria-label="Chat global do jogo">
-      <h2>CHAT GLOBAL</h2>
-      <div id="chatContainer">
-        <div id="chatMessages" aria-live="polite" aria-atomic="false" tabindex="0" role="log" aria-label="Mensagens do chat"></div>
-        <div id="chatInputContainer">
-          <input id="chatInput" type="text" aria-label="Digite sua mensagem" autocomplete="off" maxlength="120" placeholder="Escreva aqui..." />
-          <button id="chatSendBtn" aria-label="Enviar mensagem">Enviar</button>
-        </div>
+      <div id="statsPanel">
+        <div>CPS: <span id="cps">0</span></div>
+        <div>Multiplicador: <span id="multiplier">1</span>x</div>
+        <div>Rebirths: <span id="rebirthCount">0</span></div>
+        <button id="rebirthBtn" class="btn-red">♻️ Rebirth (1.000.000 cliques)</button>
       </div>
     </section>
 
-    <!-- Ranking Online -->
-    <section id="rankSection" aria-label="Ranking online">
-      <h2>RANKING</h2>
-      <div id="rankContainer" role="list" aria-live="polite" aria-relevant="additions"></div>
+    <section id="upgradesSection" class="panel">
+      <h2>🏗️ Upgrades</h2>
+      <div id="upgradesList" class="list"></div>
     </section>
 
+    <section id="petsSection" class="panel">
+      <h2>🐾 Pets</h2>
+      <div id="petsList" class="list"></div>
+    </section>
+
+    <section id="missionsSection" class="panel">
+      <h2>🎯 Missões</h2>
+      <div id="missionsList" class="list"></div>
+    </section>
+
+    <section id="achievementsSection" class="panel">
+      <h2>🏆 Conquistas</h2>
+      <ul id="achievementsList" class="list"></ul>
+    </section>
+
+    <section id="skinsSection" class="panel">
+      <h2>🎨 Loja de Skins</h2>
+      <div id="skinsList" class="list"></div>
+    </section>
+
+    <section id="chatSection" class="panel">
+      <h2>💬 Chat Global</h2>
+      <div id="chatMessages" class="chat-messages"></div>
+      <input type="text" id="chatInput" placeholder="Digite sua mensagem..." maxlength="100" autocomplete="off" />
+      <button id="sendChatBtn" class="btn-green">Enviar</button>
+    </section>
+
+    <section id="rankingSection" class="panel">
+      <h2>📊 Ranking</h2>
+      <div id="rankingList" class="list"></div>
+    </section>
+
+    <section id="settingsSection" class="panel">
+      <h2>⚙️ Configurações</h2>
+      <label>
+        <input type="checkbox" id="soundToggle" checked />
+        Som ativado
+      </label>
+      <label>
+        <input type="checkbox" id="particlesToggle" checked />
+        Partículas ativadas
+      </label>
+      <button id="resetBtn" class="btn-red">Resetar Jogo</button>
+    </section>
   </main>
 
-  <div id="particlesContainer" aria-hidden="true"></div>
+  <footer>
+    <p>© 2025 Clicker Simulator - Desenvolvido por Luiz Felipe</p>
+  </footer>
 
-  <script type="module" src="script.js"></script>
+  <!-- Notificações -->
+  <div id="notificationContainer"></div>
+
 </body>
 </html>
