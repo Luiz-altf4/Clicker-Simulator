@@ -1,163 +1,409 @@
+/* Reset básico */
 * {
-  margin: 0; padding: 0; box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
 }
 
 body {
-  background: #121212;
+  background-color: #121212;
   color: #eee;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  padding: 20px;
   min-height: 100vh;
-  padding: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+body.light-theme {
+  background-color: #f5f5f5;
+  color: #222;
+}
+
+/* Container principal */
 #app {
-  max-width: 600px;
+  background-color: #222;
+  border-radius: 12px;
+  padding: 25px 30px;
+  max-width: 900px;
   width: 100%;
-  background: #222;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 0 20px #00bfff66;
+  box-shadow: 0 0 20px #00bfff88;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
+body.light-theme #app {
+  background-color: #fff;
+  box-shadow: 0 0 20px #0099ff88;
+  color: #222;
+}
+
+/* Header */
 header {
   text-align: center;
-  margin-bottom: 20px;
 }
 
-h1 {
-  font-size: 2.2rem;
-  margin-bottom: 10px;
+header h1 {
+  font-size: 2.5rem;
   color: #00bfff;
+  margin-bottom: 10px;
 }
 
+body.light-theme header h1 {
+  color: #007acc;
+}
+
+/* Barra de XP */
 .xp-bar {
   position: relative;
-  height: 24px;
+  height: 28px;
   background: #333;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+body.light-theme .xp-bar {
+  background: #ddd;
 }
 
 .xp-fill {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #00bfff, #0ff);
-  transition: width 0.4s ease;
+  background: linear-gradient(90deg, #00bfff, #00ffff);
+  transition: width 0.5s ease;
+}
+
+body.light-theme .xp-fill {
+  background: linear-gradient(90deg, #007acc, #00aaff);
 }
 
 #xpText {
   position: absolute;
   width: 100%;
-  top: 0;
-  left: 0;
   text-align: center;
-  font-weight: bold;
-  line-height: 24px;
+  font-weight: 700;
+  top: 2px;
   color: #c0f8ff;
-  user-select: none;
+  font-size: 1.1rem;
 }
 
+body.light-theme #xpText {
+  color: #004466;
+}
+
+/* Main */
 main {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
 }
 
-.click-btn {
-  padding: 20px 50px;
-  font-size: 1.8rem;
-  background: #00bfff;
-  border: none;
-  border-radius: 14px;
+/* Botão de click */
+#clickBtn {
+  background-color: #00bfff;
   color: #121212;
+  font-size: 2rem;
+  padding: 25px 60px;
+  border: none;
+  border-radius: 20px;
   cursor: pointer;
-  box-shadow: 0 0 15px #0ff;
-  margin-bottom: 20px;
+  box-shadow: 0 0 15px #00ffff;
+  transition: transform 0.1s ease, background-color 0.3s ease;
   user-select: none;
-  transition: transform 0.1s ease;
+  flex-shrink: 0;
 }
 
-.click-btn:active {
+#clickBtn:active {
   transform: scale(0.95);
 }
 
-.stats {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  margin-bottom: 20px;
-  font-size: 1.2rem;
+body.light-theme #clickBtn {
+  background-color: #007acc;
+  color: #f5f5f5;
+  box-shadow: 0 0 15px #0099ff;
 }
 
+/* Estatísticas */
+.stats {
+  flex-grow: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 1.3rem;
+  color: #a0eaff;
+}
+
+body.light-theme .stats {
+  color: #004466;
+}
+
+.stats div {
+  padding: 10px 15px;
+  background-color: #333;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #00bfffaa;
+  user-select: none;
+}
+
+body.light-theme .stats div {
+  background-color: #eee;
+  box-shadow: 0 0 10px #007accaa;
+}
+
+/* Seção upgrades */
 #upgradesSection {
   width: 100%;
 }
 
 #upgradesSection h2 {
-  margin-bottom: 12px;
-  color: #0ff;
   text-align: center;
+  margin-bottom: 15px;
+  font-size: 2rem;
+  color: #00ffff;
+  text-shadow: 0 0 8px #00bfff;
 }
 
+body.light-theme #upgradesSection h2 {
+  color: #007acc;
+  text-shadow: none;
+}
+
+/* Container upgrades */
 #upgradesContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 18px;
   justify-content: center;
 }
 
+/* Cada upgrade */
 .upgrade {
-  background: #333;
-  padding: 12px 16px;
-  border-radius: 10px;
-  width: 140px;
-  box-shadow: 0 0 10px #00bfffaa;
+  background-color: #333;
+  width: 150px;
+  padding: 15px;
+  border-radius: 16px;
+  box-shadow: 0 0 15px #00bfffcc;
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: #a0eaff;
   user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+body.light-theme .upgrade {
+  background-color: #fafafa;
+  box-shadow: 0 0 15px #0099ffcc;
+  color: #004466;
 }
 
 .upgrade h3 {
-  margin-bottom: 8px;
   font-size: 1.1rem;
-  color: #0ff;
+  margin-bottom: 10px;
+  color: #00ffff;
+}
+
+body.light-theme .upgrade h3 {
+  color: #007acc;
 }
 
 .upgrade p {
-  margin-bottom: 6px;
+  margin-bottom: 10px;
   font-size: 0.95rem;
-  color: #a0eaff;
 }
 
+/* Botão comprar upgrade */
 .upgrade button {
-  padding: 8px 12px;
+  background-color: #00bfff;
   border: none;
-  border-radius: 12px;
-  background: #00bfff;
+  padding: 8px 15px;
+  border-radius: 16px;
+  font-weight: 700;
   color: #121212;
-  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
   width: 100%;
-}
-
-.upgrade button:disabled {
-  background: #004466;
-  cursor: not-allowed;
+  transition: background-color 0.3s ease;
 }
 
 .upgrade button:hover:not(:disabled) {
-  background: #0ff;
+  background-color: #00ffff;
 }
 
+.upgrade button:disabled {
+  background-color: #004466;
+  cursor: not-allowed;
+}
+
+body.light-theme .upgrade button {
+  background-color: #007acc;
+  color: #f5f5f5;
+}
+
+body.light-theme .upgrade button:hover:not(:disabled) {
+  background-color: #0099ff;
+}
+
+body.light-theme .upgrade button:disabled {
+  background-color: #002233;
+}
+
+/* Footer */
 footer {
   text-align: center;
-  margin-top: 25px;
-  color: #00bfffaa;
   font-weight: 600;
+  color: #00bfff88;
   user-select: none;
+  margin-top: 30px;
+  font-size: 1rem;
+}
+
+body.light-theme footer {
+  color: #007acc88;
+}
+
+/* --- Ranking --- */
+#rankingContainer {
+  background-color: #222;
+  padding: 15px 20px;
+  border-radius: 14px;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 0 15px #00bfffcc;
+  font-size: 1.1rem;
+  color: #00ffff;
+  margin-top: 20px;
+  user-select: none;
+}
+
+body.light-theme #rankingContainer {
+  background-color: #f0f8ff;
+  color: #004466;
+  box-shadow: 0 0 15px #0099ffcc;
+}
+
+/* --- Chat Global --- */
+#chatContainer {
+  background-color: #222;
+  border-radius: 14px;
+  padding: 15px 20px;
+  max-height: 250px;
+  overflow-y: auto;
+  box-shadow: 0 0 15px #00bfffcc;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #00ffff;
+  user-select: none;
+}
+
+body.light-theme #chatContainer {
+  background-color: #f0f8ff;
+  color: #004466;
+  box-shadow: 0 0 15px #0099ffcc;
+}
+
+/* Mensagens chat */
+#chatMessages {
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 180px;
+  padding-right: 10px;
+  font-size: 0.95rem;
+}
+
+/* Input e botão chat */
+#chatInput {
+  padding: 8px 15px;
+  border-radius: 20px;
+  border: none;
+  flex-grow: 1;
+  font-size: 1rem;
+}
+
+body.light-theme #chatInput {
+  background-color: #e0e0e0;
+  color: #222;
+}
+
+#sendChat {
+  background-color: #00bfff;
+  border: none;
+  color: #121212;
+  padding: 8px 20px;
+  font-weight: 700;
+  border-radius: 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+#sendChat:hover {
+  background-color: #00ffff;
+}
+
+body.light-theme #sendChat {
+  background-color: #007acc;
+  color: #f5f5f5;
+}
+
+body.light-theme #sendChat:hover {
+  background-color: #0099ff;
+}
+
+/* --- Botões extras --- */
+.buttonsRow {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.buttonsRow button {
+  background-color: #00bfff;
+  border: none;
+  border-radius: 20px;
+  color: #121212;
+  padding: 10px 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.buttonsRow button:hover {
+  background-color: #00ffff;
+}
+
+body.light-theme .buttonsRow button {
+  background-color: #007acc;
+  color: #f5f5f5;
+}
+
+body.light-theme .buttonsRow button:hover {
+  background-color: #0099ff;
+}
+
+/* Responsividade básica */
+@media (max-width: 700px) {
+  main {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #clickBtn {
+    width: 90%;
+  }
+
+  #upgradesContainer {
+    justify-content: center;
+  }
 }
