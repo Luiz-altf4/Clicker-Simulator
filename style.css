@@ -1,224 +1,234 @@
-/* Reset básico */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: 'Orbitron', sans-serif;
 }
 
 body {
-  background: linear-gradient(45deg, #0a0a0a, #111111);
-  color: #eee;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  text-align: center;
-  padding: 15px;
-  animation: rgbBackground 10s infinite linear;
+  background-color: #0a0a0a;
+  color: #fff;
+  overflow-x: hidden;
 }
 
-@keyframes rgbBackground {
-  0% { background-color: #ff0000; }
-  25% { background-color: #00ff00; }
-  50% { background-color: #0000ff; }
-  75% { background-color: #ffff00; }
-  100% { background-color: #ff00ff; }
-}
-
-h1 {
-  font-size: 3rem;
-  margin-bottom: 15px;
-  text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc;
-}
-
-h2 {
-  margin-top: 30px;
-  margin-bottom: 15px;
-  color: #00ffcc;
-  text-shadow: 0 0 8px #00ffcc;
-}
-
-#stats p {
-  font-size: 1.1rem;
-  margin: 5px 0;
-  text-shadow: 0 0 5px #00ffcc;
-}
-
-button {
-  background: #111;
-  border: 2px solid #00ffcc;
-  color: #00ffcc;
-  font-size: 1.1rem;
-  padding: 12px 25px;
-  margin: 10px 5px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 5px #00ffcc;
-}
-
-button:hover {
-  background: #00ffcc;
-  color: #111;
-  box-shadow: 0 0 15px #00ffcc;
-}
-
-#clickBtn {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin: 20px auto;
+#app {
   display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  background: linear-gradient(90deg, #00f, #0ff, #0f0, #f0f, #00f);
+  background-size: 400% 400%;
+  animation: rgbAnim 10s linear infinite;
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 0 10px #00f;
+}
+
+header h1 {
+  font-size: 2.2rem;
+  text-shadow: 0 0 10px #0ff;
+}
+
+.xp-bar {
+  position: relative;
+  background: #111;
+  border: 2px solid #0ff;
+  border-radius: 20px;
+  height: 25px;
+  margin-top: 15px;
+  overflow: hidden;
+}
+
+.xp-fill {
+  height: 100%;
+  background: linear-gradient(to right, #0ff, #00f);
+  transition: width 0.5s ease-in-out;
+}
+
+.xp-text {
+  position: absolute;
+  top: 2px;
+  left: 10px;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+  background-color: #111;
+}
+
+.game-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 30px #00ffcc;
-  user-select: none;
-  transition: transform 0.1s ease, box-shadow 0.3s ease;
+  background: #1a1a1a;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px #0ff5;
 }
 
-#clickBtn:active {
+.click-btn {
+  background: #0ff;
+  color: #000;
+  font-size: 1.5rem;
+  padding: 20px 40px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #0ff, inset 0 0 10px #fff;
+  transition: transform 0.1s;
+}
+
+.click-btn:hover {
+  transform: scale(1.05);
+}
+
+.click-btn:active {
   transform: scale(0.95);
-  box-shadow: 0 0 60px #00ffcc;
 }
 
-#upgrades, #pets, #shopList {
+.game-area div {
+  margin-top: 15px;
+  font-size: 1.2rem;
+  color: #0ff;
+  text-shadow: 0 0 5px #0ff;
+}
+
+.side-panel {
+  width: 400px;
+  background: #222;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 0 15px #0ff5;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
+  gap: 8px;
+  margin-bottom: 15px;
 }
 
-.upgrade, .pet, .shop-item {
-  background: #111;
-  border: 2px solid #00ffcc;
-  border-radius: 15px;
-  width: 220px;
-  padding: 15px;
-  text-align: left;
-  box-shadow: 0 0 10px #00ffcc;
-  color: #eee;
-  transition: box-shadow 0.3s ease;
-}
-
-.upgrade:hover, .pet:hover, .shop-item:hover {
-  box-shadow: 0 0 25px #00ffcc;
-}
-
-.upgrade h4, .pet h4, .shop-item h4 {
-  margin-bottom: 8px;
-  font-size: 1.2rem;
-  text-shadow: 0 0 8px #00ffcc;
-}
-
-.upgrade p, .pet p, .shop-item p {
-  margin-bottom: 8px;
-  font-size: 0.95rem;
-}
-
-.upgrade button, .pet button, .shop-item button {
-  width: 100%;
-  padding: 8px 0;
-  font-weight: bold;
-  background: #222;
-  border: 2px solid #00ffcc;
-  color: #00ffcc;
+.tab {
+  flex: 1;
+  padding: 10px;
+  background: #000;
+  border: 2px solid #0ff;
+  color: #0ff;
   border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: all 0.2s;
 }
 
-.upgrade button:disabled, .pet button:disabled, .shop-item button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+.tab:hover, .tab.active {
+  background: #0ff;
+  color: #000;
+  font-weight: bold;
 }
 
-.upgrade button:hover:not(:disabled),
-.pet button:hover:not(:disabled),
-.shop-item button:hover:not(:disabled) {
-  background-color: #00ffcc;
-  color: #111;
-}
-
-#missions, #achievementsList {
-  list-style: none;
-  max-width: 600px;
-  margin: 0 auto;
-  text-align: left;
-  padding: 10px 20px;
-  color: #00ffcc;
-  font-size: 1.05rem;
-  text-shadow: 0 0 10px #00ffcc;
-}
-
-#missions li.mission-item, #achievementsList li.achievement-item {
-  padding: 8px 0;
-  border-bottom: 1px solid #00ffcc;
-}
-
-#achievementsList li.completed {
-  text-decoration: line-through;
-  color: #44ffcc;
-}
-
-#detailedRankingList {
-  max-width: 600px;
-  margin: 10px auto 0 auto;
-  padding: 10px 20px;
-  background: #111;
-  border-radius: 15px;
-  box-shadow: 0 0 15px #00ffcc;
-  color: #00ffcc;
-  font-size: 1.1rem;
-  height: 220px;
+.tab-content {
+  display: none;
+  background: #1c1c1c;
+  padding: 15px;
+  border-radius: 10px;
   overflow-y: auto;
-  text-align: left;
+  max-height: 400px;
 }
 
-#chatSection {
-  max-width: 600px;
-  margin: 20px auto;
-  text-align: left;
-  color: #00ffcc;
-  text-shadow: 0 0 8px #00ffcc;
+.tab-content h2 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  color: #0ff;
+}
+
+.upgrade {
+  border: 1px solid #0ff;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: #101010;
+  color: #fff;
+  box-shadow: 0 0 10px #0ff2;
+}
+
+.upgrade button {
+  margin-top: 8px;
+  padding: 8px;
+  background: #0ff;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#chatContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#chatMessages {
+  height: 150px;
+  overflow-y: auto;
+  border: 1px solid #0ff;
+  padding: 10px;
+  background: #0a0a0a;
+  border-radius: 10px;
+  font-size: 0.9rem;
 }
 
 #chatInput {
-  width: calc(100% - 110px);
   padding: 10px;
-  margin-right: 5px;
-  border-radius: 10px;
-  border: 2px solid #00ffcc;
+  border-radius: 8px;
+  border: 1px solid #0ff;
   background: #111;
-  color: #00ffcc;
-  font-size: 1rem;
+  color: #0ff;
 }
 
-#chatSendBtn {
-  width: 90px;
+#sendChat {
   padding: 10px;
-  border-radius: 10px;
-  border: 2px solid #00ffcc;
-  background: #111;
-  color: #00ffcc;
-  font-weight: bold;
+  background: #0ff;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  color: #000;
+  font-weight: bold;
 }
 
-#chatSendBtn:hover {
-  background-color: #00ffcc;
-  color: #111;
+footer {
+  background: #000;
+  color: #0ff;
+  text-align: center;
+  padding: 15px;
+  border-top: 2px solid #0ff;
+  box-shadow: 0 -2px 10px #0ff5;
 }
 
-#notification {
-  font-size: 1.1rem;
+/* === Animação RGB === */
+@keyframes rgbAnim {
+  0% { background-position: 0% 50% }
+  100% { background-position: 100% 50% }
 }
 
-@media (max-width: 700px) {
-  #upgrades, #pets, #shopList {
+/* === Responsivo === */
+@media (max-width: 900px) {
+  main {
     flex-direction: column;
-    align-items: center;
   }
-  .upgrade, .pet, .shop-item {
-    width: 90%;
+  .side-panel {
+    width: 100%;
   }
 }
