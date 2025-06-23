@@ -1,64 +1,67 @@
 <!DOCTYPE html>
-<html lang="pt-BR" >
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator Ultimate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clicker Simulator dos Deuses</title>
   <link rel="stylesheet" href="style.css" />
-  <script type="module" src="script.js" defer></script>
 </head>
 <body>
-  <div id="app">
-    <header>
-      <h1>Clicker Simulator Ultimate</h1>
-      <div class="xp-bar">
-        <div id="xpFill" class="xp-fill"></div>
-        <div id="xpText">XP: 0 / 100</div>
+  <header>
+    ⚡ Clicker Simulator dos Deuses ⚡
+    <button id="themeBtn" style="float: right; margin-top: -5px;">Tema RGB</button>
+  </header>
+  <main>
+    <section>
+      <h2>Status</h2>
+      <p id="clicksDisplay">Cliques: 0</p>
+      <p id="cpsDisplay">CPS: 0</p>
+      <p id="levelDisplay">Nível: 1</p>
+      <p id="rebirthDisplay">Rebirths: 0</p>
+      <p id="prestigeDisplay">Prestígio: 1x</p>
+      <div id="xpBar">
+        <div id="xpFill"></div>
       </div>
-    </header>
-
-    <main>
-      <button id="clickBtn" aria-label="Clique aqui para ganhar pontos">Clique Aqui!</button>
-
-      <section class="stats" aria-live="polite" aria-atomic="true">
-        <div id="clicksDisplay" class="stat">Cliques: 0</div>
-        <div id="cpsDisplay" class="stat">CPS: 0</div>
-        <div id="levelDisplay" class="stat">Nível: 1</div>
-        <div id="rebirthDisplay" class="stat">Rebirths: 0</div>
-        <div id="prestigeDisplay" class="stat">Prestígio: 1.00x</div>
-      </section>
-
-      <section id="upgradesSection" aria-label="Lista de upgrades disponíveis">
-        <h2>Upgrades</h2>
-        <div id="upgradesContainer"></div>
-      </section>
-    </main>
-
-    <div class="buttonsRow">
-      <button id="rebirthBtn">Rebirth</button>
-      <button id="saveBtn">Salvar</button>
-      <button id="themeBtn">Tema</button>
-    </div>
-
-    <section id="rankingSection" aria-label="Ranking dos jogadores">
-      <h2>Ranking Top 10</h2>
-      <div id="rankingContainer" role="list"></div>
+      <p id="xpText">XP: 0 / 100</p>
+      <button id="clickBtn">💥 CLICAR 💥</button>
     </section>
 
-    <section id="chatSection" aria-label="Chat global">
+    <section>
+      <h2>Ranking Online</h2>
+      <div id="rankingContainer"></div>
+    </section>
+
+    <section>
+      <h2>Loja de Upgrades</h2>
+      <div id="upgradesList"></div>
+    </section>
+
+    <section>
+      <h2>Pets</h2>
+      <div id="petsList"></div>
+    </section>
+
+    <section>
+      <h2>Loja de Itens</h2>
+      <div id="shopItems"></div>
+    </section>
+
+    <section>
+      <h2>Conquistas</h2>
+      <div id="achievementsList"></div>
+    </section>
+
+    <section>
       <h2>Chat Global</h2>
-      <div id="chatContainer">
-        <div id="chatMessages" role="log" aria-live="polite"></div>
-        <div class="chatInputRow">
-          <input id="chatInput" placeholder="Digite sua mensagem..." aria-label="Mensagem do chat" />
-          <button id="sendChat" aria-label="Enviar mensagem">Enviar</button>
-        </div>
-      </div>
+      <div id="chatMessages"></div>
+      <input id="chatInput" placeholder="Digite sua mensagem..." />
+      <button id="sendChat">Enviar</button>
     </section>
+  </main>
+  <footer>
+    <p>Clicker Simulator dos Deuses &copy; 2025 - Criado por Luiz</p>
+  </footer>
 
-    <footer>
-      <p>© 2025 Clicker Simulator por Luiz</p>
-    </footer>
-  </div>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
