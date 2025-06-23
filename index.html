@@ -3,12 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clicker Simulator - Ultimate</title>
-  
-  <!-- Seu CSS -->
+  <title>Clicker Simulator Ultimate</title>
   <link rel="stylesheet" href="style.css" />
-  
-  <!-- Firebase e script.js (mude o caminho do seu JS aqui) -->
   <script type="module" src="script.js" defer></script>
 </head>
 <body>
@@ -22,10 +18,8 @@
     </header>
 
     <main>
-      <!-- Botão de clique -->
-      <button id="clickBtn" title="Clique aqui para ganhar clicks!">Clique Aqui!</button>
-      
-      <!-- Estatísticas do jogador -->
+      <button id="clickBtn" title="Clique para ganhar clicks!">Clique Aqui!</button>
+
       <section class="stats">
         <div id="clicksDisplay">Cliques: 0</div>
         <div id="cpsDisplay">CPS: 0</div>
@@ -34,27 +28,23 @@
         <div id="prestigeDisplay">Prestígio: 1.00x</div>
       </section>
 
-      <!-- Upgrades -->
       <section id="upgradesSection">
         <h2>Upgrades</h2>
         <div id="upgradesContainer"></div>
       </section>
     </main>
 
-    <!-- Botões extras -->
     <div class="buttonsRow">
       <button id="rebirthBtn" title="Rebirth / Prestígio - reinicia com bônus">Rebirth</button>
       <button id="saveBtn" title="Salvar progresso">Salvar</button>
       <button id="themeBtn" title="Alternar tema claro / escuro">Tema</button>
     </div>
 
-    <!-- Ranking online -->
     <section id="rankingSection">
       <h2>Ranking Top 10</h2>
       <div id="rankingContainer" tabindex="0" aria-label="Ranking dos jogadores"></div>
     </section>
 
-    <!-- Chat global -->
     <section id="chatSection">
       <h2>Chat Global</h2>
       <div id="chatContainer">
