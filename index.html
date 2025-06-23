@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -18,17 +18,17 @@
     </header>
 
     <main>
-      <button id="clickBtn">Clique Aqui!</button>
+      <button id="clickBtn" aria-label="Clique aqui para ganhar pontos">Clique Aqui!</button>
 
-      <section class="stats">
-        <div id="clicksDisplay">Cliques: 0</div>
-        <div id="cpsDisplay">CPS: 0</div>
-        <div id="levelDisplay">Nível: 1</div>
-        <div id="rebirthDisplay">Rebirths: 0</div>
-        <div id="prestigeDisplay">Prestígio: 1.00x</div>
+      <section class="stats" aria-live="polite" aria-atomic="true">
+        <div id="clicksDisplay" class="stat">Cliques: 0</div>
+        <div id="cpsDisplay" class="stat">CPS: 0</div>
+        <div id="levelDisplay" class="stat">Nível: 1</div>
+        <div id="rebirthDisplay" class="stat">Rebirths: 0</div>
+        <div id="prestigeDisplay" class="stat">Prestígio: 1.00x</div>
       </section>
 
-      <section id="upgradesSection">
+      <section id="upgradesSection" aria-label="Lista de upgrades disponíveis">
         <h2>Upgrades</h2>
         <div id="upgradesContainer"></div>
       </section>
@@ -40,18 +40,18 @@
       <button id="themeBtn">Tema</button>
     </div>
 
-    <section id="rankingSection">
+    <section id="rankingSection" aria-label="Ranking dos jogadores">
       <h2>Ranking Top 10</h2>
-      <div id="rankingContainer"></div>
+      <div id="rankingContainer" role="list"></div>
     </section>
 
-    <section id="chatSection">
+    <section id="chatSection" aria-label="Chat global">
       <h2>Chat Global</h2>
       <div id="chatContainer">
-        <div id="chatMessages"></div>
-        <div style="display: flex; margin-top: 10px;">
-          <input id="chatInput" placeholder="Digite sua mensagem..." />
-          <button id="sendChat">Enviar</button>
+        <div id="chatMessages" role="log" aria-live="polite"></div>
+        <div class="chatInputRow">
+          <input id="chatInput" placeholder="Digite sua mensagem..." aria-label="Mensagem do chat" />
+          <button id="sendChat" aria-label="Enviar mensagem">Enviar</button>
         </div>
       </div>
     </section>
