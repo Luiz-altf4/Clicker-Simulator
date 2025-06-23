@@ -1,274 +1,268 @@
-// Clicker Simulator Divino - Versão Final dos Deuses 🔥 Luiz 🔥
-// Firebase + Sistema Completo: Upgrades, Pets, Conquistas, Loja, Ranking, Chat, Partículas, Sons, XP, Temas, Responsivo
-
+// Clicker Simulator dos Deuses - script.js ⚡
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+import {
+  getDatabase, ref, push, set, onValue, query, orderByChild, limitToLast
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
+// === Firebase Config ===
 const firebaseConfig = {
   apiKey: "AIzaSyA4iTIlOQbfvtEQd27R5L6Z7y_oXeatBF8",
   authDomain: "clickersimulatorrank.firebaseapp.com",
-  databaseURL: "https://clickersimulatorrank-default-rtdb.firebaseio.com",
+  databaseURL: "https://clickersimulatorrank-default-rtdb.firebaseio.com/",
   projectId: "clickersimulatorrank",
   storageBucket: "clickersimulatorrank.appspot.com",
   messagingSenderId: "487285841132",
-  appId: "1:487285841132:web:e855fc761b7d2c420d99c9"
+  appId: "1:487285841132:web:e855fc761b7d2c420d99c9",
+  measurementId: "G-ZXXWCDTY9D"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const $ = id => document.getElementById(id);
 
+// === Estado do Jogo ===
 let state = {
   clicks: 0,
-  totalClicks: 0,
   cps: 0,
+  totalClicks: 0,
   level: 1,
   xp: 0,
   xpToNext: 100,
   rebirths: 0,
   prestige: 1,
-  multiplier: 1,
   upgrades: [],
   pets: [],
-  achievements: [],
   shopItems: [],
-  equippedPet: null,
-  lastMessageTime: 0
+  achievements: [],
+  multiplier: 1,
+  sound: true,
+  name: "Player"
 };
 
-const $ = id => document.getElementById(id);
-const format = n => {
-  if (n < 1000) return n;
-  const units = ["K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "Dc"];
-  let u = -1;
-  while (n >= 1000 && ++u < units.length) n /= 1000;
-  return n.toFixed(2) + units[u];
-};
-
-const upgradesData = [
-  { id: 1, name: "Click Básico", bonusClick: 1, cps: 0, price: 10 },
-  { id: 2, name: "Click Pro", bonusClick: 0, cps: 1, price: 100 },
-  { id: 3, name: "Click Turbo", bonusClick: 0, cps: 5, price: 1000 },
-  { id: 4, name: "Click Ultra", bonusClick: 2, cps: 10, price: 3000 },
-  { id: 5, name: "Fábrica de Cliques", bonusClick: 0, cps: 100, price: 10000 }
+const upgrades = [
+  { id: 1, name: "Click Básico", cps: 0, bonus: 1, price: 10 },
+  { id: 2, name: "Mouse Gamer", cps: 1, bonus: 0, price: 50 },
+  { id: 3, name: "Auto Clicker", cps: 5, bonus: 0, price: 150 },
+  { id: 4, name: "Central de Clicks", cps: 10, bonus: 0, price: 400 },
+  { id: 5, name: "Fábrica", cps: 25, bonus: 0, price: 1000 }
 ];
 
-const petsData = [
-  { id: 1, name: "🐶 Doguinho", multiplier: 1.2, price: 1000 },
-  { id: 2, name: "🐱 Gatinho", multiplier: 1.5, price: 3000 },
-  { id: 3, name: "🐉 Dragão", multiplier: 2.5, price: 10000 }
+const pets = [
+  { id: 1, name: "🐱 Gato Rápido", bonus: 2, price: 500 },
+  { id: 2, name: "🐶 Cão Clicker", bonus: 5, price: 1000 }
 ];
 
-const shopItemsData = [
-  { id: 1, name: "XP Boost +100", price: 300, action: () => state.xp += 100 },
-  { id: 2, name: "Prestígio x2", price: 15000, action: () => state.prestige *= 2 }
-];
-
-const achievementsData = [
-  { id: 1, name: "Primeiro Clique", condition: () => state.totalClicks >= 1 },
-  { id: 2, name: "100 Cliques", condition: () => state.totalClicks >= 100 },
-  { id: 3, name: "1k Cliques", condition: () => state.totalClicks >= 1000 },
-  { id: 4, name: "Milionário", condition: () => state.clicks >= 1000000 }
-];
-
-document.addEventListener("DOMContentLoaded", () => {
-  setup();
+// === Inicialização ===
+function init() {
+  upgrades.forEach(u => state.upgrades.push({ ...u, owned: 0 }));
+  pets.forEach(p => state.pets.push({ ...p, owned: 0 }));
   loadGame();
+  updateUI();
+  renderUpgrades();
+  renderPets();
+  renderShop();
+  renderAchievements();
+  setupListeners();
   startLoops();
+  loadRanking();
+  loadChat();
+}
+
+// === Atualiza a UI ===
+function updateUI() {
+  $("clicksDisplay").textContent = `Cliques: ${state.clicks}`;
+  $("cpsDisplay").textContent = `CPS: ${state.cps}`;
+  $("levelDisplay").textContent = `Nível: ${state.level}`;
+  $("rebirthDisplay").textContent = `Rebirths: ${state.rebirths}`;
+  $("prestigeDisplay").textContent = `Prestígio: ${state.prestige}x`;
+  $("xpText").textContent = `XP: ${state.xp} / ${state.xpToNext}`;
+  $("xpFill").style.width = `${(state.xp / state.xpToNext) * 100}%`;
+}
+
+// === Lógica de Click ===
+$("clickBtn").addEventListener("click", () => {
+  state.clicks += state.multiplier;
+  state.totalClicks += state.multiplier;
+  state.xp++;
+  spawnParticle();
+  levelUp();
+  updateUI();
 });
 
-function setup() {
-  $("clickBtn").addEventListener("click", click);
-  $("themeBtn").addEventListener("click", toggleTheme);
-  $("sendChat").addEventListener("click", sendChat);
-  $("chatInput").addEventListener("keydown", e => e.key === "Enter" && sendChat());
-  initUpgrades();
-  initPets();
-  initShop();
-  initAchievements();
-  listenChat();
-  loadRanking();
-}
-
-function startLoops() {
-  setInterval(() => {
-    state.clicks += state.cps * state.prestige;
-    updateUI();
-  }, 1000);
-  setInterval(saveGame, 5000);
-}
-
-function click() {
-  const gain = state.multiplier * state.prestige;
-  state.clicks += gain;
-  state.totalClicks += gain;
-  state.xp++;
-  playSound("click");
-  spawnParticle();
+function levelUp() {
   if (state.xp >= state.xpToNext) {
     state.level++;
     state.xp = 0;
-    state.xpToNext = Math.floor(state.xpToNext * 1.3);
+    state.xpToNext = Math.floor(state.xpToNext * 1.25);
   }
-  checkAchievements();
-  updateUI();
-}
-
-function updateUI() {
-  $("clicksDisplay").textContent = `Cliques: ${format(state.clicks)}`;
-  $("cpsDisplay").textContent = `CPS: ${format(state.cps * state.prestige)}`;
-  $("levelDisplay").textContent = `Nível: ${state.level}`;
-  $("rebirthDisplay").textContent = `Rebirths: ${state.rebirths}`;
-  $("prestigeDisplay").textContent = `Prestígio: ${state.prestige.toFixed(2)}x`;
-  $("xpFill").style.width = (state.xp / state.xpToNext * 100) + "%";
-  $("xpText").textContent = `XP: ${state.xp} / ${state.xpToNext}`;
-}
-
-function playSound(type) {
-  const audio = new Audio(`sounds/${type}.mp3`);
-  audio.volume = 0.3;
-  audio.play();
 }
 
 function spawnParticle() {
   const p = document.createElement("div");
   p.className = "particle";
-  p.style.left = Math.random() * 80 + 10 + "%";
-  p.style.top = Math.random() * 80 + 10 + "%";
-  p.textContent = "+" + format(state.multiplier * state.prestige);
+  p.style.left = `${Math.random() * 100}%`;
+  p.style.top = `${Math.random() * 100}%`;
+  p.textContent = `+${state.multiplier}`;
   document.body.appendChild(p);
   setTimeout(() => p.remove(), 1000);
 }
 
-function toggleTheme() {
-  document.body.classList.toggle("rgb-theme");
-}
-
-function initUpgrades() {
-  state.upgrades = upgradesData.map(u => ({ ...u, owned: 0 }));
+// === Upgrades ===
+function renderUpgrades() {
   const container = $("upgradesList");
   container.innerHTML = "";
-  state.upgrades.forEach(u => {
+  state.upgrades.forEach(up => {
     const div = document.createElement("div");
     div.className = "item";
     div.innerHTML = `
-      <h3>${u.name}</h3>
-      <p>Preço: ${format(u.price)}</p>
-      <p>Possui: ${u.owned}</p>
-      <button onclick="buyUpgrade(${u.id})">Comprar</button>`;
+      <h3>${up.name}</h3>
+      <p>CPS: ${up.cps} | Bônus: ${up.bonus}</p>
+      <p>Possui: ${up.owned}</p>
+      <p>Preço: ${up.price}</p>
+      <button onclick="buyUpgrade(${up.id})">Comprar</button>
+    `;
     container.appendChild(div);
   });
 }
 
 window.buyUpgrade = function(id) {
-  const u = state.upgrades.find(x => x.id === id);
-  if (!u || state.clicks < u.price) return;
-  state.clicks -= u.price;
-  u.owned++;
-  state.cps += u.cps;
-  state.multiplier += u.bonusClick;
-  u.price = Math.floor(u.price * 1.5);
-  initUpgrades();
+  const up = state.upgrades.find(u => u.id === id);
+  if (!up || state.clicks < up.price) return;
+  state.clicks -= up.price;
+  up.owned++;
+  state.cps += up.cps;
+  state.multiplier += up.bonus;
+  up.price = Math.floor(up.price * 1.35);
+  saveGame();
+  renderUpgrades();
   updateUI();
 };
 
-function initPets() {
+// === Pets ===
+function renderPets() {
   const container = $("petsList");
   container.innerHTML = "";
-  petsData.forEach(p => {
+  state.pets.forEach(p => {
     const div = document.createElement("div");
     div.className = "item";
     div.innerHTML = `
       <h3>${p.name}</h3>
-      <p>Preço: ${format(p.price)}</p>
-      <button onclick="buyPet(${p.id})">Comprar</button>`;
+      <p>Bônus: ${p.bonus}</p>
+      <p>Possui: ${p.owned}</p>
+      <p>Preço: ${p.price}</p>
+      <button onclick="buyPet(${p.id})">Adotar</button>
+    `;
     container.appendChild(div);
   });
 }
 
 window.buyPet = function(id) {
-  const pet = petsData.find(p => p.id === id);
+  const pet = state.pets.find(p => p.id === id);
   if (!pet || state.clicks < pet.price) return;
   state.clicks -= pet.price;
-  state.multiplier *= pet.multiplier;
-  state.equippedPet = pet.name;
+  pet.owned++;
+  state.multiplier += pet.bonus;
+  pet.price = Math.floor(pet.price * 2);
+  saveGame();
+  renderPets();
   updateUI();
 };
 
-function initShop() {
-  const container = $("shopItems");
-  container.innerHTML = "";
-  shopItemsData.forEach(s => {
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerHTML = `
-      <h3>${s.name}</h3>
-      <p>Preço: ${format(s.price)}</p>
-      <button onclick="buyItem(${s.id})">Comprar</button>`;
-    container.appendChild(div);
+// === Shop e Conquistas ===
+function renderShop() {
+  $("shopItems").innerHTML = "<p>(loja em breve)</p>";
+}
+
+function renderAchievements() {
+  $("achievementsList").innerHTML = "<p>(conquistas em breve)</p>";
+}
+
+// === Salvar e Carregar Jogo ===
+function saveGame() {
+  localStorage.setItem("clickerSave", JSON.stringify(state));
+}
+
+function loadGame() {
+  const data = localStorage.getItem("clickerSave");
+  if (data) {
+    Object.assign(state, JSON.parse(data));
+  }
+}
+
+// === Interações ===
+function setupListeners() {
+  $("toggleSound").addEventListener("change", e => {
+    state.sound = e.target.checked;
+  });
+  $("themeBtn").addEventListener("click", () => {
+    document.body.classList.toggle("rgb-theme");
+  });
+  $("sendChat").addEventListener("click", sendChat);
+  $("chatInput").addEventListener("keydown", e => {
+    if (e.key === "Enter") sendChat();
   });
 }
 
-window.buyItem = function(id) {
-  const s = shopItemsData.find(x => x.id === id);
-  if (!s || state.clicks < s.price) return;
-  state.clicks -= s.price;
-  s.action();
-  updateUI();
-};
+function startLoops() {
+  setInterval(() => {
+    state.clicks += state.cps;
+    updateUI();
+  }, 1000);
 
-function initAchievements() {
-  const container = $("achievementsList");
-  container.innerHTML = achievementsData.map(a => `<div class="item" id="ach-${a.id}">${a.name}</div>`).join("");
+  setInterval(saveGame, 10000);
 }
 
-function checkAchievements() {
-  achievementsData.forEach(a => {
-    if (a.condition() && !state.achievements.includes(a.id)) {
-      state.achievements.push(a.id);
-      const el = $("ach-" + a.id);
-      if (el) el.classList.add("completed");
-    }
+// === Firebase: Ranking ===
+function saveRanking() {
+  if (!state.name) return;
+  const rankRef = ref(db, "ranking/" + state.name);
+  set(rankRef, {
+    name: state.name,
+    clicks: state.totalClicks,
+    level: state.level
   });
 }
 
 function loadRanking() {
-  const refRank = ref(db, "ranking");
-  onValue(refRank, snap => {
-    const data = [];
-    snap.forEach(child => data.push(child.val()));
-    const top = data.sort((a, b) => b.clicks - a.clicks).slice(0, 20);
-    $("rankingContainer").innerHTML = top.map(p => `<p><b>${p.name}</b>: ${format(p.clicks)}</p>`).join("");
+  const rankRef = query(ref(db, "ranking"), orderByChild("clicks"), limitToLast(10));
+  onValue(rankRef, snap => {
+    const container = $("rankingContainer");
+    container.innerHTML = "";
+    const list = [];
+    snap.forEach(s => list.push(s.val()));
+    list.reverse().forEach(r => {
+      const div = document.createElement("div");
+      div.textContent = `${r.name}: ${r.clicks} cliques (Lvl ${r.level})`;
+      container.appendChild(div);
+    });
   });
 }
 
-function listenChat() {
-  onValue(ref(db, "chat"), snap => {
-    const messages = [];
-    snap.forEach(child => messages.push(child.val()));
-    $("chatMessages").innerHTML = messages.slice(-50).map(m => `<p><b>${m.name}</b>: ${m.text}</p>`).join("");
-  });
-}
-
+// === Firebase: Chat Global ===
 function sendChat() {
-  let now = Date.now();
-  if (now - state.lastMessageTime < 2000) return alert("Aguarde antes de enviar novamente.");
-  let name = localStorage.getItem("playerName") || prompt("Nome para o chat:") || "Jogador";
-  localStorage.setItem("playerName", name);
-  const text = $("chatInput").value.trim();
-  if (!text) return;
-  push(ref(db, "chat"), { name, text, time: now });
-  state.lastMessageTime = now;
-  $("chatInput").value = "";
+  const input = $("chatInput");
+  if (!input.value.trim()) return;
+  push(ref(db, "chat"), {
+    name: state.name,
+    msg: input.value.trim(),
+    time: Date.now()
+  });
+  input.value = "";
 }
 
-function saveGame() {
-  localStorage.setItem("save", JSON.stringify(state));
-  const name = localStorage.getItem("playerName") || "Jogador";
-  set(ref(db, `ranking/${name}`), { name, clicks: state.totalClicks });
+function loadChat() {
+  const chatRef = query(ref(db, "chat"), limitToLast(25));
+  onValue(chatRef, snap => {
+    const chat = $("chatMessages");
+    chat.innerHTML = "";
+    snap.forEach(s => {
+      const msg = s.val();
+      const p = document.createElement("p");
+      p.innerHTML = `<b>${msg.name}:</b> ${msg.msg}`;
+      chat.appendChild(p);
+    });
+    chat.scrollTop = chat.scrollHeight;
+  });
 }
 
-function loadGame() {
-  const s = localStorage.getItem("save");
-  if (s) Object.assign(state, JSON.parse(s));
-  updateUI();
-}
+document.addEventListener("DOMContentLoaded", init);
