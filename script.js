@@ -404,12 +404,6 @@ function renderAchievements() {
     const div = document.createElement("div");
     div.className = "item";
    
-
-
-
-
-
-O ChatGPT disse:
 div.textContent = 🏆 ${ach.name};
 container.appendChild(div);
 });
