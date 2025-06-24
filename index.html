@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,80 +7,76 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico" />
 </head>
-<body>
-  <header>
-    <h1>⚡ Clicker Simulator</h1>
-    <div id="playerNameInput">
-      <input type="text" id="playerName" placeholder="Seu nome" maxlength="20" />
-      <button onclick="startGame()">Entrar</button>
-    </div>
-  </header>
-
-  <main id="game" class="hidden">
-    <section class="clicker-area">
-      <div id="clickArea" class="click-btn">CLIQUE AQUI</div>
-      <div class="stats">
-        <p>Cliques: <span id="clicks">0</span></p>
-        <p>Cliques por segundo: <span id="cps">0</span></p>
-        <p>Level: <span id="level">1</span> | XP: <span id="xp">0</span> / <span id="xpToNext">100</span></p>
-        <p>Rebirths: <span id="rebirths">0</span></p>
+<body class="dark-theme">
+  <div id="app">
+    <header>
+      <h1>Clicker Simulator</h1>
+      <div class="xp-bar">
+        <div class="xp-fill" id="xpFill"></div>
       </div>
-    </section>
+      <p id="xpText">XP: 0 / 100</p>
+    </header>
 
-    <section class="tabs">
-      <button onclick="openTab('upgradesTab')">🛠️ Upgrades</button>
-      <button onclick="openTab('missionsTab')">🎯 Missões</button>
-      <button onclick="openTab('achievementsTab')">🏆 Conquistas</button>
-      <button onclick="openTab('storeTab')">🛒 Loja</button>
-      <button onclick="openTab('rankingTab')">📊 Ranking</button>
-      <button onclick="openTab('chatTab')">💬 Chat</button>
-      <button onclick="openTab('settingsTab')">⚙️ Config</button>
-    </section>
+    <main>
+      <button id="clickBtn">CLIQUE</button>
+      <p id="clicks">Cliques: 0</p>
+      <p id="level">Nível: 1</p>
 
-    <section id="upgradesTab" class="tab active">
-      <h2>Upgrades</h2>
-      <div id="upgradesList" class="grid"></div>
-    </section>
+      <section id="upgrades">
+        <h2>Upgrades</h2>
+        <div id="upgradeList"></div>
+      </section>
 
-    <section id="missionsTab" class="tab">
-      <h2>Missões</h2>
-      <div id="missionsList" class="grid"></div>
-    </section>
+      <section id="pets">
+        <h2>Pets</h2>
+        <div id="petList"></div>
+      </section>
 
-    <section id="achievementsTab" class="tab">
-      <h2>Conquistas</h2>
-      <div id="achievementsList" class="grid"></div>
-    </section>
+      <section id="rebirth">
+        <h2>Rebirth</h2>
+        <button id="rebirthBtn">Renascer</button>
+        <p id="rebirthCount">Rebirths: 0</p>
+      </section>
 
-    <section id="storeTab" class="tab">
-      <h2>Loja</h2>
-      <p>💡 Em breve mais funcionalidades aqui!</p>
-    </section>
+      <section id="missions">
+        <h2>Missões</h2>
+        <div id="missionList"></div>
+      </section>
 
-    <section id="rankingTab" class="tab">
-      <h2>Ranking Global</h2>
-      <ul id="rankingList"></ul>
-    </section>
+      <section id="conquistas">
+        <h2>Conquistas</h2>
+        <div id="achievementList"></div>
+      </section>
 
-    <section id="chatTab" class="tab">
-      <h2>Chat Global</h2>
-      <div id="chatBox" class="chat-box"></div>
-      <input type="text" id="chatInput" placeholder="Digite sua mensagem" maxlength="80" />
-      <button id="sendMsgBtn">Enviar</button>
-    </section>
+      <section id="loja">
+        <h2>Loja</h2>
+        <div id="shopList"></div>
+      </section>
 
-    <section id="settingsTab" class="tab">
-      <h2>Configurações</h2>
-      <button id="soundToggle">🔊 Alternar Som</button>
-      <button id="themeToggle">🌈 Alternar Tema</button>
-      <button id="rgbBtn">💡 RGB</button>
-      <button id="saveBtn">💾 Salvar Manual</button>
-      <button id="resetBtn">🗑️ Resetar Jogo</button>
-      <button id="rebirthBtn">🔥 Rebirth</button>
-    </section>
+      <section id="ranking">
+        <h2>Ranking Global</h2>
+        <ul id="rankingList"></ul>
+      </section>
 
-    <div id="notifications" class="notify-container"></div>
-  </main>
+      <section id="chat">
+        <h2>Chat Global</h2>
+        <div id="chatMessages"></div>
+        <input type="text" id="chatInput" placeholder="Digite sua mensagem..." />
+        <button id="chatSend">Enviar</button>
+      </section>
+
+      <section id="config">
+        <h2>Configurações</h2>
+        <button id="saveBtn">Salvar Jogo</button>
+        <button id="clearSave">Apagar Progresso</button>
+        <button id="toggleTheme">Alternar Tema</button>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 - Luiz Clicker Simulator</p>
+    </footer>
+  </div>
 
   <script type="module" src="script.js"></script>
 </body>
