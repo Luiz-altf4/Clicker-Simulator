@@ -2,82 +2,77 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Clicker Simulator</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body class="dark-theme">
-  <div id="app">
-    <header>
-      <h1>Clicker Simulator</h1>
-      <div class="xp-bar">
-        <div class="xp-fill" id="xpFill"></div>
-      </div>
-      <p id="xpText">XP: 0 / 100</p>
-    </header>
 
-    <main>
-      <button id="clickBtn">CLIQUE</button>
-      <p id="clicks">Cliques: 0</p>
-      <p id="level">Nível: 1</p>
+  <h1>⚡ Clicker Simulator ⚡</h1>
 
-      <section id="upgrades">
-        <h2>Upgrades</h2>
-        <div id="upgradeList"></div>
-      </section>
+  <!-- Seção de Cliques -->
+  <button id="clickBtn">Clique Aqui!</button>
 
-      <section id="pets">
-        <h2>Pets</h2>
-        <div id="petList"></div>
-      </section>
-
-      <section id="rebirth">
-        <h2>Rebirth</h2>
-        <button id="rebirthBtn">Renascer</button>
-        <p id="rebirthCount">Rebirths: 0</p>
-      </section>
-
-      <section id="missions">
-        <h2>Missões</h2>
-        <div id="missionList"></div>
-      </section>
-
-      <section id="conquistas">
-        <h2>Conquistas</h2>
-        <div id="achievementList"></div>
-      </section>
-
-      <section id="loja">
-        <h2>Loja</h2>
-        <div id="shopList"></div>
-      </section>
-
-      <section id="ranking">
-        <h2>Ranking Global</h2>
-        <ul id="rankingList"></ul>
-      </section>
-
-      <section id="chat">
-        <h2>Chat Global</h2>
-        <div id="chatMessages"></div>
-        <input type="text" id="chatInput" placeholder="Digite sua mensagem..." />
-        <button id="chatSend">Enviar</button>
-      </section>
-
-      <section id="config">
-        <h2>Configurações</h2>
-        <button id="saveBtn">Salvar Jogo</button>
-        <button id="clearSave">Apagar Progresso</button>
-        <button id="toggleTheme">Alternar Tema</button>
-      </section>
-    </main>
-
-    <footer>
-      <p>&copy; 2025 - Luiz Clicker Simulator</p>
-    </footer>
+  <!-- Estatísticas -->
+  <div id="stats">
+    <p id="clicks">Cliques: 0</p>
+    <p id="level">Nível: 1</p>
+    <div id="xpBar"><div id="xpFill"></div></div>
+    <p id="xpText">XP: 0 / 100</p>
+    <p id="rebirthCount">Rebirths: 0</p>
   </div>
 
+  <!-- Upgrades -->
+  <div class="upgrade-section">
+    <h2>🔧 Upgrades</h2>
+    <div id="upgradeList"></div>
+  </div>
+
+  <!-- Pets -->
+  <div class="pet-section">
+    <h2>🐾 Pets</h2>
+    <div id="petList"></div>
+  </div>
+
+  <!-- Missões -->
+  <div class="upgrade-section">
+    <h2>🎯 Missões</h2>
+    <div id="missionList"></div>
+  </div>
+
+  <!-- Conquistas -->
+  <div class="upgrade-section">
+    <h2>🏆 Conquistas</h2>
+    <div id="achievementList"></div>
+  </div>
+
+  <!-- Rebirth -->
+  <button id="rebirthBtn">💫 Fazer Rebirth</button>
+
+  <!-- Ranking Online -->
+  <div class="upgrade-section">
+    <h2>🏅 Ranking Online</h2>
+    <ul id="rankingList"></ul>
+  </div>
+
+  <!-- Chat Global -->
+  <div class="upgrade-section">
+    <h2>💬 Chat Global</h2>
+    <div id="chatMessages"></div>
+    <input type="text" id="chatInput" placeholder="Digite sua mensagem..." />
+    <button id="chatSend">Enviar</button>
+  </div>
+
+  <!-- Configurações -->
+  <div class="upgrade-section">
+    <h2>⚙️ Configurações</h2>
+    <button id="toggleTheme">Alternar Tema</button>
+    <button id="saveBtn">💾 Salvar Manualmente</button>
+    <button id="clearSave">🗑️ Resetar Progresso</button>
+  </div>
+
+  <!-- Script do jogo -->
   <script type="module" src="script.js"></script>
 </body>
 </html>
