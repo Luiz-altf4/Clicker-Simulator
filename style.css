@@ -1,249 +1,244 @@
-/* === RESET & BASE === */
+/* ======================= */
+/* ⚙️ Reset e Base Geral   */
+/* ======================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.3s ease;
 }
 
 body {
-  background: #0d0d0d;
-  color: #f5f5f5;
-  overflow-x: hidden;
-  min-height: 100vh;
-  padding-bottom: 100px;
-}
-
-h1, h2 {
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-/* === HEADER === */
-header {
-  background: linear-gradient(90deg, #222, #111);
+  background: linear-gradient(135deg, #0f0f0f, #1f1f1f);
+  color: #fff;
   padding: 20px;
-  text-align: center;
-  box-shadow: 0 0 10px #00f;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-#playerNameInput {
-  margin-top: 10px;
-}
-
-#playerName {
-  padding: 8px;
-  border-radius: 10px;
-  border: none;
-  width: 200px;
-  text-align: center;
-}
-
-#playerNameInput button {
-  margin-left: 8px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 10px;
-  background: #444;
-  color: white;
-  cursor: pointer;
-  transition: 0.3s;
-}
-#playerNameInput button:hover {
-  background: #666;
-}
-
-/* === CLICK AREA === */
-.clicker-area {
-  text-align: center;
-  margin-top: 30px;
-}
-.click-btn {
-  background: linear-gradient(45deg, #00f, #0ff);
-  border: none;
-  border-radius: 50%;
-  padding: 40px;
-  color: white;
-  font-size: 1.5rem;
-  cursor: pointer;
-  box-shadow: 0 0 20px #0ff;
-  animation: pulse 2s infinite;
+h1 {
+  font-size: 2rem;
   margin-bottom: 20px;
-}
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+  text-align: center;
+  text-shadow: 0 0 10px #0ff;
 }
 
-.stats p {
-  margin: 5px;
-  font-size: 1rem;
+/* ======================= */
+/* 🖱️ Botão de Clique     */
+/* ======================= */
+#clickBtn {
+  display: block;
+  margin: 20px auto;
+  padding: 20px 40px;
+  font-size: 1.5rem;
+  background: linear-gradient(90deg, #00faff, #009dff);
+  color: #000;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #00faff;
+  cursor: pointer;
 }
 
-/* === TABS === */
-.tabs {
+#clickBtn.clicked {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px #00faff, 0 0 10px #fff inset;
+}
+
+/* ======================= */
+/* 🧾 Informações do Jogo */
+/* ======================= */
+#stats {
   text-align: center;
   margin: 20px 0;
 }
-.tabs button {
-  background: #111;
+
+#xpBar {
+  width: 80%;
+  height: 20px;
+  background: #333;
+  border-radius: 10px;
+  margin: 10px auto;
+  overflow: hidden;
+  box-shadow: 0 0 5px #0ff;
+}
+
+#xpFill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00ffcc, #0070ff);
+  transition: width 0.5s ease;
+}
+
+/* ======================= */
+/* 🛒 Upgrades e Pets     */
+/* ======================= */
+.upgrade-section,
+.pet-section {
+  background: #1a1a1a;
+  border: 2px solid #444;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 20px 0;
+  box-shadow: 0 0 10px #0ff2;
+}
+
+.upgrade-section h2,
+.pet-section h2 {
   color: #0ff;
-  padding: 10px 15px;
-  margin: 4px;
-  border: 1px solid #333;
+  margin-bottom: 10px;
+}
+
+.upgrade-section button,
+.pet-section button {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  background: #222;
+  color: #0ff;
+  border: 1px solid #0ff;
   border-radius: 8px;
   cursor: pointer;
-  transition: 0.2s;
-}
-.tabs button:hover {
-  background: #222;
 }
 
-/* === TAB CONTENT === */
-.tab {
-  display: none;
-  padding: 10px 20px;
-}
-.tab.active {
-  display: block;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 10px;
-}
-
-.item, .upgrade {
-  background: #1a1a1a;
-  padding: 15px;
-  border-radius: 12px;
-  border: 1px solid #333;
-  box-shadow: 0 0 8px rgba(0,255,255,0.2);
-  text-align: center;
-}
-.item button, .upgrade button {
-  margin-top: 10px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: none;
+.upgrade-section button:hover,
+.pet-section button:hover {
   background: #0ff;
   color: #000;
-  font-weight: bold;
-  cursor: pointer;
-}
-.item button:hover, .upgrade button:hover {
-  background: #0cc;
 }
 
-/* === RANKING === */
+/* ======================= */
+/* 🧠 Missões e Troféus   */
+/* ======================= */
+#missionList p,
+#achievementList p {
+  background: #111;
+  padding: 6px 10px;
+  margin: 5px 0;
+  border-left: 4px solid #00faff;
+  border-radius: 4px;
+}
+
+/* ======================= */
+/* 🔁 Rebirth              */
+/* ======================= */
+#rebirthBtn {
+  display: block;
+  margin: 15px auto;
+  padding: 12px 25px;
+  background: linear-gradient(90deg, #ff00ff, #ff0055);
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 15px #ff00ff;
+}
+
+/* ======================= */
+/* 🏆 Ranking              */
+/* ======================= */
 #rankingList {
   list-style: none;
   padding: 0;
-  margin: 0 auto;
-  max-width: 500px;
-}
-#rankingList li {
-  background: #111;
-  padding: 8px;
-  margin: 5px 0;
-  border-radius: 6px;
-  border: 1px solid #333;
-  text-align: center;
-}
-
-/* === CHAT === */
-.chat-box {
-  background: #121212;
-  border: 1px solid #333;
+  margin-top: 15px;
   max-height: 200px;
   overflow-y: auto;
+  border: 1px solid #444;
+  border-radius: 10px;
+  background: #111;
+}
+
+#rankingList li {
+  padding: 8px;
+  border-bottom: 1px solid #333;
+  color: #0ff;
+}
+
+/* ======================= */
+/* 💬 Chat Global          */
+/* ======================= */
+#chatMessages {
+  background: #0a0a0a;
+  border: 1px solid #333;
   padding: 10px;
+  height: 180px;
+  overflow-y: auto;
   border-radius: 8px;
   margin-bottom: 10px;
 }
-.chat-msg {
-  margin: 2px 0;
+
+#chatMessages div {
+  padding: 3px 0;
+  font-size: 0.9rem;
+  border-bottom: 1px dotted #333;
 }
+
 #chatInput {
-  width: 80%;
+  width: 70%;
   padding: 8px;
   border-radius: 6px;
-  border: none;
+  border: 1px solid #0ff;
+  background: #111;
+  color: #0ff;
 }
-#sendMsgBtn {
-  padding: 8px 10px;
-  margin-left: 5px;
-  border: none;
-  border-radius: 6px;
+
+#chatSend {
+  padding: 8px 15px;
+  margin-left: 10px;
   background: #0ff;
   color: #000;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
 }
 
-/* === CONFIGURAÇÕES === */
-#settingsTab button {
-  margin: 5px;
+/* ======================= */
+/* 🎨 Tema Claro           */
+/* ======================= */
+body.light-theme {
+  background: #f4f4f4;
+  color: #000;
 }
 
-/* === NOTIFICAÇÕES === */
-.notify-container {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
-}
-.notify {
-  background: #222;
-  color: #0ff;
-  padding: 10px 15px;
-  margin-top: 10px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px #0ff;
-  animation: fadeIn 0.5s ease-out;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+body.light-theme #clickBtn {
+  background: linear-gradient(90deg, #009dff, #00faff);
+  color: #000;
 }
 
-/* === PARTICLES === */
-.click-particle {
-  position: absolute;
-  font-size: 1.2rem;
-  color: #0ff;
-  animation: floatUp 1s ease-out forwards;
-}
-@keyframes floatUp {
-  from { transform: translateY(0); opacity: 1; }
-  to { transform: translateY(-50px); opacity: 0; }
+body.light-theme .upgrade-section,
+body.light-theme .pet-section {
+  background: #fff;
+  border: 2px solid #ccc;
 }
 
-/* === RGB THEME === */
-.rgb-theme {
-  background: black;
-  animation: rgbBG 5s linear infinite;
-}
-@keyframes rgbBG {
-  0% { background: #ff0040; }
-  25% { background: #00ffbf; }
-  50% { background: #0040ff; }
-  75% { background: #ff00ff; }
-  100% { background: #ff0040; }
+body.light-theme #chatMessages {
+  background: #eee;
+  color: #000;
 }
 
-.rgb-theme .click-btn {
-  background: linear-gradient(45deg, red, orange, yellow, lime, cyan, blue, magenta);
-  background-size: 400% 400%;
-  animation: rgbBtn 3s infinite;
-}
-@keyframes rgbBtn {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
+body.light-theme #chatInput {
+  background: #fff;
+  color: #000;
+  border-color: #00f;
 }
 
-/* === HIDDEN ELEMENT === */
-.hidden {
-  display: none;
+/* ======================= */
+/* 📱 Responsivo           */
+/* ======================= */
+@media (max-width: 600px) {
+  #clickBtn {
+    width: 100%;
+    font-size: 1.2rem;
+  }
+
+  #chatInput {
+    width: 60%;
+  }
+
+  #chatSend {
+    width: 35%;
+    margin-left: 5%;
+  }
 }
